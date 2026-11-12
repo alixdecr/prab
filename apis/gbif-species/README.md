@@ -1,41 +1,40 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Valid-brightgreen.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of gbif-species (Species API)
 
-## GBIF Species API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.1-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-invalid-red.svg)
+![alt text](https://img.shields.io/badge/available_servers-2_of_2-brightgreen.svg)
 
-- Identifier: gbif-species
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: GBIF Species
+## Usage Information
 
-- Used By: [16] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://techdocs.gbif.org/en/openapi/v1/species), [OpenAPI Specification](https://techdocs.gbif.org/openapi/checklistbank.json)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://api.gbif.org/v1/ | online | available |
+| https://api.gbif-uat.org/v1/ | online | available |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 26
 
-- Request Limits: No
+**Query Parameters:** 37
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 26
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 26 |
+| `POST` | 1 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 0 |
 
-- Number of Query Parameters: 37
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 26 | 96.30% |
-| `POST` | 1 | 3.70% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 0 | 0.00% |

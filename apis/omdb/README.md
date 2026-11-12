@@ -1,41 +1,38 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Oudated-orange.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of omdb (OMDb)
 
-## OMDb API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_0-lightgrey.svg)
 
-- Identifier: omdb
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: OMDb
+## Usage Information
 
-- Used By: [6][13][14][16][17][19] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://www.omdbapi.com), [OpenAPI Specification](https://github.com/Mermade/openapi-definitions/blob/master/OMDb/swagger.json)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: Optional
+**Total Paths:** 1
 
-- Request Limits: Yes
+**Query Parameters:** 11
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 1
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 1 |
+| `POST` | 0 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 0 |
 
-- Number of Query Parameters: 11
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 1 | 100.00% |
-| `POST` | 0 | 0.00% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 0 | 0.00% |

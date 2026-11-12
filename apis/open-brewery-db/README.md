@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Valid-brightgreen.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of open-brewery-db (OpenBreweryDB)
 
-## Open Brewery DB API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: open-brewery-db
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Open Brewery DB
+## Usage Information
 
-- Used By: [16] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://www.openbrewerydb.org), [OpenAPI Specification](https://github.com/openbrewerydb/openbrewerydb)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://api.openbrewerydb.org/v1 | online | available |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 5
 
-- Request Limits: No
+**Query Parameters:** 8
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 5
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 5 |
+| `POST` | 0 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 0 |
 
-- Number of Query Parameters: 8
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 5 | 100.00% |
-| `POST` | 0 | 0.00% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 0 | 0.00% |

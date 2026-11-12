@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Valid-brightgreen.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of stripe (Stripe API)
 
-## Stripe API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: stripe
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Stripe
+## Usage Information
 
-- Used By: [5][6][8][10][24] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://docs.stripe.com/api), [OpenAPI Specification](https://github.com/stripe/openapi)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://api.stripe.com/ | online | available |
 
-### Usage Information
+**Authentication Methods:** basicAuth, bearerAuth
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 388
 
-- Request Limits: Yes
+**Query Parameters:** 138
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 388
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 257 |
+| `POST` | 271 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 32 |
 
-- Number of Query Parameters: 138
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 257 | 45.89% |
-| `POST` | 271 | 48.39% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 32 | 5.71% |

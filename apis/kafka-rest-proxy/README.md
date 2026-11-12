@@ -1,41 +1,41 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Local-green.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of kafka-rest-proxy (REST Admin API)
 
-## Kafka REST Proxy API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_3-red.svg)
 
-- Identifier: kafka-rest-proxy
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Kafka REST Proxy
+## Usage Information
 
-- Used By: [12] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://github.com/confluentinc/kafka-rest), [OpenAPI Specification](https://github.com/confluentinc/kafka-rest/blob/master/api/v3/openapi.yaml)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| {protocol}://{address}:{port}/v3 | online | not available |
+| {protocol}://{address}:{port}/kafka/v3 | online | not available |
+| https://pkc-00000.region.provider.confluent.cloud/kafka/v3 | online | not available |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Local
+**Rate Limiting:** yes
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 38
 
-- Request Limits: No
+**Query Parameters:** 0
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 38
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 32 |
+| `POST` | 8 |
+| `PUT` | 3 |
+| `PATCH` | 1 |
+| `DELETE` | 5 |
 
-- Number of Query Parameters: 37
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 32 | 65.31% |
-| `POST` | 8 | 16.33% |
-| `PUT` | 3 | 6.12% |
-| `PATCH` | 1 | 2.04% |
-| `DELETE` | 5 | 10.20% |

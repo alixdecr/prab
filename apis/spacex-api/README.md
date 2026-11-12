@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Valid-brightgreen.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of spacex-api (r/SpaceX API V4)
 
-## SpaceX API API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_1-red.svg)
 
-- Identifier: spacex-api
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: SpaceX API
+## Usage Information
 
-- Used By: [11] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://github.com/r-spacex/SpaceX-API), [OpenAPI Specification](https://github.com/r-spacex/SpaceX-API/blob/master/docs/README.md)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://api.spacexdata.com | online | not available |
 
-### Usage Information
+**Authentication Methods:** apikeyAuth
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 41
 
-- Request Limits: No
+**Query Parameters:** 0
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 41
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 29 |
+| `POST` | 21 |
+| `PUT` | 0 |
+| `PATCH` | 13 |
+| `DELETE` | 11 |
 
-- Number of Query Parameters: 0
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 29 | 39.19% |
-| `POST` | 21 | 28.38% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 13 | 17.57% |
-| `DELETE` | 11 | 14.86% |

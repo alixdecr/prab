@@ -4,8 +4,8 @@
 
 This folder contains the structural characteristics of the REST APIs from the benchmark:
 
-- `structural-characteristics.pdf` is a PDF version, which is user-readable.
-- `structural-characteristics.json` is a JSON version, which is machine-readable.
+- `structural-characteristics.json` is a JSON version, which is machine-readable. This is the authoritative, up-to-date version of the structural characteristics.
+- `structural-characteristics-outdated.pdf` is an **outdated** PDF version, which was used for the first evaluation of the benchmark (reported in our research paper). Since then, the APIs of the benchmark have been updated (e.g., new specifications, changed server URLs), while this PDF has been intentionally kept frozen, so that the results reported in the paper remain reproducible. For current data, always use the JSON version.
 - `visualisation` is a folder containing various visualisations (HTTP method distribution, route to query parameter ratio) for the benchmark, in PDF files.
 
 ### Structural Characteristics
@@ -60,4 +60,4 @@ Additionally, cells in the table are highlighted with different colors:
 
 - `ORANGE`: The API is valid, but no OpenAPI specification was found. Certain orange APIs are still analyzed regarding the structural characteristics (see column `Chart Number`).
 
-- `RED`: The API is is invalid (does not exist, was not found, was anonymized, etc.).
+- `RED`: The API is invalid (does not exist, was not found, was anonymized, etc.).

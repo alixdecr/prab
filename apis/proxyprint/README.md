@@ -1,41 +1,38 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Oudated-orange.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of proxyprint (Api Documentation)
 
-## ProxyPrint API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-invalid-red.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_0-lightgrey.svg)
 
-- Identifier: proxyprint
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: ProxyPrint
+## Usage Information
 
-- Used By: [2][3][9][11][12][15][18][25] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://github.com/ProxyPrint/proxyprint-kitchen), [OpenAPI Specification](https://github.com/WebFuzzing/EMB/blob/master/openapi-swagger/proxyprint.json)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Local
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 79
 
-- Request Limits: No
+**Query Parameters:** 0
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 79
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 48 |
+| `POST` | 30 |
+| `PUT` | 14 |
+| `PATCH` | 4 |
+| `DELETE` | 10 |
 
-- Number of Query Parameters: 0
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 48 | 45.28% |
-| `POST` | 30 | 28.30% |
-| `PUT` | 14 | 13.21% |
-| `PATCH` | 4 | 3.77% |
-| `DELETE` | 10 | 9.43% |

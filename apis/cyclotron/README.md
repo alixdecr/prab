@@ -1,41 +1,38 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Oudated-orange.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of cyclotron (Cyclotron API)
 
-## Cyclotron API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-invalid-red.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_0-lightgrey.svg)
 
-- Identifier: cyclotron
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Cyclotron
+## Usage Information
 
-- Used By: [11] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://github.com/ExpediaGroup/cyclotron), [OpenAPI Specification](https://github.com/ExpediaGroup/cyclotron/blob/master/cyclotron-svc/swagger.json)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
 
-### Usage Information
+**Authentication Methods:** authenticatedSession
 
-- Availability: Local
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 40
 
-- Request Limits: No
+**Query Parameters:** 7
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 40
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 29 |
+| `POST` | 14 |
+| `PUT` | 4 |
+| `PATCH` | 0 |
+| `DELETE` | 3 |
 
-- Number of Query Parameters: 7
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 29 | 58.00% |
-| `POST` | 14 | 28.00% |
-| `PUT` | 4 | 8.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 3 | 6.00% |

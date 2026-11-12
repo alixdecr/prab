@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Invalid-red.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of ur-codebin (Ur-Codebin API)
 
-## Ur-Codebin API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-invalid-red.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_1-red.svg)
 
-- Identifier: ur-codebin
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Ur-Codebin
+## Usage Information
 
-- Used By: [12] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://mathew.stoplight.io/docs/ur-codebin-api), [OpenAPI Specification](https://mathew.stoplight.io/docs/ur-codebin-api)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| http://urcodebin.live | online | not available |
 
-### Usage Information
+**Authentication Methods:** Authorization
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 6
 
-- Request Limits: No
+**Query Parameters:** 3
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 6
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 3 |
+| `POST` | 3 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 1 |
 
-- Number of Query Parameters: 6
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 3 | 42.86% |
-| `POST` | 3 | 42.86% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 1 | 14.29% |

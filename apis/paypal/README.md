@@ -1,41 +1,40 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Invalid-red.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of paypal (Invoices)
 
-## PayPal API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.3-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-2_of_2-brightgreen.svg)
 
-- Identifier: paypal
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: PayPal
+## Usage Information
 
-- Used By: [10] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://developer.paypal.com/api/rest), [OpenAPI Specification](https://github.com/paypal/paypal-rest-api-specifications)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://api-m.sandbox.paypal.com | online | available |
+| https://api-m.paypal.com | online | available |
 
-### Usage Information
+**Authentication Methods:** Oauth2
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 14
 
-- Request Limits: No
+**Query Parameters:** 0
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 14
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 4 |
+| `POST` | 10 |
+| `PUT` | 2 |
+| `PATCH` | 0 |
+| `DELETE` | 4 |
 
-- Number of Query Parameters: 6
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 4 | 20.00% |
-| `POST` | 10 | 50.00% |
-| `PUT` | 2 | 10.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 4 | 20.00% |

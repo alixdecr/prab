@@ -1,41 +1,38 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Oudated-orange.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of ocvn (Open Contracting Dashboards API)
 
-## OCVN API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-invalid-red.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_0-lightgrey.svg)
 
-- Identifier: ocvn
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: OCVN
+## Usage Information
 
-- Used By: [3][11][12][13][18][25] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://github.com/devgateway/ocvn), [OpenAPI Specification](https://github.com/WebFuzzing/EMB/blob/master/openapi-swagger/ocvn-rest.json)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Local
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 96
 
-- Request Limits: No
+**Query Parameters:** 26
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 96
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 96 |
+| `POST` | 96 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 0 |
 
-- Number of Query Parameters: 26
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 96 | 50.00% |
-| `POST` | 96 | 50.00% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 0 | 0.00% |

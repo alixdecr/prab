@@ -23,9 +23,32 @@ Decrop, A., Eraso, S., Devroey, X. and Perrouin, G., 2025. A Public Benchmark of
 }
 ```
 
-## Main Content
+## Changelog
+
+The APIs of the benchmark are checked and updated on a monthly basis:
+
+- **2026-11 MAJOR UPDATE**:
+    - Added a new CLI (`cli.py`) to update the tool, which can be used with the `python cli.py` command (`--help` for all sub-commands and parameters).
+    - API filtering has been removed (for now) and is currently being integrated into the new CLI.
+    - Moved the initial evaluation data and old structural characteristics into the `legacy/` folder, as the current state of the APIs diverge from it.
+    - New `README.md` structure for all APIs.
+    - New monthly check, no changes.
+- **2026-10**:
+    - Server URLs became unreachable: `amadeus-hotel`, `dhl-shipment-tracking`.
+    - Server URL reachable again: `open-brewery-db` (unreachable since 2026-07).
+- **2026-07**:
+    - Server URL became unreachable: `open-brewery-db`.
+- **2026-05**: No changes.
+- **2026-03**: No changes.
+- **2025-12**: No changes.
+- **2025-10**: No changes.
+- **2025-09**: No changes, first monthly check.
+
+## Getting Started
 
 The main content of the benchmark can be found in the `/apis` folder. At the moment, each REST API of the benchmark has its sub-folder, containing an available (and up-to-date) OpenAPI Specification (in the JSON format). Certain APIs also have an available Postman Collection.
+
+The structural characteristics of all benchmark APIs are available in machine-readable format in `structural-characteristics/structural-characteristics.json`, represented by an API identifier (the name of the folder in `/apis`). This enables the selection of the APIs that match experimental needs. The OpenAPI Specifications themselves can then be loaded from `/apis/<identifier>/<identifier>-openapi.json` (do not forget `encoding="utf-8-sig"`, see `/apis/README.md`).
 
 ## Additional Content
 
@@ -34,7 +57,7 @@ The repository also contains 2 additional folders:
 - `/structural-characteristics`: This folder contains various information regarding structural characteristics for each API of the benchmark. More details can be found in the folder.
 
 - `/study-data`: This folder contains the study data associated with the research paper. You can find the following files:
-    - `filtered-papers.md`: Contains the research papers that were found with our search string, in our systematic mapping study.
+    - `found-papers.md`: Contains the research papers that were found with our search string, in our systematic mapping study.
     - `selected-papers.md`: Contains the research papers that were accepted in our systematic mapping study.
     - `study-apis.md`: Contains the REST APIs that were found in the research papers (from `selected-papers.md`).
  

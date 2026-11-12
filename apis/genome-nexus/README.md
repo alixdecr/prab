@@ -1,41 +1,38 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Oudated-orange.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of genome-nexus (Genome Nexus API)
 
-## Genome Nexus API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-invalid-red.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_0-lightgrey.svg)
 
-- Identifier: genome-nexus
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Genome Nexus
+## Usage Information
 
-- Used By: [3][13] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://docs.genomenexus.org/api), [OpenAPI Specification](https://www.genomenexus.org/swagger-ui.html)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Both
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 21
 
-- Request Limits: No
+**Query Parameters:** 8
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 22
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 13 |
+| `POST` | 10 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 0 |
 
-- Number of Query Parameters: 6
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 13 | 56.52% |
-| `POST` | 10 | 43.48% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 0 | 0.00% |

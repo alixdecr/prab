@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Local-green.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of quartz-manager (Quartz-Scheduler)
 
-## Quartz Manager API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: quartz-manager
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Quartz Manager
+## Usage Information
 
-- Used By: [12] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://github.com/fabioformosa/quartz-manager), [OpenAPI Specification](https://github.com/pranaybathini/quartz-scheduler/blob/main/Quartz-Scheduler.postman_collection.json)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| http://localhost:8080 | local |  |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Local
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 5
 
-- Request Limits: No
+**Query Parameters:** 4
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 5
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 2 |
+| `POST` | 2 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 1 |
 
-- Number of Query Parameters: 4
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 2 | 40.00% |
-| `POST` | 2 | 40.00% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 1 | 20.00% |

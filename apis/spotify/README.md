@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Valid-brightgreen.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of spotify (Spotify Web API with fixes and improvements from sonallux)
 
-## Spotify API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.3-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: spotify
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Spotify
+## Usage Information
 
-- Used By: [6][13][17][19] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://developer.spotify.com), [OpenAPI Specification](https://github.com/sonallux/spotify-web-api/tree/main)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://api.spotify.com/v1 | online | available |
 
-### Usage Information
+**Authentication Methods:** oauth_2_0
 
-- Availability: Online
+**Rate Limiting:** yes
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 68
 
-- Request Limits: Yes
+**Query Parameters:** 63
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 68
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 59 |
+| `POST` | 5 |
+| `PUT` | 17 |
+| `PATCH` | 0 |
+| `DELETE` | 8 |
 
-- Number of Query Parameters: 63
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 59 | 66.29% |
-| `POST` | 5 | 5.62% |
-| `PUT` | 17 | 19.10% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 8 | 8.99% |

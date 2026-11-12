@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Local-green.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of magento (Commerce Admin REST endpoints - All inclusive)
 
-## Magento API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: magento
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Magento
+## Usage Information
 
-- Used By: [4] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://developer.adobe.com/commerce/webapi/rest), [OpenAPI Specification](https://developer.adobe.com/commerce/webapi/rest/quick-reference/)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| http://example.com/rest/default | online | available |
 
-### Usage Information
+**Authentication Methods:** api_key
 
-- Availability: Local
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 446
 
-- Request Limits: No
+**Query Parameters:** 63
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 446
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 234 |
+| `POST` | 190 |
+| `PUT` | 79 |
+| `PATCH` | 0 |
+| `DELETE` | 53 |
 
-- Number of Query Parameters: 63
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 234 | 42.09% |
-| `POST` | 190 | 34.17% |
-| `PUT` | 79 | 14.21% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 53 | 9.53% |

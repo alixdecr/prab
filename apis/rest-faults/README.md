@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Local-green.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of rest-faults (OpenAPI definition)
 
-## REST Faults API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.1-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: rest-faults
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: REST Faults
+## Usage Information
 
-- Used By: [11] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://github.com/WebFuzzing/rest-faults), [OpenAPI Specification](https://github.com/WebFuzzing/rest-faults/blob/master/src/main/resources/schema.json)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| http://localhost:8080 | local |  |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Local
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 4
 
-- Request Limits: No
+**Query Parameters:** 0
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 4
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 4 |
+| `POST` | 1 |
+| `PUT` | 2 |
+| `PATCH` | 0 |
+| `DELETE` | 1 |
 
-- Number of Query Parameters: 0
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 4 | 50.00% |
-| `POST` | 1 | 12.50% |
-| `PUT` | 2 | 25.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 1 | 12.50% |

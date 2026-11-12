@@ -1,41 +1,40 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Valid-brightgreen.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of foursquare (Foursquare Places API)
 
-## Foursquare API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.3-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_2-orange.svg)
 
-- Identifier: foursquare
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Foursquare
+## Usage Information
 
-- Used By: [6][8][10] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://docs.foursquare.com/developer), [OpenAPI Specification](https://www.postman.com/foursquare-places-api/foursquare-s-public-workspace/collection/qjus7hq/foursquare-places-api)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://api.foursquare.com | online | available |
+| 500x500 | online | not available |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: Optional
+**Total Paths:** 21
 
-- Request Limits: Yes
+**Query Parameters:** 63
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 21
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 15 |
+| `POST` | 6 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 0 |
 
-- Number of Query Parameters: 78
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 15 | 71.43% |
-| `POST` | 6 | 28.57% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 0 | 0.00% |

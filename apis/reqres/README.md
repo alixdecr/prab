@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Valid-brightgreen.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of reqres (ReqRes API)
 
-## ReqRes API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.3-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: reqres
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: ReqRes
+## Usage Information
 
-- Used By: [16] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://reqres.in), [OpenAPI Specification](https://www.postman.com/reqresapi/reqres/collection/rli8ped/reqres-api)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://reqres.in/api | online | available |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: Optional
+**Total Paths:** 7
 
-- Request Limits: Yes
+**Query Parameters:** 2
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 7
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 4 |
+| `POST` | 3 |
+| `PUT` | 2 |
+| `PATCH` | 2 |
+| `DELETE` | 2 |
 
-- Number of Query Parameters: 5
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 4 | 30.77% |
-| `POST` | 3 | 23.08% |
-| `PUT` | 2 | 15.38% |
-| `PATCH` | 2 | 15.38% |
-| `DELETE` | 2 | 15.38% |

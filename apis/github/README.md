@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Valid-brightgreen.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of github (GitHub v3 REST API)
 
-## GitHub API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.3-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: github
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: GitHub
+## Usage Information
 
-- Used By: [8][10][17][19][24] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://docs.github.com/en/rest), [OpenAPI Specification](https://github.com/github/rest-api-description)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://api.github.com | online | available |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Online
+**Rate Limiting:** yes
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: Optional
+**Total Paths:** 638
 
-- Request Limits: Yes
+**Query Parameters:** 76
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 638
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 510 |
+| `POST` | 154 |
+| `PUT` | 91 |
+| `PATCH` | 56 |
+| `DELETE` | 154 |
 
-- Number of Query Parameters: 76
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 510 | 52.85% |
-| `POST` | 154 | 15.96% |
-| `PUT` | 91 | 9.43% |
-| `PATCH` | 56 | 5.80% |
-| `DELETE` | 154 | 15.96% |

@@ -1,41 +1,40 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Local-green.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of senzing (Senzing REST API)
 
-## Senzing API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.1-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-invalid-red.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_2-orange.svg)
 
-- Identifier: senzing
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Senzing
+## Usage Information
 
-- Used By: [12] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://senzing.zendesk.com/hc/en-us/categories/360000120514-Senzing-API-for-Developers), [OpenAPI Specification](https://github.com/senzing-garage/senzing-rest-api-specification/blob/main/senzing-rest-api.yaml)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| http://localhost:8250 | local |  |
+| {protocol}://{host}:{port}{path} | online | not available |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Local
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 31
 
-- Request Limits: No
+**Query Parameters:** 29
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 31
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 25 |
+| `POST` | 7 |
+| `PUT` | 1 |
+| `PATCH` | 0 |
+| `DELETE` | 1 |
 
-- Number of Query Parameters: 29
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 25 | 73.53% |
-| `POST` | 7 | 20.59% |
-| `PUT` | 1 | 2.94% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 1 | 2.94% |

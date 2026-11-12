@@ -1,41 +1,38 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Oudated-orange.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of scout-api (API for Aktivitetsbanken)
 
-## Scout API API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-invalid-red.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_0-lightgrey.svg)
 
-- Identifier: scout-api
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Scout API
+## Usage Information
 
-- Used By: [2][3][7][9][11][15][18][25] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://github.com/WebFuzzing/EMB/tree/master/jdk_8_maven/cs/rest/original/scout-api), [OpenAPI Specification](https://github.com/WebFuzzing/EMB/blob/master/openapi-swagger/scout-api.json)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Local
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 21
 
-- Request Limits: No
+**Query Parameters:** 25
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 21
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 21 |
+| `POST` | 10 |
+| `PUT` | 7 |
+| `PATCH` | 2 |
+| `DELETE` | 9 |
 
-- Number of Query Parameters: 25
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 21 | 42.86% |
-| `POST` | 10 | 20.41% |
-| `PUT` | 7 | 14.29% |
-| `PATCH` | 2 | 4.08% |
-| `DELETE` | 9 | 18.37% |

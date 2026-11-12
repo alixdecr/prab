@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Invalid-red.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of amadeus-hotel (Amadeus for Developers)
 
-## Amadeus Hotel API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_1-red.svg)
 
-- Identifier: amadeus-hotel
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Amadeus Hotel
+## Usage Information
 
-- Used By: [6][17][19] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://developers.amadeus.com/self-service/category/hotels), [OpenAPI Specification](https://www.postman.com/amadeus4dev/amadeus-for-developers-s-public-workspace/collection/kquqijj/amadeus-for-developers)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://test.api.amadeus.com | online | not available |
 
-### Usage Information
+**Authentication Methods:** noauthAuth
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: Optional
+**Total Paths:** 48
 
-- Request Limits: Yes
+**Query Parameters:** 47
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 48
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 37 |
+| `POST` | 13 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 1 |
 
-- Number of Query Parameters: 47
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 37 | 72.55% |
-| `POST` | 13 | 25.49% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 1 | 1.96% |

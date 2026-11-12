@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Valid-brightgreen.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of envirocar (enviroCar REST API)
 
-## EnviroCar API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.3-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: envirocar
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: EnviroCar
+## Usage Information
 
-- Used By: [12] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://envirocar.github.io/enviroCar-server/api), [OpenAPI Specification](https://envirocar.org/api/stable/api-docs.json)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://envirocar.org/api/stable/ | online | available |
 
-### Usage Information
+**Authentication Methods:** basicAuth
 
-- Availability: Both
+**Rate Limiting:** no
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 53
 
-- Request Limits: No
+**Query Parameters:** 0
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 53
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 52 |
+| `POST` | 15 |
+| `PUT` | 4 |
+| `PATCH` | 0 |
+| `DELETE` | 8 |
 
-- Number of Query Parameters: 40
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 52 | 65.82% |
-| `POST` | 15 | 18.99% |
-| `PUT` | 4 | 5.06% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 8 | 10.13% |

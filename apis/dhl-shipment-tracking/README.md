@@ -1,41 +1,40 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Invalid-red.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of dhl-shipment-tracking (Unified Shipment Tracking API)
 
-## DHL Shipment Tracking API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-invalid-red.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_2-orange.svg)
 
-- Identifier: dhl-shipment-tracking
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: DHL Shipment Tracking
+## Usage Information
 
-- Used By: [6] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://developer.dhl.com/api-reference/shipment-tracking), [OpenAPI Specification](https://developer.dhl.com/api-reference/shipment-tracking#downloads-section)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://api-test.dhl.com/track | online | not available |
+| https://api-eu.dhl.com/track | online | available |
 
-### Usage Information
+**Authentication Methods:** ApiKeyAuth
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 1
 
-- Request Limits: No
+**Query Parameters:** 0
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 1
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 1 |
+| `POST` | 0 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 0 |
 
-- Number of Query Parameters: 8
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 1 | 100.00% |
-| `POST` | 0 | 0.00% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 0 | 0.00% |

@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Local-green.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of realworld-app (RealWorld Conduit API)
 
-## Realworld App API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.1-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_1-red.svg)
 
-- Identifier: realworld-app
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Realworld App
+## Usage Information
 
-- Used By: [11][22] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://github.com/lujakob/nestjs-realworld-example-app), [OpenAPI Specification](https://github.com/gothinkster/realworld/blob/main/api/openapi.yml)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://api.realworld.io/api | online | not available |
 
-### Usage Information
+**Authentication Methods:** Token
 
-- Availability: Local
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 12
 
-- Request Limits: No
+**Query Parameters:** 3
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 12
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 7 |
+| `POST` | 6 |
+| `PUT` | 2 |
+| `PATCH` | 0 |
+| `DELETE` | 4 |
 
-- Number of Query Parameters: 3
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 7 | 36.84% |
-| `POST` | 6 | 31.58% |
-| `PUT` | 2 | 10.53% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 4 | 21.05% |

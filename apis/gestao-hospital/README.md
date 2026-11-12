@@ -1,41 +1,38 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Oudated-orange.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of gestao-hospital (Sistema de Gestão Hospital API)
 
-## Gestao Hospital API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_0-lightgrey.svg)
 
-- Identifier: gestao-hospital
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Gestao Hospital
+## Usage Information
 
-- Used By: [11][20] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://github.com/ValchanOficial/GestaoHospital), [OpenAPI Specification](https://github.com/WebFuzzing/EMB/blob/master/openapi-swagger/gestaohospital-rest.json)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Local
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 13
 
-- Request Limits: No
+**Query Parameters:** 4
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 13
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 10 |
+| `POST` | 5 |
+| `PUT` | 3 |
+| `PATCH` | 0 |
+| `DELETE` | 2 |
 
-- Number of Query Parameters: 4
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 10 | 40.00% |
-| `POST` | 10 | 40.00% |
-| `PUT` | 3 | 12.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 2 | 8.00% |

@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Valid-brightgreen.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of gitlab (GitLab API)
 
-## GitLab API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.1-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: gitlab
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: GitLab
+## Usage Information
 
-- Used By: [1] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://docs.gitlab.com/ee/api/rest), [OpenAPI Specification](https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/api/openapi/openapi.yaml)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://www.gitlab.com/api/v4 | online | available |
 
-### Usage Information
+**Authentication Methods:** ApiKeyAuth
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: Optional
+**Total Paths:** 48
 
-- Request Limits: Yes
+**Query Parameters:** 18
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 48
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 33 |
+| `POST` | 14 |
+| `PUT` | 14 |
+| `PATCH` | 0 |
+| `DELETE` | 11 |
 
-- Number of Query Parameters: 18
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 33 | 45.83% |
-| `POST` | 14 | 19.44% |
-| `PUT` | 14 | 19.44% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 11 | 15.28% |

@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Valid-brightgreen.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of bitbucket (Bitbucket API)
 
-## BitBucket API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: bitbucket
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: BitBucket
+## Usage Information
 
-- Used By: [4] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://developer.atlassian.com/cloud/bitbucket/rest), [OpenAPI Specification](https://dac-static.atlassian.com/cloud/bitbucket/swagger.v3.json)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://api.bitbucket.org/2.0 | online | available |
 
-### Usage Information
+**Authentication Methods:** basic, oauth2, api_key
 
-- Availability: Online
+**Rate Limiting:** yes
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: Optional
+**Total Paths:** 185
 
-- Request Limits: Yes
+**Query Parameters:** 28
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 185
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 171 |
+| `POST` | 48 |
+| `PUT` | 47 |
+| `PATCH` | 0 |
+| `DELETE` | 53 |
 
-- Number of Query Parameters: 163
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 171 | 53.61% |
-| `POST` | 48 | 15.05% |
-| `PUT` | 47 | 14.73% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 53 | 16.61% |

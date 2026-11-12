@@ -1,41 +1,38 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Oudated-orange.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of features-service (unknown)
 
-## Features Service API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-invalid-red.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_0-lightgrey.svg)
 
-- Identifier: features-service
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Features Service
+## Usage Information
 
-- Used By: [2][3][4][7][9][11][12][15][18][20][25] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://github.com/JavierMF/features-service), [OpenAPI Specification](https://github.com/WebFuzzing/EMB/blob/master/openapi-swagger/features-service.json)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Local
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 11
 
-- Request Limits: No
+**Query Parameters:** 0
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 11
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 6 |
+| `POST` | 6 |
+| `PUT` | 1 |
+| `PATCH` | 0 |
+| `DELETE` | 5 |
 
-- Number of Query Parameters: 0
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 6 | 33.33% |
-| `POST` | 6 | 33.33% |
-| `PUT` | 1 | 5.56% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 5 | 27.78% |

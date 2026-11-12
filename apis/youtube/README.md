@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Valid-brightgreen.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of youtube (YouTube)
 
-## YouTube API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: youtube
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: YouTube
+## Usage Information
 
-- Used By: [5][6][8][13][17][19][24][26] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://developers.google.com/youtube), [OpenAPI Specification](https://www.postman.com/api-evangelist/youtube/overview)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://www.googleapis.com/youtube/v3 | online | available |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 46
 
-- Request Limits: Yes
+**Query Parameters:** 71
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 46
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 20 |
+| `POST` | 11 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 15 |
 
-- Number of Query Parameters: 71
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 20 | 43.48% |
-| `POST` | 11 | 23.91% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 15 | 32.61% |

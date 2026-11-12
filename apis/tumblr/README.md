@@ -1,41 +1,39 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Valid-brightgreen.svg) ![alt text](https://img.shields.io/badge/Server_URL-Valid-brightgreen.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of tumblr (Tumblr)
 
-## Tumblr API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: tumblr
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Tumblr
+## Usage Information
 
-- Used By: [8][10] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://www.tumblr.com/docs/en/api), [OpenAPI Specification](https://www.postman.com/api-evangelist/tumblr/collection/wa7adwz/tumblr)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
+| https://api.tumblr.com/v2 | online | available |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Online
+**Rate Limiting:** no
 
-- Authentication Method: Key
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 16
 
-- Request Limits: Yes
+**Query Parameters:** 19
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 16
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 10 |
+| `POST` | 6 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 0 |
 
-- Number of Query Parameters: 19
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 10 | 62.50% |
-| `POST` | 6 | 37.50% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 0 | 0.00% |

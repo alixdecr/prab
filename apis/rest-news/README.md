@@ -1,41 +1,38 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Oudated-orange.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of rest-news (API for REST News)
 
-## REST News API: Structural Characteristics
+*Last update: 2026-11-12*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-invalid-red.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_0-lightgrey.svg)
 
-- Identifier: rest-news
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: REST News
+## Usage Information
 
-- Used By: [2][3][9][11][15][18] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://github.com/WebFuzzing/EMB/tree/master/jdk_8_maven/cs/rest/artificial/news), [OpenAPI Specification](https://github.com/WebFuzzing/EMB/blob/master/openapi-swagger/rest-news.json)
+| URL | Hosted | Availability |
+| --- | ------ | ------------ |
 
-### Usage Information
+**Authentication Methods:** no authentication required
 
-- Availability: Local
+**Rate Limiting:** no
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 4
 
-- Request Limits: No
+**Query Parameters:** 2
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 6
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 3 |
+| `POST` | 1 |
+| `PUT` | 2 |
+| `PATCH` | 0 |
+| `DELETE` | 1 |
 
-- Number of Query Parameters: 2
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 3 | 42.86% |
-| `POST` | 1 | 14.29% |
-| `PUT` | 3 | 42.86% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 0 | 0.00% |
