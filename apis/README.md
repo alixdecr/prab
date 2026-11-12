@@ -10,18 +10,21 @@ This folder contains all REST APIs of the benchmark. Each API has a folder, cont
 
 ### Badges
 
-Each API README contains two badges describing the state of the API at the date of the last monthly check (`Last Checked`):
+Each API README contains three badges describing the state of the API at the date of the last monthly check (`Last update`):
 
-- `OpenAPI Specification` badge:
-    - `Valid` (green): The folder contains an OpenAPI Specification that can be parsed and is in the current OpenAPI format.
-    - `Oudated` (orange): The folder contains an OpenAPI Specification, but it is in an older format (e.g., Swagger 2.0). A newer specification may be available upstream.
-    - `Invalid` (red): No OpenAPI Specification was found in the folder, or the file cannot be parsed as JSON.
+- `oas_version` badge: The OpenAPI format of the specification found in the folder.
+    - `openapi_v<x.y.z>` (green): The specification is in a current OpenAPI format.
+    - `swagger_v<x.y>` or `unknown` (orange): The specification is in an older format (e.g., Swagger 2.0), or its format could not be determined. A newer specification may be available upstream.
 
-- `Server_URL` badge:
-    - `Valid` (green): The server URL declared in the specification responded to an HTTP request during the last check.
-    - `Invalid` (red): The server URL declared in the specification did not respond to an HTTP request during the last check.
-    - `Local` (green): The API is deployed locally (see `Availability`), so its server URL is not checked online.
-    - `Missing` (orange): The specification does not declare any server URL.
+- `openapi-spec-validator` badge: The validity of the OpenAPI Specification found in the folder.
+    - `valid` (green): A specification was found, can be parsed as JSON, and passes validation.
+    - `invalid` (red): No specification was found in the folder, or the file cannot be parsed or validated.
+
+- `available_servers` badge: The server URLs declared in the specification that responded to an HTTP request during the last check (`x` out of `y`).
+    - `y_of_y` (green): All declared server URLs responded, or the API is deployed locally (so its server URLs are not checked online).
+    - `0_of_y` (red): None of the declared server URLs responded during the last check.
+    - `x_of_y` (orange): Some, but not all, declared server URLs responded during the last check.
+    - `0_of_0` (grey): The specification does not declare any server URL.
 
 ### Additional Information
 

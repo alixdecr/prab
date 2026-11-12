@@ -212,7 +212,7 @@ def _build_parser():
     Builds the argv parser.
     """
 
-    parser = argparse.ArgumentParser(description="CLI for PRAB, to filer or update APIs.")
+    parser = argparse.ArgumentParser(description="CLI for PRAB, to filter or update APIs.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     # generate parser
