@@ -171,7 +171,7 @@ def update_api_readmes() -> None:
     date = datetime.now().strftime("%Y-%m-%d")
 
     if not CHAR_PATH.is_file():
-        print("No API characteristics found, generating them first.")
+        print("No API characteristics found, generating them first")
         generate_api_characteristics()
 
     with open(CHAR_PATH, "r", encoding="utf-8") as file:
@@ -265,11 +265,8 @@ def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="CLI for PRAB, to filter or update APIs.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    # generate parser
-    generate_parser = subparsers.add_parser("generate", help="Generate API structural characteristics by analyzing their documentation.")
-
     # update parser
-    update_parser = subparsers.add_parser("update", help="Generate API READMEs by analyzing their documentation.")
+    update_parser = subparsers.add_parser("update", help="Generate API structural characteristics and READMEs by analyzing their documentation.")
 
     # filter parser
     filter_parser = subparsers.add_parser("filter", help="Filter APIs based on specified criteria.")
@@ -291,10 +288,8 @@ def main(argv: list[str] | None = None) -> None:
 
     args = _build_parser().parse_args(argv)
 
-    if args.command == "generate":
+    if args.command == "update":
         generate_api_characteristics()
-
-    elif args.command == "update":
         update_api_readmes()
 
 
