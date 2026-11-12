@@ -84,6 +84,19 @@ def generate_api_characteristics() -> None:
         availability = []
         servers = spec.get("servers", [])
 
+        # swagger 2.0 splits a server between host, basePath, and schemes
+        if spec.get("swagger") and not spec.get("servers"):
+            host = spec.get("host", "")
+
+            if host:
+                base_path = spec.get("basePath", "")
+                schemes = spec.get("schemes", ["https"])
+
+                if base_path and not base_path.startswith("/"):
+                    base_path = f"/{base_path}"
+
+                servers = [{"url": f"{scheme}://{host}{base_path}"} for scheme in schemes]
+
         for server in servers:
             url = server.get("url", "")
 

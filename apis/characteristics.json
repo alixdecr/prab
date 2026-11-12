@@ -417,7 +417,13 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "https://api.bing.microsoft.com/v7.0",
+                "hosted": "online",
+                "status": "available"
+            }
+        ],
         "auth": [
             "apiKeyHeader"
         ],
@@ -1792,7 +1798,13 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "https://localhost:8080/",
+                "hosted": "local",
+                "status": ""
+            }
+        ],
         "auth": [],
         "rate-limiting": {
             "status": "no",
@@ -2102,7 +2114,13 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "http://localhost:8080/",
+                "hosted": "local",
+                "status": ""
+            }
+        ],
         "auth": [
             "authenticatedSession"
         ],
@@ -3176,7 +3194,13 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "http://localhost:8080/",
+                "hosted": "local",
+                "status": ""
+            }
+        ],
         "auth": [],
         "rate-limiting": {
             "status": "no",
@@ -3624,7 +3648,18 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "http://localhost:28125/",
+                "hosted": "local",
+                "status": ""
+            },
+            {
+                "url": "https://localhost:28125/",
+                "hosted": "local",
+                "status": ""
+            }
+        ],
         "auth": [],
         "rate-limiting": {
             "status": "no",
@@ -3745,7 +3780,13 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "https://localhost:8080/",
+                "hosted": "local",
+                "status": ""
+            }
+        ],
         "auth": [],
         "rate-limiting": {
             "status": "no",
@@ -8555,7 +8596,13 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "http://localhost:8081/v2",
+                "hosted": "local",
+                "status": ""
+            }
+        ],
         "auth": [],
         "rate-limiting": {
             "status": "no",
@@ -11210,7 +11257,13 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "https://localhost:8090/",
+                "hosted": "local",
+                "status": ""
+            }
+        ],
         "auth": [],
         "rate-limiting": {
             "status": "no",
@@ -12025,7 +12078,13 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "https://api.ohsome.org/v1",
+                "hosted": "online",
+                "status": "available"
+            }
+        ],
         "auth": [],
         "rate-limiting": {
             "status": "no",
@@ -12552,7 +12611,18 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "http://www.omdbapi.com/",
+                "hosted": "online",
+                "status": "available"
+            },
+            {
+                "url": "https://www.omdbapi.com/",
+                "hosted": "online",
+                "status": "available"
+            }
+        ],
         "auth": [],
         "rate-limiting": {
             "status": "no",
@@ -13239,7 +13309,13 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "https://localhost:8080/",
+                "hosted": "local",
+                "status": ""
+            }
+        ],
         "auth": [],
         "rate-limiting": {
             "status": "no",
@@ -13908,7 +13984,13 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "https://www.refugerestrooms.org/api",
+                "hosted": "online",
+                "status": "available"
+            }
+        ],
         "auth": [],
         "rate-limiting": {
             "status": "no",
@@ -14214,7 +14296,13 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "http://localhost:8080/",
+                "hosted": "local",
+                "status": ""
+            }
+        ],
         "auth": [],
         "rate-limiting": {
             "status": "no",
@@ -14258,7 +14346,13 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "https://localhost:8080/",
+                "hosted": "local",
+                "status": ""
+            }
+        ],
         "auth": [],
         "rate-limiting": {
             "status": "no",
@@ -14309,7 +14403,13 @@
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
+        "availability": [
+            {
+                "url": "http://localhost:8080/",
+                "hosted": "local",
+                "status": ""
+            }
+        ],
         "auth": [],
         "rate-limiting": {
             "status": "no",
