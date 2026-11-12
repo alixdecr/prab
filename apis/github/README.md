@@ -19,7 +19,7 @@
 
 **Authentication Methods:** no authentication required
 
-**Rate Limiting:** yes
+**Rate Limiting:** yes (a 429 status code is defined in the OAS file)
 
 ## Structural Information
 
@@ -36,4 +36,7 @@
 | `PUT` | 91 |
 | `PATCH` | 56 |
 | `DELETE` | 154 |
+| `HEAD` | 0 |
+| `OPTIONS` | 0 |
+| `TRACE` | 0 |
 

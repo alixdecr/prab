@@ -1,7 +1,6 @@
 import argparse
 import json
 import requests
-import sys
 from datetime import datetime
 from openapi_spec_validator import validate
 from openapi_spec_validator.validation.exceptions import OpenAPIValidationError
@@ -19,8 +18,29 @@ ENUM_FIELDS = {
     "request-limits": ("no", "yes"),
 }
 
+HTTP_METHODS = (
+    "get",
+    "post",
+    "put",
+    "patch",
+    "delete",
+    "head",
+    "options",
+    "trace",
+)
 
-def generate_api_characteristics():
+RATE_LIMIT_HEADERS = (
+    "x-ratelimit-limit",
+    "x-ratelimit-remaining",
+    "x-ratelimit-reset",
+    "ratelimit-limit",
+    "ratelimit-remaining",
+    "ratelimit-reset",
+    "retry-after",
+)
+
+
+def generate_api_characteristics() -> None:
     """
     Generates structural characteristics of provided APIs (paths of OAS files).
     """
@@ -28,45 +48,47 @@ def generate_api_characteristics():
     characteristics = {}
 
     for path in sorted(APIS_PATH.glob("*/*openapi.json")):
-    
+
         # id
         id = path.parent.name
 
         print(f"Analyzing {id}")
 
-        with open(path, "r", encoding="utf-8-sig") as file:
-            spec = json.load(file)
-
         # oas validity
+        spec = {}
+
         try:
+            with open(path, "r", encoding="utf-8-sig") as file:
+                spec = json.load(file)
+
             validate(spec)
-            oas_validity = ("valid", "")
+            oas_validity = {"status": "valid", "detail": ""}
+
         except Exception as e:
             error_name = type(e).__name__
-            message = " ".join(str(e).split())
-            oas_validity = ("invalid", error_name)
-            print(f"-> {error_name} for {id}: {message[:60]}...")
+            oas_validity = {"status": "invalid", "detail": error_name}
+            print(f"-> {error_name} for {id}: {' '.join(str(e).split())[:60]}...")
 
         # title
         title = spec.get("info", {}).get("title") or "unknown"
 
         # oas version
         if spec.get("openapi"):
-            oas_version = ("openapi", spec["openapi"])
+            oas_version = {"family": "openapi", "version": spec["openapi"]}
         elif spec.get("swagger"):
-            oas_version = ("swagger", spec["swagger"])
+            oas_version = {"family": "swagger", "version": spec["swagger"]}
         else:
-            oas_version = ("unknown", "")
+            oas_version = {"family": "unknown", "version": ""}
 
         # availability
         availability = []
         servers = spec.get("servers", [])
-            
+
         for server in servers:
             url = server.get("url", "")
 
             if "localhost" in url:
-                availability.append((url, "local", ""))
+                availability.append({"url": url, "hosted": "local", "status": ""})
             else:
                 # check if the server is working
                 try:
@@ -75,17 +97,17 @@ def generate_api_characteristics():
                 except Exception:
                     available = "not-available"
                     print(f"-> Server {url} is not available")
-                
-                availability.append((url, "online", available))
+
+                availability.append({"url": url, "hosted": "online", "status": available})
 
         # authentication
         security_schemes = list(spec.get("components", {}).get("securitySchemes", {}) or spec.get("securityDefinitions", {}))
 
         # rate limiting, routes, and query parameters
-        rate_limiting = "no"
+        rate_limiting = {"status": "no", "reason": ""}
         routes = []
         query_parameters = set()
-        
+
         for path, path_item in spec.get("paths", {}).items():
 
             for param in path_item.get("parameters", []):
@@ -94,18 +116,22 @@ def generate_api_characteristics():
 
             for method, method_item in path_item.items():
 
-                if not isinstance(method_item, dict):
+                if method not in HTTP_METHODS or not isinstance(method_item, dict):
                     continue
 
-                routes.append((method, path))
+                routes.append({"method": method, "path": path})
 
                 for param in method_item.get("parameters", []):
                     if param.get("in", "") == "query":
                         query_parameters.add(param.get("name"))
 
-                for status in method_item.get("responses", {}):
-                    if status == "429":
-                        rate_limiting = "status-code"
+                for status_code, response in method_item.get("responses", {}).items():
+                    if status_code == "429":
+                        rate_limiting = {"status": "yes", "reason": "status-code"}
+                    elif rate_limiting["status"] == "no" and isinstance(response, dict):
+                        headers = [name.lower() for name in response.get("headers", {}) or {}]
+                        if any(header in RATE_LIMIT_HEADERS for header in headers):
+                            rate_limiting = {"status": "yes", "reason": "headers"}
 
         characteristics[id] = {
             "title": title,
@@ -124,25 +150,29 @@ def generate_api_characteristics():
     print(f"Saved API characteristics to {CHAR_PATH}")
 
 
-def update_api_readmes():
+def update_api_readmes() -> None:
     """
     Updates API READMEs.
     """
 
     date = datetime.now().strftime("%Y-%m-%d")
 
+    if not CHAR_PATH.is_file():
+        print("No API characteristics found, generating them first.")
+        generate_api_characteristics()
+
     with open(CHAR_PATH, "r", encoding="utf-8") as file:
         data = json.load(file)
 
-    for id, data in data.items():
+    for api_id, chars in data.items():
 
-        print(f"Updating {id} README")
+        print(f"Updating {api_id} README")
 
-        oas_version_badge_color = "brightgreen" if data["oas-version"][0] == "openapi" else "orange"
-        oas_validity_badge_color = "brightgreen" if data["oas-validity"][0] == "valid" else "red"
+        oas_version_badge_color = "brightgreen" if chars["oas-version"]["family"] == "openapi" else "orange"
+        oas_validity_badge_color = "brightgreen" if chars["oas-validity"]["status"] == "valid" else "red"
 
-        available_servers = sum(1 for s in data["availability"] if s[1] == "local" or s[2] == "available")
-        total_servers = len(data["availability"])
+        available_servers = sum(1 for s in chars["availability"] if s["hosted"] == "local" or s["status"] == "available")
+        total_servers = len(chars["availability"])
 
         if total_servers == 0:
             server_badge_color = "lightgrey"
@@ -156,24 +186,31 @@ def update_api_readmes():
 
         servers = ""
 
-        for server_data in data["availability"]:
-            servers += f"\n| {server_data[0]} | {server_data[1]} | {server_data[2].replace("-", " ")} |"
+        for server_data in chars["availability"]:
+            servers += f"\n| {server_data['url']} | {server_data['hosted']} | {server_data['status'].replace('-', ' ')} |"
 
-        total_paths = len({route[1] for route in data["routes"]})
+        total_paths = len({route["path"] for route in chars["routes"]})
 
         methods = ""
 
-        for method in ("get", "post", "put", "patch", "delete"):
-            count = sum(1 for route in data["routes"] if route[0] == method)
+        for method in HTTP_METHODS:
+            count = sum(1 for route in chars["routes"] if route["method"] == method)
             methods += f"\n| `{method.upper()}` | {count} |"
 
+        if chars["rate-limiting"]["reason"] == "status-code":
+            rate_limiting_text = "yes (a 429 status code is defined in the OAS file)"
+        elif chars["rate-limiting"]["reason"] == "headers":
+            rate_limiting_text = "yes (rate limit headers are defined in the OAS file)"
+        else:
+            rate_limiting_text = "no"
+
         markdown = f"""
-# Structural Characteristics of {id} ({data["title"]})
+# Structural Characteristics of {api_id} ({chars["title"]})
 
 *Last update: {date}*
 
-![alt text](https://img.shields.io/badge/oas_version-{data["oas-version"][0]}_v{data["oas-version"][1]}-{oas_version_badge_color}.svg)
-![alt text](https://img.shields.io/badge/openapi--spec--validator-{data["oas-validity"][0]}-{oas_validity_badge_color}.svg)
+![alt text](https://img.shields.io/badge/oas_version-{chars["oas-version"]["family"]}_v{chars["oas-version"]["version"]}-{oas_version_badge_color}.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-{chars["oas-validity"]["status"]}-{oas_validity_badge_color}.svg)
 ![alt text](https://img.shields.io/badge/available_servers-{available_servers}_of_{total_servers}-{server_badge_color}.svg)
 
 **Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
@@ -185,15 +222,15 @@ def update_api_readmes():
 | URL | Hosted | Availability |
 | --- | ------ | ------------ |{servers}
 
-**Authentication Methods:** {", ".join(data["auth"]) or "no authentication required"}
+**Authentication Methods:** {", ".join(chars["auth"]) or "no authentication required"}
 
-**Rate Limiting:** {"yes" if data["rate-limiting"] == "status-code" else "no"}
+**Rate Limiting:** {rate_limiting_text}
 
 ## Structural Information
 
 **Total Paths:** {total_paths}
 
-**Query Parameters:** {len(data["query-parameters"])}
+**Query Parameters:** {len(chars["query-parameters"])}
 
 **Paths by Method:**
 
@@ -202,12 +239,12 @@ def update_api_readmes():
 
 """
 
-        out_path = APIS_PATH / id / "README.md"
+        out_path = APIS_PATH / api_id / "README.md"
         with open(out_path, "w", encoding="utf-8") as file:
             file.write(markdown)
 
 
-def _build_parser():
+def _build_parser() -> argparse.ArgumentParser:
     """
     Builds the argv parser.
     """
@@ -231,7 +268,7 @@ def _build_parser():
     return parser
 
 
-def main(argv = None):
+def main(argv: list[str] | None = None) -> None:
     """
     Entry point of the command line interface.
 
@@ -249,4 +286,4 @@ def main(argv = None):
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

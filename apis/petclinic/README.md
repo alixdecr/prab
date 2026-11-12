@@ -36,4 +36,7 @@
 | `PUT` | 7 |
 | `PATCH` | 0 |
 | `DELETE` | 6 |
+| `HEAD` | 0 |
+| `OPTIONS` | 0 |
+| `TRACE` | 0 |
 

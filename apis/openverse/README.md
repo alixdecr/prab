@@ -19,7 +19,7 @@
 
 **Authentication Methods:** Openverse API Token
 
-**Rate Limiting:** yes
+**Rate Limiting:** yes (a 429 status code is defined in the OAS file)
 
 ## Structural Information
 
@@ -36,4 +36,7 @@
 | `PUT` | 0 |
 | `PATCH` | 0 |
 | `DELETE` | 0 |
+| `HEAD` | 0 |
+| `OPTIONS` | 0 |
+| `TRACE` | 0 |
 
