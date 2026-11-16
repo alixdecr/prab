@@ -90,7 +90,7 @@ def generate_api_characteristics() -> None:
                 servers.append({"url": url, "hosted": "online", "available": available})
 
         # authentication
-        authentication = list(spec.get("components", {}).get("securitySchemes", {}) or spec.get("securityDefinitions", {}))
+        authentication = list(spec.get("components", {}).get("securitySchemes", {}) or spec.get("securityDefinitions", {})) or None
 
         # rate limiting, routes, and query parameters
         rate_limit = {"active": False, "reason": "no 429 status code response or rate limiting headers"}
@@ -190,7 +190,7 @@ def update_api_readmes() -> None:
         # other info
         rate_limit = chars["rate-limit"]
         rate_limit_text = f"{str(rate_limit['active'])} ({rate_limit['reason']})"
-        authentication = ", ".join(chars["authentication"]) or "No authentication required"
+        authentication = ", ".join(chars["authentication"] or []) or "No authentication required"
         query_parameters = len(chars["query-parameters"])
 
         # badges

@@ -292,7 +292,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -346,7 +346,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -1793,7 +1793,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -1918,7 +1918,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -2057,7 +2057,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -2365,7 +2365,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -2554,7 +2554,7 @@
             "version": "3.0.0"
         },
         "servers": [],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -3092,7 +3092,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -3165,7 +3165,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -3261,7 +3261,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -3438,7 +3438,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -3613,7 +3613,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -3738,7 +3738,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -3847,7 +3847,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": true,
             "reason": "presence of rate limiting headers"
@@ -8145,7 +8145,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -8317,7 +8317,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": true,
             "reason": "presence of 429 status code response"
@@ -8537,7 +8537,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -10883,7 +10883,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -11167,7 +11167,7 @@
             "version": null
         },
         "servers": [],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -11190,7 +11190,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -12009,7 +12009,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -12545,7 +12545,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -12585,7 +12585,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -12876,7 +12876,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -13156,7 +13156,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -13224,7 +13224,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -13708,7 +13708,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -13757,7 +13757,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -13893,7 +13893,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -13946,7 +13946,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -14025,7 +14025,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -14141,7 +14141,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -14197,7 +14197,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -14245,7 +14245,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -14300,7 +14300,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -14362,7 +14362,7 @@
             "version": "2.0"
         },
         "servers": [],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -14608,7 +14608,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -17650,7 +17650,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -17816,7 +17816,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
@@ -17868,7 +17868,7 @@
                 "available": true
             }
         ],
-        "authentication": [],
+        "authentication": null,
         "rate-limit": {
             "active": false,
             "reason": "no 429 status code response or rate limiting headers"
