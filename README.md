@@ -29,6 +29,37 @@ The main content of the benchmark can be found in the `/apis` folder. At the mom
 
 The structural characteristics of all benchmark APIs are available in machine-readable format in `apis/characteristics.json`, represented by an API identifier (the name of the folder in `/apis`). This enables the selection of the APIs that match experimental needs. The OpenAPI Specifications themselves can then be loaded (where available) from `/apis/<identifier>/<identifier>-openapi.json` (do not forget `encoding="utf-8-sig"`, see `/apis/README.md`).
 
+## CLI Setup
+
+The CLI uses Python v3.10 or later. To set it up, enter the following commands in a terminal at the root of the repository:
+
+1. Create a Python virtual environment:
+
+```
+python -m venv .venv
+```
+
+2. Activate the virtual environment, depending on your operating system:
+
+   - Linux / macOS (Bash or Zsh): `source .venv/bin/activate`
+   - Windows (Command Prompt): `.venv\Scripts\activate.bat`
+   - Windows (PowerShell): `.venv\Scripts\Activate.ps1`
+   - Windows (Git Bash): `source .venv/Scripts/activate`
+
+3. Install the dependencies:
+
+```
+pip install -r requirements.txt
+```
+
+4. Use the CLI:
+
+```
+python cli.py <command>
+```
+
+To list available CLI commands, you may use `python cli.py --help`.
+
 ## Additional Content
 
 The repository also contains a `legacy/` folder with the initial evaluation data of the benchmark (as reported in our research paper):
