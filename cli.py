@@ -377,8 +377,8 @@ def update_api_status() -> None:
         readme_text = file.read()
 
     apis_badge = generate_badge("nb apis", str(total_oas), "blue")
-    servers_badge = generate_badge("servers", f"{servers_pct}%", get_percentage_color(servers_pct))
-    up_to_date_badge = generate_badge("latest oas", f"{up_to_date_pct}%", get_percentage_color(up_to_date_pct))
+    servers_badge = generate_badge("reachable servers", f"{servers_pct}%", get_percentage_color(servers_pct))
+    up_to_date_badge = generate_badge("openapi v3", f"{up_to_date_pct}%", get_percentage_color(up_to_date_pct))
     valid_oas_badge = generate_badge("openapi-spec-validator", f"{valid_oas_pct}%", get_percentage_color(valid_oas_pct))
 
     badges = f"{apis_badge} {servers_badge} {up_to_date_badge} {valid_oas_badge}"
