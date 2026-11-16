@@ -1,7 +1,7 @@
 
 # Structural Characteristics of paypal (Invoices)
 
-*Last update: 2026-11-12*
+*Last update: 2026-11-16*
 
 ![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.3-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)

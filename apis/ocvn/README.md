@@ -1,7 +1,7 @@
 
 # Structural Characteristics of ocvn (Open Contracting Dashboards API)
 
-*Last update: 2026-11-12*
+*Last update: 2026-11-16*
 
 ![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-invalid-red.svg)
