@@ -1,6 +1,6 @@
-# PRAB: Public REST API Benchmark
+![alt text](https://img.shields.io/badge/nb_apis-58-blue.svg) ![alt text](https://img.shields.io/badge/servers-81%25_(51/63)-yellowgreen.svg) ![alt text](https://img.shields.io/badge/latest_oas-69%25_(40/58)-orange.svg) ![alt text](https://img.shields.io/badge/openapi--spec--validator-66%25_(38/58)-orange.svg)
 
-![alt text](https://img.shields.io/badge/Benchmark_Contains-62_REST_APIs-blue.svg)
+# PRAB: Public REST API Benchmark
 
 This GitHub repository contains a Public REST API Benchmark (PRAB). The benchmark contains the OpenAPI Specification (OAS), Postman Collection (when applicable), and various structural characteristics (HTTP method distribution, authentication method, routes and query parameters, etc.) of over 60 publicly available REST APIs. It is aimed to be used by researchers, testers, developers, and users alike, to assist in the REST API domain/literature. For instance, a new testing tool can leverage the OpenAPI Specifications provided in this repository.
 
@@ -22,10 +22,6 @@ Decrop, A., Eraso, S., Devroey, X. and Perrouin, G., 2025. A Public Benchmark of
     organization={IEEE}
 }
 ```
-
-## Changelog
-
-The APIs of the benchmark are checked and updated on a monthly basis. See [CHANGELOGS.md](CHANGELOGS.md) for the full history.
 
 ## Getting Started
 

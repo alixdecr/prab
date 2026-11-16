@@ -10,20 +10,8 @@ from pathlib import Path
 ROOT_PATH = Path(__file__).resolve().parent
 APIS_PATH = ROOT_PATH / "apis"
 CHAR_PATH = APIS_PATH / "characteristics.json"
-CHANGELOG_PATH = ROOT_PATH / "CHANGELOG.md"
-
-CHANGELOG_HEADER = """# Changelogs
-
-The APIs of the benchmark are checked and updated on a monthly basis with `python cli.py update`.
-Each entry reports unreachable servers, outdated API documentation formats (Swagger), and OAS validation failures. The most recent checks come first.
-"""
-
-ENUM_FIELDS = {
-    "availability": ("local", "online", "both"),
-    "authentication": ("key", "no"),
-    "pricing": ("no", "optional", "yes"),
-    "request-limits": ("no", "yes"),
-}
+STATUS_PATH = APIS_PATH / "STATUS.md"
+README_PATH = ROOT_PATH / "README.md"
 
 HTTP_METHODS = (
     "get",
@@ -74,7 +62,7 @@ def generate_api_characteristics() -> None:
         except Exception as e:
             error_name = type(e).__name__
             oas_validity = {"status": "invalid", "detail": error_name}
-            print(f"-> {error_name} for {id}: {' '.join(str(e).split())[:60]}...")
+            print(f"- {error_name}: {' '.join(str(e).split())[:60]}...")
 
         # title
         title = spec.get("info", {}).get("title") or "unknown"
@@ -84,6 +72,7 @@ def generate_api_characteristics() -> None:
             oas_version = {"family": "openapi", "version": spec["openapi"]}
         elif spec.get("swagger"):
             oas_version = {"family": "swagger", "version": spec["swagger"]}
+            print(f"- Outdated OAS version: swagger v{spec['swagger']}")
         else:
             oas_version = {"family": "unknown", "version": ""}
 
@@ -116,7 +105,7 @@ def generate_api_characteristics() -> None:
                     available = "available"
                 except Exception:
                     available = "not-available"
-                    print(f"-> Server {url} is not available")
+                    print(f"- Server {url} is not available")
 
                 availability.append({"url": url, "hosted": "online", "status": available})
 
@@ -227,9 +216,9 @@ def update_api_readmes() -> None:
 
 *Last update: {date}*
 
-![alt text](https://img.shields.io/badge/oas_version-{chars["oas-version"]["family"]}_v{chars["oas-version"]["version"]}-{oas_version_badge_color}.svg)
-![alt text](https://img.shields.io/badge/openapi--spec--validator-{chars["oas-validity"]["status"]}-{oas_validity_badge_color}.svg)
-![alt text](https://img.shields.io/badge/available_servers-{available_servers}_of_{total_servers}-{server_badge_color}.svg)
+{generate_badge("oas version", f"{chars["oas-version"]["family"]} v{chars["oas-version"]["version"]}", oas_version_badge_color)}
+{generate_badge("openapi-spec-validator", f"{chars["oas-validity"]["status"]}", oas_validity_badge_color)}
+{generate_badge("available servers", f"{available_servers} of {total_servers}", server_badge_color)}
 
 **Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
@@ -264,9 +253,49 @@ def update_api_readmes() -> None:
         print(f"Saved {api_id} README to {out_path}")
 
 
-def update_changelogs() -> None:
+def generate_badge(label: str, message: str, color: str) -> str:
     """
-    Updates the benchmark changelogs.
+    Generates a shields.io badge in Markdown format.
+
+    Args:
+        label: Left side of the badge.
+        message: Right side of the badge.
+        color: Color of the right side of the badge.
+
+    Returns:
+        Markdown of the badge.
+    """
+
+    label = label.replace("-", "--").replace(" ", "_").replace("%", "%25")
+    message = message.replace("-", "--").replace(" ", "_").replace("%", "%25")
+
+    return f"![alt text](https://img.shields.io/badge/{label}-{message}-{color}.svg)"
+
+
+def get_percentage_color(percentage: float) -> str:
+    """
+    Picks a color based on a percentage value.
+
+    Args:
+        percentage: Percentage value between 0 and 100.
+
+    Returns:
+        Percentage color.
+    """
+
+    if percentage == 100:
+        return "brightgreen"
+    elif percentage >= 75:
+        return "yellowgreen"
+    elif percentage >= 50:
+        return "orange"
+    else:
+        return "red"
+
+
+def update_api_status() -> None:
+    """
+    Updates the benchmark status, and displays benchmark badges in the main README.
     """
 
     date = datetime.now().strftime("%Y-%m-%d")
@@ -278,53 +307,88 @@ def update_changelogs() -> None:
     with open(CHAR_PATH, "r", encoding="utf-8") as file:
         data = json.load(file)
 
-    # unreachable servers
     unreachable = []
+    outdated = []
+    invalid = []
 
-    for api_id, chars in data.items():
-        for server in chars["availability"]:
+    total_oas = len(data)
+    total_servers = 0
+    available_servers = 0
+    up_to_date_oas = 0
+    valid_oas = 0
+
+    for api_id, info in data.items():
+        # unreachable
+        for server in info["availability"]:
+            total_servers += 1
+
+            if server["hosted"] == "local" or server["status"] == "available":
+                available_servers += 1
+
             if server["hosted"] == "online" and server["status"] == "not-available":
-                unreachable.append(f"{api_id} ({server['url']})")
+                unreachable.append(f"`{api_id}` (`{server['url']}`)")
 
-    # outdated API documentation formats (swagger and not openapi)
-    outdated = [
-        f"{api_id} (swagger v{chars['oas-version']['version']})"
-        for api_id, chars in data.items()
-        if chars["oas-version"]["family"] == "swagger"
-    ]
+        # outdated
+        if info["oas-version"]["family"] == "openapi":
+            up_to_date_oas += 1
+        else:
+            outdated.append(f"`{api_id}` (`{info['oas-version']['family']} v{info['oas-version']['version']}`)")
 
-    # spec validation fails
-    invalid = [
-        f"{api_id} ({chars['oas-validity']['detail']})"
-        for api_id, chars in data.items()
-        if chars["oas-validity"]["status"] == "invalid"
-    ]
+        # invalid
+        if info["oas-validity"]["status"] == "invalid":
+            invalid.append(f"`{api_id}` (`{info['oas-validity']['detail']}`)")
+        else:
+            valid_oas += 1
 
-    entry = f"\n## {date}\n"
+    # STATUS.md generation
+    status_text = f"# Benchmark Status\n\n*Last update: {date}*\n"
 
     if not unreachable and not outdated and not invalid:
-        entry += "\n- No changes.\n"
+        status_text += "\n- No issues.\n"
     else:
         if unreachable:
-            entry += "\n- **Unreachable servers:**\n"
-            entry += "".join(f"    - `{item}`\n" for item in unreachable)
+            status_text += "\n## Unreachable Servers\n"
+            status_text += "".join(f"- {item}\n" for item in unreachable)
         if outdated:
-            entry += "\n- **Outdated OAS formats:**\n"
-            entry += "".join(f"    - `{item}`\n" for item in outdated)
+            status_text += "\n## Outdated OAS Formats\n"
+            status_text += "".join(f"- {item}\n" for item in outdated)
         if invalid:
-            entry += "\n- **OAS validation fails:**\n"
-            entry += "".join(f"    - `{item}`\n" for item in invalid)
+            status_text += "\n## OAS Validation Fails (with `openapi-spec-validator`)\n"
+            status_text += "".join(f"- {item}\n" for item in invalid)
 
-    previous = ""
+    with open(STATUS_PATH, "w", encoding="utf-8") as file:
+        file.write(status_text)
 
-    if CHANGELOG_PATH.is_file():
-        with open(CHANGELOG_PATH, "r", encoding="utf-8") as file:
-            previous = file.read().removeprefix(CHANGELOG_HEADER)
+    print(f"Saved benchmark status to {STATUS_PATH}")
 
-    with open(CHANGELOG_PATH, "w", encoding="utf-8") as file:
-        file.write(CHANGELOG_HEADER + entry + previous)
+    # README.md badges
+    servers_pct = round(100 * available_servers / total_servers) if total_servers else 0
+    up_to_date_pct = round(100 * up_to_date_oas / total_oas) if total_oas else 0
+    valid_oas_pct = round(100 * valid_oas / total_oas) if total_oas else 0
 
-    print(f"Saved API changelogs to {CHANGELOG_PATH}")
+    with open(README_PATH, "r", encoding="utf-8") as file:
+        readme_text = file.read()
+
+    apis_badge = generate_badge("nb apis", str(total_oas), "blue")
+    servers_badge = generate_badge("servers", f"{servers_pct}% ({available_servers}/{total_servers})", get_percentage_color(servers_pct))
+    up_to_date_badge = generate_badge("latest oas", f"{up_to_date_pct}% ({up_to_date_oas}/{total_oas})", get_percentage_color(up_to_date_pct))
+    valid_oas_badge = generate_badge("openapi-spec-validator", f"{valid_oas_pct}% ({valid_oas}/{total_oas})", get_percentage_color(valid_oas_pct))
+
+    badges = f"{apis_badge} {servers_badge} {up_to_date_badge} {valid_oas_badge}"
+
+    # if the first line of the README is already a badge section, replace it, otherwise add a new line
+    lines = readme_text.splitlines()
+
+    if lines and "img.shields.io" in lines[0]:
+        lines[0] = badges
+        readme_text = "\n".join(lines) + "\n"
+    else:
+        readme_text = f"{badges}\n\n{readme_text}"
+
+    with open(README_PATH, "w", encoding="utf-8") as file:
+        file.write(readme_text)
+
+    print(f"Saved benchmark status badges to {README_PATH}")
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -340,10 +404,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
     # filter parser
     filter_parser = subparsers.add_parser("filter", help="Filter APIs based on specified criteria.")
-    filter_parser.add_argument("--availability", choices=ENUM_FIELDS["availability"])
-    filter_parser.add_argument("--authentication", choices=ENUM_FIELDS["authentication"])
-    filter_parser.add_argument("--pricing", choices=ENUM_FIELDS["pricing"])
-    filter_parser.add_argument("--request-limits", choices=ENUM_FIELDS["request-limits"])
+    # WIP
 
     return parser
 
@@ -361,7 +422,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "update":
         generate_api_characteristics()
         update_api_readmes()
-        update_changelogs()
+        update_api_status()
 
 
 if __name__ == "__main__":
