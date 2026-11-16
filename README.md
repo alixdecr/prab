@@ -35,7 +35,7 @@ The CLI uses Python v3.10 or later. To set it up, enter the following commands i
 
 1. Create a Python virtual environment:
 
-```
+```bash
 python -m venv .venv
 ```
 
@@ -48,13 +48,13 @@ python -m venv .venv
 
 3. Install the dependencies:
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
 4. Use the CLI:
 
-```
+```bash
 python cli.py <command>
 ```
 
