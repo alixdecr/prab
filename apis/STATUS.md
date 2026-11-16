@@ -3,18 +3,7 @@
 *Last update: 2026-11-16*
 
 ## Unreachable Servers
-- `amadeus-hotel` (`https://test.api.amadeus.com`)
-- `dhl-shipment-tracking` (`https://api-test.dhl.com/track`)
-- `fdic` (`/api`)
-- `foursquare` (`500x500`)
-- `kafka-rest-proxy` (`{protocol}://{address}:{port}/v3`)
-- `kafka-rest-proxy` (`{protocol}://{address}:{port}/kafka/v3`)
-- `kafka-rest-proxy` (`https://pkc-00000.region.provider.confluent.cloud/kafka/v3`)
-- `realworld-app` (`https://api.realworld.io/api`)
-- `refuge-restrooms` (`https://www.refugerestrooms.org/api`)
-- `senzing` (`{protocol}://{host}:{port}{path}`)
-- `spacex-api` (`https://api.spacexdata.com`)
-- `ur-codebin` (`http://urcodebin.live`)
+- All servers are reachable.
 
 ## Outdated OAS Formats
 - `bing-web-search` (`swagger v2.0`)

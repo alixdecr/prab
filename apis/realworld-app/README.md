@@ -3,9 +3,9 @@
 
 *Last update: 2026-11-16*
 
-![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.1-brightgreen.svg)
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.1.0-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-valid-brightgreen.svg)
-![alt text](https://img.shields.io/badge/available_servers-0_of_1-red.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
 **Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
@@ -15,7 +15,7 @@
 
 | URL | Hosted | Availability |
 | --- | ------ | ------------ |
-| https://api.realworld.io/api | online | not available |
+| https://api.realworld.show/api | online | available |
 
 **Authentication Methods:** Token
 
@@ -25,7 +25,7 @@
 
 **Total Paths:** 12
 
-**Query Parameters:** 3
+**Query Parameters:** 5
 
 **Paths by Method:**
 

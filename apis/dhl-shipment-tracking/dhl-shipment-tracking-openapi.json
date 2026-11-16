@@ -11,10 +11,6 @@
     },
     "servers": [
       {
-        "url": "https://api-test.dhl.com/track",
-        "description": "Test server"
-      },
-      {
         "url": "https://api-eu.dhl.com/track",
         "description": "Production server"
       }

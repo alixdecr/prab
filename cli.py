@@ -99,12 +99,18 @@ def generate_api_characteristics() -> None:
             if "localhost" in url:
                 availability.append({"url": url, "hosted": "local", "status": ""})
             else:
-                # check if the server is working
-                try:
-                    requests.head(url, timeout=5, allow_redirects=True)
-                    available = "available"
-                except Exception:
-                    available = "not-available"
+                # check if the server is working (HEAD, with a GET fallback for servers that do not support HEAD)
+                available = "not-available"
+
+                for request_method in (requests.head, requests.get):
+                    try:
+                        request_method(url, timeout=5, allow_redirects=True, stream=True)
+                        available = "available"
+                        break
+                    except Exception:
+                        pass
+
+                if available == "not-available":
                     print(f"- Server {url} is not available")
 
                 availability.append({"url": url, "hosted": "online", "status": available})
@@ -343,18 +349,19 @@ def update_api_status() -> None:
     # STATUS.md generation
     status_text = f"# Benchmark Status\n\n*Last update: {date}*\n"
 
-    if not unreachable and not outdated and not invalid:
-        status_text += "\n- No issues.\n"
-    else:
-        if unreachable:
-            status_text += "\n## Unreachable Servers\n"
-            status_text += "".join(f"- {item}\n" for item in unreachable)
-        if outdated:
-            status_text += "\n## Outdated OAS Formats\n"
-            status_text += "".join(f"- {item}\n" for item in outdated)
-        if invalid:
-            status_text += "\n## OAS Validation Fails (with `openapi-spec-validator`)\n"
-            status_text += "".join(f"- {item}\n" for item in invalid)
+    sections = [
+        ("Unreachable Servers", unreachable, "- All servers are reachable."),
+        ("Outdated OAS Formats", outdated, "- No OAS file is outdated."),
+        ("OAS Validation Fails (with `openapi-spec-validator`)", invalid, "- All OAS files passed validation."),
+    ]
+
+    for title, items, empty_message in sections:
+        status_text += f"\n## {title}\n"
+
+        if items:
+            status_text += "".join(f"- {item}\n" for item in items)
+        else:
+            status_text += f"{empty_message}\n"
 
     with open(STATUS_PATH, "w", encoding="utf-8") as file:
         file.write(status_text)

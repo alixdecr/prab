@@ -11,9 +11,9 @@
         },
         "availability": [
             {
-                "url": "https://test.api.amadeus.com",
+                "url": "https://api.amadeus.com",
                 "hosted": "online",
-                "status": "not-available"
+                "status": "available"
             }
         ],
         "auth": [
@@ -2352,11 +2352,6 @@
         },
         "availability": [
             {
-                "url": "https://api-test.dhl.com/track",
-                "hosted": "online",
-                "status": "not-available"
-            },
-            {
                 "url": "https://api-eu.dhl.com/track",
                 "hosted": "online",
                 "status": "available"
@@ -3122,9 +3117,9 @@
         },
         "availability": [
             {
-                "url": "/api",
+                "url": "https://api.fdic.gov/banks",
                 "hosted": "online",
-                "status": "not-available"
+                "status": "available"
             }
         ],
         "auth": [],
@@ -3171,6 +3166,7 @@
             "agg_limit",
             "agg_sum_fields",
             "agg_term_fields",
+            "api_key",
             "fields",
             "filters",
             "limit",
@@ -3297,11 +3293,6 @@
                 "url": "https://api.foursquare.com",
                 "hosted": "online",
                 "status": "available"
-            },
-            {
-                "url": "500x500",
-                "hosted": "online",
-                "status": "not-available"
             }
         ],
         "auth": [],
@@ -8366,19 +8357,14 @@
         },
         "availability": [
             {
-                "url": "{protocol}://{address}:{port}/v3",
-                "hosted": "online",
-                "status": "not-available"
+                "url": "http://localhost:8082/v3",
+                "hosted": "local",
+                "status": ""
             },
             {
-                "url": "{protocol}://{address}:{port}/kafka/v3",
-                "hosted": "online",
-                "status": "not-available"
-            },
-            {
-                "url": "https://pkc-00000.region.provider.confluent.cloud/kafka/v3",
-                "hosted": "online",
-                "status": "not-available"
+                "url": "http://localhost:8090/kafka/v3",
+                "hosted": "local",
+                "status": ""
             }
         ],
         "auth": [],
@@ -13874,13 +13860,13 @@
         },
         "oas-version": {
             "family": "openapi",
-            "version": "3.0.1"
+            "version": "3.1.0"
         },
         "availability": [
             {
-                "url": "https://api.realworld.io/api",
+                "url": "https://api.realworld.show/api",
                 "hosted": "online",
-                "status": "not-available"
+                "status": "available"
             }
         ],
         "auth": [
@@ -13893,84 +13879,86 @@
         "routes": [
             {
                 "method": "post",
-                "path": "/users/login"
+                "path": "/api/users"
             },
             {
                 "method": "post",
-                "path": "/users"
+                "path": "/api/users/login"
             },
             {
                 "method": "get",
-                "path": "/user"
+                "path": "/api/user"
             },
             {
                 "method": "put",
-                "path": "/user"
+                "path": "/api/user"
             },
             {
                 "method": "get",
-                "path": "/profiles/{username}"
+                "path": "/api/profiles/{username}"
             },
             {
                 "method": "post",
-                "path": "/profiles/{username}/follow"
+                "path": "/api/profiles/{username}/follow"
             },
             {
                 "method": "delete",
-                "path": "/profiles/{username}/follow"
+                "path": "/api/profiles/{username}/follow"
             },
             {
                 "method": "get",
-                "path": "/articles/feed"
-            },
-            {
-                "method": "get",
-                "path": "/articles"
+                "path": "/api/articles"
             },
             {
                 "method": "post",
-                "path": "/articles"
+                "path": "/api/articles"
             },
             {
                 "method": "get",
-                "path": "/articles/{slug}"
+                "path": "/api/articles/feed"
+            },
+            {
+                "method": "get",
+                "path": "/api/articles/{slug}"
             },
             {
                 "method": "put",
-                "path": "/articles/{slug}"
+                "path": "/api/articles/{slug}"
             },
             {
                 "method": "delete",
-                "path": "/articles/{slug}"
-            },
-            {
-                "method": "get",
-                "path": "/articles/{slug}/comments"
+                "path": "/api/articles/{slug}"
             },
             {
                 "method": "post",
-                "path": "/articles/{slug}/comments"
+                "path": "/api/articles/{slug}/favorite"
             },
             {
                 "method": "delete",
-                "path": "/articles/{slug}/comments/{id}"
-            },
-            {
-                "method": "post",
-                "path": "/articles/{slug}/favorite"
-            },
-            {
-                "method": "delete",
-                "path": "/articles/{slug}/favorite"
+                "path": "/api/articles/{slug}/favorite"
             },
             {
                 "method": "get",
-                "path": "/tags"
+                "path": "/api/articles/{slug}/comments"
+            },
+            {
+                "method": "post",
+                "path": "/api/articles/{slug}/comments"
+            },
+            {
+                "method": "delete",
+                "path": "/api/articles/{slug}/comments/{id}"
+            },
+            {
+                "method": "get",
+                "path": "/api/tags"
             }
         ],
         "query-parameters": [
             "author",
             "favorited",
+            "limit",
+            "offset",
             "tag"
         ]
     },
@@ -13986,9 +13974,9 @@
         },
         "availability": [
             {
-                "url": "https://www.refugerestrooms.org/api",
+                "url": "https://refugerestrooms.org/api",
                 "hosted": "online",
-                "status": "not-available"
+                "status": "available"
             }
         ],
         "auth": [],
@@ -14720,11 +14708,6 @@
                 "url": "http://localhost:8250",
                 "hosted": "local",
                 "status": ""
-            },
-            {
-                "url": "{protocol}://{host}:{port}{path}",
-                "hosted": "online",
-                "status": "not-available"
             }
         ],
         "auth": [],
@@ -14901,330 +14884,6 @@
             "withInternal",
             "x"
         ]
-    },
-    "spacex-api": {
-        "title": "r/SpaceX API V4",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
-            "family": "openapi",
-            "version": "3.0.0"
-        },
-        "availability": [
-            {
-                "url": "https://api.spacexdata.com",
-                "hosted": "online",
-                "status": "not-available"
-            }
-        ],
-        "auth": [
-            "apikeyAuth"
-        ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
-        },
-        "routes": [
-            {
-                "method": "get",
-                "path": "/v4/capsules"
-            },
-            {
-                "method": "post",
-                "path": "/v4/capsules"
-            },
-            {
-                "method": "get",
-                "path": "/v4/capsules/{capsuleID}"
-            },
-            {
-                "method": "patch",
-                "path": "/v4/capsules/{capsuleID}"
-            },
-            {
-                "method": "delete",
-                "path": "/v4/capsules/{capsuleID}"
-            },
-            {
-                "method": "post",
-                "path": "/v4/capsules/query"
-            },
-            {
-                "method": "get",
-                "path": "/v4/company"
-            },
-            {
-                "method": "patch",
-                "path": "/v4/company/{infoID}"
-            },
-            {
-                "method": "get",
-                "path": "/v4/cores"
-            },
-            {
-                "method": "post",
-                "path": "/v4/cores"
-            },
-            {
-                "method": "get",
-                "path": "/v4/cores/{coreID}"
-            },
-            {
-                "method": "patch",
-                "path": "/v4/cores/{coreID}"
-            },
-            {
-                "method": "delete",
-                "path": "/v4/cores/{coreID}"
-            },
-            {
-                "method": "post",
-                "path": "/v4/cores/query"
-            },
-            {
-                "method": "get",
-                "path": "/v4/crew"
-            },
-            {
-                "method": "post",
-                "path": "/v4/crew"
-            },
-            {
-                "method": "get",
-                "path": "/v4/crew/{id}"
-            },
-            {
-                "method": "patch",
-                "path": "/v4/crew/{id}"
-            },
-            {
-                "method": "delete",
-                "path": "/v4/crew/{id}"
-            },
-            {
-                "method": "post",
-                "path": "/v4/crew/query"
-            },
-            {
-                "method": "get",
-                "path": "/v4/dragons"
-            },
-            {
-                "method": "post",
-                "path": "/v4/dragons"
-            },
-            {
-                "method": "get",
-                "path": "/v4/dragons/{id}"
-            },
-            {
-                "method": "patch",
-                "path": "/v4/dragons/{id}"
-            },
-            {
-                "method": "delete",
-                "path": "/v4/dragons/{id}"
-            },
-            {
-                "method": "post",
-                "path": "/v4/dragons/query"
-            },
-            {
-                "method": "get",
-                "path": "/v4/landpads"
-            },
-            {
-                "method": "post",
-                "path": "/v4/landpads"
-            },
-            {
-                "method": "get",
-                "path": "/v4/landpads{id}"
-            },
-            {
-                "method": "patch",
-                "path": "/v4/landpads{id}"
-            },
-            {
-                "method": "delete",
-                "path": "/v4/landpads{id}"
-            },
-            {
-                "method": "post",
-                "path": "/v4/landpads/query"
-            },
-            {
-                "method": "get",
-                "path": "/v4/launches"
-            },
-            {
-                "method": "post",
-                "path": "/v4/launches"
-            },
-            {
-                "method": "get",
-                "path": "/v4/launches{id}"
-            },
-            {
-                "method": "patch",
-                "path": "/v4/launches{id}"
-            },
-            {
-                "method": "delete",
-                "path": "/v4/launches{id}"
-            },
-            {
-                "method": "post",
-                "path": "/v4/launches/query"
-            },
-            {
-                "method": "get",
-                "path": "/v4/launches/past"
-            },
-            {
-                "method": "get",
-                "path": "/v4/launches/upcoming"
-            },
-            {
-                "method": "get",
-                "path": "/v4/launches/latest"
-            },
-            {
-                "method": "get",
-                "path": "/v4/launches/next"
-            },
-            {
-                "method": "get",
-                "path": "/v4/launchpads"
-            },
-            {
-                "method": "post",
-                "path": "/v4/launchpads"
-            },
-            {
-                "method": "get",
-                "path": "/v4/launchpads/{id}"
-            },
-            {
-                "method": "patch",
-                "path": "/v4/launchpads/{id}"
-            },
-            {
-                "method": "delete",
-                "path": "/v4/launchpads/{id}"
-            },
-            {
-                "method": "post",
-                "path": "/v4/launchpads/query"
-            },
-            {
-                "method": "get",
-                "path": "/v4/payloads"
-            },
-            {
-                "method": "post",
-                "path": "/v4/payloads"
-            },
-            {
-                "method": "get",
-                "path": "/v4/payloads/{id}"
-            },
-            {
-                "method": "patch",
-                "path": "/v4/payloads/{id}"
-            },
-            {
-                "method": "delete",
-                "path": "/v4/payloads/{id}"
-            },
-            {
-                "method": "post",
-                "path": "/v4/payloads/query"
-            },
-            {
-                "method": "get",
-                "path": "/v4/roadster"
-            },
-            {
-                "method": "patch",
-                "path": "/v4/roadster/{id}"
-            },
-            {
-                "method": "get",
-                "path": "/v4/rockets"
-            },
-            {
-                "method": "post",
-                "path": "/v4/rockets"
-            },
-            {
-                "method": "get",
-                "path": "/v4/rockets/{id}"
-            },
-            {
-                "method": "patch",
-                "path": "/v4/rockets/{id}"
-            },
-            {
-                "method": "delete",
-                "path": "/v4/rockets/{id}"
-            },
-            {
-                "method": "post",
-                "path": "/v4/rockets/query"
-            },
-            {
-                "method": "get",
-                "path": "/v4/ships"
-            },
-            {
-                "method": "post",
-                "path": "/v4/ships"
-            },
-            {
-                "method": "get",
-                "path": "/v4/ships/{id}"
-            },
-            {
-                "method": "patch",
-                "path": "/v4/ships/{id}"
-            },
-            {
-                "method": "delete",
-                "path": "/v4/ships/{id}"
-            },
-            {
-                "method": "get",
-                "path": "/v4/ships/query"
-            },
-            {
-                "method": "get",
-                "path": "/v4/starlink"
-            },
-            {
-                "method": "post",
-                "path": "/v4/starlink"
-            },
-            {
-                "method": "get",
-                "path": "/v4/starlink/{id}"
-            },
-            {
-                "method": "patch",
-                "path": "/v4/starlink/{id}"
-            },
-            {
-                "method": "delete",
-                "path": "/v4/starlink/{id}"
-            },
-            {
-                "method": "post",
-                "path": "/v4/starlink/query"
-            }
-        ],
-        "query-parameters": []
     },
     "spotify": {
         "title": "Spotify Web API with fixes and improvements from sonallux",
@@ -18204,9 +17863,9 @@
         },
         "availability": [
             {
-                "url": "http://urcodebin.live",
-                "hosted": "online",
-                "status": "not-available"
+                "url": "http://localhost:8080",
+                "hosted": "local",
+                "status": ""
             }
         ],
         "auth": [

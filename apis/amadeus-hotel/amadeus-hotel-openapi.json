@@ -7,7 +7,8 @@
   },
   "servers": [
     {
-      "url": "https://test.api.amadeus.com"
+      "url": "https://api.amadeus.com",
+      "description": "Production server. Requires an Amadeus for Developers contract. The free Self-Service test environment (test.api.amadeus.com) was decommissioned on 17 July 2026."
     }
   ],
   "components": {

@@ -16,8 +16,8 @@
     },
     "servers": [
       {
-        "description": "Ur-Codebin Production Server",
-        "url": "http://urcodebin.live"
+        "description": "Ur-Codebin API (local deployment). Requires MySQL. See https://github.com/Mathew-Estafanous/Ur-Codebin-API.",
+        "url": "http://localhost:8080"
       }
     ],
     "paths": {

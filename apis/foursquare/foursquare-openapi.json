@@ -9,9 +9,6 @@
   "servers": [
     {
       "url": "https://api.foursquare.com"
-    },
-    {
-      "url": "500x500"
     }
   ],
   "paths": {

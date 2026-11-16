@@ -10,8 +10,11 @@
       "application/octet-stream",
       "text/plain"
     ],
-    "host": "www.refugerestrooms.org",
+    "host": "refugerestrooms.org",
     "basePath": "/api",
+    "schemes": [
+      "https"
+    ],
     "tags": [
       {
         "name": "restrooms",

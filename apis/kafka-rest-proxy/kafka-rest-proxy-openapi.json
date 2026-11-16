@@ -15,55 +15,14 @@
     },
     "servers": [
       {
-        "url": "{protocol}://{address}:{port}/v3",
+        "url": "http://localhost:8082/v3",
         "x-audience": "component-internal",
-        "description": "Kafka REST Proxy. See https://docs.confluent.io/current/kafka-rest/index.html.",
-        "variables": {
-          "address": {
-            "default": "localhost",
-            "description": "Address of the server"
-          },
-          "port": {
-            "default": "8082",
-            "description": "Port of the server"
-          },
-          "protocol": {
-            "default": "http",
-            "description": "Protocol for interacting with server",
-            "enum": [
-              "http",
-              "https"
-            ]
-          }
-        }
+        "description": "Kafka REST Proxy (local deployment). See https://docs.confluent.io/current/kafka-rest/index.html."
       },
       {
-        "url": "{protocol}://{address}:{port}/kafka/v3",
+        "url": "http://localhost:8090/kafka/v3",
         "x-audience": "component-internal",
-        "description": "Kafka REST Proxy as part of Confluent Server.",
-        "variables": {
-          "protocol": {
-            "default": "http",
-            "enum": [
-              "http",
-              "https"
-            ],
-            "description": "Protocol to communicate with the server"
-          },
-          "address": {
-            "default": "localhost",
-            "description": "Address of the server"
-          },
-          "port": {
-            "default": "8090",
-            "description": "Port of the server"
-          }
-        }
-      },
-      {
-        "url": "https://pkc-00000.region.provider.confluent.cloud/kafka/v3",
-        "x-audience": "business-unit-internal",
-        "description": "Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud"
+        "description": "Kafka REST Proxy as part of Confluent Server (local deployment)."
       }
     ],
     "paths": {

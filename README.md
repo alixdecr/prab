@@ -1,4 +1,4 @@
-![alt text](https://img.shields.io/badge/nb_apis-58-blue.svg) ![alt text](https://img.shields.io/badge/servers-81%25_(51/63)-yellowgreen.svg) ![alt text](https://img.shields.io/badge/latest_oas-69%25_(40/58)-orange.svg) ![alt text](https://img.shields.io/badge/openapi--spec--validator-66%25_(38/58)-orange.svg)
+![alt text](https://img.shields.io/badge/nb_apis-57-blue.svg) ![alt text](https://img.shields.io/badge/servers-100%25-brightgreen.svg) ![alt text](https://img.shields.io/badge/latest_oas-68%25-orange.svg) ![alt text](https://img.shields.io/badge/openapi--spec--validator-65%25-orange.svg)
 
 # PRAB: Public REST API Benchmark
 
@@ -25,9 +25,9 @@ Decrop, A., Eraso, S., Devroey, X. and Perrouin, G., 2025. A Public Benchmark of
 
 ## Getting Started
 
-The main content of the benchmark can be found in the `/apis` folder. At the moment, each REST API of the benchmark has its sub-folder, containing a README with its structural characteristics and, when available, an OpenAPI Specification (in the JSON format). Certain APIs also have an available Postman Collection.
+The main content of the benchmark can be found in the `/apis` folder. At the moment, each REST API of the benchmark has its sub-folder, containing a README with its structural characteristics, an OpenAPI Specification (in the JSON format), and optionally a Postman Collection.
 
-The structural characteristics of all benchmark APIs are available in machine-readable format in `apis/characteristics.json`, represented by an API identifier (the name of the folder in `/apis`). This enables the selection of the APIs that match experimental needs. The OpenAPI Specifications themselves can then be loaded (where available) from `/apis/<identifier>/<identifier>-openapi.json` (do not forget `encoding="utf-8-sig"`, see `/apis/README.md`).
+The structural characteristics of all benchmark APIs are available in machine-readable format in `apis/characteristics.json`, represented by an API identifier (the name of the folder in `/apis`). This enables the selection of the APIs that match experimental needs. The OpenAPI Specifications themselves can then be loaded from `/apis/<identifier>/<identifier>-openapi.json`.
 
 ## CLI Setup
 
@@ -60,17 +60,6 @@ python cli.py <command>
 
 To list available CLI commands, you may use `python cli.py --help`.
 
-## Additional Content
-
-The repository also contains a `legacy/` folder with the initial evaluation data of the benchmark (as reported in our research paper):
-
-- `structural-characteristics.json`: The structural characteristics at the time of the initial evaluation (the current, up-to-date version is `apis/characteristics.json` along with the data in individual API `README.md` files).
-- `structural-characteristics-outdated.pdf` and `visualisation/`: The frozen table and visualisations from the paper, kept for reproducibility.
-- `study-data/`: The study data associated with the research paper. You can find the following files:
-    - `found-papers.md`: Contains the research papers that were found with our search string, in our systematic mapping study.
-    - `selected-papers.md`: Contains the research papers that were accepted in our systematic mapping study.
-    - `study-apis.md`: Contains the REST APIs that were found in the research papers (from `selected-papers.md`).
- 
 ## Actionable Insights and Guidance on Using the Benchmark
 
 The main outcome of this research is our benchmark backed by a systematic mapping study. Our goal was not to evaluate the design quality of REST APIs but to provide an unbiased and comprehensive benchmark containing documentation and structural characteristics of public REST APIs. The benchmark is aimed to be used by users, testers, and researchers in their evaluations. We cannot assert that a certain API is *better* compared to another API in the benchmark. Indeed, as REST is not a standard but rather an architectural style, there are multiple ways to implement a REST API. As a result, the structure of a REST API can drastically change from one API to another API. For instance, an API could contain a single GET route with various usable query parameters (e.g., a `/users` route with the query parameters `id`, `name`, `age`). On the other hand, an API could contain a lot of different specialized GET routes without any query parameters (e.g., the routes `/user/{id}`, `/user/{name}`, `/user/{age}`).
@@ -80,3 +69,15 @@ Moreover, REST APIs utilize different HTTP methods depending on their applicatio
 Therefore, we leave the selection of APIs up to the benchmark users but provide concrete metrics to support evidence-based API selection. For instance, a tool for REST API security testing might require the evaluation of APIs that allow data to be sent to the server (i.e., with the POST HTTP method). The evaluation of such a tool would utilize a subset of our benchmark, comprising APIs with a high distribution of POST methods. Consequently, the structural characteristics provided in our benchmark enable researchers to filter the APIs they find relevant (i.e., that match specific experimental needs).
 
 For research involving source code analysis, we include URLs for downloading (local) or using (online) the REST APIs. Our quality criteria excluded non-deployable APIs. Fuzzing research also cares about request rate limits, pricing, and authentication mechanisms, which we also include. Finally, we provide up-to-date documentation in both OpenAPI/Postman formats, which testing tools can leverage. We did not include API source code in our benchmark but rather reference it via respective URLs (GitHub repositories, website downloads, etc.).
+
+## Legacy
+
+The repository also contains a `legacy/` folder with the initial evaluation data of the benchmark (as reported in our research paper), and APIs that were retired from the benchmark:
+
+- `apis/`: APIs that were part of the benchmark but were retired (i.e., moved out of `/apis`), kept for reproducibility. An API is retired when it becomes unusable for the benchmark (e.g., its servers are permanently unreachable and it cannot be deployed locally). Each retired API keeps its original folder content (OpenAPI Specification, optional Postman Collection, README with structural characteristics).
+- `structural-characteristics.json`: The structural characteristics at the time of the initial evaluation (the current, up-to-date version is `apis/characteristics.json` along with the data in individual API `README.md` files).
+- `structural-characteristics-outdated.pdf` and `visualisation/`: The frozen table and visualisations from the paper, kept for reproducibility.
+- `study-data/`: The study data associated with the research paper. You can find the following files:
+    - `found-papers.md`: Contains the research papers that were found with our search string, in our systematic mapping study.
+    - `selected-papers.md`: Contains the research papers that were accepted in our systematic mapping study.
+    - `study-apis.md`: Contains the REST APIs that were found in the research papers (from `selected-papers.md`).
