@@ -10,6 +10,13 @@ from pathlib import Path
 ROOT_PATH = Path(__file__).resolve().parent
 APIS_PATH = ROOT_PATH / "apis"
 CHAR_PATH = APIS_PATH / "characteristics.json"
+CHANGELOG_PATH = ROOT_PATH / "CHANGELOG.md"
+
+CHANGELOG_HEADER = """# Changelogs
+
+The APIs of the benchmark are checked and updated on a monthly basis with `python cli.py update`.
+Each entry reports unreachable servers, outdated API documentation formats (Swagger), and OAS validation failures. The most recent checks come first.
+"""
 
 ENUM_FIELDS = {
     "availability": ("local", "online", "both"),
@@ -179,8 +186,6 @@ def update_api_readmes() -> None:
 
     for api_id, chars in data.items():
 
-        print(f"Updating {api_id} README")
-
         oas_version_badge_color = "brightgreen" if chars["oas-version"]["family"] == "openapi" else "orange"
         oas_validity_badge_color = "brightgreen" if chars["oas-validity"]["status"] == "valid" else "red"
 
@@ -256,6 +261,71 @@ def update_api_readmes() -> None:
         with open(out_path, "w", encoding="utf-8") as file:
             file.write(markdown)
 
+        print(f"Saved {api_id} README to {out_path}")
+
+
+def update_changelogs() -> None:
+    """
+    Updates the benchmark changelogs.
+    """
+
+    date = datetime.now().strftime("%Y-%m-%d")
+
+    if not CHAR_PATH.is_file():
+        print("No API characteristics found, generating them first")
+        generate_api_characteristics()
+
+    with open(CHAR_PATH, "r", encoding="utf-8") as file:
+        data = json.load(file)
+
+    # unreachable servers
+    unreachable = []
+
+    for api_id, chars in data.items():
+        for server in chars["availability"]:
+            if server["hosted"] == "online" and server["status"] == "not-available":
+                unreachable.append(f"{api_id} ({server['url']})")
+
+    # outdated API documentation formats (swagger and not openapi)
+    outdated = [
+        f"{api_id} (swagger v{chars['oas-version']['version']})"
+        for api_id, chars in data.items()
+        if chars["oas-version"]["family"] == "swagger"
+    ]
+
+    # spec validation fails
+    invalid = [
+        f"{api_id} ({chars['oas-validity']['detail']})"
+        for api_id, chars in data.items()
+        if chars["oas-validity"]["status"] == "invalid"
+    ]
+
+    entry = f"\n## {date}\n"
+
+    if not unreachable and not outdated and not invalid:
+        entry += "\n- No changes.\n"
+    else:
+        if unreachable:
+            entry += "\n- **Unreachable servers:**\n"
+            entry += "".join(f"    - `{item}`\n" for item in unreachable)
+        if outdated:
+            entry += "\n- **Outdated OAS formats:**\n"
+            entry += "".join(f"    - `{item}`\n" for item in outdated)
+        if invalid:
+            entry += "\n- **OAS validation fails:**\n"
+            entry += "".join(f"    - `{item}`\n" for item in invalid)
+
+    previous = ""
+
+    if CHANGELOG_PATH.is_file():
+        with open(CHANGELOG_PATH, "r", encoding="utf-8") as file:
+            previous = file.read().removeprefix(CHANGELOG_HEADER)
+
+    with open(CHANGELOG_PATH, "w", encoding="utf-8") as file:
+        file.write(CHANGELOG_HEADER + entry + previous)
+
+    print(f"Saved API changelogs to {CHANGELOG_PATH}")
+
 
 def _build_parser() -> argparse.ArgumentParser:
     """
@@ -291,6 +361,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "update":
         generate_api_characteristics()
         update_api_readmes()
+        update_changelogs()
 
 
 if __name__ == "__main__":
