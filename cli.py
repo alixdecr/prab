@@ -3,36 +3,15 @@ import json
 import requests
 from datetime import datetime
 from openapi_spec_validator import validate
-from openapi_spec_validator.validation.exceptions import OpenAPIValidationError
 from pathlib import Path
 
 
 ROOT_PATH = Path(__file__).resolve().parent
 APIS_PATH = ROOT_PATH / "apis"
 CHAR_PATH = APIS_PATH / "characteristics.json"
-STATUS_PATH = APIS_PATH / "STATUS.md"
+STATUS_PATH = ROOT_PATH / "STATUS.md"
 README_PATH = ROOT_PATH / "README.md"
-
-HTTP_METHODS = (
-    "get",
-    "post",
-    "put",
-    "patch",
-    "delete",
-    "head",
-    "options",
-    "trace",
-)
-
-RATE_LIMIT_HEADERS = (
-    "x-ratelimit-limit",
-    "x-ratelimit-remaining",
-    "x-ratelimit-reset",
-    "ratelimit-limit",
-    "ratelimit-remaining",
-    "ratelimit-reset",
-    "retry-after",
-)
+HTTP_METHODS = ("get", "post", "put", "patch", "delete", "head", "options", "trace")
 
 
 def generate_api_characteristics() -> None:
@@ -49,7 +28,7 @@ def generate_api_characteristics() -> None:
 
         print(f"Analyzing {id}")
 
-        # oas validity
+        # oas
         spec = {}
 
         try:
@@ -57,28 +36,24 @@ def generate_api_characteristics() -> None:
                 spec = json.load(file)
 
             validate(spec)
-            oas_validity = {"status": "valid", "detail": ""}
+            oas = {"validated": True, "error": None}
 
         except Exception as e:
             error_name = type(e).__name__
-            oas_validity = {"status": "invalid", "detail": error_name}
+            oas = {"validated": False, "error": error_name}
             print(f"- {error_name}: {' '.join(str(e).split())[:60]}...")
 
-        # title
-        title = spec.get("info", {}).get("title") or "unknown"
-
         # oas version
-        if spec.get("openapi"):
-            oas_version = {"family": "openapi", "version": spec["openapi"]}
-        elif spec.get("swagger"):
-            oas_version = {"family": "swagger", "version": spec["swagger"]}
-            print(f"- Outdated OAS version: swagger v{spec['swagger']}")
-        else:
-            oas_version = {"family": "unknown", "version": ""}
+        family = "openapi" if spec.get("openapi") else "swagger" if spec.get("swagger") else "unknown"
+        oas["family"] = family
+        oas["version"] = spec.get(family) # will be set to None if the family is unknown
 
-        # availability
-        availability = []
-        servers = spec.get("servers", [])
+        # title
+        title = spec.get("info", {}).get("title")
+
+        # servers
+        servers = []
+        _servers = spec.get("servers", [])
 
         # swagger 2.0 splits a server between host, basePath, and schemes
         if spec.get("swagger") and not spec.get("servers"):
@@ -91,46 +66,43 @@ def generate_api_characteristics() -> None:
                 if base_path and not base_path.startswith("/"):
                     base_path = f"/{base_path}"
 
-                servers = [{"url": f"{scheme}://{host}{base_path}"} for scheme in schemes]
+                _servers = [{"url": f"{scheme}://{host}{base_path}"} for scheme in schemes]
 
-        for server in servers:
+        for server in _servers:
             url = server.get("url", "")
 
             if "localhost" in url:
-                availability.append({"url": url, "hosted": "local", "status": ""})
+                servers.append({"url": url, "hosted": "local", "available": True})
             else:
                 # check if the server is working (HEAD, with a GET fallback for servers that do not support HEAD)
-                available = "not-available"
-
                 for request_method in (requests.head, requests.get):
                     try:
                         request_method(url, timeout=5, allow_redirects=True, stream=True)
-                        available = "available"
+                        available = True
                         break
                     except Exception:
+                        available = False
                         pass
 
-                if available == "not-available":
+                if not available:
                     print(f"- Server {url} is not available")
 
-                availability.append({"url": url, "hosted": "online", "status": available})
+                servers.append({"url": url, "hosted": "online", "available": available})
 
         # authentication
-        security_schemes = list(spec.get("components", {}).get("securitySchemes", {}) or spec.get("securityDefinitions", {}))
+        authentication = list(spec.get("components", {}).get("securitySchemes", {}) or spec.get("securityDefinitions", {}))
 
         # rate limiting, routes, and query parameters
-        rate_limiting = {"status": "no", "reason": ""}
+        rate_limit = {"active": False, "reason": "no 429 status code response or rate limiting headers"}
         routes = []
         query_parameters = set()
 
         for path, path_item in spec.get("paths", {}).items():
-
             for param in path_item.get("parameters", []):
                 if param.get("in", "") == "query":
                     query_parameters.add(param.get("name"))
 
             for method, method_item in path_item.items():
-
                 if method not in HTTP_METHODS or not isinstance(method_item, dict):
                     continue
 
@@ -142,19 +114,20 @@ def generate_api_characteristics() -> None:
 
                 for status_code, response in method_item.get("responses", {}).items():
                     if status_code == "429":
-                        rate_limiting = {"status": "yes", "reason": "status-code"}
-                    elif rate_limiting["status"] == "no" and isinstance(response, dict):
-                        headers = [name.lower() for name in response.get("headers", {}) or {}]
-                        if any(header in RATE_LIMIT_HEADERS for header in headers):
-                            rate_limiting = {"status": "yes", "reason": "headers"}
+                        rate_limit = {"active": True, "reason": "presence of 429 status code response"}
+
+                    if isinstance(response, dict):
+                        for header in response.get("headers", {}):
+                            name = header.lower()
+                            if "ratelimit" in name or "retry-after" in name:
+                                rate_limit = {"active": True, "reason": "presence of rate limiting headers"}
 
         characteristics[id] = {
             "title": title,
-            "oas-validity": oas_validity,
-            "oas-version": oas_version,
-            "availability": availability,
-            "auth": security_schemes,
-            "rate-limiting": rate_limiting,
+            "oas": oas,
+            "servers": servers,
+            "authentication": authentication,
+            "rate-limit": rate_limit,
             "routes": routes,
             "query-parameters": sorted(query_parameters)
         }
@@ -180,51 +153,60 @@ def update_api_readmes() -> None:
         data = json.load(file)
 
     for api_id, chars in data.items():
+        # oas info
+        oas = chars["oas"]
+        oas_version_badge_color = "brightgreen" if oas["family"] == "openapi" else "orange"
+        oas_validity_badge_color = "brightgreen" if oas["validated"] else "red"
 
-        oas_version_badge_color = "brightgreen" if chars["oas-version"]["family"] == "openapi" else "orange"
-        oas_validity_badge_color = "brightgreen" if chars["oas-validity"]["status"] == "valid" else "red"
+        # server info
+        servers = chars["servers"]
+        total_servers = len(servers)
+        available_servers = sum(
+            server["hosted"] == "local" or server["available"]
+            for server in chars["servers"]
+        )
 
-        available_servers = sum(1 for s in chars["availability"] if s["hosted"] == "local" or s["status"] == "available")
-        total_servers = len(chars["availability"])
+        server_badge_color = (
+            "lightgrey" if total_servers == 0 else
+            "brightgreen" if available_servers == total_servers else
+            "red" if available_servers == 0 else
+            "orange"
+        )
 
-        if total_servers == 0:
-            server_badge_color = "lightgrey"
-        else:
-            if available_servers == total_servers:
-                server_badge_color = "brightgreen"
-            elif available_servers == 0:
-                server_badge_color = "red"
-            else:
-                server_badge_color = "orange"
+        server_text = "\n".join(
+            f"| {server['url']} | {server['hosted']} | {str(server['available'])} |"
+            for server in servers
+        )
 
-        servers = ""
+        # route info
+        routes = chars["routes"]
+        total_paths = len(set(route["path"] for route in chars["routes"]))
 
-        for server_data in chars["availability"]:
-            servers += f"\n| {server_data['url']} | {server_data['hosted']} | {server_data['status'].replace('-', ' ')} |"
+        methods_text = "\n".join(
+            f"| `{method.upper()}` | {sum(route['method'] == method for route in routes)} |"
+            for method in HTTP_METHODS
+        )
 
-        total_paths = len({route["path"] for route in chars["routes"]})
+        # other info
+        rate_limit = chars["rate-limit"]
+        rate_limit_text = f"{str(rate_limit['active'])} ({rate_limit['reason']})"
+        authentication = ", ".join(chars["authentication"]) or "No authentication required"
+        query_parameters = len(chars["query-parameters"])
 
-        methods = ""
+        # badges
+        badges = "\n".join([
+            generate_badge("oas version", f"{oas['family']} v{oas['version']}", oas_version_badge_color),
+            generate_badge("openapi-spec-validator", str(oas["validated"]), oas_validity_badge_color),
+            generate_badge("available servers", f"{available_servers} of {total_servers}", server_badge_color),
+        ])
 
-        for method in HTTP_METHODS:
-            count = sum(1 for route in chars["routes"] if route["method"] == method)
-            methods += f"\n| `{method.upper()}` | {count} |"
-
-        if chars["rate-limiting"]["reason"] == "status-code":
-            rate_limiting_text = "yes (a 429 status code is defined in the OAS file)"
-        elif chars["rate-limiting"]["reason"] == "headers":
-            rate_limiting_text = "yes (rate limit headers are defined in the OAS file)"
-        else:
-            rate_limiting_text = "no"
-
+        # markdown render
         markdown = f"""
 # Structural Characteristics of {api_id} ({chars["title"]})
 
 *Last update: {date}*
 
-{generate_badge("oas version", f"{chars["oas-version"]["family"]} v{chars["oas-version"]["version"]}", oas_version_badge_color)}
-{generate_badge("openapi-spec-validator", f"{chars["oas-validity"]["status"]}", oas_validity_badge_color)}
-{generate_badge("available servers", f"{available_servers} of {total_servers}", server_badge_color)}
+{badges}
 
 **Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
@@ -232,24 +214,25 @@ def update_api_readmes() -> None:
 
 **Servers:**
 
-| URL | Hosted | Availability |
-| --- | ------ | ------------ |{servers}
+| URL | Hosted | Available |
+| --- | ------ | --------- |
+{server_text}
 
-**Authentication Methods:** {", ".join(chars["auth"]) or "no authentication required"}
+**Authentication Methods:** {authentication}
 
-**Rate Limiting:** {rate_limiting_text}
+**Rate Limiting:** {rate_limit_text}
 
 ## Structural Information
 
 **Total Paths:** {total_paths}
 
-**Query Parameters:** {len(chars["query-parameters"])}
+**Query Parameters:** {query_parameters}
 
 **Paths by Method:**
 
 | Method | Paths |
-| ------ | ----- |{methods}
-
+| ------ | ----- |
+{methods_text}
 """
 
         out_path = APIS_PATH / api_id / "README.md"
@@ -257,6 +240,104 @@ def update_api_readmes() -> None:
             file.write(markdown)
 
         print(f"Saved {api_id} README to {out_path}")
+
+
+def update_api_status() -> None:
+    """
+    Updates the benchmark status, and displays benchmark badges in the main README.
+    """
+
+    date = datetime.now().strftime("%Y-%m-%d")
+
+    if not CHAR_PATH.is_file():
+        print("No API characteristics found, generating them first")
+        generate_api_characteristics()
+
+    with open(CHAR_PATH, "r", encoding="utf-8") as file:
+        data = json.load(file)
+
+    unreachable = []
+    outdated = []
+    invalid = []
+
+    total_oas = len(data)
+    total_servers = 0
+    available_servers = 0
+    up_to_date_oas = 0
+    valid_oas = 0
+
+    for api_id, chars in data.items():
+        # unreachable
+        for server in chars["servers"]:
+            total_servers += 1
+
+            if server["hosted"] == "local" or server["available"]:
+                available_servers += 1
+            else:
+                unreachable.append(f"`{api_id}` (`{server['url']}`)")
+
+        # outdated
+        if chars["oas"]["family"] == "openapi":
+            up_to_date_oas += 1
+        else:
+            outdated.append(f"`{api_id}` (`{chars['oas']['family']} v{chars['oas']['version']}`)")
+
+        # invalid
+        if not chars["oas"]["validated"]:
+            invalid.append(f"`{api_id}` (`{chars['oas']['error']}`)")
+        else:
+            valid_oas += 1
+
+    # STATUS.md generation
+    status_text = f"# Benchmark Status\n\n*Last update: {date}*\n"
+
+    sections = [
+        ("Unreachable Servers", unreachable, "- All servers are reachable."),
+        ("Outdated OAS Formats", outdated, "- No OAS file is outdated."),
+        ("OAS Validation Fails (with `openapi-spec-validator`)", invalid, "- All OAS files passed validation."),
+    ]
+
+    for title, items, empty_message in sections:
+        status_text += f"\n## {title}\n"
+
+        if items:
+            status_text += "".join(f"- {item}\n" for item in items)
+        else:
+            status_text += f"{empty_message}\n"
+
+    with open(STATUS_PATH, "w", encoding="utf-8") as file:
+        file.write(status_text)
+
+    print(f"Saved benchmark status to {STATUS_PATH}")
+
+    # README.md badges
+    servers_pct = round(100 * available_servers / total_servers) if total_servers else 0
+    up_to_date_pct = round(100 * up_to_date_oas / total_oas) if total_oas else 0
+    valid_oas_pct = round(100 * valid_oas / total_oas) if total_oas else 0
+
+    with open(README_PATH, "r", encoding="utf-8") as file:
+        readme_text = file.read()
+
+    apis_badge = generate_badge("apis", str(total_oas), "blue")
+    servers_badge = generate_badge("reachable servers", f"{servers_pct}%", get_percentage_color(servers_pct))
+    up_to_date_badge = generate_badge("openapi v3", f"{up_to_date_pct}%", get_percentage_color(up_to_date_pct))
+    valid_oas_badge = generate_badge("openapi-spec-validator", f"{valid_oas_pct}%", get_percentage_color(valid_oas_pct))
+
+    badges = f"{apis_badge} {servers_badge} {up_to_date_badge} {valid_oas_badge}"
+
+    # if the first line of the README is already a badge section, replace it, otherwise add a new line
+    lines = readme_text.splitlines()
+
+    if lines and "img.shields.io" in lines[0]:
+        lines[0] = badges
+        readme_text = "\n".join(lines) + "\n"
+    else:
+        readme_text = f"{badges}\n\n{readme_text}"
+
+    with open(README_PATH, "w", encoding="utf-8") as file:
+        file.write(readme_text)
+
+    print(f"Saved benchmark status badges to {README_PATH}")
 
 
 def generate_badge(label: str, message: str, color: str) -> str:
@@ -299,119 +380,16 @@ def get_percentage_color(percentage: float) -> str:
         return "red"
 
 
-def update_api_status() -> None:
-    """
-    Updates the benchmark status, and displays benchmark badges in the main README.
-    """
-
-    date = datetime.now().strftime("%Y-%m-%d")
-
-    if not CHAR_PATH.is_file():
-        print("No API characteristics found, generating them first")
-        generate_api_characteristics()
-
-    with open(CHAR_PATH, "r", encoding="utf-8") as file:
-        data = json.load(file)
-
-    unreachable = []
-    outdated = []
-    invalid = []
-
-    total_oas = len(data)
-    total_servers = 0
-    available_servers = 0
-    up_to_date_oas = 0
-    valid_oas = 0
-
-    for api_id, info in data.items():
-        # unreachable
-        for server in info["availability"]:
-            total_servers += 1
-
-            if server["hosted"] == "local" or server["status"] == "available":
-                available_servers += 1
-
-            if server["hosted"] == "online" and server["status"] == "not-available":
-                unreachable.append(f"`{api_id}` (`{server['url']}`)")
-
-        # outdated
-        if info["oas-version"]["family"] == "openapi":
-            up_to_date_oas += 1
-        else:
-            outdated.append(f"`{api_id}` (`{info['oas-version']['family']} v{info['oas-version']['version']}`)")
-
-        # invalid
-        if info["oas-validity"]["status"] == "invalid":
-            invalid.append(f"`{api_id}` (`{info['oas-validity']['detail']}`)")
-        else:
-            valid_oas += 1
-
-    # STATUS.md generation
-    status_text = f"# Benchmark Status\n\n*Last update: {date}*\n"
-
-    sections = [
-        ("Unreachable Servers", unreachable, "- All servers are reachable."),
-        ("Outdated OAS Formats", outdated, "- No OAS file is outdated."),
-        ("OAS Validation Fails (with `openapi-spec-validator`)", invalid, "- All OAS files passed validation."),
-    ]
-
-    for title, items, empty_message in sections:
-        status_text += f"\n## {title}\n"
-
-        if items:
-            status_text += "".join(f"- {item}\n" for item in items)
-        else:
-            status_text += f"{empty_message}\n"
-
-    with open(STATUS_PATH, "w", encoding="utf-8") as file:
-        file.write(status_text)
-
-    print(f"Saved benchmark status to {STATUS_PATH}")
-
-    # README.md badges
-    servers_pct = round(100 * available_servers / total_servers) if total_servers else 0
-    up_to_date_pct = round(100 * up_to_date_oas / total_oas) if total_oas else 0
-    valid_oas_pct = round(100 * valid_oas / total_oas) if total_oas else 0
-
-    with open(README_PATH, "r", encoding="utf-8") as file:
-        readme_text = file.read()
-
-    apis_badge = generate_badge("nb apis", str(total_oas), "blue")
-    servers_badge = generate_badge("reachable servers", f"{servers_pct}%", get_percentage_color(servers_pct))
-    up_to_date_badge = generate_badge("openapi v3", f"{up_to_date_pct}%", get_percentage_color(up_to_date_pct))
-    valid_oas_badge = generate_badge("openapi-spec-validator", f"{valid_oas_pct}%", get_percentage_color(valid_oas_pct))
-
-    badges = f"{apis_badge} {servers_badge} {up_to_date_badge} {valid_oas_badge}"
-
-    # if the first line of the README is already a badge section, replace it, otherwise add a new line
-    lines = readme_text.splitlines()
-
-    if lines and "img.shields.io" in lines[0]:
-        lines[0] = badges
-        readme_text = "\n".join(lines) + "\n"
-    else:
-        readme_text = f"{badges}\n\n{readme_text}"
-
-    with open(README_PATH, "w", encoding="utf-8") as file:
-        file.write(readme_text)
-
-    print(f"Saved benchmark status badges to {README_PATH}")
-
-
-def _build_parser() -> argparse.ArgumentParser:
+def build_parser() -> argparse.ArgumentParser:
     """
     Builds the argv parser.
     """
 
-    parser = argparse.ArgumentParser(description="CLI for PRAB, to filter or update APIs.")
+    parser = argparse.ArgumentParser(description="CLI for PRAB.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     # update parser
-    update_parser = subparsers.add_parser("update", help="Generate API structural characteristics and READMEs by analyzing their documentation.")
-
-    # filter parser
-    filter_parser = subparsers.add_parser("filter", help="Filter APIs based on specified criteria.")
-    # WIP
+    update_parser = subparsers.add_parser("update", help="Updates APIs by generating their characteristics, READMEs, and global status.")
 
     return parser
 
@@ -421,10 +399,10 @@ def main(argv: list[str] | None = None) -> None:
     Entry point of the command line interface.
 
     Args:
-        argv: Command line arguments (default: ``sys.argv[1:]``).
+        argv: Command line arguments.
     """
 
-    args = _build_parser().parse_args(argv)
+    args = build_parser().parse_args(argv)
 
     if args.command == "update":
         generate_api_characteristics()

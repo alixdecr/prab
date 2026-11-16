@@ -1,27 +1,25 @@
 {
     "amadeus-hotel": {
         "title": "Amadeus for Developers",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.amadeus.com",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "noauthAuth"
         ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -281,25 +279,23 @@
     },
     "an-api-of-ice-and-fire": {
         "title": "Game of Thrones",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://www.anapioficeandfire.com",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -337,25 +333,23 @@
     },
     "balldontlie": {
         "title": "balldontlie",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://balldontlie.io",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -409,27 +403,25 @@
     },
     "bing-web-search": {
         "title": "Web Search Client",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.bing.microsoft.com/v7.0",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "apiKeyHeader"
         ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -455,29 +447,27 @@
     },
     "bitbucket": {
         "title": "Bitbucket API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.bitbucket.org/2.0",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "basic",
             "oauth2",
             "api_key"
         ],
-        "rate-limiting": {
-            "status": "yes",
-            "reason": "status-code"
+        "rate-limit": {
+            "active": true,
+            "reason": "presence of 429 status code response"
         },
         "routes": [
             {
@@ -1790,25 +1780,23 @@
     },
     "catwatch": {
         "title": "Api Documentation",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://localhost:8080/",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -1917,25 +1905,23 @@
     },
     "cheapshark": {
         "title": "CheapShark API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://www.cheapshark.com",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -1987,21 +1973,19 @@
     },
     "coincap": {
         "title": "Coincap OpenAPI",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [],
-        "auth": [
+        "servers": [],
+        "authentication": [
             "bearerAuth"
         ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -2060,25 +2044,23 @@
     },
     "cwa-verification-server": {
         "title": "cwa-verification-server",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "openapi",
             "version": "3.0.1"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8080",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -2106,27 +2088,25 @@
     },
     "cyclotron": {
         "title": "Cyclotron API",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8080/",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "authenticatedSession"
         ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -2342,27 +2322,25 @@
     },
     "dhl-shipment-tracking": {
         "title": "Unified Shipment Tracking API",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api-eu.dhl.com/track",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "ApiKeyAuth"
         ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -2374,25 +2352,23 @@
     },
     "digdag": {
         "title": "Digdag",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8080",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -2571,19 +2547,17 @@
     },
     "disease-sh": {
         "title": "disease.sh Docs - An open API for disease-related statistics",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "servers": [],
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -2763,27 +2737,25 @@
     },
     "envirocar": {
         "title": "enviroCar REST API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://envirocar.org/api/stable/",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "basicAuth"
         ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -3107,25 +3079,23 @@
     },
     "fdic": {
         "title": "FDIC Bank Data API (Beta)",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "Unresolvable"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "Unresolvable",
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.fdic.gov/banks",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -3181,26 +3151,24 @@
         ]
     },
     "features-service": {
-        "title": "unknown",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "title": null,
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8080/",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -3280,25 +3248,23 @@
     },
     "foursquare": {
         "title": "Foursquare Places API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.foursquare.com",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -3454,30 +3420,28 @@
     },
     "gbif-species": {
         "title": "Species API",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "openapi",
             "version": "3.0.1"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.gbif.org/v1/",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             },
             {
                 "url": "https://api.gbif-uat.org/v1/",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -3631,30 +3595,28 @@
     },
     "genome-nexus": {
         "title": "Genome Nexus API",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:28125/",
                 "hosted": "local",
-                "status": ""
+                "available": true
             },
             {
                 "url": "https://localhost:28125/",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -3763,25 +3725,23 @@
     },
     "gestao-hospital": {
         "title": "Sistema de Gest\u00e3o Hospital API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://localhost:8080/",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -3874,25 +3834,23 @@
     },
     "github": {
         "title": "GitHub v3 REST API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.github.com",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "yes",
-            "reason": "status-code"
+        "authentication": [],
+        "rate-limit": {
+            "active": true,
+            "reason": "presence of rate limiting headers"
         },
         "routes": [
             {
@@ -7837,27 +7795,25 @@
     },
     "gitlab": {
         "title": "GitLab API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.1"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://www.gitlab.com/api/v4",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "ApiKeyAuth"
         ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -8176,25 +8132,23 @@
     },
     "google-geocoding": {
         "title": "Google Geocoding",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://maps.googleapis.com",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -8206,27 +8160,25 @@
     },
     "graphhopper": {
         "title": "GraphHopper Directions API",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "openapi",
             "version": "3.1.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://graphhopper.com/api/1",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "api_key"
         ],
-        "rate-limiting": {
-            "status": "yes",
-            "reason": "status-code"
+        "rate-limit": {
+            "active": true,
+            "reason": "presence of rate limiting headers"
         },
         "routes": [
             {
@@ -8347,30 +8299,28 @@
     },
     "kafka-rest-proxy": {
         "title": "REST Admin API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8082/v3",
                 "hosted": "local",
-                "status": ""
+                "available": true
             },
             {
                 "url": "http://localhost:8090/kafka/v3",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "yes",
-            "reason": "status-code"
+        "authentication": [],
+        "rate-limit": {
+            "active": true,
+            "reason": "presence of 429 status code response"
         },
         "routes": [
             {
@@ -8574,25 +8524,23 @@
     },
     "languagetool": {
         "title": "LanguageTool API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8081/v2",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -8608,27 +8556,25 @@
     },
     "magento": {
         "title": "Commerce Admin REST endpoints - All inclusive",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://example.com/rest/default",
                 "hosted": "online",
-                "status": "available"
+                "available": false
             }
         ],
-        "auth": [
+        "authentication": [
             "api_key"
         ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -10924,25 +10870,23 @@
     },
     "management-api-for-apache-cassandra": {
         "title": "Management API for Apache Cassandra\u2122",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.1"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8080",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -11215,45 +11159,41 @@
         ]
     },
     "marvel": {
-        "title": "unknown",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "ValidatorDetectError"
-        },
-        "oas-version": {
+        "title": null,
+        "oas": {
+            "validated": false,
+            "error": "ValidatorDetectError",
             "family": "unknown",
-            "version": ""
+            "version": null
         },
-        "availability": [],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "servers": [],
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [],
         "query-parameters": []
     },
     "ocvn": {
         "title": "Open Contracting Dashboards API",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "PointerToNowhere"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "PointerToNowhere",
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://localhost:8090/",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -12056,25 +11996,23 @@
     },
     "ohsome": {
         "title": "ohsome API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.ohsome.org/v1",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -12589,30 +12527,28 @@
     },
     "omdb": {
         "title": "OMDb",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://www.omdbapi.com/",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             },
             {
                 "url": "https://www.omdbapi.com/",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -12636,25 +12572,23 @@
     },
     "open-brewery-db": {
         "title": "OpenBreweryDB",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.openbrewerydb.org/v1",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -12691,27 +12625,25 @@
     },
     "openverse": {
         "title": "Openverse API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.openverse.org",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "Openverse API Token"
         ],
-        "rate-limiting": {
-            "status": "yes",
-            "reason": "status-code"
+        "rate-limit": {
+            "active": true,
+            "reason": "presence of 429 status code response"
         },
         "routes": [
             {
@@ -12820,32 +12752,30 @@
     },
     "paypal": {
         "title": "Invoices",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api-m.sandbox.paypal.com",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             },
             {
                 "url": "https://api-m.paypal.com",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "Oauth2"
         ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -12933,25 +12863,23 @@
     },
     "petclinic": {
         "title": "Spring PetClinic",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.1"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:9966/petclinic/api",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -13105,28 +13033,26 @@
     },
     "petstore": {
         "title": "Swagger Petstore - OpenAPI 3.0",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.2"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8080/api/v3",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "petstore_auth",
             "api_key"
         ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -13217,25 +13143,23 @@
     },
     "piggy-metrics": {
         "title": "Piggy Metrics",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8000",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -13287,25 +13211,23 @@
     },
     "proxyprint": {
         "title": "Api Documentation",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://localhost:8080/",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -13773,25 +13695,23 @@
     },
     "quartz-manager": {
         "title": "Quartz-Scheduler",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8080",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -13824,25 +13744,23 @@
     },
     "random-user-generator": {
         "title": "Random User Generator API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://randomuser.me",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -13854,27 +13772,25 @@
     },
     "realworld-app": {
         "title": "RealWorld Conduit API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.realworld.show/api",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "Token"
         ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -13964,25 +13880,23 @@
     },
     "refuge-restrooms": {
         "title": "API title",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://refugerestrooms.org/api",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -14019,25 +13933,23 @@
     },
     "reqres": {
         "title": "ReqRes API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://reqres.in/api",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -14100,25 +14012,23 @@
     },
     "rest-countries": {
         "title": "REST countries API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8080/rest",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -14218,25 +14128,23 @@
     },
     "rest-faults": {
         "title": "OpenAPI definition",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.1"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8080",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -14276,25 +14184,23 @@
     },
     "rest-ncs": {
         "title": "API for Numerical Case Study (NCS)",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8080/",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -14326,25 +14232,23 @@
     },
     "rest-news": {
         "title": "API for REST News",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://localhost:8080/",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -14383,25 +14287,23 @@
     },
     "rest-scs": {
         "title": "API for String Case Study (SCS)",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8080/",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -14453,19 +14355,17 @@
     },
     "scout-api": {
         "title": "API for Aktivitetsbanken",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "swagger",
             "version": "2.0"
         },
-        "availability": [],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "servers": [],
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -14695,25 +14595,23 @@
     },
     "senzing": {
         "title": "Senzing REST API",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "openapi",
             "version": "3.0.1"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8250",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -14887,27 +14785,25 @@
     },
     "spotify": {
         "title": "Spotify Web API with fixes and improvements from sonallux",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.spotify.com/v1",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "oauth_2_0"
         ],
-        "rate-limiting": {
-            "status": "yes",
-            "reason": "status-code"
+        "rate-limit": {
+            "active": true,
+            "reason": "presence of 429 status code response"
         },
         "routes": [
             {
@@ -15335,28 +15231,26 @@
     },
     "stripe": {
         "title": "Stripe API",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.stripe.com/",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "basicAuth",
             "bearerAuth"
         ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -17743,25 +17637,23 @@
     },
     "tumblr": {
         "title": "Tumblr",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.tumblr.com/v2",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -17853,27 +17745,25 @@
     },
     "ur-codebin": {
         "title": "Ur-Codebin API",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "http://localhost:8080",
                 "hosted": "local",
-                "status": ""
+                "available": true
             }
         ],
-        "auth": [
+        "authentication": [
             "Authorization"
         ],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -17913,25 +17803,23 @@
     },
     "yelp": {
         "title": "Yelp V3",
-        "oas-validity": {
-            "status": "invalid",
-            "detail": "OpenAPIValidationError"
-        },
-        "oas-version": {
+        "oas": {
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://api.yelp.com/v3",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
@@ -17967,25 +17855,23 @@
     },
     "youtube": {
         "title": "YouTube",
-        "oas-validity": {
-            "status": "valid",
-            "detail": ""
-        },
-        "oas-version": {
+        "oas": {
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "availability": [
+        "servers": [
             {
                 "url": "https://www.googleapis.com/youtube/v3",
                 "hosted": "online",
-                "status": "available"
+                "available": true
             }
         ],
-        "auth": [],
-        "rate-limiting": {
-            "status": "no",
-            "reason": ""
+        "authentication": [],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
             {
