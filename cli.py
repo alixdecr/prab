@@ -1,6 +1,6 @@
 import argparse
 import utils
-from datetime import datetime
+from datetime import datetime, timezone
 from openapi_spec_validator import validate
 from pathlib import Path
 
@@ -92,8 +92,11 @@ def generate_api_characteristics(only: list[str] | None = None) -> None:
         query_parameters = set()
 
         for route_path, path_item in spec.get("paths", {}).items():
+            if not isinstance(path_item, dict):
+                continue
+
             for param in path_item.get("parameters", []):
-                if param.get("in", "") == "query":
+                if param.get("in", "") == "query" and param.get("name"):
                     query_parameters.add(param.get("name"))
 
             for method, method_item in path_item.items():
@@ -103,7 +106,7 @@ def generate_api_characteristics(only: list[str] | None = None) -> None:
                 routes.append({"method": method, "path": route_path})
 
                 for param in method_item.get("parameters", []):
-                    if param.get("in", "") == "query":
+                    if param.get("in", "") == "query" and param.get("name"):
                         query_parameters.add(param.get("name"))
 
                 for status_code, response in method_item.get("responses", {}).items():
@@ -153,10 +156,7 @@ def update_api_readmes(date: str, only: list[str] | None = None) -> None:
         # server info
         servers = chars["servers"]
         total_servers = len(servers)
-        available_servers = sum(
-            server["hosted"] == "local" or server["available"]
-            for server in servers
-        )
+        available_servers = sum(utils.is_server_available(server) for server in servers)
 
         server_badge_color = (
             "lightgrey" if total_servers == 0 else
@@ -245,8 +245,8 @@ def update_api_status(date: str) -> None:
     # unreachable servers
     servers = [(api_id, server) for api_id, chars in data.items() for server in chars["servers"]]
     total_servers = len(servers)
-    available_servers = sum(server["hosted"] == "local" or server["available"] for _, server in servers)
-    unreachable = [f"`{api_id}` (`{server['url']}`)" for api_id, server in servers if server["hosted"] != "local" and not server["available"]]
+    available_servers = sum(utils.is_server_available(server) for _, server in servers)
+    unreachable = [f"`{api_id}` (`{server['url']}`)" for api_id, server in servers if not utils.is_server_available(server)]
 
     # outdated and invalid OAS files
     outdated = [f"`{api_id}` (`{chars['oas']['family']} v{chars['oas']['version']}`)" for api_id, chars in data.items() if chars["oas"]["family"] != "openapi"]
@@ -323,7 +323,7 @@ def main(argv: list[str] | None = None) -> None:
         argv: Command line arguments.
     """
 
-    date = datetime.now().strftime("%Y-%m-%d")
+    date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     args = build_parser().parse_args(argv)
 
     if args.command == "update":

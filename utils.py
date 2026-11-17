@@ -40,6 +40,21 @@ def check_server(url: str, timeout: float = 5.0) -> dict:
     return result
 
 
+def is_server_available(server: dict) -> bool:
+    """
+    Checks if a server characteristics entry is considered available.
+    Servers hosted locally are always considered available since they are not checked over the network.
+
+    Args:
+        server: Server dict from the API characteristics.
+
+    Returns:
+        True if the server is local or responded to a ping, False otherwise.
+    """
+
+    return server["hosted"] == "local" or server["available"]
+
+
 # BADGE GENERATION
 
 def generate_badge(label: str, message: str, color: str) -> str:
