@@ -3,7 +3,7 @@
 *Last update: 2026-11-17*
 
 ## Unreachable Servers
-- All servers are reachable.
+- All servers are reachable. Local servers are flagged as reachable by default.
 
 ## Outdated OAS Formats
 - `bing-web-search` (`swagger v2.0`)

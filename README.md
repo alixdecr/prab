@@ -1,4 +1,4 @@
-![alt text](https://img.shields.io/badge/apis-57-blue.svg) ![alt text](https://img.shields.io/badge/reachable_servers-100%25-brightgreen.svg) ![alt text](https://img.shields.io/badge/openapi_v3-68%25-orange.svg) ![alt text](https://img.shields.io/badge/openapi--spec--validator-61%25-orange.svg)
+![alt text](https://img.shields.io/badge/apis-58-blue.svg) ![alt text](https://img.shields.io/badge/reachable_servers-100%25-brightgreen.svg) ![alt text](https://img.shields.io/badge/openapi_v3-69%25-orange.svg) ![alt text](https://img.shields.io/badge/openapi--spec--validator-62%25-orange.svg)
 
 # PRAB: Public REST API Benchmark
 

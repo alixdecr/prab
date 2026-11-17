@@ -262,7 +262,7 @@ def update_api_status(date: str) -> None:
     status_text = f"# Benchmark Status\n\n*Last update: {date}*\n"
 
     sections = [
-        ("Unreachable Servers", unreachable, "- All servers are reachable."),
+        ("Unreachable Servers", unreachable, "- All servers are reachable. Local servers are flagged as reachable by default."),
         ("Outdated OAS Formats", outdated, "- No OAS file is outdated."),
         ("OAS Validation Fails (with `openapi-spec-validator`)", invalid, "- All OAS files passed validation."),
     ]

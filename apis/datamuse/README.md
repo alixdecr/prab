@@ -1,41 +1,41 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Invalid-red.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of datamuse (Datamuse - OpenAPI Specification)
 
-## Datamuse API: Structural Characteristics
+*Last update: 2026-11-17*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.1.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-True-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: datamuse
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: Datamuse
+## Usage Information
 
-- Used By: [16] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://www.datamuse.com/api), [OpenAPI Specification](NO OPENAPI OR POSTMAN)
+| URL | Hosted | Available |
+| --- | ------ | --------- |
+| https://api.datamuse.com | online | True |
 
-### Usage Information
+**Authentication Methods:** No authentication required
 
-- Availability: Online
+**Rate Limiting:** False (no 429 status code response or rate limiting headers)
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 2
 
-- Request Limits: No
+**Query Parameters:** 24
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 2
-
-- Number of Query Parameters: 25
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 2 | 100.00% |
-| `POST` | 0 | 0.00% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 0 | 0.00% |
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 2 |
+| `POST` | 0 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 0 |
+| `HEAD` | 0 |
+| `OPTIONS` | 0 |
+| `TRACE` | 0 |

@@ -18246,5 +18246,63 @@
             "videoType",
             "walltime"
         ]
+    },
+    "datamuse": {
+        "title": "Datamuse - OpenAPI Specification",
+        "oas": {
+            "validated": true,
+            "error": null,
+            "family": "openapi",
+            "version": "3.1.0"
+        },
+        "servers": [
+            {
+                "url": "https://api.datamuse.com",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            }
+        ],
+        "authentication": null,
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
+        },
+        "routes": [
+            {
+                "method": "get",
+                "path": "/words"
+            },
+            {
+                "method": "get",
+                "path": "/sug"
+            }
+        ],
+        "query-parameters": [
+            "lc",
+            "max",
+            "md",
+            "ml",
+            "qe",
+            "rc",
+            "rel_ant",
+            "rel_bga",
+            "rel_bgb",
+            "rel_cns",
+            "rel_com",
+            "rel_gen",
+            "rel_hom",
+            "rel_jja",
+            "rel_jjb",
+            "rel_par",
+            "rel_spc",
+            "rel_syn",
+            "rel_trg",
+            "s",
+            "sl",
+            "sp",
+            "topics",
+            "v"
+        ]
     }
 }
