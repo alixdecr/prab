@@ -3,6 +3,7 @@ attrs==26.1.0
 certifi==2026.10.23
 charset-normalizer==3.5.2
 idna==3.20
+jsonref==1.1.0
 jsonschema==4.26.0
 jsonschema-path==0.5.0
 jsonschema-specifications==2025.9.1

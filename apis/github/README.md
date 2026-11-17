@@ -25,7 +25,7 @@
 
 **Total Paths:** 638
 
-**Query Parameters:** 76
+**Query Parameters:** 113
 
 **Paths by Method:**
 

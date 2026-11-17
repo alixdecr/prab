@@ -2749,8 +2749,8 @@
     "envirocar": {
         "title": "enviroCar REST API",
         "oas": {
-            "validated": true,
-            "error": null,
+            "validated": false,
+            "error": "JsonRefError",
             "family": "openapi",
             "version": "3.0.3"
         },
@@ -7738,20 +7738,29 @@
         "query-parameters": [
             "activity_type",
             "actor",
+            "actor_name",
             "affects",
             "affiliation",
+            "after",
+            "all",
             "anon",
             "app_id",
             "archived_state",
             "assignee",
             "author",
             "base",
+            "before",
+            "branch",
+            "check_name",
+            "check_suite_id",
             "client_ip",
             "collab",
             "committer",
             "confirm_delete",
             "content",
+            "created",
             "creator",
+            "cursor",
             "cve_id",
             "cwes",
             "devcontainer_path",
@@ -7760,16 +7769,28 @@
             "environment",
             "epss_percentage",
             "epss_percentile",
+            "event",
             "exclude",
+            "exclude_pull_requests",
             "featured",
             "filter",
+            "first",
             "ghsa_id",
             "head",
+            "head_sha",
             "includes_parents",
             "invitation_source",
+            "is_multi_repo",
+            "is_publicly_leaked",
             "is_withdrawn",
+            "key",
             "label",
+            "labels",
+            "last",
+            "last_used_after",
+            "last_used_before",
             "location",
+            "manifest",
             "mentioned",
             "milestone",
             "modified",
@@ -7778,12 +7799,17 @@
             "orgs",
             "outdated",
             "owned",
+            "owner",
+            "package",
             "package_type",
             "page",
+            "participating",
             "path",
+            "per",
             "per_page",
             "permission",
             "pinned",
+            "pr",
             "protected",
             "published",
             "pulls",
@@ -7791,11 +7817,17 @@
             "recursive",
             "redelivery",
             "ref",
+            "repository",
             "repository_id",
+            "repository_name",
             "repository_query",
+            "resolution",
             "role",
+            "rule_suite_result",
             "s",
             "sarif_id",
+            "scope",
+            "secret_type",
             "severity",
             "sha",
             "since",
@@ -7805,13 +7837,18 @@
             "subject_id",
             "subject_type",
             "target_type",
+            "targets",
             "task",
             "time_period",
             "token",
+            "tool_guid",
+            "tool_name",
             "type",
             "until",
             "updated",
-            "visibility"
+            "validity",
+            "visibility",
+            "visible_to_repository"
         ]
     },
     "gitlab": {
@@ -8546,7 +8583,16 @@
                 "path": "/clusters/{cluster_id}/topics/{topic_name}/records:batch"
             }
         ],
-        "query-parameters": []
+        "query-parameters": [
+            "host",
+            "include_authorized_operations",
+            "operation",
+            "pattern_type",
+            "permission",
+            "principal",
+            "resource_name",
+            "resource_type"
+        ]
     },
     "languagetool": {
         "title": "LanguageTool API",
@@ -12027,8 +12073,8 @@
     "ohsome": {
         "title": "ohsome API",
         "oas": {
-            "validated": true,
-            "error": null,
+            "validated": false,
+            "error": "JsonRefError",
             "family": "swagger",
             "version": "2.0"
         },
@@ -12896,7 +12942,14 @@
                 "path": "/v2/invoicing/templates/{template_id}"
             }
         ],
-        "query-parameters": []
+        "query-parameters": [
+            "fields",
+            "page",
+            "page_size",
+            "send_to_invoicer",
+            "send_to_recipient",
+            "total_required"
+        ]
     },
     "petclinic": {
         "title": "Spring PetClinic",
@@ -15217,14 +15270,17 @@
             }
         ],
         "query-parameters": [
+            "additional_types",
             "after",
             "before",
             "device_id",
             "fields",
             "ids",
             "include_external",
+            "include_groups",
             "limit",
             "locale",
+            "market",
             "max_acousticness",
             "max_danceability",
             "max_duration_ms",

@@ -1,6 +1,8 @@
 import argparse
 import utils
 from datetime import datetime, timezone
+from jsonref import replace_refs
+from typing import cast
 from openapi_spec_validator import validate
 from pathlib import Path
 
@@ -41,7 +43,11 @@ def generate_api_characteristics(only: list[str] | None = None) -> None:
 
         try:
             spec = utils.load_json(path)
+            # openapi-spec-validator check
             validate(spec)
+            # jsonref dereferencing (empty dict instead of fetching external refs), cast since jsonref is untyped
+            spec = cast(dict, replace_refs(spec, proxies=False, loader=lambda uri: {}))
+
             oas = {"validated": True, "error": None}
 
         except Exception as e:
