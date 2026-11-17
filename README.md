@@ -81,6 +81,12 @@ The CLI uses Python v3.10 or later. To set it up, enter the following commands i
     python cli.py update
     ```
 
+    You can also filter APIs based on criteria:
+
+    ```
+    python cli.py filter --hosted local
+    ```
+
 ## Actionable Insights and Guidance on Using the Benchmark
 
 The main outcome of this research is our benchmark backed by a systematic mapping study. Our goal was not to evaluate the design quality of REST APIs but to provide an unbiased and comprehensive benchmark containing documentation and structural characteristics of public REST APIs. The benchmark is aimed to be used by users, testers, and researchers in their evaluations. We cannot assert that a certain API is *better* compared to another API in the benchmark. Indeed, as REST is not a standard but rather an architectural style, there are multiple ways to implement a REST API. As a result, the structure of a REST API can drastically change from one API to another API. For instance, an API could contain a single GET route with various usable query parameters (e.g., a `/users` route with the query parameters `id`, `name`, `age`). On the other hand, an API could contain a lot of different specialized GET routes without any query parameters (e.g., the routes `/user/{id}`, `/user/{name}`, `/user/{age}`).
