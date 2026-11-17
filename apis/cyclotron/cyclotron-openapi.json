@@ -1,1760 +1,2168 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "title": "Cyclotron API",
-      "description": "Cyclotron's REST API for Dashboard management",
-      "version": "1.0.0"
-    },
-    "host": "localhost:8080",
-    "schemes": [
-      "http"
-    ],
-    "basePath": "/",
-    "produces": [
-      "application/json"
-    ],
-    "paths": {
-      "/dashboards": {
-        "get": {
-          "summary": "Get Dashboards",
-          "description": "The Dashboards endpoint returns a list of Dashboards, excluding those that are deleted.  The list can be optionally filtered by a query string.",
-          "tags": [
-            "Dashboards"
-          ],
-          "parameters": [{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Cyclotron API",
+    "description": "Cyclotron's REST API for Dashboard management",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/"
+    }
+  ],
+  "paths": {
+    "/dashboards": {
+      "get": {
+        "summary": "Get Dashboards",
+        "description": "The Dashboards endpoint returns a list of Dashboards, excluding those that are deleted.  The list can be optionally filtered by a query string.",
+        "tags": [
+          "Dashboards"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
             "name": "q",
             "in": "query",
             "description": "The q parameter can be a string value or comma-separated list of values, where each value is used as a partial match for the Dashboard name, or an exact match of one of the Dashboard's tags.",
-            "required": false,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of Dashboards (without the Dashboard definition)",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Dashboards (without the Dashboard definition)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DashboardInfo"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Dashboard",
+        "description": "Posting to the Dashboards endpoint creates a new Dashboard.",
+        "tags": [
+          "Dashboards"
+        ],
+        "responses": {
+          "200": {
+            "description": "The created Dashboard, including auto-populated fields such as date, rev, etc.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dashboard"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing Dashboard name, or Dashboard definition."
+          },
+          "401": {
+            "description": "Authentication required: session key not provided."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dashboard"
+              }
+            }
+          },
+          "description": "The Dashboard to be created.",
+          "required": true
+        }
+      }
+    },
+    "/dashboards/{name}": {
+      "get": {
+        "summary": "Get Dashboard",
+        "description": "The Dashboard endpoint returns a given Dashboard by name.  This works regardless of whether or not the Dashboard is deleted.",
+        "tags": [
+          "Dashboards"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A single Dashboard",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dashboard"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required: this dashboard has restricted permissions."
+          },
+          "403": {
+            "description": "View Permission denied for this Dashboard."
+          },
+          "404": {
+            "description": "Dashboard not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Dashboard",
+        "description": "Putting a modified Dashboard back to this endpoint overwrites the existing Dashboard with the modified version.  The revision counter is incremented, and a new revision is added to the /revisions endpoint.  If the Dashboard was deleted previously, it will be undeleted.",
+        "tags": [
+          "Dashboards"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The updated Dashboard, including auto-populated fields such as date, rev, etc.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dashboard"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing Dashboard name, or Dashboard definition."
+          },
+          "401": {
+            "description": "Authentication required: session key not provided."
+          },
+          "403": {
+            "description": "Edit Permission denied for this Dashboard."
+          },
+          "404": {
+            "description": "Dashboard not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dashboard"
+              }
+            }
+          },
+          "description": "The modified Dashboard.",
+          "required": true
+        }
+      },
+      "delete": {
+        "summary": "Delete Dashboard",
+        "description": "Performs a soft delete, whereby the deleted flag is set to true and the Dashboard is automatically excluded from search results.  The Dashboard can still be requested directly by name, and undeleted.  The delete operation creates a new Revision.",
+        "tags": [
+          "Dashboards"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The deleted Dashboard, including auto-populated fields such as date, rev, etc.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dashboard"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing Dashboard name."
+          },
+          "401": {
+            "description": "Authentication required: session key not provided."
+          },
+          "403": {
+            "description": "Edit Permission denied for this Dashboard."
+          },
+          "404": {
+            "description": "Dashboard not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/dashboards/{name}/tags": {
+      "put": {
+        "summary": "Update Dashboard Tags",
+        "description": "The Dashboard Tags endpoint allows setting only the tags for a Dashboard.",
+        "tags": [
+          "Dashboards"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The updated Dashboard, including auto-populated fields such as date, rev, etc.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dashboard"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing Dashboard tags."
+          },
+          "401": {
+            "description": "Authentication required: session key not provided."
+          },
+          "403": {
+            "description": "Edit Permission denied for this Dashboard."
+          },
+          "404": {
+            "description": "Dashboard not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/definitions/DashboardInfo"
+                  "type": "string"
                 }
               }
-            },
-            "500": {
-              "description": "Server error."
             }
-          }
-        },
-        "post": {
-          "summary": "Create Dashboard",
-          "description": "Posting to the Dashboards endpoint creates a new Dashboard.",
-          "tags": [
-            "Dashboards"
-          ],
-          "parameters": [{
-            "name": "dashboard",
-            "in": "body",
-            "description": "The Dashboard to be created.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Dashboard"
-            }
-          }],
-          "responses": {
-            "200": {
-              "description": "The created Dashboard, including auto-populated fields such as date, rev, etc.",
-              "schema": {
-                "$ref": "#/definitions/Dashboard"
-              }
-            },
-            "400": {
-              "description": "Missing Dashboard name, or Dashboard definition."
-            },
-            "401": {
-              "description": "Authentication required: session key not provided."
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
+          },
+          "description": "The modified Dashboard.",
+          "required": true
         }
-      },
-      "/dashboards/{name}": {
-        "get": {
-          "summary": "Get Dashboard",
-          "description": "The Dashboard endpoint returns a given Dashboard by name.  This works regardless of whether or not the Dashboard is deleted.",
-          "tags": [
-            "Dashboards"
-          ],
-          "parameters": [{
-            "name": "name",
-            "in": "path",
-            "description": "The Dashboard name.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "A single Dashboard",
-              "schema": {
-                "$ref": "#/definitions/Dashboard"
-              }
-            },
-            "401": {
-              "description": "Authentication required: this dashboard has restricted permissions."
-            },
-            "403": {
-              "description": "View Permission denied for this Dashboard."
-            },
-            "404": {
-              "description": "Dashboard not found."
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
-        },
-        "put": {
-          "summary": "Update Dashboard",
-          "description": "Putting a modified Dashboard back to this endpoint overwrites the existing Dashboard with the modified version.  The revision counter is incremented, and a new revision is added to the /revisions endpoint.  If the Dashboard was deleted previously, it will be undeleted.",
-          "tags": [
-            "Dashboards"
-          ],
-          "parameters": [{
-            "name": "name",
-            "in": "path",
-            "description": "The Dashboard name.",
-            "required": true,
-            "type": "string"
-          }, {
-            "name": "dashboard",
-            "in": "body",
-            "description": "The modified Dashboard.",
-            "required": true,
+      }
+    },
+    "/dashboards/{name}/revisions": {
+      "get": {
+        "summary": "Get Dashboard Revisions",
+        "description": "The Dashboard Revisions endpoint returns all the revisions for a Dashboard.  This works regardless of whether or not the Dashboard is deleted.",
+        "tags": [
+          "Dashboards"
+        ],
+        "parameters": [
+          {
             "schema": {
-              "$ref": "#/definitions/Dashboard"
-            }
-          }],
-          "responses": {
-            "200": {
-              "description": "The updated Dashboard, including auto-populated fields such as date, rev, etc.",
-              "schema": {
-                "$ref": "#/definitions/Dashboard"
-              }
+              "type": "string"
             },
-            "400": {
-              "description": "Missing Dashboard name, or Dashboard definition."
-            },
-            "401": {
-              "description": "Authentication required: session key not provided."
-            },
-            "403": {
-              "description": "Edit Permission denied for this Dashboard."
-            },
-            "404": {
-              "description": "Dashboard not found."
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
-        },
-        "delete": {
-          "summary": "Delete Dashboard",
-          "description": "Performs a soft delete, whereby the deleted flag is set to true and the Dashboard is automatically excluded from search results.  The Dashboard can still be requested directly by name, and undeleted.  The delete operation creates a new Revision.",
-          "tags": [
-            "Dashboards"
-          ],
-          "parameters": [{
             "name": "name",
             "in": "path",
             "description": "The Dashboard name.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "The deleted Dashboard, including auto-populated fields such as date, rev, etc.",
-              "schema": {
-                "$ref": "#/definitions/Dashboard"
-              }
-            },
-            "400": {
-              "description": "Missing Dashboard name."
-            },
-            "401": {
-              "description": "Authentication required: session key not provided."
-            },
-            "403": {
-              "description": "Edit Permission denied for this Dashboard."
-            },
-            "404": {
-              "description": "Dashboard not found."
-            },
-            "500": {
-              "description": "Server error."
-            }
+            "required": true
           }
-        }
-      },
-      "/dashboards/{name}/tags": {
-        "put": {
-          "summary": "Update Dashboard Tags",
-          "description": "The Dashboard Tags endpoint allows setting only the tags for a Dashboard.",
-          "tags": [
-            "Dashboards"
-          ],
-          "parameters": [{
-            "name": "name",
-            "in": "path",
-            "description": "The Dashboard name.",
-            "required": true,
-            "type": "string"
-          }, {
-            "name": "tags",
-            "in": "body",
-            "description": "The modified Dashboard.",
-            "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }],
-          "responses": {
-            "200": {
-              "description": "The updated Dashboard, including auto-populated fields such as date, rev, etc.",
-              "schema": {
-                "$ref": "#/definitions/Dashboard"
-              }
-            },
-            "400": {
-              "description": "Missing Dashboard tags."
-            },
-            "401": {
-              "description": "Authentication required: session key not provided."
-            },
-            "403": {
-              "description": "Edit Permission denied for this Dashboard."
-            },
-            "404": {
-              "description": "Dashboard not found."
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
-        }
-      },
-      "/dashboards/{name}/revisions": {
-        "get": {
-          "summary": "Get Dashboard Revisions",
-          "description": "The Dashboard Revisions endpoint returns all the revisions for a Dashboard.  This works regardless of whether or not the Dashboard is deleted.",
-          "tags": [
-            "Dashboards"
-          ],
-          "parameters": [{
-            "name": "name",
-            "in": "path",
-            "description": "The Dashboard name.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of Dashboard Revisions (each without the Dashboard definition)",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/DashboardInfo"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Dashboard Revisions (each without the Dashboard definition)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DashboardInfo"
+                  }
                 }
               }
-            },
-            "404": {
-              "description": "Dashboard not found."
-            },
-            "500": {
-              "description": "Server error."
             }
+          },
+          "404": {
+            "description": "Dashboard not found."
+          },
+          "500": {
+            "description": "Server error."
           }
         }
-      },
-      "/dashboards/{name}/revisions/{revision}": {
-        "get": {
-          "summary": "Get Dashboard Revision",
-          "description": "The Dashboard Revision endpoint returns a specifc revision for a Dashboard.  This works regardless of whether or not the Dashboard is deleted.",
-          "tags": [
-            "Dashboards"
-          ],
-          "parameters": [{
+      }
+    },
+    "/dashboards/{name}/revisions/{revision}": {
+      "get": {
+        "summary": "Get Dashboard Revision",
+        "description": "The Dashboard Revision endpoint returns a specifc revision for a Dashboard.  This works regardless of whether or not the Dashboard is deleted.",
+        "tags": [
+          "Dashboards"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
             "name": "name",
             "in": "path",
             "description": "The Dashboard name.",
-            "required": true,
-            "type": "string"
-          }, {
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
             "name": "revision",
             "in": "path",
             "description": "The revision parameter specifies which Revision to return.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "A single Dashboard Revision",
-              "schema": {
-                "$ref": "#/definitions/Dashboard"
-              }
-            },
-            "401": {
-              "description": "Authentication required: this dashboard has restricted permissions."
-            },
-            "403": {
-              "description": "View Permission denied for this Dashboard."
-            },
-            "404": {
-              "description": "Dashboard not found."
-            },
-            "500": {
-              "description": "Server error."
-            }
+            "required": true
           }
-        }
-      },
-      "/dashboards/{name}/likes": {
-        "get": {
-          "summary": "Get Dashboard Likes",
-          "description": "The Like Dashboard endpoint retrieves the list of users who have 'liked' this Dashboard.",
-          "tags": [
-            "Dashboards"
-          ],
-          "parameters": [{
-            "name": "name",
-            "in": "path",
-            "description": "The Dashboard name.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "The list of Users who like the Dashboard."
-            },
-            "401": {
-              "description": "Authentication required: session key not provided."
-            },
-            "404": {
-              "description": "Dashboard not found."
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
-        },
-        "post": {
-          "summary": "Like Dashboard",
-          "description": "The Like Dashboard endpoint adds the current user to the list of users who like the Dashboard.",
-          "tags": [
-            "Dashboards"
-          ],
-          "parameters": [{
-            "name": "name",
-            "in": "path",
-            "description": "The Dashboard name.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "The updated list of Users who like the Dashboard."
-            },
-            "401": {
-              "description": "Authentication required: session key not provided."
-            },
-            "404": {
-              "description": "Dashboard not found."
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
-        },
-        "delete": {
-          "summary": "Unlike Dashboard",
-          "description": "The Unlike Dashboard endpoint removes the current user from the list of users who like the Dashboard.",
-          "tags": [
-            "Dashboards"
-          ],
-          "parameters": [{
-            "name": "name",
-            "in": "path",
-            "description": "The Dashboard name.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "The updated list of Users who like the Dashboard."
-            },
-            "401": {
-              "description": "Authentication required: session key not provided."
-            },
-            "404": {
-              "description": "Dashboard not found."
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
-        }
-      },
-      "/dashboardnames": {
-        "get": {
-          "summary": "Get Dashboard Names",
-          "description": "The Dashboard Names endpoint returns a list of the names of all non-deleted Dashboards.",
-          "tags": [
-            "Dashboards"
-          ],
-          "responses": {
-            "200": {
-              "description": "An array of Dashboard names",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string"
+        ],
+        "responses": {
+          "200": {
+            "description": "A single Dashboard Revision",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dashboard"
                 }
               }
-            },
-            "500": {
-              "description": "Server error"
             }
+          },
+          "401": {
+            "description": "Authentication required: this dashboard has restricted permissions."
+          },
+          "403": {
+            "description": "View Permission denied for this Dashboard."
+          },
+          "404": {
+            "description": "Dashboard not found."
+          },
+          "500": {
+            "description": "Server error."
           }
         }
-      },
-      "/tags": {
-        "get": {
-          "summary": "Get Tags",
-          "description": "The Tags endpoint returns a combined list of the unique Tags of all non-deleted Dashboards.",
-          "tags": [
-            "Tags"
-          ],
-          "responses": {
-            "200": {
-              "description": "An array of Tags",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
+      }
+    },
+    "/dashboards/{name}/likes": {
+      "get": {
+        "summary": "Get Dashboard Likes",
+        "description": "The Like Dashboard endpoint retrieves the list of users who have 'liked' this Dashboard.",
+        "tags": [
+          "Dashboards"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
             },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/searchhints": {
-        "get": {
-          "summary": "Get Search Hints",
-          "description": "The Search Hints endpoint returns a combined list of the names and tags of all non-deleted Dashboards.  It is designed for autocomplete hints for Dashboard searching.",
-          "tags": [
-            "Tags"
-          ],
-          "responses": {
-            "200": {
-              "description": "An array of Dashboard names",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/export/{name}/pdf": {
-        "get": {
-          "summary": "Synchronous Export to PDF",
-          "description": "The Export PDF endpoint, when used synchronously, starts exporting a Dashboard to PDF and waits until it is completed and can be returned.",
-          "tags": [
-            "Export"
-          ],
-          "parameters": [{
             "name": "name",
             "in": "path",
             "description": "The Dashboard name.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "302": {
-              "description": "Redirects to the generated PDF."
-            },
-            "401": {
-              "description": "Authentication required: this dashboard has restricted permissions."
-            },
-            "403": {
-              "description": "View Permission denied for this Dashboard."
-            },
-            "404": {
-              "description": "Dashboard not found"
-            },
-            "500": {
-              "description": "Server error"
-            }
+            "required": true
           }
-        },
-        "post": {
-          "summary": "Asynchronous Export to PDF",
-          "description": "The Export PDF endpoint, when used asynchronously, starts exporting a Dashboard to PDF and returns a key that can be used to poll for the status of the export.",
-          "tags": [
-            "Export"
-          ],
-          "parameters": [{
-            "name": "name",
-            "in": "path",
-            "description": "The Dashboard name.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "201": {
-              "description": "Export job created successfully; returns the corresponding URL for /exportstatus",
-              "schema": {
-                "$ref": "#/definitions/ExportResponse"
-              }
-            },
-            "401": {
-              "description": "Authentication required: this dashboard has restricted permissions."
-            },
-            "403": {
-              "description": "View Permission denied for this Dashboard."
-            },
-            "404": {
-              "description": "Dashboard not found"
-            },
-            "500": {
-              "description": "Server error"
-            }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of Users who like the Dashboard."
+          },
+          "401": {
+            "description": "Authentication required: session key not provided."
+          },
+          "404": {
+            "description": "Dashboard not found."
+          },
+          "500": {
+            "description": "Server error."
           }
         }
       },
-      "/exportstatus/{key}": {
-        "get": {
-          "summary": "Export Job Status",
-          "description": "The Export Status endpoint provides the status and links to exported artifacts for an asynchronous export job.",
-          "tags": [
-            "Export"
-          ],
-          "parameters": [{
+      "post": {
+        "summary": "Like Dashboard",
+        "description": "The Like Dashboard endpoint adds the current user to the list of users who like the Dashboard.",
+        "tags": [
+          "Dashboards"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The updated list of Users who like the Dashboard."
+          },
+          "401": {
+            "description": "Authentication required: session key not provided."
+          },
+          "404": {
+            "description": "Dashboard not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Unlike Dashboard",
+        "description": "The Unlike Dashboard endpoint removes the current user from the list of users who like the Dashboard.",
+        "tags": [
+          "Dashboards"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The updated list of Users who like the Dashboard."
+          },
+          "401": {
+            "description": "Authentication required: session key not provided."
+          },
+          "404": {
+            "description": "Dashboard not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/dashboardnames": {
+      "get": {
+        "summary": "Get Dashboard Names",
+        "description": "The Dashboard Names endpoint returns a list of the names of all non-deleted Dashboards.",
+        "tags": [
+          "Dashboards"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Dashboard names",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/tags": {
+      "get": {
+        "summary": "Get Tags",
+        "description": "The Tags endpoint returns a combined list of the unique Tags of all non-deleted Dashboards.",
+        "tags": [
+          "Tags"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Tags",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/searchhints": {
+      "get": {
+        "summary": "Get Search Hints",
+        "description": "The Search Hints endpoint returns a combined list of the names and tags of all non-deleted Dashboards.  It is designed for autocomplete hints for Dashboard searching.",
+        "tags": [
+          "Tags"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Dashboard names",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/export/{name}/pdf": {
+      "get": {
+        "summary": "Synchronous Export to PDF",
+        "description": "The Export PDF endpoint, when used synchronously, starts exporting a Dashboard to PDF and waits until it is completed and can be returned.",
+        "tags": [
+          "Export"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirects to the generated PDF."
+          },
+          "401": {
+            "description": "Authentication required: this dashboard has restricted permissions."
+          },
+          "403": {
+            "description": "View Permission denied for this Dashboard."
+          },
+          "404": {
+            "description": "Dashboard not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Asynchronous Export to PDF",
+        "description": "The Export PDF endpoint, when used asynchronously, starts exporting a Dashboard to PDF and returns a key that can be used to poll for the status of the export.",
+        "tags": [
+          "Export"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Export job created successfully; returns the corresponding URL for /exportstatus",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required: this dashboard has restricted permissions."
+          },
+          "403": {
+            "description": "View Permission denied for this Dashboard."
+          },
+          "404": {
+            "description": "Dashboard not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/exportstatus/{key}": {
+      "get": {
+        "summary": "Export Job Status",
+        "description": "The Export Status endpoint provides the status and links to exported artifacts for an asynchronous export job.",
+        "tags": [
+          "Export"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
             "name": "key",
             "in": "path",
             "description": "The Export job key.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "Returns the status of the export job.",
-              "schema": {
-                "$ref": "#/definitions/ExportStatus"
-              }
-            },
-            "500": {
-              "description": "Server error"
-            }
+            "required": true
           }
-        }
-      },
-      "/users": {
-        "get": {
-          "summary": "Get Users",
-          "description": "The Users endpoint returns a list of all known Users in Cyclotron.",
-          "tags": [
-            "Users"
-          ],
-          "responses": {
-            "200": {
-              "description": "An array of Users",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/User"
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the status of the export job.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportStatus"
                 }
               }
-            },
-            "500": {
-              "description": "Server error"
             }
+          },
+          "500": {
+            "description": "Server error"
           }
         }
-      },
-      "/users/{username}": {
-        "get": {
-          "summary": "Get User",
-          "description": "The User endpoint returns the details of a specific User.",
-          "tags": [
-            "Users"
-          ],
-          "parameters": [{
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Get Users",
+        "description": "The Users endpoint returns a list of all known Users in Cyclotron.",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/{username}": {
+      "get": {
+        "summary": "Get User",
+        "description": "The User endpoint returns the details of a specific User.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
             "name": "username",
             "in": "path",
             "description": "The sAMAccountName of the User to return.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of Users",
-              "schema": {
-                "$ref": "#/definitions/User"
-              }
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/users/login": {
-        "post": {
-          "summary": "Login",
-          "description": "The Login endpoint authenticates a User and creates a session.",
-          "tags": [
-            "Users"
-          ],
-          "parameters": [{
-            "name": "body",
-            "in": "body",
-            "description": "The User's credentials.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/LoginRequest"
-            }
-          }],
-          "responses": {
-            "200": {
-              "description": "An new active Session.",
-              "schema": {
-                "$ref": "#/definitions/Session"
-              }
-            },
-            "500": {
-              "description": "Server error OR Authentication error."
-            }
-          }
-        }
-      },
-      "/users/logout": {
-        "post": {
-          "summary": "Logout",
-          "description": "The Logout endpoint terminates an active session.",
-          "tags": [
-            "Users"
-          ],
-          "parameters": [{
-            "name": "body",
-            "in": "body",
-            "description": "The session to terminate.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/SessionRequest"
-            }
-          }],
-          "responses": {
-            "200": {
-              "description": "Logout successful."
-            },
-            "400": {
-              "description": "No session key provided."
-            },
-            "401": {
-              "description": "Session not found."
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/users/validate": {
-        "post": {
-          "summary": "Validate Session",
-          "description": "The Validate endpoint tests whether or not a session is still active.  If it is still active, the Session object is returned.",
-          "tags": [
-            "Users"
-          ],
-          "parameters": [{
-            "name": "body",
-            "in": "body",
-            "description": "The session to validate.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/SessionRequest"
-            }
-          }],
-          "responses": {
-            "200": {
-              "description": "The active Session.",
-              "schema": {
-                "$ref": "#/definitions/Session"
-              }
-            },
-            "400": {
-              "description": "No session key provided."
-            },
-            "403": {
-              "description": "Session invalid."
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/crypto/encrypt": {
-        "post": {
-          "summary": "Encrypt Text",
-          "description": "Encrypts the body of the request and returns the encrypted value.  The encryption process uses a hard-coded cipher and a secret key.  This is a one-way encryption; the encrypted value will only be decrypted internally by the proxy endpoint, when submitting a proxied request.",
-          "tags": [
-            "Crypto"
-          ],
-          "parameters": [{
-            "name": "body",
-            "in": "body",
-            "description": "The value to encrypt.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CryptoRequest"
-            }
-          }],
-          "responses": {
-            "200": {
-              "description": "The encrypted form of the original value.",
-              "type": "string"
-            },
-            "400": {
-              "description": "Missing body or value in request."
-            },
-            "500": {
-              "description": "Cyclotron-svc is not configured for encryption."
-            }
-          }
-        }
-      },
-      "/crypto/ciphers": {
-        "get": {
-          "summary": "Get Cipher",
-          "description": "Returns a list of cryptographic ciphers supported by the service.",
-          "tags": [
-            "Crypto"
-          ],
-          "responses": {
-            "200": {
-              "description": "An array of cipher names",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "/proxy": {
-        "post": {
-          "summary": "Proxy Request",
-          "description": "Proxies a request through the Cyclotron service.  This wraps the Request library, and supports all options documented here: https://www.npmjs.com/package/request#requestoptions-callback.  The only required option is \"url\"; all others are optional.\n\nDecrypts any encrypted values embedded in the request, in the form of !{encryptedText}.",
-          "tags": [
-            "Proxy"
-          ],
-          "parameters": [{
-            "name": "body",
-            "in": "body",
-            "description": "The proxy request.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ProxyRequest"
-            }
-          }],
-          "responses": {
-            "200": {
-              "description": "The proxy response.",
-              "schema": {
-                "$ref": "#/definitions/ProxyResponse"
-              }
-            },
-            "400": {
-              "description": "Missing body in request."
-            },
-            "500": {
-              "description": "Error in proxying the request, OR Cyclotron-svc is not configured for encryption/decryption."
-            }
-          }
-        }
-      },
-      "/ldap/search": {
-        "get": {
-          "summary": "LDAP search",
-          "description": "The LDAP Search endpoint searches LDAP for users & groups matching a partial search string.",
-          "tags": [
-            "LDAP"
-          ],
-          "parameters": [{
-            "name": "q",
-            "in": "query",
-            "description": "The q parameter specifies the partial string match used to filter users & groups.  The provided value is used to match either 'sAMAccountName' or 'displayName' properties.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of Users",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/LdapSearchUser"
-                }
-              }
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/statistics": {
-        "get": {
-          "summary": "Global Statistics",
-          "description": "Calculates assorted statistics about the usage of Cyclotron.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [],
-          "responses": {
-            "200": {
-              "description": "An object containing statistics."
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/analytics/pageviews": {
-        "post": {
-          "summary": "Log a Page View (and Visit)",
-          "description": "Records a page view at the current time for a given dashboard, user, etc.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [{
-            "name": "body",
-            "in": "body",
-            "description": "Information about the Dashboard being viewed and the User.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PageViewAnalyticsRecord"
-            }
-          }],
-          "responses": {
-            "200": {
-              "description": "Record logged."
-            },
-            "400": {
-              "description": "Missing required information."
-            }
-          }
-        }
-      },
-      "/analytics/pageviews/recent": {
-        "get": {
-          "summary": "Get Recent Page Views",
-          "description": "Gets the most-recent Page View Analytics records. Defaults to the top 100 records; this can be modified via the ?max parameter.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [{
-            "name": "dashboard",
-            "in": "query",
-            "description": "Optional Dashboard ID; filters page views to the specified Dashboard.",
-            "required": false,
-            "type": "string"
-          }, {
-            "name": "max",
-            "in": "query",
-            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-            "required": false,
-            "type": "integer"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of Page View Analytics records.",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/PageViewAnalyticsRecord"
-                }
-              }
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/analytics/datasources": {
-        "post": {
-          "summary": "Log a Data Source execution",
-          "description": "Records an execution of a Data Source at the current time for a given dashboard.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [{
-            "name": "body",
-            "in": "body",
-            "description": "Information about the executed Data Source.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/DataSourceAnalyticsRecord"
-            }
-          }],
-          "responses": {
-            "200": {
-              "description": "Record logged."
-            },
-            "400": {
-              "description": "Missing required information."
-            }
-          }
-        }
-      },
-      "/analytics/datasources/recent": {
-        "get": {
-          "summary": "Get Recent Data Source executions",
-          "description": "Gets the most-recent Data Source Analytics records. Defaults to the top 100 records; this can be modified via the ?max parameter.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [{
-            "name": "dashboard",
-            "in": "query",
-            "description": "Optional Dashboard ID; filters data sources to the specified Dashboard.",
-            "required": false,
-            "type": "string"
-          }, {
-            "name": "max",
-            "in": "query",
-            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-            "required": false,
-            "type": "integer"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of Data Source Analytics records.",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/DataSourceAnalyticsRecord"
-                }
-              }
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/analytics/pageviewsovertime": {
-        "get": {
-          "summary": "Dashboard Page Views Trend",
-          "description": "Aggregates Page Views over time, with optional time and dashboard filters.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [{
-            "name": "dashboard",
-            "in": "query",
-            "description": "Optional Dashboard ID; filters page views to the specified Dashboard.",
-            "required": false,
-            "type": "string"
-          }, {
-            "name": "resolution",
-            "in": "query",
-            "description": "Specifies the time granularity to aggregate results int",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "minute",
-              "hour",
-              "day"
-            ]
-          }, {
-            "name": "startDate",
-            "in": "query",
-            "description": "Specifies the starting time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }, {
-            "name": "endDate",
-            "in": "query",
-            "description": "Specifies the ending time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of aggregated results.",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/PageViewsResponse"
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid query string parameters"
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/analytics/visitsovertime": {
-        "get": {
-          "summary": "Dashboard Visits Trend",
-          "description": "Aggregates Visits over time, with optional time and dashboard filters.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [{
-            "name": "dashboard",
-            "in": "query",
-            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-            "required": false,
-            "type": "string"
-          }, {
-            "name": "resolution",
-            "in": "query",
-            "description": "Specifies the time granularity to aggregate results int",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "minute",
-              "hour",
-              "day"
-            ]
-          }, {
-            "name": "startDate",
-            "in": "query",
-            "description": "Specifies the starting time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }, {
-            "name": "endDate",
-            "in": "query",
-            "description": "Specifies the ending time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of aggregated results.",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/VisitsResponse"
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid query string parameters"
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/analytics/uniquevisitors": {
-        "get": {
-          "summary": "Page Views by Unique Visitors",
-          "description": "Aggregates Page Views by Unique Visitor, with optional time and dashboard filters. Defaults to the top 100 Users; this can be modified via the ?max parameter.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [{
-            "name": "dashboard",
-            "in": "query",
-            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-            "required": false,
-            "type": "string"
-          }, {
-            "name": "startDate",
-            "in": "query",
-            "description": "Specifies the starting time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }, {
-            "name": "endDate",
-            "in": "query",
-            "description": "Specifies the ending time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }, {
-            "name": "max",
-            "in": "query",
-            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-            "required": false,
-            "type": "integer"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of aggregated results.",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/VisitorPageViews"
-                }
-              }
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/analytics/browers": {
-        "get": {
-          "summary": "Page Views by Browser",
-          "description": "Aggregates Page Views by Browser, with optional time and dashboard filters. Defaults to the top 100 browsers and versions; this can be modified via the ?max parameter.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [{
-            "name": "dashboard",
-            "in": "query",
-            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-            "required": false,
-            "type": "string"
-          }, {
-            "name": "startDate",
-            "in": "query",
-            "description": "Specifies the starting time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }, {
-            "name": "endDate",
-            "in": "query",
-            "description": "Specifies the ending time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }, {
-            "name": "max",
-            "in": "query",
-            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-            "required": false,
-            "type": "integer"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of aggregated results.",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/BrowserPageViews"
-                }
-              }
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/analytics/widgets": {
-        "get": {
-          "summary": "Widget Views by Widget Type",
-          "description": "Aggregates Widget Views by Widget Type, with optional time and dashboard filters.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [{
-            "name": "dashboard",
-            "in": "query",
-            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-            "required": false,
-            "type": "string"
-          }, {
-            "name": "startDate",
-            "in": "query",
-            "description": "Specifies the starting time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }, {
-            "name": "endDate",
-            "in": "query",
-            "description": "Specifies the ending time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of aggregated results.",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/WidgetViews"
-                }
-              }
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/analytics/datasourcesbytype": {
-        "get": {
-          "summary": "Data Sources by Type",
-          "description": "Aggregates Data Sources by Type, with optional time and dashboard filters. When filtering by Dashboard, all Data Sources are displayed by default; without a Dashboard filter, it defaults to the top 20 records; this can be modified via the ?max parameter.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [{
-            "name": "dashboard",
-            "in": "query",
-            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-            "required": false,
-            "type": "string"
-          }, {
-            "name": "startDate",
-            "in": "query",
-            "description": "Specifies the starting time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }, {
-            "name": "endDate",
-            "in": "query",
-            "description": "Specifies the ending time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }, {
-            "name": "max",
-            "in": "query",
-            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-            "required": false,
-            "type": "integer"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of aggregated results.",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/DataSourcesByType"
-                }
-              }
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/analytics/datasourcesbyname": {
-        "get": {
-          "summary": "Data Sources by Name",
-          "description": "Aggregates Data Sources by Name, with optional time and dashboard filters. When filtering by Dashboard, all Data Sources are displayed by default; without a Dashboard filter, it defaults to the top 100 records; this can be modified via the ?max parameter.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [{
-            "name": "dashboard",
-            "in": "query",
-            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-            "required": false,
-            "type": "string"
-          }, {
-            "name": "startDate",
-            "in": "query",
-            "description": "Specifies the starting time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }, {
-            "name": "endDate",
-            "in": "query",
-            "description": "Specifies the ending time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }, {
-            "name": "max",
-            "in": "query",
-            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-            "required": false,
-            "type": "integer"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of aggregated results.",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/DataSourcesByName"
-                }
-              }
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/analytics/datasourcesbyerrormessage": {
-        "get": {
-          "summary": "Data Sources by Error Message",
-          "description": "Aggregates Data Sources by Error Message, with optional time and dashboard filters. When filtering by Dashboard, all Data Sources are displayed by default; without a Dashboard filter, it defaults to the top 20 records; this can be modified via the ?max parameter.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [{
-            "name": "dashboard",
-            "in": "query",
-            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-            "required": false,
-            "type": "string"
-          }, {
-            "name": "startDate",
-            "in": "query",
-            "description": "Specifies the starting time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }, {
-            "name": "endDate",
-            "in": "query",
-            "description": "Specifies the ending time for the aggregation.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          }, {
-            "name": "max",
-            "in": "query",
-            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-            "required": false,
-            "type": "integer"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of aggregated results.",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/DataSourcesByErrorMessage"
-                }
-              }
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/analytics/topdashboards": {
-        "get": {
-          "summary": "Top Dashboards",
-          "description": "Returns a list of the most-visited Dashboards. Defaults to the top 100; this can be modified via the ?max parameter.",
-          "tags": [
-            "Analytics"
-          ],
-          "parameters": [{
-            "name": "max",
-            "in": "query",
-            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-            "required": false,
-            "type": "integer"
-          }],
-          "responses": {
-            "200": {
-              "description": "An array of Dashboards, ordered by Page Views.",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/DashboardInfo"
-                }
-              }
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/data": {
-        "get": {
-          "summary": "Get Data Buckets",
-          "description": "The Data endpoint returns a list of Data Buckets.",
-          "tags": [
-            "Data"
-          ],
-          "responses": {
-            "200": {
-              "description": "An array of Data Buckets (without data)",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/DataBucket"
-                }
-              }
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
-        },
-        "post": {
-          "summary": "Create Data Bucket",
-          "description": "Posting to the Data endpoint creates a new Data Bucket.",
-          "tags": [
-            "Data"
-          ],
-          "parameters": [{
-            "name": "databucket",
-            "in": "body",
-            "description": "The Data Bucket to be created.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/DataBucket"
-            }
-          }],
-          "responses": {
-            "200": {
-              "description": "The created Data Bucket.",
-              "schema": {
-                "$ref": "#/definitions/DataBucket"
-              }
-            },
-            "400": {
-              "description": "Missing body or required fields."
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
-        }
-      },
-      "/data/{key}": {
-        "get": {
-          "summary": "Get Data Bucket",
-          "description": "Returns a given Data Bucket by key.",
-          "tags": [
-            "Data"
-          ],
-          "parameters": [{
-            "name": "key",
-            "in": "path",
-            "description": "The Data Bucket key.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "A single Data Bucket, including the data",
-              "schema": {
-                "$ref": "#/definitions/DataBucket"
-              }
-            },
-            "404": {
-              "description": "Data Bucket not found."
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
-        },
-        "put": {
-          "summary": "Update Data Bucket",
-          "description": "Updates a Data Bucket with a modified version. The rev property will be incremented.",
-          "tags": [
-            "Data"
-          ],
-          "parameters": [{
-            "name": "key",
-            "in": "path",
-            "description": "The Data Bucket key.",
-            "required": true,
-            "type": "string"
-          }, {
-            "name": "databucket",
-            "in": "body",
-            "description": "The Data Bucket to be created.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/DataBucket"
-            }
-          }],
-          "responses": {
-            "200": {
-              "description": "The updated Data Bucket.",
-              "schema": {
-                "$ref": "#/definitions/DataBucket"
-              }
-            },
-            "400": {
-              "description": "Missing body or required fields."
-            },
-            "404": {
-              "description": "Data Bucket not found."
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
-        },
-        "delete": {
-          "summary": "Delete Data Bucket",
-          "description": "Deletes a Data Bucket. This is a hard delete of all data, with no recovery available.",
-          "tags": [
-            "Data"
-          ],
-          "parameters": [{
-            "name": "key",
-            "in": "path",
-            "description": "The Data Bucket key.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "Success"
-            },
-            "400": {
-              "description": "Missing Data Bucket key."
-            },
-            "404": {
-              "description": "Data Bucket not found."
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
-        }
-      },
-      "/data/{key}/data": {
-        "get": {
-          "summary": "Get Data Bucket Data",
-          "description": "Returns just the data of a given Data Bucket.",
-          "tags": [
-            "Data"
-          ],
-          "parameters": [{
-            "name": "key",
-            "in": "path",
-            "description": "The Data Bucket key.",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "The data array for a Data Bucket",
-              "schema": {
-                "type": "array"
-              }
-            },
-            "404": {
-              "description": "Data Bucket not found."
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
-        },
-        "put": {
-          "summary": "Update Data Bucket Data",
-          "description": "Directly replaces the data for a Data Bucket with the provided array. The rev property will be incremented. An optional 'rev' parameter can be provided, which fails the request unless it matches the current rev in the database. This is useful for ensuring sequential updates and preventing accidental overwrites.",
-          "tags": [
-            "Data"
-          ],
-          "parameters": [{
-            "name": "key",
-            "in": "path",
-            "description": "The Data Bucket key.",
-            "required": true,
-            "type": "string"
-          }, {
-            "name": "data",
-            "in": "body",
-            "description": "The data array for a Data Bucket",
-            "required": true,
-            "schema": {
-              "type": "array"
-            }
-          }, {
-            "name": "rev",
-            "in": "query",
-            "description": "If provided, the update will only succeed if the Data Bucket has a matching revision. Useful for ensuring sequential updates.",
-            "required": false,
-            "schema": {
-              "type": "array"
-            }
-          }],
-          "responses": {
-            "200": {
-              "description": "The updated Data Bucket.",
-              "schema": {
-                "$ref": "#/definitions/DataBucket"
-              }
-            },
-            "400": {
-              "description": "Missing body or required fields."
-            },
-            "404": {
-              "description": "Data Bucket not found."
-            },
-            "409": {
-              "description": "Conflict; the Data Bucket revision does not match the ?rev query parameter."
-            },
-            "500": {
-              "description": "Server error."
-            }
-          }
-        }
-      },
-      "/data/{key}/append": {
-        "post": {
-          "summary": "Append to Data Bucket Data",
-          "description": "Appends a value or array of values to the data for a given Data Bucket. The rev property will be incremented.",
-          "tags": [
-            "Data"
-          ],
-          "parameters": [{
-            "name": "key",
-            "in": "path",
-            "description": "The Data Bucket key.",
-            "required": true,
-            "type": "string"
-          }, {
-            "name": "data",
-            "in": "body",
-            "description": "Either a single value, or array of values.",
             "required": true
-          }],
-          "responses": {
-            "200": {
-              "description": "The updated Data Bucket.",
-              "schema": {
-                "$ref": "#/definitions/DataBucket"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
               }
-            },
-            "400": {
-              "description": "Missing body."
-            },
-            "404": {
-              "description": "Data Bucket not found."
-            },
-            "500": {
-              "description": "Server error."
             }
+          },
+          "500": {
+            "description": "Server error"
           }
         }
-      },
-      "/data/{key}/upsert": {
-        "post": {
-          "summary": "Upserts an object in the Data Bucket Data",
-          "description": "Upserts (inserts or updates) an object in the data for a given Data Bucket. The rev property will be incremented.",
-          "tags": [
-            "Data"
-          ],
-          "parameters": [{
-            "name": "key",
-            "in": "path",
-            "description": "The Data Bucket key.",
-            "required": true,
-            "type": "string"
-          }, {
-            "name": "data",
-            "in": "body",
-            "description": "An object containing 'keys' and 'data'.",
-            "required": true
-          }],
-          "responses": {
-            "200": {
-              "description": "The updated Data Bucket.",
-              "schema": {
-                "$ref": "#/definitions/DataBucket"
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "Login",
+        "description": "The Login endpoint authenticates a User and creates a session.",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "An new active Session.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
               }
-            },
-            "400": {
-              "description": "Missing body."
-            },
-            "404": {
-              "description": "Data Bucket not found."
-            },
-            "500": {
-              "description": "Server error."
             }
+          },
+          "500": {
+            "description": "Server error OR Authentication error."
           }
-        }
-      },
-      "/data/{key}/remove": {
-        "post": {
-          "summary": "Removes matching objects from the Data Bucket Data",
-          "description": "Removes any object that matches all the keys in the body from the data for a given Data Bucket. The rev property will be incremented.",
-          "tags": [
-            "Data"
-          ],
-          "parameters": [{
-            "name": "key",
-            "in": "path",
-            "description": "The Data Bucket key.",
-            "required": true,
-            "type": "string"
-          }, {
-            "name": "matchingKeys",
-            "in": "body",
-            "description": "An object containing keys to match data.",
-            "required": true
-          }],
-          "responses": {
-            "200": {
-              "description": "The updated Data Bucket.",
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
               "schema": {
-                "$ref": "#/definitions/DataBucket"
+                "$ref": "#/components/schemas/LoginRequest"
               }
-            },
-            "400": {
-              "description": "Missing body."
-            },
-            "404": {
-              "description": "Data Bucket not found."
-            },
-            "500": {
-              "description": "Server error."
+            }
+          },
+          "description": "The User's credentials.",
+          "required": true
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "summary": "Logout",
+        "description": "The Logout endpoint terminates an active session.",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Logout successful."
+          },
+          "400": {
+            "description": "No session key provided."
+          },
+          "401": {
+            "description": "Session not found."
+          },
+          "500": {
+            "description": "Server error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionRequest"
+              }
+            }
+          },
+          "description": "The session to terminate.",
+          "required": true
+        }
+      }
+    },
+    "/users/validate": {
+      "post": {
+        "summary": "Validate Session",
+        "description": "The Validate endpoint tests whether or not a session is still active.  If it is still active, the Session object is returned.",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "The active Session.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No session key provided."
+          },
+          "403": {
+            "description": "Session invalid."
+          },
+          "500": {
+            "description": "Server error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionRequest"
+              }
+            }
+          },
+          "description": "The session to validate.",
+          "required": true
+        }
+      }
+    },
+    "/crypto/encrypt": {
+      "post": {
+        "summary": "Encrypt Text",
+        "description": "Encrypts the body of the request and returns the encrypted value.  The encryption process uses a hard-coded cipher and a secret key.  This is a one-way encryption; the encrypted value will only be decrypted internally by the proxy endpoint, when submitting a proxied request.",
+        "tags": [
+          "Crypto"
+        ],
+        "responses": {
+          "200": {
+            "description": "The encrypted form of the original value.",
+            "type": "string"
+          },
+          "400": {
+            "description": "Missing body or value in request."
+          },
+          "500": {
+            "description": "Cyclotron-svc is not configured for encryption."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CryptoRequest"
+              }
+            }
+          },
+          "description": "The value to encrypt.",
+          "required": true
+        }
+      }
+    },
+    "/crypto/ciphers": {
+      "get": {
+        "summary": "Get Cipher",
+        "description": "Returns a list of cryptographic ciphers supported by the service.",
+        "tags": [
+          "Crypto"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of cipher names",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
             }
           }
         }
       }
     },
-    "definitions": {
+    "/proxy": {
+      "post": {
+        "summary": "Proxy Request",
+        "description": "Proxies a request through the Cyclotron service.  This wraps the Request library, and supports all options documented here: https://www.npmjs.com/package/request#requestoptions-callback.  The only required option is \"url\"; all others are optional.\n\nDecrypts any encrypted values embedded in the request, in the form of !{encryptedText}.",
+        "tags": [
+          "Proxy"
+        ],
+        "responses": {
+          "200": {
+            "description": "The proxy response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProxyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing body in request."
+          },
+          "500": {
+            "description": "Error in proxying the request, OR Cyclotron-svc is not configured for encryption/decryption."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProxyRequest"
+              }
+            }
+          },
+          "description": "The proxy request.",
+          "required": true
+        }
+      }
+    },
+    "/ldap/search": {
+      "get": {
+        "summary": "LDAP search",
+        "description": "The LDAP Search endpoint searches LDAP for users & groups matching a partial search string.",
+        "tags": [
+          "LDAP"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "q",
+            "in": "query",
+            "description": "The q parameter specifies the partial string match used to filter users & groups.  The provided value is used to match either 'sAMAccountName' or 'displayName' properties.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LdapSearchUser"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/statistics": {
+      "get": {
+        "summary": "Global Statistics",
+        "description": "Calculates assorted statistics about the usage of Cyclotron.",
+        "tags": [
+          "Analytics"
+        ],
+        "responses": {
+          "200": {
+            "description": "An object containing statistics."
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/analytics/pageviews": {
+      "post": {
+        "summary": "Log a Page View (and Visit)",
+        "description": "Records a page view at the current time for a given dashboard, user, etc.",
+        "tags": [
+          "Analytics"
+        ],
+        "responses": {
+          "200": {
+            "description": "Record logged."
+          },
+          "400": {
+            "description": "Missing required information."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageViewAnalyticsRecord"
+              }
+            }
+          },
+          "description": "Information about the Dashboard being viewed and the User.",
+          "required": true
+        }
+      }
+    },
+    "/analytics/pageviews/recent": {
+      "get": {
+        "summary": "Get Recent Page Views",
+        "description": "Gets the most-recent Page View Analytics records. Defaults to the top 100 records; this can be modified via the ?max parameter.",
+        "tags": [
+          "Analytics"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters page views to the specified Dashboard.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Page View Analytics records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PageViewAnalyticsRecord"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/analytics/datasources": {
+      "post": {
+        "summary": "Log a Data Source execution",
+        "description": "Records an execution of a Data Source at the current time for a given dashboard.",
+        "tags": [
+          "Analytics"
+        ],
+        "responses": {
+          "200": {
+            "description": "Record logged."
+          },
+          "400": {
+            "description": "Missing required information."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DataSourceAnalyticsRecord"
+              }
+            }
+          },
+          "description": "Information about the executed Data Source.",
+          "required": true
+        }
+      }
+    },
+    "/analytics/datasources/recent": {
+      "get": {
+        "summary": "Get Recent Data Source executions",
+        "description": "Gets the most-recent Data Source Analytics records. Defaults to the top 100 records; this can be modified via the ?max parameter.",
+        "tags": [
+          "Analytics"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters data sources to the specified Dashboard.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Data Source Analytics records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DataSourceAnalyticsRecord"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/analytics/pageviewsovertime": {
+      "get": {
+        "summary": "Dashboard Page Views Trend",
+        "description": "Aggregates Page Views over time, with optional time and dashboard filters.",
+        "tags": [
+          "Analytics"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters page views to the specified Dashboard.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "minute",
+                "hour",
+                "day"
+              ]
+            },
+            "name": "resolution",
+            "in": "query",
+            "description": "Specifies the time granularity to aggregate results int",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of aggregated results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PageViewsResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query string parameters"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/analytics/visitsovertime": {
+      "get": {
+        "summary": "Dashboard Visits Trend",
+        "description": "Aggregates Visits over time, with optional time and dashboard filters.",
+        "tags": [
+          "Analytics"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "minute",
+                "hour",
+                "day"
+              ]
+            },
+            "name": "resolution",
+            "in": "query",
+            "description": "Specifies the time granularity to aggregate results int",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of aggregated results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VisitsResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query string parameters"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/analytics/uniquevisitors": {
+      "get": {
+        "summary": "Page Views by Unique Visitors",
+        "description": "Aggregates Page Views by Unique Visitor, with optional time and dashboard filters. Defaults to the top 100 Users; this can be modified via the ?max parameter.",
+        "tags": [
+          "Analytics"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of aggregated results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VisitorPageViews"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/analytics/browers": {
+      "get": {
+        "summary": "Page Views by Browser",
+        "description": "Aggregates Page Views by Browser, with optional time and dashboard filters. Defaults to the top 100 browsers and versions; this can be modified via the ?max parameter.",
+        "tags": [
+          "Analytics"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of aggregated results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BrowserPageViews"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/analytics/widgets": {
+      "get": {
+        "summary": "Widget Views by Widget Type",
+        "description": "Aggregates Widget Views by Widget Type, with optional time and dashboard filters.",
+        "tags": [
+          "Analytics"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of aggregated results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WidgetViews"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/analytics/datasourcesbytype": {
+      "get": {
+        "summary": "Data Sources by Type",
+        "description": "Aggregates Data Sources by Type, with optional time and dashboard filters. When filtering by Dashboard, all Data Sources are displayed by default; without a Dashboard filter, it defaults to the top 20 records; this can be modified via the ?max parameter.",
+        "tags": [
+          "Analytics"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of aggregated results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DataSourcesByType"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/analytics/datasourcesbyname": {
+      "get": {
+        "summary": "Data Sources by Name",
+        "description": "Aggregates Data Sources by Name, with optional time and dashboard filters. When filtering by Dashboard, all Data Sources are displayed by default; without a Dashboard filter, it defaults to the top 100 records; this can be modified via the ?max parameter.",
+        "tags": [
+          "Analytics"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of aggregated results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DataSourcesByName"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/analytics/datasourcesbyerrormessage": {
+      "get": {
+        "summary": "Data Sources by Error Message",
+        "description": "Aggregates Data Sources by Error Message, with optional time and dashboard filters. When filtering by Dashboard, all Data Sources are displayed by default; without a Dashboard filter, it defaults to the top 20 records; this can be modified via the ?max parameter.",
+        "tags": [
+          "Analytics"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of aggregated results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DataSourcesByErrorMessage"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/analytics/topdashboards": {
+      "get": {
+        "summary": "Top Dashboards",
+        "description": "Returns a list of the most-visited Dashboards. Defaults to the top 100; this can be modified via the ?max parameter.",
+        "tags": [
+          "Analytics"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Dashboards, ordered by Page Views.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DashboardInfo"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/data": {
+      "get": {
+        "summary": "Get Data Buckets",
+        "description": "The Data endpoint returns a list of Data Buckets.",
+        "tags": [
+          "Data"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Data Buckets (without data)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DataBucket"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Data Bucket",
+        "description": "Posting to the Data endpoint creates a new Data Bucket.",
+        "tags": [
+          "Data"
+        ],
+        "responses": {
+          "200": {
+            "description": "The created Data Bucket.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataBucket"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing body or required fields."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DataBucket"
+              }
+            }
+          },
+          "description": "The Data Bucket to be created.",
+          "required": true
+        }
+      }
+    },
+    "/data/{key}": {
+      "get": {
+        "summary": "Get Data Bucket",
+        "description": "Returns a given Data Bucket by key.",
+        "tags": [
+          "Data"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A single Data Bucket, including the data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataBucket"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data Bucket not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Data Bucket",
+        "description": "Updates a Data Bucket with a modified version. The rev property will be incremented.",
+        "tags": [
+          "Data"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The updated Data Bucket.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataBucket"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing body or required fields."
+          },
+          "404": {
+            "description": "Data Bucket not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DataBucket"
+              }
+            }
+          },
+          "description": "The Data Bucket to be created.",
+          "required": true
+        }
+      },
+      "delete": {
+        "summary": "Delete Data Bucket",
+        "description": "Deletes a Data Bucket. This is a hard delete of all data, with no recovery available.",
+        "tags": [
+          "Data"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Missing Data Bucket key."
+          },
+          "404": {
+            "description": "Data Bucket not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/data/{key}/data": {
+      "get": {
+        "summary": "Get Data Bucket Data",
+        "description": "Returns just the data of a given Data Bucket.",
+        "tags": [
+          "Data"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data array for a Data Bucket",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data Bucket not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Data Bucket Data",
+        "description": "Directly replaces the data for a Data Bucket with the provided array. The rev property will be incremented. An optional 'rev' parameter can be provided, which fails the request unless it matches the current rev in the database. This is useful for ensuring sequential updates and preventing accidental overwrites.",
+        "tags": [
+          "Data"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "array"
+            },
+            "name": "rev",
+            "in": "query",
+            "description": "If provided, the update will only succeed if the Data Bucket has a matching revision. Useful for ensuring sequential updates.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The updated Data Bucket.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataBucket"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing body or required fields."
+          },
+          "404": {
+            "description": "Data Bucket not found."
+          },
+          "409": {
+            "description": "Conflict; the Data Bucket revision does not match the ?rev query parameter."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array"
+              }
+            }
+          },
+          "description": "The data array for a Data Bucket",
+          "required": true
+        }
+      }
+    },
+    "/data/{key}/append": {
+      "post": {
+        "summary": "Append to Data Bucket Data",
+        "description": "Appends a value or array of values to the data for a given Data Bucket. The rev property will be incremented.",
+        "tags": [
+          "Data"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The updated Data Bucket.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataBucket"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing body."
+          },
+          "404": {
+            "description": "Data Bucket not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          },
+          "description": "Either a single value, or array of values.",
+          "required": true
+        }
+      }
+    },
+    "/data/{key}/upsert": {
+      "post": {
+        "summary": "Upserts an object in the Data Bucket Data",
+        "description": "Upserts (inserts or updates) an object in the data for a given Data Bucket. The rev property will be incremented.",
+        "tags": [
+          "Data"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The updated Data Bucket.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataBucket"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing body."
+          },
+          "404": {
+            "description": "Data Bucket not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          },
+          "description": "An object containing 'keys' and 'data'.",
+          "required": true
+        }
+      }
+    },
+    "/data/{key}/remove": {
+      "post": {
+        "summary": "Removes matching objects from the Data Bucket Data",
+        "description": "Removes any object that matches all the keys in the body from the data for a given Data Bucket. The rev property will be incremented.",
+        "tags": [
+          "Data"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The updated Data Bucket.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataBucket"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing body."
+          },
+          "404": {
+            "description": "Data Bucket not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          },
+          "description": "An object containing keys to match data.",
+          "required": true
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
       "DashboardRef": {
         "description": "A reference to a Dashboard, containing the name and ID.",
         "properties": {
@@ -1795,11 +2203,11 @@
             "readOnly": true
           },
           "createdBy": {
-            "$ref": "#/definitions/CreatedBy",
+            "$ref": "#/components/schemas/CreatedBy",
             "readOnly": true
           },
           "lastUpdatedBy": {
-            "$ref": "#/definitions/LastUpdatedBy",
+            "$ref": "#/components/schemas/LastUpdatedBy",
             "readOnly": true
           },
           "tags": {
@@ -1813,14 +2221,14 @@
             "description": "If provided, contains the list of users/groups with authorization to view this Dashboard.",
             "type": "array",
             "items": {
-              "$ref": "#/definitions/Viewer"
+              "$ref": "#/components/schemas/Viewer"
             }
           },
           "editors": {
             "description": "If provided, contains the list of users/groups with authorization to edit this Dashboard.",
             "type": "array",
             "items": {
-              "$ref": "#/definitions/Editor"
+              "$ref": "#/components/schemas/Editor"
             }
           },
           "visits": {
@@ -1854,7 +2262,7 @@
             "required": true
           },
           "dashboard": {
-            "$ref": "#/definitions/DashboardDefinition",
+            "$ref": "#/components/schemas/DashboardDefinition",
             "required": true
           },
           "date": {
@@ -1881,25 +2289,25 @@
             }
           },
           "createdBy": {
-            "$ref": "#/definitions/CreatedBy",
+            "$ref": "#/components/schemas/CreatedBy",
             "readOnly": true
           },
           "lastUpdatedBy": {
-            "$ref": "#/definitions/LastUpdatedBy",
+            "$ref": "#/components/schemas/LastUpdatedBy",
             "readOnly": true
           },
           "viewers": {
             "description": "If provided, contains the list of users/groups with authorization to view this Dashboard.",
             "type": "array",
             "items": {
-              "$ref": "#/definitions/Viewer"
+              "$ref": "#/components/schemas/Viewer"
             }
           },
           "editors": {
             "description": "If provided, contains the list of users/groups with authorization to edit this Dashboard.",
             "type": "array",
             "items": {
-              "$ref": "#/definitions/Editor"
+              "$ref": "#/components/schemas/Editor"
             }
           },
           "visits": {
@@ -2251,7 +2659,7 @@
           },
           "user": {
             "description": "The User logged into this Session.",
-            "$ref": "#/definitions/User"
+            "$ref": "#/components/schemas/User"
           }
         }
       },
@@ -2419,7 +2827,7 @@
         "properties": {
           "user": {
             "description": "The User for this aggregation.",
-            "$ref": "#/definitions/User"
+            "$ref": "#/components/schemas/User"
           },
           "pageViews": {
             "description": "The aggregated number of Page Views for the current user.",
@@ -2570,7 +2978,7 @@
         }
       }
     },
-    "securityDefinitions": {
+    "securitySchemes": {
       "authenticatedSession": {
         "type": "apiKey",
         "description": "Session-based security using LDAP authentication",
@@ -2579,3 +2987,4 @@
       }
     }
   }
+}

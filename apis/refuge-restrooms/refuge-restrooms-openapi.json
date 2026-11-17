@@ -1,320 +1,356 @@
 {
-    "info": {
-      "title": "API title",
-      "version": "0.0.1"
-    },
-    "swagger": "2.0",
-    "produces": [
-      "application/xml",
-      "application/json",
-      "application/octet-stream",
-      "text/plain"
-    ],
-    "host": "refugerestrooms.org",
-    "basePath": "/api",
-    "schemes": [
-      "https"
-    ],
-    "tags": [
-      {
-        "name": "restrooms",
-        "description": "Operations about restrooms"
+  "openapi": "3.1.1",
+  "info": {
+    "title": "API title",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://refugerestrooms.org/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "restrooms",
+      "description": "Operations about restrooms"
+    }
+  ],
+  "paths": {
+    "/v1/restrooms/by_date": {
+      "get": {
+        "description": "Search for restroom records updated or created on or after a given date",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "in": "query",
+            "name": "page",
+            "description": "Page offset to fetch.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            },
+            "in": "query",
+            "name": "per_page",
+            "description": "Number of results to return per page.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "in": "query",
+            "name": "offset",
+            "description": "Pad a number of results.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "ada",
+            "description": "Only return restrooms that are ADA accessible.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "unisex",
+            "description": "Only return restrooms that are unisex.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "updated",
+            "description": "Return restroom records updated (rather than created) since given date",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "in": "query",
+            "name": "day",
+            "description": "Day",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "in": "query",
+            "name": "month",
+            "description": "Month",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "in": "query",
+            "name": "year",
+            "description": "Year",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search for restroom records updated or created on or after a given date"
+          }
+        },
+        "tags": [
+          "restrooms"
+        ],
+        "operationId": "getV1RestroomsByDate"
       }
-    ],
-    "paths": {
-      "/v1/restrooms/by_date": {
-        "get": {
-          "description": "Search for restroom records updated or created on or after a given date",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "in": "query",
-              "name": "page",
-              "description": "Page offset to fetch.",
+    },
+    "/v1/restrooms/by_location": {
+      "get": {
+        "description": "Search by location.",
+        "parameters": [
+          {
+            "schema": {
               "type": "integer",
               "format": "int32",
-              "default": 1,
-              "required": false
+              "default": 1
             },
-            {
-              "in": "query",
-              "name": "per_page",
-              "description": "Number of results to return per page.",
-              "type": "integer",
-              "format": "int32",
-              "default": 10,
-              "required": false
-            },
-            {
-              "in": "query",
-              "name": "offset",
-              "description": "Pad a number of results.",
-              "type": "integer",
-              "format": "int32",
-              "default": 0,
-              "required": false
-            },
-            {
-              "in": "query",
-              "name": "ada",
-              "description": "Only return restrooms that are ADA accessible.",
-              "type": "boolean",
-              "required": false
-            },
-            {
-              "in": "query",
-              "name": "unisex",
-              "description": "Only return restrooms that are unisex.",
-              "type": "boolean",
-              "required": false
-            },
-            {
-              "in": "query",
-              "name": "updated",
-              "description": "Return restroom records updated (rather than created) since given date",
-              "type": "boolean",
-              "required": false
-            },
-            {
-              "in": "query",
-              "name": "day",
-              "description": "Day",
-              "type": "integer",
-              "format": "int32",
-              "required": true
-            },
-            {
-              "in": "query",
-              "name": "month",
-              "description": "Month",
-              "type": "integer",
-              "format": "int32",
-              "required": true
-            },
-            {
-              "in": "query",
-              "name": "year",
-              "description": "Year",
-              "type": "integer",
-              "format": "int32",
-              "required": true
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Search for restroom records updated or created on or after a given date"
-            }
+            "in": "query",
+            "name": "page",
+            "description": "Page offset to fetch.",
+            "required": false
           },
-          "tags": [
-            "restrooms"
-          ],
-          "operationId": "getV1RestroomsByDate"
-        }
-      },
-      "/v1/restrooms/by_location": {
-        "get": {
-          "description": "Search by location.",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "in": "query",
-              "name": "page",
-              "description": "Page offset to fetch.",
+          {
+            "schema": {
               "type": "integer",
               "format": "int32",
-              "default": 1,
-              "required": false
+              "default": 10
             },
-            {
-              "in": "query",
-              "name": "per_page",
-              "description": "Number of results to return per page.",
+            "in": "query",
+            "name": "per_page",
+            "description": "Number of results to return per page.",
+            "required": false
+          },
+          {
+            "schema": {
               "type": "integer",
               "format": "int32",
-              "default": 10,
-              "required": false
+              "default": 0
             },
-            {
-              "in": "query",
-              "name": "offset",
-              "description": "Pad a number of results.",
-              "type": "integer",
-              "format": "int32",
-              "default": 0,
-              "required": false
+            "in": "query",
+            "name": "offset",
+            "description": "Pad a number of results.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean"
             },
-            {
-              "in": "query",
-              "name": "ada",
-              "description": "Only return restrooms that are ADA accessible.",
-              "type": "boolean",
-              "required": false
+            "in": "query",
+            "name": "ada",
+            "description": "Only return restrooms that are ADA accessible.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean"
             },
-            {
-              "in": "query",
-              "name": "unisex",
-              "description": "Only return restrooms that are unisex.",
-              "type": "boolean",
-              "required": false
-            },
-            {
-              "in": "query",
-              "name": "lat",
-              "description": "latitude",
+            "in": "query",
+            "name": "unisex",
+            "description": "Only return restrooms that are unisex.",
+            "required": false
+          },
+          {
+            "schema": {
               "type": "number",
-              "format": "float",
-              "required": true
+              "format": "float"
             },
-            {
-              "in": "query",
-              "name": "lng",
-              "description": "longitude",
+            "in": "query",
+            "name": "lat",
+            "description": "latitude",
+            "required": true
+          },
+          {
+            "schema": {
               "type": "number",
-              "format": "float",
-              "required": true
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Search by location."
-            }
+              "format": "float"
+            },
+            "in": "query",
+            "name": "lng",
+            "description": "longitude",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search by location."
+          }
+        },
+        "tags": [
+          "restrooms"
+        ],
+        "operationId": "getV1RestroomsByLocation"
+      }
+    },
+    "/v1/restrooms/search": {
+      "get": {
+        "description": "Perform full-text search of restroom records.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "in": "query",
+            "name": "page",
+            "description": "Page offset to fetch.",
+            "required": false
           },
-          "tags": [
-            "restrooms"
-          ],
-          "operationId": "getV1RestroomsByLocation"
-        }
-      },
-      "/v1/restrooms/search": {
-        "get": {
-          "description": "Perform full-text search of restroom records.",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "in": "query",
-              "name": "page",
-              "description": "Page offset to fetch.",
+          {
+            "schema": {
               "type": "integer",
               "format": "int32",
-              "default": 1,
-              "required": false
+              "default": 10
             },
-            {
-              "in": "query",
-              "name": "per_page",
-              "description": "Number of results to return per page.",
-              "type": "integer",
-              "format": "int32",
-              "default": 10,
-              "required": false
-            },
-            {
-              "in": "query",
-              "name": "offset",
-              "description": "Pad a number of results.",
-              "type": "integer",
-              "format": "int32",
-              "default": 0,
-              "required": false
-            },
-            {
-              "in": "query",
-              "name": "ada",
-              "description": "Only return restrooms that are ADA accessible.",
-              "type": "boolean",
-              "required": false
-            },
-            {
-              "in": "query",
-              "name": "unisex",
-              "description": "Only return restrooms that are unisex.",
-              "type": "boolean",
-              "required": false
-            },
-            {
-              "in": "query",
-              "name": "query",
-              "description": "Your search query.",
-              "type": "string",
-              "required": true
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Perform full-text search of restroom records."
-            }
+            "in": "query",
+            "name": "per_page",
+            "description": "Number of results to return per page.",
+            "required": false
           },
-          "tags": [
-            "restrooms"
-          ],
-          "operationId": "getV1RestroomsSearch"
-        }
-      },
-      "/v1/restrooms": {
-        "get": {
-          "description": "Get all restroom records ordered by date descending.",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "in": "query",
-              "name": "page",
-              "description": "Page offset to fetch.",
+          {
+            "schema": {
               "type": "integer",
               "format": "int32",
-              "default": 1,
-              "required": false
+              "default": 0
             },
-            {
-              "in": "query",
-              "name": "per_page",
-              "description": "Number of results to return per page.",
-              "type": "integer",
-              "format": "int32",
-              "default": 10,
-              "required": false
-            },
-            {
-              "in": "query",
-              "name": "offset",
-              "description": "Pad a number of results.",
-              "type": "integer",
-              "format": "int32",
-              "default": 0,
-              "required": false
-            },
-            {
-              "in": "query",
-              "name": "ada",
-              "description": "Only return restrooms that are ADA accessible.",
-              "type": "boolean",
-              "required": false
-            },
-            {
-              "in": "query",
-              "name": "unisex",
-              "description": "Only return restrooms that are unisex.",
-              "type": "boolean",
-              "required": false
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Get all restroom records ordered by date descending."
-            }
+            "in": "query",
+            "name": "offset",
+            "description": "Pad a number of results.",
+            "required": false
           },
-          "tags": [
-            "restrooms"
-          ],
-          "operationId": "getV1Restrooms"
-        }
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "ada",
+            "description": "Only return restrooms that are ADA accessible.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "unisex",
+            "description": "Only return restrooms that are unisex.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "query",
+            "description": "Your search query.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Perform full-text search of restroom records."
+          }
+        },
+        "tags": [
+          "restrooms"
+        ],
+        "operationId": "getV1RestroomsSearch"
+      }
+    },
+    "/v1/restrooms": {
+      "get": {
+        "description": "Get all restroom records ordered by date descending.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "in": "query",
+            "name": "page",
+            "description": "Page offset to fetch.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            },
+            "in": "query",
+            "name": "per_page",
+            "description": "Number of results to return per page.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "in": "query",
+            "name": "offset",
+            "description": "Pad a number of results.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "ada",
+            "description": "Only return restrooms that are ADA accessible.",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "unisex",
+            "description": "Only return restrooms that are unisex.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all restroom records ordered by date descending."
+          }
+        },
+        "tags": [
+          "restrooms"
+        ],
+        "operationId": "getV1Restrooms"
       }
     }
   }
+}

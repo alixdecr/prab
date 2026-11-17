@@ -1,1516 +1,1669 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "description": "Digdag server API",
-      "version": "0.10.0",
-      "title": "Digdag"
+  "openapi": "3.1.1",
+  "info": {
+    "description": "Digdag server API",
+    "version": "0.10.0",
+    "title": "Digdag"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Workflow"
     },
-    "servers": [
-      {
-        "url": "http://localhost:8080"
-      }
-    ],
-    "tags": [
-      {
-        "name": "Workflow"
-      },
-      {
-        "name": "Session"
-      },
-      {
-        "name": "Attempt"
-      },
-      {
-        "name": "Admin"
-      },
-      {
-        "name": "Version"
-      },
-      {
-        "name": "Log"
-      },
-      {
-        "name": "Project"
-      },
-      {
-        "name": "Schedule"
-      }
-    ],
-    "paths": {
-      "/api/admin/attempts/{id}/userinfo": {
-        "get": {
-          "tags": [
-            "Admin"
-          ],
-          "summary": "(deprecated)",
-          "description": "",
-          "operationId": "getUserInfo",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/Config"
-              }
-            }
-          },
-          "deprecated": true
-        }
-      },
-      "/api/attempts": {
-        "get": {
-          "tags": [
-            "Attempt"
-          ],
-          "summary": "List attempts with filters",
-          "description": "",
-          "operationId": "getAttempts",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "project",
-              "in": "query",
-              "description": "exact matching filter on project name",
-              "required": false,
-              "type": "string"
-            },
-            {
-              "name": "workflow",
-              "in": "query",
-              "description": "exact matching filter on workflow name",
-              "required": false,
-              "type": "string"
-            },
-            {
-              "name": "include_retried",
-              "in": "query",
-              "description": "list more than 1 attempts per session",
-              "required": false,
-              "type": "boolean"
-            },
-            {
-              "name": "last_id",
-              "in": "query",
-              "description": "list attempts whose id is grater than this id for pagination",
-              "required": false,
+    {
+      "name": "Session"
+    },
+    {
+      "name": "Attempt"
+    },
+    {
+      "name": "Admin"
+    },
+    {
+      "name": "Version"
+    },
+    {
+      "name": "Log"
+    },
+    {
+      "name": "Project"
+    },
+    {
+      "name": "Schedule"
+    }
+  ],
+  "paths": {
+    "/api/admin/attempts/{id}/userinfo": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "(deprecated)",
+        "description": "",
+        "operationId": "getUserInfo",
+        "parameters": [
+          {
+            "schema": {
               "type": "integer",
               "format": "int64"
             },
-            {
-              "name": "page_size",
-              "in": "query",
-              "description": "number of attempts to return",
-              "required": false,
-              "type": "integer",
-              "format": "int32"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestSessionAttemptCollection"
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Config"
+                }
               }
             }
           }
         },
-        "put": {
-          "tags": [
-            "Attempt"
-          ],
-          "summary": "Start a workflow execution as a new session or a new attempt of an existing session",
-          "description": "",
-          "operationId": "startAttempt",
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "required": false,
-              "schema": {
-                "$ref": "#/definitions/RestSessionAttemptRequest"
-              }
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
-          }
-        }
-      },
-      "/api/attempts/{id}": {
-        "get": {
-          "tags": [
-            "Attempt"
-          ],
-          "summary": "Get an attempt",
-          "description": "",
-          "operationId": "getAttempt",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "attempt id",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestSessionAttempt"
-              }
-            }
-          }
-        }
-      },
-      "/api/attempts/{id}/kill": {
-        "post": {
-          "tags": [
-            "Attempt"
-          ],
-          "summary": "Set a cancel-requested flag on a running attempt",
-          "description": "",
-          "operationId": "killAttempt",
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "attempt id",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
-          }
-        }
-      },
-      "/api/attempts/{id}/retries": {
-        "get": {
-          "tags": [
-            "Attempt"
-          ],
-          "summary": "List attempts of a session of a given attempt",
-          "description": "",
-          "operationId": "getAttemptRetries",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "attempt id",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestSessionAttemptCollection"
-              }
-            }
-          }
-        }
-      },
-      "/api/attempts/{id}/tasks": {
-        "get": {
-          "tags": [
-            "Attempt"
-          ],
-          "summary": "List tasks of an attempt",
-          "description": "",
-          "operationId": "getTasks",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "attempt id",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestTaskCollection"
-              }
-            }
-          }
-        }
-      },
-      "/api/logs/{attempt_id}/files": {
-        "get": {
-          "tags": [
-            "Log"
-          ],
-          "summary": "List log files of an attempt with filters",
-          "description": "",
-          "operationId": "getFileHandles",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "attempt_id",
-              "in": "path",
-              "description": "attempt id",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            },
-            {
-              "name": "task",
-              "in": "query",
-              "description": "partial prefix match filter on task name",
-              "required": false,
+        "deprecated": true
+      }
+    },
+    "/api/attempts": {
+      "get": {
+        "tags": [
+          "Attempt"
+        ],
+        "summary": "List attempts with filters",
+        "description": "",
+        "operationId": "getAttempts",
+        "parameters": [
+          {
+            "schema": {
               "type": "string"
             },
-            {
-              "name": "direct_download",
-              "in": "query",
-              "description": "enable returning direct download handle",
-              "required": false,
+            "name": "project",
+            "in": "query",
+            "description": "exact matching filter on project name",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "workflow",
+            "in": "query",
+            "description": "exact matching filter on workflow name",
+            "required": false
+          },
+          {
+            "schema": {
               "type": "boolean"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestLogFileHandleCollection"
-              }
-            }
-          }
-        }
-      },
-      "/api/logs/{attempt_id}/files/{file_name}": {
-        "get": {
-          "tags": [
-            "Log"
-          ],
-          "summary": "Download a log file",
-          "description": "",
-          "operationId": "getFile",
-          "produces": [
-            "application/gzip"
-          ],
-          "parameters": [
-            {
-              "name": "attempt_id",
-              "in": "path",
-              "description": "attempt id",
-              "required": true,
+            },
+            "name": "include_retried",
+            "in": "query",
+            "description": "list more than 1 attempts per session",
+            "required": false
+          },
+          {
+            "schema": {
               "type": "integer",
               "format": "int64"
             },
-            {
-              "name": "file_name",
-              "in": "path",
-              "description": "log file name",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "format": "byte"
+            "name": "last_id",
+            "in": "query",
+            "description": "list attempts whose id is grater than this id for pagination",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "page_size",
+            "in": "query",
+            "description": "number of attempts to return",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestSessionAttemptCollection"
                 }
               }
             }
           }
         }
       },
-      "/api/project": {
-        "get": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "(deprecated)",
-          "description": "",
-          "operationId": "getProject",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "name",
-              "in": "query",
-              "required": false,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
+      "put": {
+        "tags": [
+          "Attempt"
+        ],
+        "summary": "Start a workflow execution as a new session or a new attempt of an existing session",
+        "description": "",
+        "operationId": "startAttempt",
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
               "schema": {
-                "$ref": "#/definitions/RestProject"
+                "$ref": "#/components/schemas/RestSessionAttemptRequest"
               }
             }
           },
-          "deprecated": true
+          "required": false
         }
-      },
-      "/api/projects": {
-        "get": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "List projects with filters",
-          "description": "",
-          "operationId": "getProjects",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "name",
-              "in": "query",
-              "description": "exact matching filter on project name",
-              "required": false,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestProjectCollection"
-              }
-            }
-          }
-        },
-        "put": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "Upload a project archive as a new project or a new revision of an existing project",
-          "description": "",
-          "operationId": "putProject",
-          "consumes": [
-            "application/gzip"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "project",
-              "in": "query",
-              "description": "project name",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "revision",
-              "in": "query",
-              "description": "revision",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "in": "body",
-              "name": "body",
-              "required": false,
-              "schema": {
-                "$ref": "#/definitions/InputStream"
-              }
-            },
-            {
-              "name": "Content-Length",
-              "in": "header",
-              "required": false,
+      }
+    },
+    "/api/attempts/{id}": {
+      "get": {
+        "tags": [
+          "Attempt"
+        ],
+        "summary": "Get an attempt",
+        "description": "",
+        "operationId": "getAttempt",
+        "parameters": [
+          {
+            "schema": {
               "type": "integer",
               "format": "int64"
             },
-            {
-              "name": "schedule_from",
-              "in": "query",
-              "description": "start scheduling of new workflows from the given time instead of current time",
-              "required": false,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestProject"
+            "name": "id",
+            "in": "path",
+            "description": "attempt id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestSessionAttempt"
+                }
               }
             }
           }
         }
-      },
-      "/api/projects/{id}": {
-        "get": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "Get a project",
-          "description": "",
-          "operationId": "getProject",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "project id",
-              "required": true,
+      }
+    },
+    "/api/attempts/{id}/kill": {
+      "post": {
+        "tags": [
+          "Attempt"
+        ],
+        "summary": "Set a cancel-requested flag on a running attempt",
+        "description": "",
+        "operationId": "killAttempt",
+        "parameters": [
+          {
+            "schema": {
               "type": "integer",
-              "format": "int32"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestProject"
-              }
-            }
+              "format": "int64"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "attempt id",
+            "required": true
           }
-        },
-        "delete": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "Delete a project",
-          "description": "",
-          "operationId": "deleteProject",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/api/attempts/{id}/retries": {
+      "get": {
+        "tags": [
+          "Attempt"
+        ],
+        "summary": "List attempts of a session of a given attempt",
+        "description": "",
+        "operationId": "getAttemptRetries",
+        "parameters": [
+          {
+            "schema": {
               "type": "integer",
-              "format": "int32"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestProject"
+              "format": "int64"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "attempt id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestSessionAttemptCollection"
+                }
               }
             }
           }
         }
-      },
-      "/api/projects/{id}/archive": {
-        "get": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "Download a project archive file",
-          "description": "",
-          "operationId": "getArchive",
-          "produces": [
-            "application/gzip"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "project id",
-              "required": true,
+      }
+    },
+    "/api/attempts/{id}/tasks": {
+      "get": {
+        "tags": [
+          "Attempt"
+        ],
+        "summary": "List tasks of an attempt",
+        "description": "",
+        "operationId": "getTasks",
+        "parameters": [
+          {
+            "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int64"
             },
-            {
-              "name": "revision",
-              "in": "query",
-              "description": "use a given revision of a project instead of the latest revision",
-              "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "attempt id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestTaskCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/logs/{attempt_id}/files": {
+      "get": {
+        "tags": [
+          "Log"
+        ],
+        "summary": "List log files of an attempt with filters",
+        "description": "",
+        "operationId": "getFileHandles",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "name": "attempt_id",
+            "in": "path",
+            "description": "attempt id",
+            "required": true
+          },
+          {
+            "schema": {
               "type": "string"
             },
-            {
-              "name": "direct_download",
-              "in": "query",
-              "description": "enable returning direct download handle",
-              "required": false,
+            "name": "task",
+            "in": "query",
+            "description": "partial prefix match filter on task name",
+            "required": false
+          },
+          {
+            "schema": {
               "type": "boolean"
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
+            },
+            "name": "direct_download",
+            "in": "query",
+            "description": "enable returning direct download handle",
+            "required": false
           }
-        }
-      },
-      "/api/projects/{id}/revisions": {
-        "get": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "List revisions of a project",
-          "description": "",
-          "operationId": "getRevisions",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "integer",
-              "format": "int32"
-            },
-            {
-              "name": "last_id",
-              "in": "query",
-              "description": "deprecated - do not use",
-              "required": false,
-              "type": "integer",
-              "format": "int32"
-            },
-            {
-              "name": "name",
-              "in": "query",
-              "description": "revision name",
-              "required": false,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestRevisionCollection"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestLogFileHandleCollection"
+                }
               }
             }
           }
         }
-      },
-      "/api/projects/{id}/schedules": {
-        "get": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "List schedules of a project with filters",
-          "description": "",
-          "operationId": "getSchedules",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "project id",
-              "required": true,
+      }
+    },
+    "/api/logs/{attempt_id}/files/{file_name}": {
+      "get": {
+        "tags": [
+          "Log"
+        ],
+        "summary": "Download a log file",
+        "description": "",
+        "operationId": "getFile",
+        "parameters": [
+          {
+            "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int64"
             },
-            {
-              "name": "workflow",
-              "in": "query",
-              "description": "exact matching filter on workflow name",
-              "required": false,
+            "name": "attempt_id",
+            "in": "path",
+            "description": "attempt id",
+            "required": true
+          },
+          {
+            "schema": {
               "type": "string"
             },
-            {
-              "name": "last_id",
-              "in": "query",
-              "description": "list schedules whose id is grater than this id for pagination",
-              "required": false,
-              "type": "integer",
-              "format": "int32"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestScheduleCollection"
+            "name": "file_name",
+            "in": "path",
+            "description": "log file name",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/gzip": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  }
+                }
               }
             }
           }
         }
-      },
-      "/api/projects/{id}/secrets": {
-        "get": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "List secret keys of a project",
-          "description": "",
-          "operationId": "getProjectSecrets",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "project id",
-              "required": true,
-              "type": "integer",
-              "format": "int32"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestSecretList"
-              }
-            }
-          }
-        }
-      },
-      "/api/projects/{id}/secrets/{key}": {
-        "put": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "Set a secret to a project",
-          "description": "",
-          "operationId": "putProjectSecret",
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "project id",
-              "required": true,
-              "type": "integer",
-              "format": "int32"
-            },
-            {
-              "name": "key",
-              "in": "path",
-              "description": "secret key",
-              "required": true,
+      }
+    },
+    "/api/project": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "(deprecated)",
+        "description": "",
+        "operationId": "getProject",
+        "parameters": [
+          {
+            "schema": {
               "type": "string"
             },
-            {
-              "in": "body",
-              "name": "body",
-              "required": false,
-              "schema": {
-                "$ref": "#/definitions/RestSetSecretRequest"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestSecret"
+            "name": "name",
+            "in": "query",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestProject"
+                }
               }
             }
           }
         },
-        "delete": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "Delete a secret from a project",
-          "description": "",
-          "operationId": "deleteProjectSecret",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "project id",
-              "required": true,
-              "type": "integer",
-              "format": "int32"
-            },
-            {
-              "name": "key",
-              "in": "path",
-              "description": "secret key",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestSecret"
-              }
-            }
-          }
-        }
-      },
-      "/api/projects/{id}/sessions": {
-        "get": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "List sessions of a project with filters",
-          "description": "",
-          "operationId": "getSessions",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "project id",
-              "required": true,
-              "type": "integer",
-              "format": "int32"
-            },
-            {
-              "name": "workflow",
-              "in": "query",
-              "description": "exact matching filter on workflow name",
-              "required": false,
+        "deprecated": true
+      }
+    },
+    "/api/projects": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "List projects with filters",
+        "description": "",
+        "operationId": "getProjects",
+        "parameters": [
+          {
+            "schema": {
               "type": "string"
             },
-            {
-              "name": "last_id",
-              "in": "query",
-              "description": "list sessions whose id is grater than this id for pagination",
-              "required": false,
-              "type": "integer",
-              "format": "int64"
-            },
-            {
-              "name": "page_size",
-              "in": "query",
-              "description": "number of sessions to return",
-              "required": false,
-              "type": "integer",
-              "format": "int32"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestSessionCollection"
-              }
-            }
+            "name": "name",
+            "in": "query",
+            "description": "exact matching filter on project name",
+            "required": false
           }
-        }
-      },
-      "/api/projects/{id}/workflow": {
-        "get": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "(deprecated)",
-          "description": "",
-          "operationId": "getWorkflow",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "integer",
-              "format": "int32"
-            },
-            {
-              "name": "name",
-              "in": "query",
-              "required": false,
-              "type": "string"
-            },
-            {
-              "name": "revision",
-              "in": "query",
-              "required": false,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestWorkflowDefinition"
-              }
-            }
-          },
-          "deprecated": true
-        }
-      },
-      "/api/projects/{id}/workflows": {
-        "get": {
-          "tags": [
-            "Project"
-          ],
-          "summary": "List workflows of a project with filters",
-          "description": "",
-          "operationId": "getWorkflows",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "project id",
-              "required": true,
-              "type": "integer",
-              "format": "int32"
-            },
-            {
-              "name": "revision",
-              "in": "query",
-              "description": "use a given revision of the project instead of the latest revision",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "name",
-              "in": "query",
-              "description": "exact matching filter on workflow name",
-              "required": false,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestWorkflowDefinitionCollection"
-              }
-            }
-          }
-        }
-      },
-      "/api/projects/{id}/workflows/{name}": {
-        "get": {
-          "tags": [
-            "Project"
-          ],
-          "operationId": "getWorkflowByName",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "integer",
-              "format": "int32"
-            },
-            {
-              "name": "name",
-              "in": "path",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "revision",
-              "in": "query",
-              "required": false,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestWorkflowDefinition"
-              },
-              "headers": {}
-            }
-          }
-        }
-      },
-      "/api/schedules": {
-        "get": {
-          "tags": [
-            "Schedule"
-          ],
-          "summary": "List schedules",
-          "description": "",
-          "operationId": "getSchedules",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "last_id",
-              "in": "query",
-              "description": "list schedules whose id is grater than this id for pagination",
-              "required": false,
-              "type": "integer",
-              "format": "int32"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestScheduleCollection"
-              }
-            }
-          }
-        }
-      },
-      "/api/schedules/{id}": {
-        "get": {
-          "tags": [
-            "Schedule"
-          ],
-          "summary": "Get a schedule",
-          "description": "",
-          "operationId": "getSchedules",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "schedule id",
-              "required": true,
-              "type": "integer",
-              "format": "int32"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestSchedule"
-              }
-            }
-          }
-        }
-      },
-      "/api/schedules/{id}/backfill": {
-        "post": {
-          "tags": [
-            "Schedule"
-          ],
-          "summary": "Re-schedule past sessions by count or duration",
-          "description": "",
-          "operationId": "backfillSchedule",
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "session id",
-              "required": true,
-              "type": "integer",
-              "format": "int32"
-            },
-            {
-              "in": "body",
-              "name": "body",
-              "required": false,
-              "schema": {
-                "$ref": "#/definitions/RestScheduleBackfillRequest"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestScheduleAttemptCollection"
-              }
-            }
-          }
-        }
-      },
-      "/api/schedules/{id}/disable": {
-        "post": {
-          "tags": [
-            "Schedule"
-          ],
-          "summary": "Disable scheduling of new sessions",
-          "description": "",
-          "operationId": "disableSchedule",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "session id",
-              "required": true,
-              "type": "integer",
-              "format": "int32"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestScheduleSummary"
-              }
-            }
-          }
-        }
-      },
-      "/api/schedules/{id}/enable": {
-        "post": {
-          "tags": [
-            "Schedule"
-          ],
-          "summary": "Re-enable disabled scheduling",
-          "description": "",
-          "operationId": "enableSchedule",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "session id",
-              "required": true,
-              "type": "integer",
-              "format": "int32"
-            },
-            {
-              "in": "body",
-              "name": "body",
-              "required": false,
-              "schema": {
-                "$ref": "#/definitions/RestScheduleEnableRequest"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestScheduleSummary"
-              }
-            }
-          }
-        }
-      },
-      "/api/schedules/{id}/skip": {
-        "post": {
-          "tags": [
-            "Schedule"
-          ],
-          "summary": "Skip future sessions by count or time",
-          "description": "",
-          "operationId": "skipSchedule",
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "session id",
-              "required": true,
-              "type": "integer",
-              "format": "int32"
-            },
-            {
-              "in": "body",
-              "name": "body",
-              "required": false,
-              "schema": {
-                "$ref": "#/definitions/RestScheduleSkipRequest"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestScheduleSummary"
-              }
-            }
-          }
-        }
-      },
-      "/api/sessions": {
-        "get": {
-          "tags": [
-            "Session"
-          ],
-          "summary": "List sessions",
-          "description": "",
-          "operationId": "getSessions",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "last_id",
-              "in": "query",
-              "description": "list sessions whose id is grater than this id for pagination",
-              "required": false,
-              "type": "integer",
-              "format": "int64"
-            },
-            {
-              "name": "page_size",
-              "in": "query",
-              "description": "number of sessions to return",
-              "required": false,
-              "type": "integer",
-              "format": "int32"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestSessionCollection"
-              }
-            }
-          }
-        }
-      },
-      "/api/sessions/{id}": {
-        "get": {
-          "tags": [
-            "Session"
-          ],
-          "summary": "Get a session",
-          "description": "",
-          "operationId": "getSession",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "session id",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestSession"
-              }
-            }
-          }
-        }
-      },
-      "/api/sessions/{id}/attempts": {
-        "get": {
-          "tags": [
-            "Session"
-          ],
-          "summary": "List attempts of a session",
-          "description": "",
-          "operationId": "getSessionAttempts",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "session id",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            },
-            {
-              "name": "last_id",
-              "in": "query",
-              "description": "list attempts whose id is grater than this id for pagination",
-              "required": false,
-              "type": "integer",
-              "format": "int64"
-            },
-            {
-              "name": "page_size",
-              "in": "query",
-              "description": "number of attempts to return",
-              "required": false,
-              "type": "integer",
-              "format": "int32"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestSessionAttemptCollection"
-              }
-            }
-          }
-        }
-      },
-      "/api/version": {
-        "get": {
-          "tags": [
-            "Version"
-          ],
-          "summary": "Get server version",
-          "description": "",
-          "operationId": "getVersion",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "type": "object",
-                "additionalProperties": {
-                  "type": "object"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestProjectCollection"
                 }
               }
             }
           }
         }
       },
-      "/api/version/check": {
-        "get": {
-          "tags": [
-            "Version"
-          ],
-          "summary": "Check client version compatibility",
-          "description": "",
-          "operationId": "checkClientVersion",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "client",
-              "in": "query",
-              "description": "client version",
-              "required": true,
+      "put": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Upload a project archive as a new project or a new revision of an existing project",
+        "description": "",
+        "operationId": "putProject",
+        "parameters": [
+          {
+            "schema": {
               "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestVersionCheckResult"
+            },
+            "name": "project",
+            "in": "query",
+            "description": "project name",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "revision",
+            "in": "query",
+            "description": "revision",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "name": "Content-Length",
+            "in": "header",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "schedule_from",
+            "in": "query",
+            "description": "start scheduling of new workflows from the given time instead of current time",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestProject"
+                }
               }
             }
           }
-        }
-      },
-      "/api/workflow": {
-        "get": {
-          "tags": [
-            "Workflow"
-          ],
-          "summary": "(deprecated)",
-          "description": "",
-          "operationId": "getWorkflowDefinition",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "project",
-              "in": "query",
-              "required": false,
-              "type": "string"
-            },
-            {
-              "name": "revision",
-              "in": "query",
-              "required": false,
-              "type": "string"
-            },
-            {
-              "name": "name",
-              "in": "query",
-              "required": false,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
+        },
+        "requestBody": {
+          "content": {
+            "application/gzip": {
               "schema": {
-                "$ref": "#/definitions/RestWorkflowDefinition"
+                "$ref": "#/components/schemas/InputStream"
               }
             }
           },
-          "deprecated": true
+          "required": false
         }
-      },
-      "/api/workflows": {
-        "get": {
-          "tags": [
-            "Workflow"
-          ],
-          "summary": "List workflows",
-          "description": "",
-          "operationId": "getWorkflowDefinitions",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "last_id",
-              "in": "query",
-              "description": "list workflows whose id is grater than this id for pagination",
-              "required": false,
-              "type": "integer",
-              "format": "int64"
-            },
-            {
-              "name": "count",
-              "in": "query",
-              "description": "number of workflows to return",
-              "required": false,
+      }
+    },
+    "/api/projects/{id}": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Get a project",
+        "description": "",
+        "operationId": "getProject",
+        "parameters": [
+          {
+            "schema": {
               "type": "integer",
               "format": "int32"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestWorkflowDefinitionCollection"
-              }
-            }
-          }
-        }
-      },
-      "/api/workflows/{id}": {
-        "get": {
-          "tags": [
-            "Workflow"
-          ],
-          "summary": "Get a workflow",
-          "description": "",
-          "operationId": "getWorkflowDefinition",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "workflow id",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestWorkflowDefinition"
-              }
-            }
-          }
-        }
-      },
-      "/api/workflows/{id}/truncated_session_time": {
-        "get": {
-          "tags": [
-            "Workflow"
-          ],
-          "summary": "Get truncated local time based on the time zone of a workflow",
-          "description": "",
-          "operationId": "getWorkflowDefinition",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "workflow id",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
             },
-            {
-              "name": "session_time",
-              "in": "query",
-              "description": "session time to be truncated",
-              "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "project id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestProject"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Delete a project",
+        "description": "",
+        "operationId": "deleteProject",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestProject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{id}/archive": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Download a project archive file",
+        "description": "",
+        "operationId": "getArchive",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "project id",
+            "required": true
+          },
+          {
+            "schema": {
               "type": "string"
             },
-            {
-              "name": "mode",
-              "in": "query",
-              "description": "truncation mode - second, minute, hour, day, schedule, or next_schedule",
-              "required": false,
+            "name": "revision",
+            "in": "query",
+            "description": "use a given revision of a project instead of the latest revision",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "name": "direct_download",
+            "in": "query",
+            "description": "enable returning direct download handle",
+            "required": false
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/api/projects/{id}/revisions": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "List revisions of a project",
+        "description": "",
+        "operationId": "getRevisions",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "last_id",
+            "in": "query",
+            "description": "deprecated - do not use",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "name",
+            "in": "query",
+            "description": "revision name",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestRevisionCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{id}/schedules": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "List schedules of a project with filters",
+        "description": "",
+        "operationId": "getSchedules",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "project id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "workflow",
+            "in": "query",
+            "description": "exact matching filter on workflow name",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "last_id",
+            "in": "query",
+            "description": "list schedules whose id is grater than this id for pagination",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestScheduleCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{id}/secrets": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "List secret keys of a project",
+        "description": "",
+        "operationId": "getProjectSecrets",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "project id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestSecretList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{id}/secrets/{key}": {
+      "put": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Set a secret to a project",
+        "description": "",
+        "operationId": "putProjectSecret",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "project id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "key",
+            "in": "path",
+            "description": "secret key",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestSecret"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestSetSecretRequest"
+              }
+            }
+          },
+          "required": false
+        }
+      },
+      "delete": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Delete a secret from a project",
+        "description": "",
+        "operationId": "deleteProjectSecret",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "project id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "key",
+            "in": "path",
+            "description": "secret key",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestSecret"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{id}/sessions": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "List sessions of a project with filters",
+        "description": "",
+        "operationId": "getSessions",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "project id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "workflow",
+            "in": "query",
+            "description": "exact matching filter on workflow name",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "name": "last_id",
+            "in": "query",
+            "description": "list sessions whose id is grater than this id for pagination",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "page_size",
+            "in": "query",
+            "description": "number of sessions to return",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestSessionCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{id}/workflow": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "(deprecated)",
+        "description": "",
+        "operationId": "getWorkflow",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "name",
+            "in": "query",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "revision",
+            "in": "query",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestWorkflowDefinition"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/api/projects/{id}/workflows": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "List workflows of a project with filters",
+        "description": "",
+        "operationId": "getWorkflows",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "project id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "revision",
+            "in": "query",
+            "description": "use a given revision of the project instead of the latest revision",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "name",
+            "in": "query",
+            "description": "exact matching filter on workflow name",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestWorkflowDefinitionCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{id}/workflows/{name}": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "operationId": "getWorkflowByName",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "revision",
+            "in": "query",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestWorkflowDefinition"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/schedules": {
+      "get": {
+        "tags": [
+          "Schedule"
+        ],
+        "summary": "List schedules",
+        "description": "",
+        "operationId": "getSchedules",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "last_id",
+            "in": "query",
+            "description": "list schedules whose id is grater than this id for pagination",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestScheduleCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/schedules/{id}": {
+      "get": {
+        "tags": [
+          "Schedule"
+        ],
+        "summary": "Get a schedule",
+        "description": "",
+        "operationId": "getSchedules",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "schedule id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestSchedule"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/schedules/{id}/backfill": {
+      "post": {
+        "tags": [
+          "Schedule"
+        ],
+        "summary": "Re-schedule past sessions by count or duration",
+        "description": "",
+        "operationId": "backfillSchedule",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "session id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestScheduleAttemptCollection"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestScheduleBackfillRequest"
+              }
+            }
+          },
+          "required": false
+        }
+      }
+    },
+    "/api/schedules/{id}/disable": {
+      "post": {
+        "tags": [
+          "Schedule"
+        ],
+        "summary": "Disable scheduling of new sessions",
+        "description": "",
+        "operationId": "disableSchedule",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "session id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestScheduleSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/schedules/{id}/enable": {
+      "post": {
+        "tags": [
+          "Schedule"
+        ],
+        "summary": "Re-enable disabled scheduling",
+        "description": "",
+        "operationId": "enableSchedule",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "session id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestScheduleSummary"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestScheduleEnableRequest"
+              }
+            }
+          },
+          "required": false
+        }
+      }
+    },
+    "/api/schedules/{id}/skip": {
+      "post": {
+        "tags": [
+          "Schedule"
+        ],
+        "summary": "Skip future sessions by count or time",
+        "description": "",
+        "operationId": "skipSchedule",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "session id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestScheduleSummary"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestScheduleSkipRequest"
+              }
+            }
+          },
+          "required": false
+        }
+      }
+    },
+    "/api/sessions": {
+      "get": {
+        "tags": [
+          "Session"
+        ],
+        "summary": "List sessions",
+        "description": "",
+        "operationId": "getSessions",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "name": "last_id",
+            "in": "query",
+            "description": "list sessions whose id is grater than this id for pagination",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "page_size",
+            "in": "query",
+            "description": "number of sessions to return",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestSessionCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sessions/{id}": {
+      "get": {
+        "tags": [
+          "Session"
+        ],
+        "summary": "Get a session",
+        "description": "",
+        "operationId": "getSession",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "session id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestSession"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sessions/{id}/attempts": {
+      "get": {
+        "tags": [
+          "Session"
+        ],
+        "summary": "List attempts of a session",
+        "description": "",
+        "operationId": "getSessionAttempts",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "session id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "name": "last_id",
+            "in": "query",
+            "description": "list attempts whose id is grater than this id for pagination",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "page_size",
+            "in": "query",
+            "description": "number of attempts to return",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestSessionAttemptCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/version": {
+      "get": {
+        "tags": [
+          "Version"
+        ],
+        "summary": "Get server version",
+        "description": "",
+        "operationId": "getVersion",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/version/check": {
+      "get": {
+        "tags": [
+          "Version"
+        ],
+        "summary": "Check client version compatibility",
+        "description": "",
+        "operationId": "checkClientVersion",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "client",
+            "in": "query",
+            "description": "client version",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestVersionCheckResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workflow": {
+      "get": {
+        "tags": [
+          "Workflow"
+        ],
+        "summary": "(deprecated)",
+        "description": "",
+        "operationId": "getWorkflowDefinition",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "project",
+            "in": "query",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "revision",
+            "in": "query",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "name",
+            "in": "query",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestWorkflowDefinition"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/api/workflows": {
+      "get": {
+        "tags": [
+          "Workflow"
+        ],
+        "summary": "List workflows",
+        "description": "",
+        "operationId": "getWorkflowDefinitions",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "name": "last_id",
+            "in": "query",
+            "description": "list workflows whose id is grater than this id for pagination",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": "count",
+            "in": "query",
+            "description": "number of workflows to return",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestWorkflowDefinitionCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workflows/{id}": {
+      "get": {
+        "tags": [
+          "Workflow"
+        ],
+        "summary": "Get a workflow",
+        "description": "",
+        "operationId": "getWorkflowDefinition",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "workflow id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestWorkflowDefinition"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workflows/{id}/truncated_session_time": {
+      "get": {
+        "tags": [
+          "Workflow"
+        ],
+        "summary": "Get truncated local time based on the time zone of a workflow",
+        "description": "",
+        "operationId": "getWorkflowDefinition",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "name": "id",
+            "in": "path",
+            "description": "workflow id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "session_time",
+            "in": "query",
+            "description": "session time to be truncated",
+            "required": true
+          },
+          {
+            "schema": {
               "type": "string",
               "enum": [
                 "SECOND",
@@ -1520,24 +1673,34 @@
                 "SCHEDULE",
                 "NEXT_SCHEDULE"
               ]
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/RestWorkflowSessionTime"
+            },
+            "name": "mode",
+            "in": "query",
+            "description": "truncation mode - second, minute, hour, day, schedule, or next_schedule",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestWorkflowSessionTime"
+                }
               }
             }
           }
         }
       }
-    },
-    "definitions": {
+    }
+  },
+  "components": {
+    "schemas": {
       "ResumeFrom": {
         "allOf": [
           {
-            "$ref": "#/definitions/Resume"
+            "$ref": "#/components/schemas/Resume"
           },
           {
             "type": "object",
@@ -1558,7 +1721,7 @@
             "default": false
           },
           "factory": {
-            "$ref": "#/definitions/ConfigFactory"
+            "$ref": "#/components/schemas/ConfigFactory"
           },
           "keys": {
             "type": "array",
@@ -1572,23 +1735,23 @@
         "type": "object",
         "properties": {
           "id": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           },
           "sessionTime": {
-            "$ref": "#/definitions/OffsetDateTime"
+            "$ref": "#/components/schemas/OffsetDateTime"
           },
           "workflow": {
-            "$ref": "#/definitions/NameOptionalId"
+            "$ref": "#/components/schemas/NameOptionalId"
           },
           "lastAttempt": {
-            "$ref": "#/definitions/Attempt"
+            "$ref": "#/components/schemas/Attempt"
           },
           "sessionUuid": {
             "type": "string",
             "format": "uuid"
           },
           "project": {
-            "$ref": "#/definitions/IdAndName"
+            "$ref": "#/components/schemas/IdAndName"
           }
         }
       },
@@ -1596,24 +1759,24 @@
         "type": "object",
         "properties": {
           "id": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           },
           "workflow": {
-            "$ref": "#/definitions/IdAndName"
+            "$ref": "#/components/schemas/IdAndName"
           },
           "disabledAt": {
             "type": "integer",
             "format": "int64"
           },
           "nextScheduleTime": {
-            "$ref": "#/definitions/OffsetDateTime"
+            "$ref": "#/components/schemas/OffsetDateTime"
           },
           "nextRunTime": {
             "type": "integer",
             "format": "int64"
           },
           "project": {
-            "$ref": "#/definitions/IdAndName"
+            "$ref": "#/components/schemas/IdAndName"
           }
         }
       },
@@ -1650,7 +1813,7 @@
             "type": "string"
           },
           "direct": {
-            "$ref": "#/definitions/RestDirectDownloadHandle"
+            "$ref": "#/components/schemas/RestDirectDownloadHandle"
           }
         }
       },
@@ -1661,7 +1824,7 @@
             "type": "string"
           },
           "id": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           },
           "deletedAt": {
             "type": "integer",
@@ -1681,7 +1844,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "format": "byte"
+              "contentEncoding": "base64"
             }
           },
           "createdAt": {
@@ -1697,7 +1860,7 @@
             "type": "string"
           },
           "id": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           }
         }
       },
@@ -1712,7 +1875,7 @@
             "type": "string"
           },
           "rules": {
-            "$ref": "#/definitions/ZoneRules"
+            "$ref": "#/components/schemas/ZoneRules"
           }
         }
       },
@@ -1722,7 +1885,7 @@
           "projects": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/RestProject"
+              "$ref": "#/components/schemas/RestProject"
             }
           }
         }
@@ -1749,7 +1912,7 @@
           "workflows": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/RestWorkflowDefinition"
+              "$ref": "#/components/schemas/RestWorkflowDefinition"
             }
           }
         }
@@ -1758,7 +1921,7 @@
         "type": "object",
         "properties": {
           "id": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           },
           "success": {
             "type": "boolean",
@@ -1776,7 +1939,7 @@
             "type": "string"
           },
           "params": {
-            "$ref": "#/definitions/Config"
+            "$ref": "#/components/schemas/Config"
           },
           "finishedAt": {
             "type": "integer",
@@ -1795,20 +1958,20 @@
             "type": "string"
           },
           "id": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           },
           "project": {
-            "$ref": "#/definitions/IdAndName"
+            "$ref": "#/components/schemas/IdAndName"
           },
           "config": {
-            "$ref": "#/definitions/Config"
+            "$ref": "#/components/schemas/Config"
           },
           "revision": {
             "type": "string"
           },
           "timezone": {
             "readOnly": true,
-            "$ref": "#/definitions/ZoneId"
+            "$ref": "#/components/schemas/ZoneId"
           }
         }
       },
@@ -1816,17 +1979,17 @@
         "type": "object",
         "properties": {
           "sessionTime": {
-            "$ref": "#/definitions/OffsetDateTime"
+            "$ref": "#/components/schemas/OffsetDateTime"
           },
           "project": {
-            "$ref": "#/definitions/IdAndName"
+            "$ref": "#/components/schemas/IdAndName"
           },
           "revision": {
             "type": "string"
           },
           "timezone": {
             "readOnly": true,
-            "$ref": "#/definitions/ZoneId"
+            "$ref": "#/components/schemas/ZoneId"
           }
         }
       },
@@ -1854,10 +2017,10 @@
         "type": "object",
         "properties": {
           "offsetBefore": {
-            "$ref": "#/definitions/ZoneOffset"
+            "$ref": "#/components/schemas/ZoneOffset"
           },
           "offsetAfter": {
-            "$ref": "#/definitions/ZoneOffset"
+            "$ref": "#/components/schemas/ZoneOffset"
           },
           "gap": {
             "type": "boolean",
@@ -1872,7 +2035,7 @@
             "format": "date-time"
           },
           "duration": {
-            "$ref": "#/definitions/Duration"
+            "$ref": "#/components/schemas/Duration"
           },
           "instant": {
             "type": "integer",
@@ -1890,7 +2053,7 @@
           "sessions": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/RestSession"
+              "$ref": "#/components/schemas/RestSession"
             }
           }
         }
@@ -1901,7 +2064,7 @@
           "tasks": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/RestTask"
+              "$ref": "#/components/schemas/RestTask"
             }
           }
         }
@@ -1910,7 +2073,7 @@
         "type": "object",
         "properties": {
           "userInfo": {
-            "$ref": "#/definitions/Config"
+            "$ref": "#/components/schemas/Config"
           },
           "revision": {
             "type": "string"
@@ -1922,7 +2085,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "format": "byte"
+              "contentEncoding": "base64"
             }
           },
           "createdAt": {
@@ -1960,20 +2123,20 @@
             ]
           },
           "standardOffset": {
-            "$ref": "#/definitions/ZoneOffset"
+            "$ref": "#/components/schemas/ZoneOffset"
           },
           "offsetBefore": {
-            "$ref": "#/definitions/ZoneOffset"
+            "$ref": "#/components/schemas/ZoneOffset"
           },
           "offsetAfter": {
-            "$ref": "#/definitions/ZoneOffset"
+            "$ref": "#/components/schemas/ZoneOffset"
           },
           "dayOfMonthIndicator": {
             "type": "integer",
             "format": "int32"
           },
           "localTime": {
-            "$ref": "#/definitions/LocalTime"
+            "$ref": "#/components/schemas/LocalTime"
           },
           "midnightEndOfDay": {
             "type": "boolean",
@@ -2024,7 +2187,7 @@
             "type": "string"
           },
           "rules": {
-            "$ref": "#/definitions/ZoneRules"
+            "$ref": "#/components/schemas/ZoneRules"
           }
         }
       },
@@ -2032,7 +2195,7 @@
         "type": "object",
         "properties": {
           "id": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           },
           "state": {
             "type": "string"
@@ -2057,12 +2220,12 @@
             "type": "string"
           },
           "parentId": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           },
           "upstreams": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/Id"
+              "$ref": "#/components/schemas/Id"
             }
           },
           "retryAt": {
@@ -2070,19 +2233,19 @@
             "format": "int64"
           },
           "config": {
-            "$ref": "#/definitions/Config"
+            "$ref": "#/components/schemas/Config"
           },
           "exportParams": {
-            "$ref": "#/definitions/Config"
+            "$ref": "#/components/schemas/Config"
           },
           "storeParams": {
-            "$ref": "#/definitions/Config"
+            "$ref": "#/components/schemas/Config"
           },
           "stateParams": {
-            "$ref": "#/definitions/Config"
+            "$ref": "#/components/schemas/Config"
           },
           "error": {
-            "$ref": "#/definitions/Config"
+            "$ref": "#/components/schemas/Config"
           }
         }
       },
@@ -2093,7 +2256,7 @@
         "type": "object",
         "properties": {
           "duration": {
-            "$ref": "#/definitions/Duration"
+            "$ref": "#/components/schemas/Duration"
           },
           "durationEstimated": {
             "type": "boolean",
@@ -2116,10 +2279,10 @@
         "type": "object",
         "properties": {
           "id": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           },
           "workflow": {
-            "$ref": "#/definitions/IdAndName"
+            "$ref": "#/components/schemas/IdAndName"
           },
           "updatedAt": {
             "type": "integer",
@@ -2130,14 +2293,14 @@
             "format": "int64"
           },
           "nextScheduleTime": {
-            "$ref": "#/definitions/OffsetDateTime"
+            "$ref": "#/components/schemas/OffsetDateTime"
           },
           "nextRunTime": {
             "type": "integer",
             "format": "int64"
           },
           "project": {
-            "$ref": "#/definitions/IdAndName"
+            "$ref": "#/components/schemas/IdAndName"
           },
           "createdAt": {
             "type": "integer",
@@ -2156,7 +2319,7 @@
             "format": "int64"
           },
           "nextTime": {
-            "$ref": "#/definitions/LocalTimeOrInstant"
+            "$ref": "#/components/schemas/LocalTimeOrInstant"
           },
           "fromTime": {
             "type": "integer",
@@ -2190,7 +2353,7 @@
           "units": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/TemporalUnit"
+              "$ref": "#/components/schemas/TemporalUnit"
             }
           },
           "nano": {
@@ -2206,7 +2369,7 @@
             "type": "string"
           },
           "id": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           }
         }
       },
@@ -2219,7 +2382,7 @@
           "revisions": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/RestRevision"
+              "$ref": "#/components/schemas/RestRevision"
             }
           }
         }
@@ -2228,13 +2391,13 @@
         "type": "object",
         "properties": {
           "id": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           },
           "sessionTime": {
-            "$ref": "#/definitions/OffsetDateTime"
+            "$ref": "#/components/schemas/OffsetDateTime"
           },
           "workflow": {
-            "$ref": "#/definitions/NameOptionalId"
+            "$ref": "#/components/schemas/NameOptionalId"
           },
           "success": {
             "type": "boolean",
@@ -2256,10 +2419,10 @@
             "type": "string"
           },
           "params": {
-            "$ref": "#/definitions/Config"
+            "$ref": "#/components/schemas/Config"
           },
           "sessionId": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           },
           "finishedAt": {
             "type": "integer",
@@ -2269,7 +2432,7 @@
             "type": "string"
           },
           "project": {
-            "$ref": "#/definitions/IdAndName"
+            "$ref": "#/components/schemas/IdAndName"
           },
           "createdAt": {
             "type": "integer",
@@ -2285,7 +2448,7 @@
         "type": "object",
         "properties": {
           "offset": {
-            "$ref": "#/definitions/ZoneOffset"
+            "$ref": "#/components/schemas/ZoneOffset"
           },
           "hour": {
             "type": "integer",
@@ -2362,7 +2525,7 @@
           "schedules": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/RestSchedule"
+              "$ref": "#/components/schemas/RestSchedule"
             }
           }
         }
@@ -2371,19 +2534,19 @@
         "type": "object",
         "properties": {
           "id": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           },
           "workflow": {
-            "$ref": "#/definitions/IdAndName"
+            "$ref": "#/components/schemas/IdAndName"
           },
           "attempts": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/RestSessionAttempt"
+              "$ref": "#/components/schemas/RestSessionAttempt"
             }
           },
           "project": {
-            "$ref": "#/definitions/IdAndName"
+            "$ref": "#/components/schemas/IdAndName"
           }
         }
       },
@@ -2393,13 +2556,13 @@
           "transitions": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/ZoneOffsetTransition"
+              "$ref": "#/components/schemas/ZoneOffsetTransition"
             }
           },
           "transitionRules": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/ZoneOffsetTransitionRule"
+              "$ref": "#/components/schemas/ZoneOffsetTransitionRule"
             }
           },
           "fixedOffset": {
@@ -2414,7 +2577,7 @@
           "attempts": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/RestSessionAttempt"
+              "$ref": "#/components/schemas/RestSessionAttempt"
             }
           }
         }
@@ -2425,7 +2588,7 @@
           "files": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/RestLogFileHandle"
+              "$ref": "#/components/schemas/RestLogFileHandle"
             }
           }
         }
@@ -2436,7 +2599,7 @@
       "ResumeFailed": {
         "allOf": [
           {
-            "$ref": "#/definitions/Resume"
+            "$ref": "#/components/schemas/Resume"
           },
           {
             "type": "object",
@@ -2452,16 +2615,16 @@
             "format": "int64"
           },
           "workflowId": {
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           },
           "resume": {
-            "$ref": "#/definitions/Resume"
+            "$ref": "#/components/schemas/Resume"
           },
           "retryAttemptName": {
             "type": "string"
           },
           "params": {
-            "$ref": "#/definitions/Config"
+            "$ref": "#/components/schemas/Config"
           }
         }
       },
@@ -2471,7 +2634,7 @@
         "properties": {
           "attemptId": {
             "readOnly": true,
-            "$ref": "#/definitions/Id"
+            "$ref": "#/components/schemas/Id"
           },
           "mode": {
             "type": "string",
@@ -2485,3 +2648,4 @@
       }
     }
   }
+}

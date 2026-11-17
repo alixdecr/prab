@@ -407,10 +407,10 @@
     "bing-web-search": {
         "title": "Web Search Client",
         "oas": {
-            "validated": true,
-            "error": null,
-            "family": "swagger",
-            "version": "2.0"
+            "validated": false,
+            "error": "OpenAPIValidationError",
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
@@ -1788,12 +1788,12 @@
         "oas": {
             "validated": false,
             "error": "OpenAPIValidationError",
-            "family": "swagger",
-            "version": "2.0"
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
-                "url": "https://localhost:8080/",
+                "url": "http://localhost:8080/",
                 "hosted": "local",
                 "available": true,
                 "error": null
@@ -2099,8 +2099,8 @@
         "oas": {
             "validated": false,
             "error": "OpenAPIValidationError",
-            "family": "swagger",
-            "version": "2.0"
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
@@ -2422,9 +2422,9 @@
         "title": "Digdag",
         "oas": {
             "validated": false,
-            "error": "OpenAPIValidationError",
-            "family": "swagger",
-            "version": "2.0"
+            "error": "DuplicateOperationIDError",
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
@@ -3306,8 +3306,8 @@
         "oas": {
             "validated": false,
             "error": "OpenAPIValidationError",
-            "family": "swagger",
-            "version": "2.0"
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
@@ -4136,8 +4136,8 @@
         "oas": {
             "validated": false,
             "error": "OpenAPIValidationError",
-            "family": "swagger",
-            "version": "2.0"
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
@@ -4268,12 +4268,12 @@
         "oas": {
             "validated": true,
             "error": null,
-            "family": "swagger",
-            "version": "2.0"
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
-                "url": "https://localhost:8080/",
+                "url": "http://localhost:8080/",
                 "hosted": "local",
                 "available": true,
                 "error": null
@@ -9422,8 +9422,8 @@
         "oas": {
             "validated": true,
             "error": null,
-            "family": "swagger",
-            "version": "2.0"
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
@@ -12056,34 +12056,17 @@
             "value"
         ]
     },
-    "marvel": {
-        "title": null,
-        "oas": {
-            "validated": false,
-            "error": "ValidatorDetectError",
-            "family": "unknown",
-            "version": null
-        },
-        "servers": [],
-        "authentication": null,
-        "rate-limit": {
-            "active": false,
-            "reason": "no 429 status code response or rate limiting headers"
-        },
-        "routes": [],
-        "query-parameters": []
-    },
     "ocvn": {
         "title": "Open Contracting Dashboards API",
         "oas": {
             "validated": false,
-            "error": "PointerToNowhere",
-            "family": "swagger",
-            "version": "2.0"
+            "error": "JsonRefError",
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
-                "url": "https://localhost:8090/",
+                "url": "http://localhost:8090/",
                 "hosted": "local",
                 "available": true,
                 "error": null
@@ -12897,13 +12880,13 @@
         "title": "ohsome API",
         "oas": {
             "validated": false,
-            "error": "JsonRefError",
-            "family": "swagger",
-            "version": "2.0"
+            "error": "OpenAPIValidationError",
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
-                "url": "https://api.ohsome.org/v1",
+                "url": "http://api.ohsome.org/v1",
                 "hosted": "online",
                 "available": true,
                 "error": null
@@ -13430,8 +13413,8 @@
         "oas": {
             "validated": true,
             "error": null,
-            "family": "swagger",
-            "version": "2.0"
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
@@ -14130,12 +14113,12 @@
         "oas": {
             "validated": false,
             "error": "OpenAPIValidationError",
-            "family": "swagger",
-            "version": "2.0"
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
-                "url": "https://localhost:8080/",
+                "url": "http://localhost:8080/",
                 "hosted": "local",
                 "available": true,
                 "error": null
@@ -14803,15 +14786,15 @@
         "oas": {
             "validated": true,
             "error": null,
-            "family": "swagger",
-            "version": "2.0"
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
                 "url": "https://refugerestrooms.org/api",
                 "hosted": "online",
-                "available": true,
-                "error": null
+                "available": false,
+                "error": "ReadTimeout"
             }
         ],
         "authentication": null,
@@ -15111,8 +15094,8 @@
         "oas": {
             "validated": false,
             "error": "OpenAPIValidationError",
-            "family": "swagger",
-            "version": "2.0"
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
@@ -15160,12 +15143,12 @@
         "oas": {
             "validated": false,
             "error": "OpenAPIValidationError",
-            "family": "swagger",
-            "version": "2.0"
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
-                "url": "https://localhost:8080/",
+                "url": "http://localhost:8080/",
                 "hosted": "local",
                 "available": true,
                 "error": null
@@ -15216,8 +15199,8 @@
         "oas": {
             "validated": true,
             "error": null,
-            "family": "swagger",
-            "version": "2.0"
+            "family": "openapi",
+            "version": "3.1.1"
         },
         "servers": [
             {
@@ -15284,11 +15267,18 @@
         "title": "API for Aktivitetsbanken",
         "oas": {
             "validated": false,
-            "error": "OpenAPIValidationError",
-            "family": "swagger",
-            "version": "2.0"
+            "error": "DuplicateOperationIDError",
+            "family": "openapi",
+            "version": "3.1.1"
         },
-        "servers": [],
+        "servers": [
+            {
+                "url": "localhost:8080/api",
+                "hosted": "local",
+                "available": true,
+                "error": null
+            }
+        ],
         "authentication": null,
         "rate-limit": {
             "active": false,
