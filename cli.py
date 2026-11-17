@@ -306,6 +306,38 @@ def update_api_status(date: str) -> None:
     print(f"Saved benchmark status badges to {README_PATH}")
 
 
+HOSTING_KINDS = {
+    "local": ("local",),
+    "online": ("online",),
+    "both": ("local", "online"),
+}
+
+
+def filter_apis(criteria: dict) -> list[str]:
+    """
+    Filters APIs based on the provided criteria.
+
+    Args:
+        criteria: Dict of criteria.
+
+    Returns:
+        Sorted list of API ids matching the criteria.
+    """
+
+    data = utils.load_json(CHAR_PATH)
+    matches = []
+
+    for api_id, chars in data.items():
+
+        if criteria.get("hosted"):
+            for server in chars["servers"]:
+                if server["hosted"] == criteria["hosted"]:
+                    matches.append(api_id)
+                    break
+
+    return sorted(matches)
+
+
 def build_parser() -> argparse.ArgumentParser:
     """
     Builds the argv parser.
@@ -315,8 +347,12 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     # update parser
-    update_parser = subparsers.add_parser("update", help="Updates APIs by generating their characteristics, READMEs, and global status.")
+    update_parser = subparsers.add_parser("update", help="Update APIs by generating their characteristics, READMEs, and global status.")
     update_parser.add_argument("-o", "--only", nargs="+", metavar="API_ID", help="Only update the specified APIs.")
+
+    # filter parser
+    filter_parser = subparsers.add_parser("filter", help="Filter APIs based on characteristics.")
+    filter_parser.add_argument("--hosted", choices=("local", "online"), help="Filter APIs by hosting (online or local).")
 
     return parser
 
@@ -337,6 +373,13 @@ def main(argv: list[str] | None = None) -> None:
         update_api_readmes(date, args.only)
         update_api_status(date)
 
+    elif args.command == "filter":
+        matches = filter_apis(vars(args))
+
+        if matches:
+            print("\n".join(matches))
+        else:
+            print("No API matches the given filter.")
 
 if __name__ == "__main__":
     main()
