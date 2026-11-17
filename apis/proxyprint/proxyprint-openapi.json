@@ -5155,7 +5155,7 @@
             "format": "int64"
           },
           "roles": {
-            "$ref": "#/components/schemas/Collection«GrantedAuthority»"
+            "$ref": "#/components/schemas/Collection_GrantedAuthority_"
           },
           "rolesSet": {
             "type": "array",
@@ -5168,7 +5168,7 @@
           }
         }
       },
-      "Collection«GrantedAuthority»": {
+      "Collection_GrantedAuthority_": {
         "type": "object"
       },
       "View": {
@@ -5546,6 +5546,12 @@
             "type": "string"
           }
         }
+      },
+      "Principal": {
+        "type": "object"
+      },
+      "WebRequest": {
+        "type": "object"
       }
     }
   }

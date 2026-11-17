@@ -1,4 +1,4 @@
-﻿{
+{
     "openapi": "3.0.0",
     "servers": [
         {
@@ -1390,7 +1390,8 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "$ref": "institution_properties.yaml"
+                        "type": "object",
+                        "description": "Properties defined in the external file institution_properties.yaml."
                     }
                 ]
             },
@@ -1398,7 +1399,8 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "$ref": "location_properties.yaml"
+                        "type": "object",
+                        "description": "Properties defined in the external file location_properties.yaml."
                     }
                 ]
             },
@@ -1406,7 +1408,8 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "$ref": "summary_properties.yaml"
+                        "type": "object",
+                        "description": "Properties defined in the external file summary_properties.yaml."
                     }
                 ]
             },
@@ -1414,7 +1417,8 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "$ref": "failure_properties.yaml"
+                        "type": "object",
+                        "description": "Properties defined in the external file failure_properties.yaml."
                     }
                 ]
             },
@@ -1422,7 +1426,8 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "$ref": "history_properties.yaml"
+                        "type": "object",
+                        "description": "Properties defined in the external file history_properties.yaml."
                     }
                 ]
             },
@@ -1430,7 +1435,8 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "$ref": "risview_properties.yaml"
+                        "type": "object",
+                        "description": "Properties defined in the external file risview_properties.yaml."
                     }
                 ]
             },
@@ -1438,7 +1444,8 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "$ref": "sod_properties.yaml"
+                        "type": "object",
+                        "description": "Properties defined in the external file sod_properties.yaml."
                     }
                 ]
             },
@@ -1446,7 +1453,8 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "$ref": "demographics_properties.yaml"
+                        "type": "object",
+                        "description": "Properties defined in the external file demographics_properties.yaml."
                     }
                 ]
             },

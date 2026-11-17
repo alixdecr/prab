@@ -1,6 +1,7 @@
 {
   "openapi": "3.1.1",
   "info": {
+    "title": "Features Service",
     "version": "1.0"
   },
   "servers": [
@@ -186,22 +187,6 @@
             "name": "featureName",
             "in": "path",
             "required": true
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "name": "productName",
-            "in": "path",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "name": "configurationName",
-            "in": "path",
-            "required": true
           }
         ],
         "responses": {
@@ -236,22 +221,6 @@
             "name": "featureName",
             "in": "path",
             "required": true
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "name": "productName",
-            "in": "path",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "name": "configurationName",
-            "in": "path",
-            "required": true
           }
         ],
         "responses": {
@@ -265,22 +234,6 @@
       "get": {
         "operationId": "getConfigurationActivedFeatures",
         "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "name": "productName",
-            "in": "path",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "name": "configurationName",
-            "in": "path",
-            "required": true
-          },
           {
             "schema": {
               "type": "string"

@@ -189,7 +189,7 @@
             "name": "id",
             "in": "path",
             "description": "The numeric id of the news",
-            "required": false
+            "required": true
           }
         ],
         "responses": {
@@ -234,7 +234,7 @@
             "name": "id",
             "in": "path",
             "description": "The numeric id of the news",
-            "required": false
+            "required": true
           }
         ],
         "responses": {
@@ -293,7 +293,7 @@
             "name": "id",
             "in": "path",
             "description": "The numeric id of the news",
-            "required": false
+            "required": true
           }
         ],
         "responses": {
@@ -341,7 +341,7 @@
             "name": "id",
             "in": "path",
             "description": "The numeric id of the news",
-            "required": false
+            "required": true
           }
         ],
         "responses": {

@@ -222,7 +222,7 @@
           }
         ],
         "responses": {
-          "0": {
+          "default": {
             "description": "Unexpected error"
           },
           "200": {
@@ -737,7 +737,7 @@
           }
         ],
         "responses": {
-          "0": {
+          "default": {
             "description": "Unexpected error"
           },
           "200": {
@@ -852,7 +852,7 @@
           }
         ],
         "responses": {
-          "0": {
+          "default": {
             "description": "Unexpected error"
           },
           "200": {
@@ -918,7 +918,7 @@
           }
         ],
         "responses": {
-          "0": {
+          "default": {
             "description": "Unexpected error"
           },
           "200": {

@@ -1003,7 +1003,9 @@
       },
       "WebWebGrouping": {
         "x-ms-discriminator-value": "Web/WebGrouping",
-        "discriminator": "_type",
+        "discriminator": {
+          "propertyName": "_type"
+        },
         "type": "object",
         "required": [
           "webPages",

@@ -73,7 +73,9 @@
           {
             "schema": {
               "type": "array",
-              "default": "hotspots",
+              "default": [
+                "hotspots"
+              ],
               "items": {
                 "type": "string"
               }
@@ -146,7 +148,9 @@
           {
             "schema": {
               "type": "array",
-              "default": "annotation_summary",
+              "default": [
+                "annotation_summary"
+              ],
               "items": {
                 "type": "string"
               }
@@ -228,7 +232,9 @@
           {
             "schema": {
               "type": "array",
-              "default": "annotation_summary",
+              "default": [
+                "annotation_summary"
+              ],
               "items": {
                 "type": "string"
               }
@@ -284,7 +290,9 @@
           {
             "schema": {
               "type": "array",
-              "default": "hotspots",
+              "default": [
+                "hotspots"
+              ],
               "items": {
                 "type": "string"
               }
@@ -366,7 +374,9 @@
           {
             "schema": {
               "type": "array",
-              "default": "hotspots",
+              "default": [
+                "hotspots"
+              ],
               "items": {
                 "type": "string"
               }
@@ -431,7 +441,9 @@
           {
             "schema": {
               "type": "array",
-              "default": "hotspots",
+              "default": [
+                "hotspots"
+              ],
               "items": {
                 "type": "string"
               }

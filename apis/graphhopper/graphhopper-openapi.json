@@ -4353,7 +4353,7 @@
             "type": "integer",
             "format": "int64",
             "description": "Latest end of vehicle in seconds, i.e. the time the vehicle needs to be at its end location at latest.",
-            "default": 9223372036854776000
+            "default": 9223372036854775807
           },
           "skills": {
             "type": "array",
@@ -4431,7 +4431,7 @@
             "type": "integer",
             "format": "int64",
             "description": "Latest end of vehicle in seconds, i.e. the time the vehicle needs to be at its end location at latest.",
-            "default": 9223372036854776000
+            "default": 9223372036854775807
           },
           "break": {
             "anyOf": [
@@ -4836,7 +4836,7 @@
             "type": "integer",
             "format": "int64",
             "description": "Specifies the maximum time in seconds a delivery can stay in the vehicle. Currently, it only works with services of \"type\":\"delivery\".",
-            "default": 9223372036854776000,
+            "default": 9223372036854775807,
             "example": 900
           },
           "group": {
@@ -4933,7 +4933,7 @@
             "type": "integer",
             "format": "int64",
             "description": "Specifies the maximum time in seconds a shipment can stay in the vehicle.",
-            "default": 9223372036854776000,
+            "default": 9223372036854775807,
             "example": 1800
           }
         },
@@ -5008,7 +5008,7 @@
             "type": "integer",
             "format": "int64",
             "description": "Specifies the closing time of the time window in seconds, i.e. the latest time the service can start.",
-            "default": 9223372036854776000
+            "default": 9223372036854775807
           }
         }
       },

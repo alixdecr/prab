@@ -534,7 +534,7 @@
         ],
         "summary": "Get a project",
         "description": "",
-        "operationId": "getProject",
+        "operationId": "getProject__api_projects_id",
         "parameters": [
           {
             "schema": {
@@ -1090,7 +1090,7 @@
         ],
         "summary": "List schedules",
         "description": "",
-        "operationId": "getSchedules",
+        "operationId": "getSchedules__api_schedules",
         "parameters": [
           {
             "schema": {
@@ -1124,7 +1124,7 @@
         ],
         "summary": "Get a schedule",
         "description": "",
-        "operationId": "getSchedules",
+        "operationId": "getSchedules__api_schedules_id",
         "parameters": [
           {
             "schema": {
@@ -1324,7 +1324,7 @@
         ],
         "summary": "List sessions",
         "description": "",
-        "operationId": "getSessions",
+        "operationId": "getSessions__api_sessions",
         "parameters": [
           {
             "schema": {
@@ -1607,7 +1607,7 @@
         ],
         "summary": "Get a workflow",
         "description": "",
-        "operationId": "getWorkflowDefinition",
+        "operationId": "getWorkflowDefinition__api_workflows_id",
         "parameters": [
           {
             "schema": {
@@ -1641,7 +1641,7 @@
         ],
         "summary": "Get truncated local time based on the time zone of a workflow",
         "description": "",
-        "operationId": "getWorkflowDefinition",
+        "operationId": "getWorkflowDefinition__api_workflows_id_truncated_session_time",
         "parameters": [
           {
             "schema": {
@@ -2630,7 +2630,9 @@
       },
       "Resume": {
         "type": "object",
-        "discriminator": "mode",
+        "discriminator": {
+          "propertyName": "mode"
+        },
         "properties": {
           "attemptId": {
             "readOnly": true,

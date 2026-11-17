@@ -407,8 +407,8 @@
     "bing-web-search": {
         "title": "Web Search Client",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.1"
         },
@@ -1786,8 +1786,8 @@
     "catwatch": {
         "title": "Api Documentation",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.1"
         },
@@ -2052,8 +2052,8 @@
     "cwa-verification-server": {
         "title": "cwa-verification-server",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.1"
         },
@@ -2097,8 +2097,8 @@
     "cyclotron": {
         "title": "Cyclotron API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.1"
         },
@@ -2390,8 +2390,8 @@
     "dhl-shipment-tracking": {
         "title": "Unified Shipment Tracking API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
@@ -2416,13 +2416,22 @@
                 "path": "/shipments"
             }
         ],
-        "query-parameters": []
+        "query-parameters": [
+            "language",
+            "limit",
+            "offset",
+            "originCountryCode",
+            "recipientPostalCode",
+            "requesterCountryCode",
+            "service",
+            "trackingNumber"
+        ]
     },
     "digdag": {
         "title": "Digdag",
         "oas": {
-            "validated": false,
-            "error": "DuplicateOperationIDError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.1"
         },
@@ -2617,12 +2626,19 @@
     "disease-sh": {
         "title": "disease.sh Docs - An open API for disease-related statistics",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "servers": [],
+        "servers": [
+            {
+                "url": "https://disease.sh",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            }
+        ],
         "authentication": null,
         "rate-limit": {
             "active": false,
@@ -2807,8 +2823,8 @@
     "envirocar": {
         "title": "enviroCar REST API",
         "oas": {
-            "validated": false,
-            "error": "JsonRefError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
@@ -3145,7 +3161,30 @@
                 "path": "/announcements"
             }
         ],
-        "query-parameters": []
+        "query-parameters": [
+            "after",
+            "bbox",
+            "before",
+            "begins",
+            "begunBy",
+            "contains",
+            "deleteContent",
+            "during",
+            "endedBy",
+            "ends",
+            "equals",
+            "limit",
+            "locale",
+            "meets",
+            "metBy",
+            "nearPoint",
+            "overlapped",
+            "overlaps",
+            "page",
+            "q",
+            "status",
+            "type"
+        ]
     },
     "erc-20-rest-service": {
         "title": "ERC-20 API",
@@ -3230,8 +3269,8 @@
     "fdic": {
         "title": "FDIC Bank Data API (Beta)",
         "oas": {
-            "validated": false,
-            "error": "Unresolvable",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
@@ -3288,8 +3327,11 @@
             "agg_sum_fields",
             "agg_term_fields",
             "api_key",
+            "download",
             "fields",
+            "filename",
             "filters",
+            "format",
             "limit",
             "max_value",
             "max_value_by",
@@ -3302,10 +3344,10 @@
         ]
     },
     "features-service": {
-        "title": null,
+        "title": "Features Service",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.1"
         },
@@ -3957,8 +3999,8 @@
     "gbif-species": {
         "title": "Species API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.1"
         },
@@ -4134,8 +4176,8 @@
     "genome-nexus": {
         "title": "Genome Nexus API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.1"
         },
@@ -9044,8 +9086,8 @@
     "graphhopper": {
         "title": "GraphHopper Directions API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.0"
         },
@@ -12059,8 +12101,8 @@
     "ocvn": {
         "title": "Open Contracting Dashboards API",
         "oas": {
-            "validated": false,
-            "error": "JsonRefError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.1"
         },
@@ -12879,8 +12921,8 @@
     "ohsome": {
         "title": "ohsome API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.1"
         },
@@ -14111,8 +14153,8 @@
     "proxyprint": {
         "title": "Api Documentation",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.1"
         },
@@ -14793,8 +14835,8 @@
             {
                 "url": "https://refugerestrooms.org/api",
                 "hosted": "online",
-                "available": false,
-                "error": "ReadTimeout"
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -15092,8 +15134,8 @@
     "rest-ncs": {
         "title": "API for Numerical Case Study (NCS)",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.1"
         },
@@ -15141,8 +15183,8 @@
     "rest-news": {
         "title": "API for REST News",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.1"
         },
@@ -15266,8 +15308,8 @@
     "scout-api": {
         "title": "API for Aktivitetsbanken",
         "oas": {
-            "validated": false,
-            "error": "DuplicateOperationIDError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.1"
         },
@@ -15513,8 +15555,8 @@
     "senzing": {
         "title": "Senzing REST API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.1"
         },
@@ -15678,26 +15720,39 @@
             "dataSource",
             "dataSource1",
             "dataSource2",
+            "detailLevel",
             "e",
             "entities",
             "entity1",
             "entity2",
             "entityId",
+            "eofSendTimeout",
+            "featureMode",
             "featureType",
             "forbidAvoided",
+            "forceMinimal",
             "from",
+            "includeOnly",
+            "loadId",
             "mapDataSource",
             "mapDataSources",
             "maxDegrees",
             "maxEntities",
             "maxFailures",
+            "progressPeriod",
             "r",
             "recordId1",
             "recordId2",
             "records",
             "s",
             "to",
+            "withFeatureStats",
+            "withInfo",
             "withInternal",
+            "withInternalFeatures",
+            "withRaw",
+            "withRelated",
+            "withRelationships",
             "x"
         ]
     },
@@ -18670,8 +18725,8 @@
     "ur-codebin": {
         "title": "Ur-Codebin API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
@@ -18729,8 +18784,8 @@
     "yelp": {
         "title": "Yelp V3",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },

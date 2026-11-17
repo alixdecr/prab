@@ -313,7 +313,7 @@
             "name": "a",
             "in": "path",
             "description": "First edge",
-            "required": false
+            "required": true
           },
           {
             "schema": {
@@ -323,7 +323,7 @@
             "name": "b",
             "in": "path",
             "description": "Second edge",
-            "required": false
+            "required": true
           },
           {
             "schema": {
@@ -333,7 +333,7 @@
             "name": "c",
             "in": "path",
             "description": "Third edge",
-            "required": false
+            "required": true
           }
         ],
         "responses": {
