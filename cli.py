@@ -158,6 +158,7 @@ def update_api_readmes(date: str, only: list[str] | None = None) -> None:
         oas = chars["oas"]
         oas_version_badge_color = "brightgreen" if oas["family"] == "openapi" else "orange"
         oas_validity_badge_color = "brightgreen" if oas["validated"] else "red"
+        oas_validity_text = "pass" if oas["validated"] else "fail"
 
         # server info
         servers = chars["servers"]
@@ -194,7 +195,7 @@ def update_api_readmes(date: str, only: list[str] | None = None) -> None:
         # badges
         badges = "\n".join([
             utils.generate_badge("oas version", f"{oas['family']} v{oas['version']}", oas_version_badge_color),
-            utils.generate_badge("openapi-spec-validator", str(oas["validated"]), oas_validity_badge_color),
+            utils.generate_badge("openapi-spec-validator", oas_validity_text, oas_validity_badge_color),
             utils.generate_badge("available servers", f"{available_servers} of {total_servers}", server_badge_color),
         ])
 
@@ -304,13 +305,6 @@ def update_api_status(date: str) -> None:
 
     utils.save_text(README_PATH, readme_text)
     print(f"Saved benchmark status badges to {README_PATH}")
-
-
-HOSTING_KINDS = {
-    "local": ("local",),
-    "online": ("online",),
-    "both": ("local", "online"),
-}
 
 
 def filter_apis(criteria: dict) -> list[str]:
