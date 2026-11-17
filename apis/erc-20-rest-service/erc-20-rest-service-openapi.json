@@ -1,0 +1,830 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ERC-20 API",
+    "description": "ERC-20 token standard RESTful service",
+    "version": "1.0",
+    "x-generated": "Reconstructed from erc-20-rest-service-openapi.png (Swagger UI screenshot) and the upstream web3labs/erc20-rest-service source"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "erc-20-controller",
+      "description": "ERC 20 Controller"
+    }
+  ],
+  "paths": {
+    "/config": {
+      "get": {
+        "tags": [
+          "erc-20-controller"
+        ],
+        "summary": "Application configuration",
+        "operationId": "configUsingGET",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NodeConfiguration"
+                },
+                "example": {
+                  "fromAddress": "0xed9d02e382b34818e88b88a309c7fe71e65f419d",
+                  "nodeEndpoint": "http://localhost:22000"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/deploy": {
+      "post": {
+        "tags": [
+          "erc-20-controller"
+        ],
+        "summary": "Deploy new ERC-20 token",
+        "operationId": "deployUsingPOST",
+        "description": "Returns hex encoded contract address",
+        "parameters": [
+          {
+            "name": "privateFor",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma separated list of public keys of enclave nodes that transaction is private for"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractSpecification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain;charset=UTF-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "0x830b90b17a25826e5bfc0adda1927d54a52f9e07"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/{contractAddress}/allowance": {
+      "get": {
+        "tags": [
+          "erc-20-controller"
+        ],
+        "summary": "Get quantity of tokens you can transfer on another token holder's behalf",
+        "operationId": "allowanceUsingGET",
+        "parameters": [
+          {
+            "name": "contractAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex encoded address of the deployed ERC-20 contract"
+          },
+          {
+            "name": "ownerAddress",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "spenderAddress",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain;charset=UTF-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "100"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/{contractAddress}/approve": {
+      "post": {
+        "tags": [
+          "erc-20-controller"
+        ],
+        "summary": "Approve transfers by a specific address up to the provided total quantity",
+        "operationId": "approveUsingPOST",
+        "description": "Returns hex encoded transaction hash, and Approval event if called",
+        "parameters": [
+          {
+            "name": "contractAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex encoded address of the deployed ERC-20 contract"
+          },
+          {
+            "name": "privateFor",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma separated list of public keys of enclave nodes that transaction is private for"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApproveRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionResponseApprovalEvent"
+                },
+                "example": {
+                  "transactionHash": "0x9e814a3c2a1e2f1a71b5b3b0f8e2a6f6f0e6f7b1d6a4d4d2b3f6f0a8b2c4d6e8",
+                  "event": {
+                    "owner": "0xed9d02e382b34818e88b88a309c7fe71e65f419d",
+                    "spender": "0xca843569e3427144cead5e4d5999a32b1faded0b",
+                    "value": 500
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/{contractAddress}/approveAndCall": {
+      "post": {
+        "tags": [
+          "erc-20-controller"
+        ],
+        "summary": "Approve transfers by a specific contract address up to the provided total quantity, and notify that contract address of the approval",
+        "operationId": "approveAndCallUsingPOST",
+        "description": "Returns hex encoded transaction hash, and Approval event if called",
+        "parameters": [
+          {
+            "name": "contractAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex encoded address of the deployed ERC-20 contract"
+          },
+          {
+            "name": "privateFor",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma separated list of public keys of enclave nodes that transaction is private for"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApproveAndCallRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionResponseApprovalEvent"
+                },
+                "example": {
+                  "transactionHash": "0x9e814a3c2a1e2f1a71b5b3b0f8e2a6f6f0e6f7b1d6a4d4d2b3f6f0a8b2c4d6e8",
+                  "event": {
+                    "owner": "0xed9d02e382b34818e88b88a309c7fe71e65f419d",
+                    "spender": "0xca843569e3427144cead5e4d5999a32b1faded0b",
+                    "value": 500
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/{contractAddress}/balanceOf/{ownerAddress}": {
+      "get": {
+        "tags": [
+          "erc-20-controller"
+        ],
+        "summary": "Get token balance for address",
+        "operationId": "balanceOfUsingGET",
+        "parameters": [
+          {
+            "name": "contractAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex encoded address of the deployed ERC-20 contract"
+          },
+          {
+            "name": "ownerAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain;charset=UTF-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "1000"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/{contractAddress}/decimals": {
+      "get": {
+        "tags": [
+          "erc-20-controller"
+        ],
+        "summary": "Get decimal precision of tokens",
+        "operationId": "decimalsUsingGET",
+        "parameters": [
+          {
+            "name": "contractAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex encoded address of the deployed ERC-20 contract"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain;charset=UTF-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "18"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/{contractAddress}/name": {
+      "get": {
+        "tags": [
+          "erc-20-controller"
+        ],
+        "summary": "Get token name",
+        "operationId": "nameUsingGET",
+        "parameters": [
+          {
+            "name": "contractAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex encoded address of the deployed ERC-20 contract"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain;charset=UTF-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "GenesisToken"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/{contractAddress}/symbol": {
+      "get": {
+        "tags": [
+          "erc-20-controller"
+        ],
+        "summary": "Get token symbol",
+        "operationId": "symbolUsingGET",
+        "parameters": [
+          {
+            "name": "contractAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex encoded address of the deployed ERC-20 contract"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain;charset=UTF-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "GT"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/{contractAddress}/totalSupply": {
+      "get": {
+        "tags": [
+          "erc-20-controller"
+        ],
+        "summary": "Get total supply of tokens",
+        "operationId": "totalSupplyUsingGET",
+        "parameters": [
+          {
+            "name": "contractAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex encoded address of the deployed ERC-20 contract"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain;charset=UTF-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "21000000"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/{contractAddress}/transfer": {
+      "post": {
+        "tags": [
+          "erc-20-controller"
+        ],
+        "summary": "Transfer tokens you own to another address",
+        "operationId": "transferUsingPOST",
+        "description": "Returns hex encoded transaction hash, and Transfer event if called",
+        "parameters": [
+          {
+            "name": "contractAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex encoded address of the deployed ERC-20 contract"
+          },
+          {
+            "name": "privateFor",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma separated list of public keys of enclave nodes that transaction is private for"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionResponseTransferEvent"
+                },
+                "example": {
+                  "transactionHash": "0x9e814a3c2a1e2f1a71b5b3b0f8e2a6f6f0e6f7b1d6a4d4d2b3f6f0a8b2c4d6e8",
+                  "event": {
+                    "from": "0xed9d02e382b34818e88b88a309c7fe71e65f419d",
+                    "to": "0xca843569e3427144cead5e4d5999a32b1faded0b",
+                    "value": 100
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/{contractAddress}/transferFrom": {
+      "post": {
+        "tags": [
+          "erc-20-controller"
+        ],
+        "summary": "Transfer tokens between addresses (must already be approved)",
+        "operationId": "transferFromUsingPOST",
+        "description": "Returns hex encoded transaction hash, and Transfer event if called",
+        "parameters": [
+          {
+            "name": "contractAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex encoded address of the deployed ERC-20 contract"
+          },
+          {
+            "name": "privateFor",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma separated list of public keys of enclave nodes that transaction is private for"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferFromRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionResponseTransferEvent"
+                },
+                "example": {
+                  "transactionHash": "0x9e814a3c2a1e2f1a71b5b3b0f8e2a6f6f0e6f7b1d6a4d4d2b3f6f0a8b2c4d6e8",
+                  "event": {
+                    "from": "0xed9d02e382b34818e88b88a309c7fe71e65f419d",
+                    "to": "0xca843569e3427144cead5e4d5999a32b1faded0b",
+                    "value": 100
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/{contractAddress}/version": {
+      "get": {
+        "tags": [
+          "erc-20-controller"
+        ],
+        "summary": "Get contract version",
+        "operationId": "versionUsingGET",
+        "parameters": [
+          {
+            "name": "contractAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex encoded address of the deployed ERC-20 contract"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain;charset=UTF-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "1"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "NodeConfiguration": {
+        "type": "object",
+        "properties": {
+          "fromAddress": {
+            "type": "string"
+          },
+          "nodeEndpoint": {
+            "type": "string"
+          }
+        }
+      },
+      "ContractSpecification": {
+        "type": "object",
+        "properties": {
+          "decimalUnits": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "initialAmount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tokenName": {
+            "type": "string"
+          },
+          "tokenSymbol": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "decimalUnits",
+          "initialAmount",
+          "tokenName",
+          "tokenSymbol"
+        ]
+      },
+      "ApproveRequest": {
+        "type": "object",
+        "properties": {
+          "spender": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "spender",
+          "value"
+        ]
+      },
+      "ApproveAndCallRequest": {
+        "type": "object",
+        "properties": {
+          "spender": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "extraData": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "spender",
+          "value",
+          "extraData"
+        ]
+      },
+      "TransferRequest": {
+        "type": "object",
+        "properties": {
+          "to": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "to",
+          "value"
+        ]
+      },
+      "TransferFromRequest": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "value"
+        ]
+      },
+      "TransferEventResponse": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ApprovalEventResponse": {
+        "type": "object",
+        "properties": {
+          "owner": {
+            "type": "string"
+          },
+          "spender": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "TransactionResponseTransferEvent": {
+        "type": "object",
+        "properties": {
+          "transactionHash": {
+            "type": "string"
+          },
+          "event": {
+            "$ref": "#/components/schemas/TransferEventResponse"
+          }
+        }
+      },
+      "TransactionResponseApprovalEvent": {
+        "type": "object",
+        "properties": {
+          "transactionHash": {
+            "type": "string"
+          },
+          "event": {
+            "$ref": "#/components/schemas/ApprovalEventResponse"
+          }
+        }
+      }
+    }
+  },
+  "security": []
+}

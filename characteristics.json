@@ -2329,6 +2329,64 @@
             "startDate"
         ]
     },
+    "datamuse": {
+        "title": "Datamuse - OpenAPI Specification",
+        "oas": {
+            "validated": true,
+            "error": null,
+            "family": "openapi",
+            "version": "3.1.0"
+        },
+        "servers": [
+            {
+                "url": "https://api.datamuse.com",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            }
+        ],
+        "authentication": null,
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
+        },
+        "routes": [
+            {
+                "method": "get",
+                "path": "/words"
+            },
+            {
+                "method": "get",
+                "path": "/sug"
+            }
+        ],
+        "query-parameters": [
+            "lc",
+            "max",
+            "md",
+            "ml",
+            "qe",
+            "rc",
+            "rel_ant",
+            "rel_bga",
+            "rel_bgb",
+            "rel_cns",
+            "rel_com",
+            "rel_gen",
+            "rel_hom",
+            "rel_jja",
+            "rel_jjb",
+            "rel_par",
+            "rel_spc",
+            "rel_syn",
+            "rel_trg",
+            "s",
+            "sl",
+            "sp",
+            "topics",
+            "v"
+        ]
+    },
     "dhl-shipment-tracking": {
         "title": "Unified Shipment Tracking API",
         "oas": {
@@ -3089,6 +3147,86 @@
         ],
         "query-parameters": []
     },
+    "erc-20-rest-service": {
+        "title": "ERC-20 API",
+        "oas": {
+            "validated": true,
+            "error": null,
+            "family": "openapi",
+            "version": "3.0.3"
+        },
+        "servers": [
+            {
+                "url": "http://localhost:8080",
+                "hosted": "local",
+                "available": true,
+                "error": null
+            }
+        ],
+        "authentication": null,
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
+        },
+        "routes": [
+            {
+                "method": "get",
+                "path": "/config"
+            },
+            {
+                "method": "post",
+                "path": "/deploy"
+            },
+            {
+                "method": "get",
+                "path": "/{contractAddress}/allowance"
+            },
+            {
+                "method": "post",
+                "path": "/{contractAddress}/approve"
+            },
+            {
+                "method": "post",
+                "path": "/{contractAddress}/approveAndCall"
+            },
+            {
+                "method": "get",
+                "path": "/{contractAddress}/balanceOf/{ownerAddress}"
+            },
+            {
+                "method": "get",
+                "path": "/{contractAddress}/decimals"
+            },
+            {
+                "method": "get",
+                "path": "/{contractAddress}/name"
+            },
+            {
+                "method": "get",
+                "path": "/{contractAddress}/symbol"
+            },
+            {
+                "method": "get",
+                "path": "/{contractAddress}/totalSupply"
+            },
+            {
+                "method": "post",
+                "path": "/{contractAddress}/transfer"
+            },
+            {
+                "method": "post",
+                "path": "/{contractAddress}/transferFrom"
+            },
+            {
+                "method": "get",
+                "path": "/{contractAddress}/version"
+            }
+        ],
+        "query-parameters": [
+            "ownerAddress",
+            "spenderAddress"
+        ]
+    },
     "fdic": {
         "title": "FDIC Bank Data API (Beta)",
         "oas": {
@@ -3259,6 +3397,389 @@
             }
         ],
         "query-parameters": []
+    },
+    "forte": {
+        "title": "Forte REST API v3",
+        "oas": {
+            "validated": true,
+            "error": null,
+            "family": "openapi",
+            "version": "3.0.3"
+        },
+        "servers": [
+            {
+                "url": "https://api.forte.net/v3",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            },
+            {
+                "url": "https://sandbox.forte.net/api/v3",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            }
+        ],
+        "authentication": [
+            "basicAuth"
+        ],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
+        },
+        "routes": [
+            {
+                "method": "post",
+                "path": "/customers"
+            },
+            {
+                "method": "post",
+                "path": "/customers/cst_{customertoken}/paymethods"
+            },
+            {
+                "method": "get",
+                "path": "/organizations"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/addresses"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/applications"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/applications"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/applications/app_{application_id}"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/customers"
+            },
+            {
+                "method": "put",
+                "path": "/organizations/org_{organization_id}/customers/cst_{customertoken}"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/customers/cst_{customertoken}/addresses"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/disputes"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/disputes/dsp_{dispute_id}"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/documents"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/documents"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/documents/doc_{document_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/organizations/org_{organization_id}/documents/doc_{document_id}"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/fundings"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/fundings/fnd_{funding_id}"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/fundings/fnd_{funding_id}/settlements"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/fundings/fnd_{funding_id}/transactions"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{locationID}/vendors/ven_{vendor_account_id}/orders/{vendor_order_number}"
+            },
+            {
+                "method": "put",
+                "path": "/organizations/org_{organization_id}/locations/loc_{locationID}/vendors/ven_{vendor_account_id}/orders/{vendor_order_number}"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}"
+            },
+            {
+                "method": "put",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}//scheduleitems/sci_{scheduleitem_id}"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/addresses"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/addresses/add_{addresstoken}"
+            },
+            {
+                "method": "delete",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/addresses/add_{addresstoken}"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers/cst_{customertoken}"
+            },
+            {
+                "method": "put",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers/cst_{customertoken}"
+            },
+            {
+                "method": "delete",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers/cst_{customertoken}"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers/cst_{customertoken}/addresses"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers/cst_{customertoken}/addresses"
+            },
+            {
+                "method": "put",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers/cst_{customertoken}/addresses/add_{addresstoken}"
+            },
+            {
+                "method": "put",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers/cst_{customertoken}/paymethods"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers/cst_{customertoken}/paymethods"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers/cst_{customertoken}/paymethods"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers/cst_{customertoken}/scheduleitems"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers/cst_{customertoken}/schedules"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers/cst_{customertoken}/schedules"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/customers/cst_{customertoken}/transactions"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/paymethods"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/paymethods"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/paymethods/mth_{paymethodtoken}"
+            },
+            {
+                "method": "put",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/paymethods/mth_{paymethodtoken}"
+            },
+            {
+                "method": "delete",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/paymethods/mth_{paymethodtoken}"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/paymethods/mth_{paymethodtoken}/scheduleitems"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/scheduleitems"
+            },
+            {
+                "method": "put",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/scheduleitems/sci_{scheduleitem_id}"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/schedules"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/schedules"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/schedules/sch_{schedule_id}"
+            },
+            {
+                "method": "put",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/schedules/sch_{schedule_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/schedules/sch_{schedule_id}"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/schedules/sch_{schedule_id}/scheduleitems"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/settlements"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions"
+            },
+            {
+                "method": "put",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/authenticate"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/authenticate"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/authorize"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/authorize"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/credit"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/credit"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/force"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/inquiry"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/sale"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/sale"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/trn_{transaction_id}"
+            },
+            {
+                "method": "put",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/trn_{transaction_id}"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/trn_{transaction_id}/settlements"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/verify"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/transactions/verify"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/vendors/ven_{vendor_account_id}/agreements"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/vendors/ven_{vendor_account_id}/agreements/agg_{vendor_billing_agreement_token}"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/locations/loc_{location_id}/vendors/ven_{vendor_account_id}/orders"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/paymethods"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/scheduleitems"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/scheduleitems/sci_{scheduleitem_id}"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/org_{organization_id}/settlements"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/org_{organization_id}/transactions"
+            },
+            {
+                "method": "put",
+                "path": "/v3/organizations/org_{organization_id}/locations/loc_{location_id}/paymethods/mth_{paymethodtoken}"
+            }
+        ],
+        "query-parameters": [
+            "filter"
+        ]
     },
     "foursquare": {
         "title": "Foursquare Places API",
@@ -8217,6 +8738,308 @@
             }
         ],
         "query-parameters": []
+    },
+    "google-maps": {
+        "title": "Google Maps Platform \u2013 Core APIs",
+        "oas": {
+            "validated": true,
+            "error": null,
+            "family": "openapi",
+            "version": "3.0.3"
+        },
+        "servers": [
+            {
+                "url": "https://addressvalidation.googleapis.com",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            },
+            {
+                "url": "https://aerialview.googleapis.com",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            },
+            {
+                "url": "https://airquality.googleapis.com",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            },
+            {
+                "url": "https://maps.googleapis.com",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            },
+            {
+                "url": "https://places.googleapis.com",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            },
+            {
+                "url": "https://pollen.googleapis.com",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            },
+            {
+                "url": "https://roads.googleapis.com",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            },
+            {
+                "url": "https://routes.googleapis.com",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            },
+            {
+                "url": "https://solar.googleapis.com",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            },
+            {
+                "url": "https://www.googleapis.com",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            }
+        ],
+        "authentication": [
+            "api_key",
+            "api_key_header"
+        ],
+        "rate-limit": {
+            "active": false,
+            "reason": "no 429 status code response or rate limiting headers"
+        },
+        "routes": [
+            {
+                "method": "post",
+                "path": "/v1:provideValidationFeedback"
+            },
+            {
+                "method": "post",
+                "path": "/v1:validateAddress"
+            },
+            {
+                "method": "get",
+                "path": "/v1/videos:lookupVideo"
+            },
+            {
+                "method": "post",
+                "path": "/v1/videos:renderVideo"
+            },
+            {
+                "method": "post",
+                "path": "/v1/currentConditions:lookup"
+            },
+            {
+                "method": "post",
+                "path": "/v1/forecast:lookup/airquality"
+            },
+            {
+                "method": "post",
+                "path": "/v1/history:lookup"
+            },
+            {
+                "method": "get",
+                "path": "/v1/mapTypes/<mapType>/heatmapTiles/<z>/<x>/<y>"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/directions/json"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/distancematrix/json"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/elevation/json"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/geocode/json"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/place/autocomplete/json"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/place/details/json"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/place/findplacefromtext/json"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/place/nearbysearch/json"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/place/photo"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/place/queryautocomplete/json"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/place/textsearch/json"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/streetview"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/streetview/metadata"
+            },
+            {
+                "method": "get",
+                "path": "/maps/api/timezone/json"
+            },
+            {
+                "method": "get",
+                "path": "/v1/places/{place_id}"
+            },
+            {
+                "method": "get",
+                "path": "/v1/places/{place_id}/photos/{photo_id}/media"
+            },
+            {
+                "method": "post",
+                "path": "/v1/places:autocomplete"
+            },
+            {
+                "method": "post",
+                "path": "/v1/places:searchNearby"
+            },
+            {
+                "method": "post",
+                "path": "/v1/places:searchText"
+            },
+            {
+                "method": "get",
+                "path": "/v1/forecast:lookup/pollen"
+            },
+            {
+                "method": "get",
+                "path": "/v1/mapTypes/GRASS_UPI/heatmapTiles/0/0/0"
+            },
+            {
+                "method": "get",
+                "path": "/v1/nearestRoads"
+            },
+            {
+                "method": "get",
+                "path": "/v1/snaptoroads"
+            },
+            {
+                "method": "post",
+                "path": "/directions/v2:computeRoutes"
+            },
+            {
+                "method": "post",
+                "path": "/distanceMatrix/v2:computeRouteMatrix"
+            },
+            {
+                "method": "get",
+                "path": "/v1/buildingInsights:findClosest"
+            },
+            {
+                "method": "get",
+                "path": "/v1/dataLayers:get"
+            },
+            {
+                "method": "post",
+                "path": "/geolocation/v1/geolocate"
+            }
+        ],
+        "query-parameters": [
+            "address",
+            "alternatives",
+            "arrival_time",
+            "avoid",
+            "bounds",
+            "components",
+            "days",
+            "departure_time",
+            "destination",
+            "destinations",
+            "fields",
+            "fov",
+            "heading",
+            "input",
+            "inputtype",
+            "interpolate",
+            "keyword",
+            "language",
+            "languageCode",
+            "latlng",
+            "location",
+            "location.latitude",
+            "location.longitude",
+            "location_type",
+            "locationbias",
+            "locations",
+            "maxHeightPx",
+            "maxWidthPx",
+            "maxheight",
+            "maxprice",
+            "maxwidth",
+            "minprice",
+            "mode",
+            "name",
+            "offset",
+            "opennow",
+            "origin",
+            "origins",
+            "pageSize",
+            "pageToken",
+            "pagetoken",
+            "pano",
+            "path",
+            "photo_reference",
+            "pitch",
+            "pixelSizeMeters",
+            "place_id",
+            "plantsDescription",
+            "points",
+            "query",
+            "radius",
+            "radiusMeters",
+            "rankby",
+            "region",
+            "regionCode",
+            "requiredQuality",
+            "result_type",
+            "return_error_code",
+            "samples",
+            "sessionToken",
+            "sessiontoken",
+            "signature",
+            "size",
+            "source",
+            "strictbounds",
+            "timestamp",
+            "traffic_model",
+            "transit_mode",
+            "transit_routing_preference",
+            "type",
+            "types",
+            "units",
+            "videoId",
+            "view",
+            "waypoints"
+        ]
     },
     "graphhopper": {
         "title": "GraphHopper Directions API",
@@ -18245,64 +19068,6 @@
             "videoSyndicated",
             "videoType",
             "walltime"
-        ]
-    },
-    "datamuse": {
-        "title": "Datamuse - OpenAPI Specification",
-        "oas": {
-            "validated": true,
-            "error": null,
-            "family": "openapi",
-            "version": "3.1.0"
-        },
-        "servers": [
-            {
-                "url": "https://api.datamuse.com",
-                "hosted": "online",
-                "available": true,
-                "error": null
-            }
-        ],
-        "authentication": null,
-        "rate-limit": {
-            "active": false,
-            "reason": "no 429 status code response or rate limiting headers"
-        },
-        "routes": [
-            {
-                "method": "get",
-                "path": "/words"
-            },
-            {
-                "method": "get",
-                "path": "/sug"
-            }
-        ],
-        "query-parameters": [
-            "lc",
-            "max",
-            "md",
-            "ml",
-            "qe",
-            "rc",
-            "rel_ant",
-            "rel_bga",
-            "rel_bgb",
-            "rel_cns",
-            "rel_com",
-            "rel_gen",
-            "rel_hom",
-            "rel_jja",
-            "rel_jjb",
-            "rel_par",
-            "rel_spc",
-            "rel_syn",
-            "rel_trg",
-            "s",
-            "sl",
-            "sp",
-            "topics",
-            "v"
         ]
     }
 }

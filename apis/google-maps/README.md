@@ -1,21 +1,50 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Invalid-red.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-## Google Maps API: Description
+# Structural Characteristics of google-maps (Google Maps Platform – Core APIs)
 
-### General Information
+*Last update: 2026-11-17*
 
-- Identifier: google-maps
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.3-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-True-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-10_of_10-brightgreen.svg)
 
-- Name: Google Maps
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Used By: [10] (the citation references can be found in `/study-data/study-apis.md`)
+## Usage Information
 
-- References: [API Website](https://developers.google.com/maps), [Postman Collection](google-maps-postman.json)
+**Servers:**
 
-### Description
+| URL | Hosted | Available |
+| --- | ------ | --------- |
+| https://addressvalidation.googleapis.com | online | True |
+| https://aerialview.googleapis.com | online | True |
+| https://airquality.googleapis.com | online | True |
+| https://maps.googleapis.com | online | True |
+| https://places.googleapis.com | online | True |
+| https://pollen.googleapis.com | online | True |
+| https://roads.googleapis.com | online | True |
+| https://routes.googleapis.com | online | True |
+| https://solar.googleapis.com | online | True |
+| https://www.googleapis.com | online | True |
 
-This folder contains the complete Postman collection for all Google Map APIs. In this benchmark, we include the Google Geocoding API as an example of one of these APIs.
+**Authentication Methods:** api_key, api_key_header
 
-### Structural Characteristics
+**Rate Limiting:** False (no 429 status code response or rate limiting headers)
 
-This API does not contain an OpenAPI Specification and is therefore not present in `/structural-characteristics/structural-characteristics.json`. As a consequence, it is not covered by the monthly benchmark check: no badges status update nor `Last Checked` date is generated for this API. The structural characteristics (routes, query parameters, HTTP methods, etc.) can be extracted manually from the Postman Collection file, by interested users. The Google Geocoding API, which is analyzed in the benchmark, has its own folder at `/apis/google-geocoding`.
+## Structural Information
+
+**Total Paths:** 36
+
+**Query Parameters:** 75
+
+**Paths by Method:**
+
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 24 |
+| `POST` | 12 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 0 |
+| `HEAD` | 0 |
+| `OPTIONS` | 0 |
+| `TRACE` | 0 |

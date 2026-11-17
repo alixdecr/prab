@@ -1,41 +1,41 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Invalid-red.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-Last Checked: 2026-10-08
+# Structural Characteristics of erc-20-rest-service (ERC-20 API)
 
-## ERC-20 REST Service API: Structural Characteristics
+*Last update: 2026-11-17*
 
-### General Information
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.3-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-True-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-- Identifier: erc-20-rest-service
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Name: ERC-20 REST Service
+## Usage Information
 
-- Used By: [3] (the citation references can be found in `/study-data/study-apis.md`)
+**Servers:**
 
-- References: [API Website](https://github.com/web3labs/erc20-rest-service), [OpenAPI Specification](https://github.com/web3labs/erc20-rest-service/blob/master/images/full-swagger-ui.png)
+| URL | Hosted | Available |
+| --- | ------ | --------- |
+| http://localhost:8080 | local | True |
 
-### Usage Information
+**Authentication Methods:** No authentication required
 
-- Availability: Local
+**Rate Limiting:** False (no 429 status code response or rate limiting headers)
 
-- Authentication Method: No
+## Structural Information
 
-- Pricing: No
+**Total Paths:** 13
 
-- Request Limits: No
+**Query Parameters:** 2
 
-### Routes and Query Parameters Information
+**Paths by Method:**
 
-- Number of Routes: 13
-
-- Number of Query Parameters: 0
-
-### HTTP Method Information
-
-| Method | Amount | Percentage |
-|--------|--------|------------|
-| `GET` | 8 | 61.54% |
-| `POST` | 5 | 38.46% |
-| `PUT` | 0 | 0.00% |
-| `PATCH` | 0 | 0.00% |
-| `DELETE` | 0 | 0.00% |
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 8 |
+| `POST` | 5 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 0 |
+| `HEAD` | 0 |
+| `OPTIONS` | 0 |
+| `TRACE` | 0 |

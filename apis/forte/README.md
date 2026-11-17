@@ -1,21 +1,42 @@
-![alt text](https://img.shields.io/badge/OpenAPI_Specification-Invalid-red.svg) ![alt text](https://img.shields.io/badge/Server_URL-Missing-orange.svg)
 
-## Forte API: Description
+# Structural Characteristics of forte (Forte REST API v3)
 
-### General Information
+*Last update: 2026-11-17*
 
-- Identifier: forte
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.3-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-True-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-2_of_2-brightgreen.svg)
 
-- Name: Forte
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-- Used By: [10] (the citation references can be found in `/study-data/study-apis.md`)
+## Usage Information
 
-- References: [API Website](https://www.forte.net), [Postman Collection](forte-postman.json)
+**Servers:**
 
-### Description
+| URL | Hosted | Available |
+| --- | ------ | --------- |
+| https://api.forte.net/v3 | online | True |
+| https://sandbox.forte.net/api/v3 | online | True |
 
-The Forte REST API is included in a Postman Collection file. However, the OpenAPI translation tool does not work on this file. It is still included in the benchmark if a user wishes to leverage the Postman Collection.
+**Authentication Methods:** basicAuth
 
-### Structural Characteristics
+**Rate Limiting:** False (no 429 status code response or rate limiting headers)
 
-This API does not contain an OpenAPI Specification and is therefore not present in `/structural-characteristics/structural-characteristics.json`. As a consequence, it is not covered by the monthly benchmark check: no badges status update nor `Last Checked` date is generated for this API. The structural characteristics (routes, query parameters, HTTP methods, etc.) can be extracted manually from the Postman Collection file, by interested users.
+## Structural Information
+
+**Total Paths:** 60
+
+**Query Parameters:** 1
+
+**Paths by Method:**
+
+| Method | Paths |
+| ------ | ----- |
+| `GET` | 47 |
+| `POST` | 22 |
+| `PUT` | 12 |
+| `PATCH` | 0 |
+| `DELETE` | 6 |
+| `HEAD` | 0 |
+| `OPTIONS` | 0 |
+| `TRACE` | 0 |
