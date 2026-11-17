@@ -1,9 +1,9 @@
-name: Monthly benchmark update
+name: Weekly benchmark update
 
 on:
   schedule:
-    # 06:00 UTC on the 1st of every month
-    - cron: "0 6 1 * *"
+    # 00:00 UTC every Monday
+    - cron: "0 0 * * 1"
   # allow manually triggering from the Actions tab
   workflow_dispatch:
 
@@ -30,7 +30,7 @@ jobs:
 
       - name: Compute date tag
         id: date
-        run: echo "month=$(date +'%Y-%m')" >> "$GITHUB_OUTPUT"
+        run: echo "date=$(date +'%Y-%m-%d')" >> "$GITHUB_OUTPUT"
 
       - name: Commit and push if anything changed
         run: |
@@ -40,6 +40,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes, nothing to commit"
           else
-            git commit -m "update: ${{ steps.date.outputs.month }} monthly check"
+            git commit -m "update: ${{ steps.date.outputs.date }} weekly check"
             git push
           fi

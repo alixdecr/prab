@@ -130,15 +130,15 @@ def generate_api_characteristics(only: list[str] | None = None) -> None:
     print(f"Saved API characteristics to {CHAR_PATH}")
 
 
-def update_api_readmes(only: list[str] | None = None) -> None:
+def update_api_readmes(date: str, only: list[str] | None = None) -> None:
     """
     Updates API READMEs.
 
     Args:
+        date: YYYY-MM-DD date string of the update.
         only: If set, only update the READMEs of the specified API ids.
     """
 
-    date = datetime.now().strftime("%Y-%m-%d")
     data = utils.load_json(CHAR_PATH)
 
     for api_id, chars in data.items():
@@ -155,7 +155,7 @@ def update_api_readmes(only: list[str] | None = None) -> None:
         total_servers = len(servers)
         available_servers = sum(
             server["hosted"] == "local" or server["available"]
-            for server in chars["servers"]
+            for server in servers
         )
 
         server_badge_color = (
@@ -172,7 +172,7 @@ def update_api_readmes(only: list[str] | None = None) -> None:
 
         # route info
         routes = chars["routes"]
-        total_paths = len(set(route["path"] for route in chars["routes"]))
+        total_paths = len(set(route["path"] for route in routes))
 
         methods_text = "\n".join(
             f"| `{method.upper()}` | {sum(route['method'] == method for route in routes)} |"
@@ -232,12 +232,14 @@ def update_api_readmes(only: list[str] | None = None) -> None:
         print(f"Saved {api_id} README to {out_path}")
 
 
-def update_api_status() -> None:
+def update_api_status(date: str) -> None:
     """
     Updates the benchmark status, and displays benchmark badges in the main README.
+
+    Args:
+        date: YYYY-MM-DD date string of the update.
     """
 
-    date = datetime.now().strftime("%Y-%m-%d")
     data = utils.load_json(CHAR_PATH)
 
     # unreachable servers
@@ -321,12 +323,13 @@ def main(argv: list[str] | None = None) -> None:
         argv: Command line arguments.
     """
 
+    date = datetime.now().strftime("%Y-%m-%d")
     args = build_parser().parse_args(argv)
 
     if args.command == "update":
         generate_api_characteristics(args.only)
-        update_api_readmes(args.only)
-        update_api_status()
+        update_api_readmes(date, args.only)
+        update_api_status(date)
 
 
 if __name__ == "__main__":
