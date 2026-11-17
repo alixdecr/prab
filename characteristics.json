@@ -11,7 +11,8 @@
             {
                 "url": "https://api.amadeus.com",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -289,7 +290,8 @@
             {
                 "url": "https://www.anapioficeandfire.com",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -343,7 +345,8 @@
             {
                 "url": "https://balldontlie.io",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -413,7 +416,8 @@
             {
                 "url": "https://api.bing.microsoft.com/v7.0",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -457,7 +461,8 @@
             {
                 "url": "https://api.bitbucket.org/2.0",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -1790,7 +1795,8 @@
             {
                 "url": "https://localhost:8080/",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -1915,7 +1921,8 @@
             {
                 "url": "https://www.cheapshark.com",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -2054,7 +2061,8 @@
             {
                 "url": "http://localhost:8080",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -2098,7 +2106,8 @@
             {
                 "url": "http://localhost:8080/",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -2332,7 +2341,8 @@
             {
                 "url": "https://api-eu.dhl.com/track",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -2362,7 +2372,8 @@
             {
                 "url": "http://localhost:8080",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -2747,7 +2758,8 @@
             {
                 "url": "https://envirocar.org/api/stable/",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -3089,7 +3101,8 @@
             {
                 "url": "https://api.fdic.gov/banks",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -3162,7 +3175,8 @@
             {
                 "url": "http://localhost:8080/",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -3258,7 +3272,8 @@
             {
                 "url": "https://api.foursquare.com",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -3430,12 +3445,14 @@
             {
                 "url": "https://api.gbif.org/v1/",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             },
             {
                 "url": "https://api.gbif-uat.org/v1/",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -3605,12 +3622,14 @@
             {
                 "url": "http://localhost:28125/",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             },
             {
                 "url": "https://localhost:28125/",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -3735,7 +3754,8 @@
             {
                 "url": "https://localhost:8080/",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -3844,7 +3864,8 @@
             {
                 "url": "https://api.github.com",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -7805,7 +7826,8 @@
             {
                 "url": "https://www.gitlab.com/api/v4",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -8142,7 +8164,8 @@
             {
                 "url": "https://maps.googleapis.com",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -8170,7 +8193,8 @@
             {
                 "url": "https://graphhopper.com/api/1",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -8309,12 +8333,14 @@
             {
                 "url": "http://localhost:8082/v3",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             },
             {
                 "url": "http://localhost:8090/kafka/v3",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -8534,7 +8560,8 @@
             {
                 "url": "http://localhost:8081/v2",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -8566,7 +8593,8 @@
             {
                 "url": "http://example.com/rest/default",
                 "hosted": "online",
-                "available": false
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -10880,7 +10908,8 @@
             {
                 "url": "http://localhost:8080",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -11187,7 +11216,8 @@
             {
                 "url": "https://localhost:8090/",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -12006,7 +12036,8 @@
             {
                 "url": "https://api.ohsome.org/v1",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -12537,12 +12568,14 @@
             {
                 "url": "http://www.omdbapi.com/",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             },
             {
                 "url": "https://www.omdbapi.com/",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -12582,7 +12615,8 @@
             {
                 "url": "https://api.openbrewerydb.org/v1",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -12635,7 +12669,8 @@
             {
                 "url": "https://api.openverse.org",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -12762,12 +12797,14 @@
             {
                 "url": "https://api-m.sandbox.paypal.com",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             },
             {
                 "url": "https://api-m.paypal.com",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -12873,7 +12910,8 @@
             {
                 "url": "http://localhost:9966/petclinic/api",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -13043,7 +13081,8 @@
             {
                 "url": "http://localhost:8080/api/v3",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -13153,7 +13192,8 @@
             {
                 "url": "http://localhost:8000",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -13221,7 +13261,8 @@
             {
                 "url": "https://localhost:8080/",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -13705,7 +13746,8 @@
             {
                 "url": "http://localhost:8080",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -13754,7 +13796,8 @@
             {
                 "url": "https://randomuser.me",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -13782,7 +13825,8 @@
             {
                 "url": "https://api.realworld.show/api",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -13890,7 +13934,8 @@
             {
                 "url": "https://refugerestrooms.org/api",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -13943,7 +13988,8 @@
             {
                 "url": "https://reqres.in/api",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -14022,7 +14068,8 @@
             {
                 "url": "http://localhost:8080/rest",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -14138,7 +14185,8 @@
             {
                 "url": "http://localhost:8080",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -14194,7 +14242,8 @@
             {
                 "url": "http://localhost:8080/",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -14242,7 +14291,8 @@
             {
                 "url": "https://localhost:8080/",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -14297,7 +14347,8 @@
             {
                 "url": "http://localhost:8080/",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -14605,7 +14656,8 @@
             {
                 "url": "http://localhost:8250",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -14795,7 +14847,8 @@
             {
                 "url": "https://api.spotify.com/v1",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -15241,7 +15294,8 @@
             {
                 "url": "https://api.stripe.com/",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -17647,7 +17701,8 @@
             {
                 "url": "https://api.tumblr.com/v2",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -17755,7 +17810,8 @@
             {
                 "url": "http://localhost:8080",
                 "hosted": "local",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -17813,7 +17869,8 @@
             {
                 "url": "https://api.yelp.com/v3",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -17865,7 +17922,8 @@
             {
                 "url": "https://www.googleapis.com/youtube/v3",
                 "hosted": "online",
-                "available": true
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,

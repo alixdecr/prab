@@ -1,9 +1,9 @@
 # Benchmark Status
 
-*Last update: 2026-11-16*
+*Last update: 2026-11-17*
 
 ## Unreachable Servers
-- `magento` (`http://example.com/rest/default`)
+- All servers are reachable.
 
 ## Outdated OAS Formats
 - `bing-web-search` (`swagger v2.0`)

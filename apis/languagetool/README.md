@@ -1,7 +1,7 @@
 
 # Structural Characteristics of languagetool (LanguageTool API)
 
-*Last update: 2026-11-16*
+*Last update: 2026-11-17*
 
 ![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-True-brightgreen.svg)

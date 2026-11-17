@@ -1,4 +1,4 @@
-![alt text](https://img.shields.io/badge/apis-57-blue.svg) ![alt text](https://img.shields.io/badge/reachable_servers-98%25-yellowgreen.svg) ![alt text](https://img.shields.io/badge/openapi_v3-68%25-orange.svg) ![alt text](https://img.shields.io/badge/openapi--spec--validator-65%25-orange.svg)
+![alt text](https://img.shields.io/badge/apis-57-blue.svg) ![alt text](https://img.shields.io/badge/reachable_servers-100%25-brightgreen.svg) ![alt text](https://img.shields.io/badge/openapi_v3-68%25-orange.svg) ![alt text](https://img.shields.io/badge/openapi--spec--validator-65%25-orange.svg)
 
 # PRAB: Public REST API Benchmark
 
@@ -23,11 +23,17 @@ Decrop, A., Eraso, S., Devroey, X. and Perrouin, G., 2025. A Public Benchmark of
 }
 ```
 
-## Getting Started
+## Content
 
-The main content of the benchmark can be found in the `/apis` folder. At the moment, each REST API of the benchmark has its sub-folder, containing a README with its structural characteristics, an OpenAPI Specification (in the JSON format), and optionally a Postman Collection.
+PRAB contains the following:
 
-The structural characteristics of all benchmark APIs are available in machine-readable format in `apis/characteristics.json`, represented by an API identifier (the name of the folder in `/apis`). This enables the selection of the APIs that match experimental needs. The OpenAPI Specifications themselves can then be loaded from `/apis/<identifier>/<identifier>-openapi.json`.
+- `apis/`: Folder containing all APIs of the benchmark. Each API has a sub-folder, containing a global overview in `README.md`, an OpenAPI Specification (OAS) in `<api-name>-openapi.json`, and optionally a Postman Collection or other useful files.
+- `legacy/`: Folder containing legacy content (cf. **Legacy** section for more details).
+- `characteristics.json`: File containing the structural characteristics of the APIs.
+- `cli.py`: File containing the main Python code for the CLI.
+- `utils.py`: File containing utility code for the CLI.
+- `requirements.txt`: File containing the Python requirements for the CLI.
+- `STATUS.md`: File containing the latest status of the benchmark. It is separated into different sections: **Unreachable Servers**, **Outdated OAS Formats**, and **OAS Validation Fails**. This content is useful to check for outdated APIs and to update them accordingly.
 
 ## CLI Setup
 
@@ -35,30 +41,44 @@ The CLI uses Python v3.10 or later. To set it up, enter the following commands i
 
 1. Create a Python virtual environment:
 
-```
-python -m venv .venv
-```
+    ```
+    python -m venv .venv
+    ```
 
 2. Activate the virtual environment, depending on your operating system:
 
-   - Linux / macOS (Bash or Zsh): `source .venv/bin/activate`
-   - Windows (Command Prompt): `.venv\Scripts\activate.bat`
-   - Windows (PowerShell): `.venv\Scripts\Activate.ps1`
-   - Windows (Git Bash): `source .venv/Scripts/activate`
+    - Linux / macOS (Bash or Zsh): `source .venv/bin/activate`
+    - Windows (Command Prompt): `.venv\Scripts\activate.bat`
+    - Windows (PowerShell): `.venv\Scripts\Activate.ps1`
+    - Windows (Git Bash): `source .venv/Scripts/activate`
 
 3. Install the dependencies:
 
-```
-pip install -r requirements.txt
-```
+    ```
+    pip install -r requirements.txt
+    ```
 
 4. Use the CLI:
 
-```
-python cli.py <command>
-```
+    ```
+    python cli.py <commands>
+    ```
 
-To list available CLI commands, you may use `python cli.py --help`.
+    To list available CLI commands, you may use `python cli.py --help`.
+
+5. Example:
+
+    For instance, if you add a new API folder in `apis/my-api/` containing `my-api-openapi.json`, you can generate its README and update the benchmark status with:
+
+    ```
+    python cli.py update --only my-api
+    ```
+
+    Or, if you want to update all APIs contained in `apis/`:
+
+    ```
+    python cli.py update
+    ```
 
 ## Actionable Insights and Guidance on Using the Benchmark
 

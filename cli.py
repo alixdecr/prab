@@ -1,6 +1,5 @@
 import argparse
-import json
-import requests
+import utils
 from datetime import datetime
 from openapi_spec_validator import validate
 from pathlib import Path
@@ -8,33 +7,40 @@ from pathlib import Path
 
 ROOT_PATH = Path(__file__).resolve().parent
 APIS_PATH = ROOT_PATH / "apis"
-CHAR_PATH = APIS_PATH / "characteristics.json"
+CHAR_PATH = ROOT_PATH / "characteristics.json"
 STATUS_PATH = ROOT_PATH / "STATUS.md"
 README_PATH = ROOT_PATH / "README.md"
 HTTP_METHODS = ("get", "post", "put", "patch", "delete", "head", "options", "trace")
 
 
-def generate_api_characteristics() -> None:
+def generate_api_characteristics(only: list[str] | None = None) -> None:
     """
     Generates structural characteristics of provided APIs (paths of OAS files).
+
+    Args:
+        only: If set, only generate characteristics for the specified API ids (keep the other characteristics entries as is if existing).
     """
 
+    # load existing characteristics if they exist
     characteristics = {}
 
+    if only and CHAR_PATH.is_file():
+        characteristics = utils.load_json(CHAR_PATH)
+
     for path in sorted(APIS_PATH.glob("*/*openapi.json")):
+        # api id
+        api_id = path.parent.name
 
-        # id
-        id = path.parent.name
+        if only and api_id not in only:
+            continue
 
-        print(f"Analyzing {id}")
+        print(f"Analyzing {api_id}")
 
         # oas
         spec = {}
 
         try:
-            with open(path, "r", encoding="utf-8-sig") as file:
-                spec = json.load(file)
-
+            spec = utils.load_json(path)
             validate(spec)
             oas = {"validated": True, "error": None}
 
@@ -71,23 +77,11 @@ def generate_api_characteristics() -> None:
         for server in _servers:
             url = server.get("url", "")
 
-            if "localhost" in url:
-                servers.append({"url": url, "hosted": "local", "available": True})
-            else:
-                # check if the server is working (HEAD, with a GET fallback for servers that do not support HEAD)
-                for request_method in (requests.head, requests.get):
-                    try:
-                        request_method(url, timeout=5, allow_redirects=True, stream=True)
-                        available = True
-                        break
-                    except Exception:
-                        available = False
-                        pass
+            result = utils.check_server(url)
+            servers.append(result)
 
-                if not available:
-                    print(f"- Server {url} is not available")
-
-                servers.append({"url": url, "hosted": "online", "available": available})
+            if not result["available"]:
+                print(f"- Server {url} is not available")
 
         # authentication
         authentication = list(spec.get("components", {}).get("securitySchemes", {}) or spec.get("securityDefinitions", {})) or None
@@ -97,7 +91,7 @@ def generate_api_characteristics() -> None:
         routes = []
         query_parameters = set()
 
-        for path, path_item in spec.get("paths", {}).items():
+        for route_path, path_item in spec.get("paths", {}).items():
             for param in path_item.get("parameters", []):
                 if param.get("in", "") == "query":
                     query_parameters.add(param.get("name"))
@@ -106,7 +100,7 @@ def generate_api_characteristics() -> None:
                 if method not in HTTP_METHODS or not isinstance(method_item, dict):
                     continue
 
-                routes.append({"method": method, "path": path})
+                routes.append({"method": method, "path": route_path})
 
                 for param in method_item.get("parameters", []):
                     if param.get("in", "") == "query":
@@ -122,7 +116,7 @@ def generate_api_characteristics() -> None:
                             if "ratelimit" in name or "retry-after" in name:
                                 rate_limit = {"active": True, "reason": "presence of rate limiting headers"}
 
-        characteristics[id] = {
+        characteristics[api_id] = {
             "title": title,
             "oas": oas,
             "servers": servers,
@@ -132,27 +126,25 @@ def generate_api_characteristics() -> None:
             "query-parameters": sorted(query_parameters)
         }
 
-    with open(CHAR_PATH, "w", encoding="utf-8") as file:
-        json.dump(characteristics, file, indent=4)
-
+    utils.save_json(CHAR_PATH, characteristics)
     print(f"Saved API characteristics to {CHAR_PATH}")
 
 
-def update_api_readmes() -> None:
+def update_api_readmes(only: list[str] | None = None) -> None:
     """
     Updates API READMEs.
+
+    Args:
+        only: If set, only update the READMEs of the specified API ids.
     """
 
     date = datetime.now().strftime("%Y-%m-%d")
-
-    if not CHAR_PATH.is_file():
-        print("No API characteristics found, generating them first")
-        generate_api_characteristics()
-
-    with open(CHAR_PATH, "r", encoding="utf-8") as file:
-        data = json.load(file)
+    data = utils.load_json(CHAR_PATH)
 
     for api_id, chars in data.items():
+        if only and api_id not in only:
+            continue
+
         # oas info
         oas = chars["oas"]
         oas_version_badge_color = "brightgreen" if oas["family"] == "openapi" else "orange"
@@ -195,9 +187,9 @@ def update_api_readmes() -> None:
 
         # badges
         badges = "\n".join([
-            generate_badge("oas version", f"{oas['family']} v{oas['version']}", oas_version_badge_color),
-            generate_badge("openapi-spec-validator", str(oas["validated"]), oas_validity_badge_color),
-            generate_badge("available servers", f"{available_servers} of {total_servers}", server_badge_color),
+            utils.generate_badge("oas version", f"{oas['family']} v{oas['version']}", oas_version_badge_color),
+            utils.generate_badge("openapi-spec-validator", str(oas["validated"]), oas_validity_badge_color),
+            utils.generate_badge("available servers", f"{available_servers} of {total_servers}", server_badge_color),
         ])
 
         # markdown render
@@ -236,9 +228,7 @@ def update_api_readmes() -> None:
 """
 
         out_path = APIS_PATH / api_id / "README.md"
-        with open(out_path, "w", encoding="utf-8") as file:
-            file.write(markdown)
-
+        utils.save_text(out_path, markdown)
         print(f"Saved {api_id} README to {out_path}")
 
 
@@ -248,47 +238,19 @@ def update_api_status() -> None:
     """
 
     date = datetime.now().strftime("%Y-%m-%d")
+    data = utils.load_json(CHAR_PATH)
 
-    if not CHAR_PATH.is_file():
-        print("No API characteristics found, generating them first")
-        generate_api_characteristics()
+    # unreachable servers
+    servers = [(api_id, server) for api_id, chars in data.items() for server in chars["servers"]]
+    total_servers = len(servers)
+    available_servers = sum(server["hosted"] == "local" or server["available"] for _, server in servers)
+    unreachable = [f"`{api_id}` (`{server['url']}`)" for api_id, server in servers if server["hosted"] != "local" and not server["available"]]
 
-    with open(CHAR_PATH, "r", encoding="utf-8") as file:
-        data = json.load(file)
+    # outdated and invalid OAS files
+    outdated = [f"`{api_id}` (`{chars['oas']['family']} v{chars['oas']['version']}`)" for api_id, chars in data.items() if chars["oas"]["family"] != "openapi"]
+    invalid = [f"`{api_id}` (`{chars['oas']['error']}`)" for api_id, chars in data.items() if not chars["oas"]["validated"]]
 
-    unreachable = []
-    outdated = []
-    invalid = []
-
-    total_oas = len(data)
-    total_servers = 0
-    available_servers = 0
-    up_to_date_oas = 0
-    valid_oas = 0
-
-    for api_id, chars in data.items():
-        # unreachable
-        for server in chars["servers"]:
-            total_servers += 1
-
-            if server["hosted"] == "local" or server["available"]:
-                available_servers += 1
-            else:
-                unreachable.append(f"`{api_id}` (`{server['url']}`)")
-
-        # outdated
-        if chars["oas"]["family"] == "openapi":
-            up_to_date_oas += 1
-        else:
-            outdated.append(f"`{api_id}` (`{chars['oas']['family']} v{chars['oas']['version']}`)")
-
-        # invalid
-        if not chars["oas"]["validated"]:
-            invalid.append(f"`{api_id}` (`{chars['oas']['error']}`)")
-        else:
-            valid_oas += 1
-
-    # STATUS.md generation
+    # STATUS.md
     status_text = f"# Benchmark Status\n\n*Last update: {date}*\n"
 
     sections = [
@@ -305,24 +267,22 @@ def update_api_status() -> None:
         else:
             status_text += f"{empty_message}\n"
 
-    with open(STATUS_PATH, "w", encoding="utf-8") as file:
-        file.write(status_text)
-
+    utils.save_text(STATUS_PATH, status_text)
     print(f"Saved benchmark status to {STATUS_PATH}")
 
-    # README.md badges
+    # README.md
+    readme_text = utils.load_text(README_PATH)
+
+    # badges
+    total_oas = len(data)
     servers_pct = round(100 * available_servers / total_servers) if total_servers else 0
-    up_to_date_pct = round(100 * up_to_date_oas / total_oas) if total_oas else 0
-    valid_oas_pct = round(100 * valid_oas / total_oas) if total_oas else 0
+    up_to_date_pct = round(100 * (total_oas - len(outdated)) / total_oas) if total_oas else 0
+    valid_oas_pct = round(100 * (total_oas - len(invalid)) / total_oas) if total_oas else 0
 
-    with open(README_PATH, "r", encoding="utf-8") as file:
-        readme_text = file.read()
-
-    apis_badge = generate_badge("apis", str(total_oas), "blue")
-    servers_badge = generate_badge("reachable servers", f"{servers_pct}%", get_percentage_color(servers_pct))
-    up_to_date_badge = generate_badge("openapi v3", f"{up_to_date_pct}%", get_percentage_color(up_to_date_pct))
-    valid_oas_badge = generate_badge("openapi-spec-validator", f"{valid_oas_pct}%", get_percentage_color(valid_oas_pct))
-
+    apis_badge = utils.generate_badge("apis", str(total_oas), "blue")
+    servers_badge = utils.generate_badge("reachable servers", f"{servers_pct}%", utils.get_percentage_color(servers_pct))
+    up_to_date_badge = utils.generate_badge("openapi v3", f"{up_to_date_pct}%", utils.get_percentage_color(up_to_date_pct))
+    valid_oas_badge = utils.generate_badge("openapi-spec-validator", f"{valid_oas_pct}%", utils.get_percentage_color(valid_oas_pct))
     badges = f"{apis_badge} {servers_badge} {up_to_date_badge} {valid_oas_badge}"
 
     # if the first line of the README is already a badge section, replace it, otherwise add a new line
@@ -334,50 +294,8 @@ def update_api_status() -> None:
     else:
         readme_text = f"{badges}\n\n{readme_text}"
 
-    with open(README_PATH, "w", encoding="utf-8") as file:
-        file.write(readme_text)
-
+    utils.save_text(README_PATH, readme_text)
     print(f"Saved benchmark status badges to {README_PATH}")
-
-
-def generate_badge(label: str, message: str, color: str) -> str:
-    """
-    Generates a shields.io badge in Markdown format.
-
-    Args:
-        label: Left side of the badge.
-        message: Right side of the badge.
-        color: Color of the right side of the badge.
-
-    Returns:
-        Markdown of the badge.
-    """
-
-    label = label.replace("-", "--").replace(" ", "_").replace("%", "%25")
-    message = message.replace("-", "--").replace(" ", "_").replace("%", "%25")
-
-    return f"![alt text](https://img.shields.io/badge/{label}-{message}-{color}.svg)"
-
-
-def get_percentage_color(percentage: float) -> str:
-    """
-    Picks a color based on a percentage value.
-
-    Args:
-        percentage: Percentage value between 0 and 100.
-
-    Returns:
-        Percentage color.
-    """
-
-    if percentage == 100:
-        return "brightgreen"
-    elif percentage >= 75:
-        return "yellowgreen"
-    elif percentage >= 50:
-        return "orange"
-    else:
-        return "red"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -390,6 +308,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     # update parser
     update_parser = subparsers.add_parser("update", help="Updates APIs by generating their characteristics, READMEs, and global status.")
+    update_parser.add_argument("-o", "--only", nargs="+", metavar="API_ID", help="Only update the specified APIs.")
 
     return parser
 
@@ -405,8 +324,8 @@ def main(argv: list[str] | None = None) -> None:
     args = build_parser().parse_args(argv)
 
     if args.command == "update":
-        generate_api_characteristics()
-        update_api_readmes()
+        generate_api_characteristics(args.only)
+        update_api_readmes(args.only)
         update_api_status()
 
 

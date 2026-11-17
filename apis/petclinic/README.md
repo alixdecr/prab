@@ -1,7 +1,7 @@
 
 # Structural Characteristics of petclinic (Spring PetClinic)
 
-*Last update: 2026-11-16*
+*Last update: 2026-11-17*
 
 ![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.1-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-True-brightgreen.svg)
