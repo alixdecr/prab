@@ -1,15 +1,43 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Coincap OpenAPI",
-    "version": "3.0.0"
+    "title": "CoinCap API",
+    "version": "3.0.0",
+    "description": "CoinCap gives AI agents, apps, and developers real-time cryptocurrency market data.\n\nTwo ways to access:\n- **API key** — sign up at https://coincap.io and pass `Authorization: Bearer <key>` or `?apiKey=<key>`.\n- **Keyless x402** (agents) — the 12 `agentFriendly` endpoints accept per-call USDC payment on Base via the [x402 protocol](https://x402.gitbook.io/x402). No signup needed. See `/.well-known/x402.json` for the machine-readable payment catalog.",
+    "contact": {
+      "email": "me@justinellis.co",
+      "url": "https://coincap.io"
+    },
+    "x-guidance": "CoinCap provides real-time and historical cryptocurrency market data. Endpoints under /v3/agentFriendly/* accept keyless per-call payment via the x402 protocol (USDC on Base, eip155:8453): call the endpoint with no auth, read the 402 response for payment terms, sign the EIP-3009 authorization with your wallet, and retry with the signed payload in the Payment-Signature header. All other endpoints require an API key from https://coincap.io passed as `Authorization: Bearer <key>`. Machine-readable payment catalog: /.well-known/x402.json. Typical flow: GET /v3/agentFriendly/assets_search?search=bitcoin to resolve a slug, then GET /v3/agentFriendly/history/{slug} for price history.",
+    "license": {
+      "name": "CoinCap Terms of Service",
+      "url": "https://coincap.io/terms"
+    }
   },
+  "servers": [
+    {
+      "url": "https://rest.coincap.io/v3",
+      "description": "Production"
+    }
+  ],
   "components": {
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "apiKey",
+        "description": "API key as a query parameter (alternative to the Authorization: Bearer header)."
+      },
+      "x402": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Payment-Signature",
+        "description": "x402 v2 signed payment payload (base64 EIP-3009 authorization). Send no header first to receive a 402 with the price, then retry with the signed payload."
       }
     }
   },
@@ -19,10 +47,176 @@
     }
   ],
   "paths": {
-    "/v3/assets": {
+    "/price/bysymbol/{symbol}": {
       "get": {
-        "summary": "Retrieve a list of assets",
-        "description": "Retrieve a list of assets with optional filters and pagination.",
+        "summary": "Get USD prices by symbol(s) - supports up to 100 comma-separated symbols",
+        "description": "Get USD prices for one or more symbols (top market cap match for each).\nReturns an array of price strings in the same order as the requested symbols.\n",
+        "tags": [
+          "Price"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "symbol",
+            "required": true,
+            "description": "Single symbol (e.g., \"BTC\") or comma-separated symbols (e.g., \"BTC,ETH,ADA\"). Maximum 100 symbols.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of USD prices in the same order as requested symbols",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timestamp": {
+                      "type": "integer",
+                      "description": "Unix timestamp in milliseconds"
+                    },
+                    "data": {
+                      "type": "array",
+                      "description": "Array of price strings (null for symbols not found/unavailable)",
+                      "items": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "USD price as formatted string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid params or too many symbols)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "timestamp": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "examples": {
+                  "too_many_symbols": {
+                    "summary": "Too many symbols",
+                    "value": {
+                      "error": "Maximum 100 symbols allowed",
+                      "timestamp": 1695651200000
+                    }
+                  },
+                  "missing_symbol": {
+                    "summary": "Missing symbol parameter",
+                    "value": {
+                      "error": "symbol required",
+                      "timestamp": 1695651200000
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/price/byaddress": {
+      "get": {
+        "summary": "Get USD price by token address & network",
+        "tags": [
+          "Price"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "tokenAddress",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "network",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ethereum",
+                "base",
+                "arbitrum",
+                "optimism",
+                "polygon",
+                "xdai",
+                "fantom",
+                "bsc",
+                "avalanche",
+                "solana"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Price object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "priceUsd": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing/invalid params"
+          },
+          "404": {
+            "description": "Price not found"
+          }
+        }
+      }
+    },
+    "/assets": {
+      "get": {
+        "summary": "Retrieve a paginated list of assets in default market-cap order",
+        "description": "Retrieve a paginated list of assets in default market-cap order. Does NOT support sorting by 24h change, volume, or other fields — for rankings, movers, gainers/losers, or any 'top by X' query use /agentFriendly/assets_search with sortBy/sortOrder (or /agentFriendly/top_movers for gainers/losers). Supports search, ids, limit, and offset only.",
         "tags": [
           "Assets"
         ],
@@ -41,7 +235,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Comma-separated list of asset ids (aka slugs). query with multiple ids=bitcoin,ethereum,monero"
+            "description": "Comma-separated list of asset ids (e.g. bitcoin,ethereum)"
           },
           {
             "in": "query",
@@ -63,6 +257,9 @@
         "security": [
           {
             "bearerAuth": []
+          },
+          {
+            "apiKey": []
           }
         ],
         "responses": {
@@ -74,99 +271,67 @@
                   "type": "object",
                   "properties": {
                     "timestamp": {
-                      "type": "integer",
-                      "description": "Unix timestamp when the data was retrieved",
-                      "example": 1726081635506
+                      "type": "integer"
                     },
                     "data": {
                       "type": "array",
-                      "description": "The list of assets.",
                       "items": {
                         "type": "object",
                         "properties": {
                           "id": {
-                            "type": "string",
-                            "description": "The ID or slug of the asset",
-                            "example": "bitcoin"
+                            "type": "string"
                           },
                           "rank": {
                             "type": "string",
-                            "description": "The rank of the asset",
-                            "example": "1"
+                            "nullable": true
                           },
                           "symbol": {
-                            "type": "string",
-                            "description": "The symbol of the asset",
-                            "example": "BTC"
+                            "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "description": "The full name of the asset",
-                            "example": "Bitcoin"
+                            "type": "string"
                           },
                           "supply": {
-                            "type": "string",
-                            "description": "Total supply of the asset",
-                            "example": "19752815.0000000000000000"
+                            "type": "string"
                           },
                           "maxSupply": {
-                            "type": "string",
-                            "description": "The max supply of the asset, or 0 if unlimited",
-                            "example": "21000000.0000000000000000"
+                            "type": "string"
                           },
                           "marketCapUsd": {
-                            "type": "string",
-                            "description": "The market capitalization in USD",
-                            "example": "1134508584478.0989721079862315"
+                            "type": "string"
                           },
                           "volumeUsd24Hr": {
-                            "type": "string",
-                            "description": "The 24-hour volume in USD",
-                            "example": "7243846863.3409126543165751"
+                            "type": "string"
                           },
                           "priceUsd": {
-                            "type": "string",
-                            "description": "The current price in USD",
-                            "example": "57435.2862859343831301"
+                            "type": "string"
                           },
                           "changePercent24Hr": {
                             "type": "string",
-                            "description": "The percentage change in price in the last 24 hours",
-                            "example": "-0.0461491427646531"
+                            "nullable": true
                           },
                           "vwap24Hr": {
                             "type": "string",
-                            "description": "Volume Weighted Average Price (VWAP) over the last 24 hours",
-                            "example": "57868.1484672081301126"
+                            "nullable": true
                           },
                           "explorer": {
-                            "type": "string",
-                            "description": "URL to a block explorer for the asset",
-                            "example": "https://blockchain.info/werweqrerwerw"
+                            "type": "string"
                           },
                           "tokens": {
                             "type": "object",
-                            "description": "Mapping of chain IDs to token address arrays. May be empty if no tokens found.",
                             "additionalProperties": {
                               "type": "array",
                               "items": {
                                 "type": "string"
                               }
-                            },
-                            "example": {
-                              "1": [
-                                "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
-                              ],
-                              "10": [
-                                "0x4200000000000000000000000000000000000006"
-                              ],
-                              "137": [
-                                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
-                              ],
-                              "42161": [
-                                "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
-                              ]
                             }
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "frozenAt": {
+                            "type": "integer",
+                            "nullable": true
                           }
                         }
                       }
@@ -182,7 +347,7 @@
         }
       }
     },
-    "/v3/assets/{slug}": {
+    "/assets/{slug}": {
       "get": {
         "summary": "Retrieve a single asset",
         "description": "Retrieve details for a specific asset by slug (id)",
@@ -203,6 +368,9 @@
         "security": [
           {
             "bearerAuth": []
+          },
+          {
+            "apiKey": []
           }
         ],
         "responses": {
@@ -214,95 +382,57 @@
                   "type": "object",
                   "properties": {
                     "timestamp": {
-                      "type": "integer",
-                      "description": "Unix timestamp when the data was retrieved",
-                      "example": 1726081674735
+                      "type": "integer"
                     },
                     "data": {
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": "string",
-                          "description": "The ID or slug of the asset",
-                          "example": "bitcoin"
+                          "type": "string"
                         },
                         "rank": {
                           "type": "string",
-                          "description": "The rank of the asset",
-                          "example": "1"
+                          "nullable": true
                         },
                         "symbol": {
-                          "type": "string",
-                          "description": "The symbol of the asset",
-                          "example": "BTC"
+                          "type": "string"
                         },
                         "name": {
-                          "type": "string",
-                          "description": "The full name of the asset",
-                          "example": "Bitcoin"
+                          "type": "string"
                         },
                         "supply": {
-                          "type": "string",
-                          "description": "Total supply of the asset",
-                          "example": "19752815.0000000000000000"
+                          "type": "string"
                         },
                         "maxSupply": {
-                          "type": "string",
-                          "description": "The max supply of the asset, or 0 if unlimited",
-                          "example": "21000000.0000000000000000"
+                          "type": "string"
                         },
                         "marketCapUsd": {
-                          "type": "string",
-                          "description": "The market capitalization in USD",
-                          "example": "1134454375148.0439441877343485"
+                          "type": "string"
                         },
                         "volumeUsd24Hr": {
-                          "type": "string",
-                          "description": "The 24-hour volume in USD",
-                          "example": "7243502730.3942707369805342"
+                          "type": "string"
                         },
                         "priceUsd": {
-                          "type": "string",
-                          "description": "The current price in USD",
-                          "example": "57432.5419008907816019"
+                          "type": "string"
                         },
                         "changePercent24Hr": {
                           "type": "string",
-                          "description": "The percentage change in price in the last 24 hours",
-                          "example": "-0.0461491427646531"
+                          "nullable": true
                         },
                         "vwap24Hr": {
                           "type": "string",
-                          "description": "Volume Weighted Average Price (VWAP) over the last 24 hours",
-                          "example": "57868.1484672081301126"
+                          "nullable": true
                         },
                         "explorer": {
-                          "type": "string",
-                          "description": "URL to a block explorer for the asset",
-                          "example": "https://blockchain.info/"
+                          "type": "string"
                         },
                         "tokens": {
                           "type": "object",
-                          "description": "Mapping of chain IDs to token address arrays. May be empty if no tokens found.",
                           "additionalProperties": {
                             "type": "array",
                             "items": {
                               "type": "string"
                             }
-                          },
-                          "example": {
-                            "1": [
-                              "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
-                            ],
-                            "10": [
-                              "0x4200000000000000000000000000000000000006"
-                            ],
-                            "137": [
-                              "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
-                            ],
-                            "42161": [
-                              "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
-                            ]
                           }
                         }
                       }
@@ -320,12 +450,10 @@
                   "type": "object",
                   "properties": {
                     "error": {
-                      "type": "string",
-                      "example": "bitcoin not found"
+                      "type": "string"
                     },
                     "timestamp": {
-                      "type": "integer",
-                      "description": "Unix timestamp when the error occurred"
+                      "type": "integer"
                     }
                   }
                 }
@@ -338,7 +466,7 @@
         }
       }
     },
-    "/v3/assets/{slug}/markets": {
+    "/assets/{slug}/markets": {
       "get": {
         "summary": "Retrieve markets for a specific asset",
         "description": "Retrieve market details for a specific asset by slug (id)",
@@ -375,6 +503,9 @@
         "security": [
           {
             "bearerAuth": []
+          },
+          {
+            "apiKey": []
           }
         ],
         "responses": {
@@ -386,9 +517,7 @@
                   "type": "object",
                   "properties": {
                     "timestamp": {
-                      "type": "integer",
-                      "description": "Unix timestamp when the data was retrieved",
-                      "example": 1726081715628
+                      "type": "integer"
                     },
                     "data": {
                       "type": "array",
@@ -396,44 +525,31 @@
                         "type": "object",
                         "properties": {
                           "exchangeId": {
-                            "type": "string",
-                            "description": "The name of the exchange",
-                            "example": "Crypto.com Exchange"
+                            "type": "string"
                           },
                           "baseId": {
-                            "type": "string",
-                            "description": "The ID or slug of the base asset",
-                            "example": "bitcoin"
+                            "type": "string"
                           },
                           "quoteId": {
-                            "type": "string",
-                            "description": "The ID or slug of the quote asset",
-                            "example": "tether"
+                            "type": "string"
                           },
                           "baseSymbol": {
-                            "type": "string",
-                            "description": "The symbol of the base asset",
-                            "example": "BTC"
+                            "type": "string"
                           },
                           "quoteSymbol": {
-                            "type": "string",
-                            "description": "The symbol of the quote asset",
-                            "example": "USDT"
-                          },
-                          "volumeUsd24Hr": {
-                            "type": "string",
-                            "description": "The 24-hour volume in USD",
-                            "example": "2280933327.1012148464451523"
+                            "type": "string"
                           },
                           "priceUsd": {
-                            "type": "string",
-                            "description": "The current price in USD",
-                            "example": "57489.6375201441058182"
+                            "type": "string"
+                          },
+                          "volumeUsd24Hr": {
+                            "type": "string"
                           },
                           "volumePercent": {
-                            "type": "string",
-                            "description": "The percentage of the total asset volume represented by this market",
-                            "example": "31.3790540261338180"
+                            "type": "string"
+                          },
+                          "quarantined": {
+                            "type": "boolean"
                           }
                         }
                       }
@@ -444,24 +560,7 @@
             }
           },
           "404": {
-            "description": "Asset not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "bitcoin not found"
-                    },
-                    "timestamp": {
-                      "type": "integer",
-                      "description": "Unix timestamp when the error occurred"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Asset not found"
           },
           "500": {
             "description": "Internal server error"
@@ -469,10 +568,10 @@
         }
       }
     },
-    "/v3/assets/{slug}/history": {
+    "/assets/{slug}/history": {
       "get": {
         "summary": "Retrieve historical data for a specific asset",
-        "description": "Retrieve historical data for a specific asset by slug (id)",
+        "description": "Retrieve historical data for a specific asset by slug (id). 'interval' is REQUIRED (one of m1, m5, m15, m30, h1, h2, h6, h12, d1). 'start' and 'end' (UNIX ms) must be provided together — sending 'start' alone returns HTTP 400. Omit both to get the most recent window.",
         "tags": [
           "Assets"
         ],
@@ -491,7 +590,18 @@
             "name": "interval",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ]
             },
             "description": "interval choices m1 m5 m15 m30 h1 h2 h6 h12 d1"
           },
@@ -501,7 +611,7 @@
             "schema": {
               "type": "integer"
             },
-            "description": "UNIX time in milliseconds. Omitting will return the most recent asset history. If start is supplied, end is required and vice versa."
+            "description": "UNIX time in milliseconds. Omitting will return the most recent asset history."
           },
           {
             "in": "query",
@@ -515,6 +625,9 @@
         "security": [
           {
             "bearerAuth": []
+          },
+          {
+            "apiKey": []
           }
         ],
         "responses": {
@@ -526,9 +639,7 @@
                   "type": "object",
                   "properties": {
                     "timestamp": {
-                      "type": "integer",
-                      "description": "Unix timestamp when the data was retrieved",
-                      "example": 1726081715628
+                      "type": "integer"
                     },
                     "data": {
                       "type": "array",
@@ -536,20 +647,14 @@
                         "type": "object",
                         "properties": {
                           "priceUsd": {
-                            "type": "string",
-                            "description": "The price in USD at the specified time",
-                            "example": "57006.4814312680237124"
+                            "type": "string"
                           },
                           "time": {
-                            "type": "integer",
-                            "description": "Unix timestamp of the price data",
-                            "example": 1725915600000
+                            "type": "integer"
                           },
                           "date": {
                             "type": "string",
-                            "format": "date-time",
-                            "description": "ISO 8601 formatted date and time of the price data",
-                            "example": "2024-09-09T21:00:00.000Z"
+                            "format": "date-time"
                           }
                         }
                       }
@@ -560,24 +665,7 @@
             }
           },
           "404": {
-            "description": "Asset not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "bitcoin not found"
-                    },
-                    "timestamp": {
-                      "type": "integer",
-                      "description": "Unix timestamp when the error occurred"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Asset not found"
           },
           "500": {
             "description": "Internal server error"
@@ -585,7 +673,122 @@
         }
       }
     },
-    "/v3/exchanges": {
+    "/assets/totals/total-marketcap-history": {
+      "get": {
+        "summary": "Retrieve total market cap history",
+        "description": "LEGACY — prefer /agentFriendly/total_market_cap_history, which returns ~200 sampled points sized for model context windows. Retrieve the total market cap history for all assets.",
+        "tags": [
+          "Assets"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved market cap history"
+          },
+          "404": {
+            "description": "Market cap history not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/assets/{slug}/marketcap-history": {
+      "get": {
+        "summary": "Get market cap history for an asset",
+        "description": "LEGACY — prefer /agentFriendly/asset_mcap_history/{slug}, which returns ~200 sampled points sized for model context windows. Returns historical market cap (price * supply) data for the specified asset from the 2-hour interval table",
+        "tags": [
+          "Assets"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g., bitcoin, ethereum)"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Start timestamp in milliseconds"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "End timestamp in milliseconds"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Market cap history data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "marketCapUsd": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "integer"
+                          },
+                          "date": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters"
+          },
+          "404": {
+            "description": "Market cap history not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/exchanges": {
       "get": {
         "summary": "Retrieve a list of exchanges",
         "description": "Retrieve a list of exchanges with optional pagination",
@@ -599,7 +802,7 @@
             "schema": {
               "type": "integer"
             },
-            "description": "Number of results to return (default is 10)"
+            "description": "Number of results to return (default is 100)"
           },
           {
             "in": "query",
@@ -613,6 +816,9 @@
         "security": [
           {
             "bearerAuth": []
+          },
+          {
+            "apiKey": []
           }
         ],
         "responses": {
@@ -623,67 +829,46 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
                     "data": {
                       "type": "array",
-                      "description": "List of exchanges",
                       "items": {
                         "type": "object",
                         "properties": {
                           "exchangeId": {
-                            "type": "string",
-                            "description": "The unique ID of the exchange",
-                            "example": "itbit"
+                            "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "description": "The name of the exchange",
-                            "example": "Itbit"
+                            "type": "string"
                           },
                           "rank": {
-                            "type": "string",
-                            "description": "The rank of the exchange",
-                            "example": "33"
+                            "type": "string"
                           },
                           "percentTotalVolume": {
                             "type": "string",
-                            "nullable": true,
-                            "description": "The percentage of total market volume handled by the exchange",
-                            "example": null
+                            "nullable": true
                           },
                           "volumeUsd": {
                             "type": "string",
-                            "nullable": true,
-                            "description": "The total volume in USD traded on the exchange",
-                            "example": null
+                            "nullable": true
                           },
                           "tradingPairs": {
-                            "type": "string",
-                            "description": "The number of trading pairs available on the exchange",
-                            "example": "0"
+                            "type": "string"
                           },
                           "socket": {
                             "type": "boolean",
-                            "nullable": true,
-                            "description": "Whether the exchange supports WebSocket",
-                            "example": null
+                            "nullable": true
                           },
                           "exchangeUrl": {
-                            "type": "string",
-                            "description": "The URL of the exchange",
-                            "example": "https://www.itbit.com/"
+                            "type": "string"
                           },
                           "updated": {
-                            "type": "integer",
-                            "description": "The last updated timestamp",
-                            "example": 0
+                            "type": "integer"
                           }
                         }
                       }
-                    },
-                    "timestamp": {
-                      "type": "integer",
-                      "description": "Unix timestamp when the data was retrieved",
-                      "example": 1726084388658
                     }
                   }
                 }
@@ -691,41 +876,15 @@
             }
           },
           "400": {
-            "description": "Invalid query parameters",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "Invalid query parameters"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Invalid query parameters"
           },
           "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "Internal server error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Internal server error"
           }
         }
       }
     },
-    "/v3/exchanges/{exchange}": {
+    "/exchanges/{exchange}": {
       "get": {
         "summary": "Retrieve details for a specific exchange",
         "description": "Retrieve details for a specific exchange by its ID",
@@ -746,6 +905,9 @@
         "security": [
           {
             "bearerAuth": []
+          },
+          {
+            "apiKey": []
           }
         ],
         "responses": {
@@ -756,60 +918,40 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
                     "data": {
                       "type": "object",
                       "properties": {
                         "exchangeId": {
-                          "type": "string",
-                          "description": "The unique ID of the exchange",
-                          "example": "binanceus"
+                          "type": "string"
                         },
                         "name": {
-                          "type": "string",
-                          "description": "The name of the exchange",
-                          "example": "Binance.US"
+                          "type": "string"
                         },
                         "rank": {
-                          "type": "string",
-                          "description": "The rank of the exchange",
-                          "example": "10"
+                          "type": "string"
                         },
                         "percentTotalVolume": {
-                          "type": "string",
-                          "description": "The percentage of total market volume handled by the exchange",
-                          "example": "0.030137272308384732000000000000000000"
+                          "type": "string"
                         },
                         "volumeUsd": {
-                          "type": "string",
-                          "description": "The total volume in USD traded on the exchange",
-                          "example": "3728334.2170733349680754"
+                          "type": "string"
                         },
                         "tradingPairs": {
-                          "type": "string",
-                          "description": "The number of trading pairs available on the exchange",
-                          "example": "155"
+                          "type": "string"
                         },
                         "socket": {
-                          "type": "boolean",
-                          "description": "Whether the exchange supports WebSocket",
-                          "example": false
+                          "type": "boolean"
                         },
                         "exchangeUrl": {
-                          "type": "string",
-                          "description": "The URL of the exchange",
-                          "example": "https://www.binance.us/"
+                          "type": "string"
                         },
                         "updated": {
-                          "type": "integer",
-                          "description": "The last updated timestamp",
-                          "example": 1726084407276
+                          "type": "integer"
                         }
                       }
-                    },
-                    "timestamp": {
-                      "type": "integer",
-                      "description": "Unix timestamp when the data was retrieved",
-                      "example": 1726084430638
                     }
                   }
                 }
@@ -817,41 +959,15 @@
             }
           },
           "404": {
-            "description": "Exchange not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "Exchange not found"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Exchange not found"
           },
           "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "Internal server error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Internal server error"
           }
         }
       }
     },
-    "/v3/markets": {
+    "/markets": {
       "get": {
         "summary": "Retrieve a list of markets",
         "description": "Retrieve a list of markets with optional filters and pagination",
@@ -921,7 +1037,7 @@
             "schema": {
               "type": "integer"
             },
-            "description": "Number of results to return (default is 10)"
+            "description": "Number of results to return (default is 100)"
           },
           {
             "in": "query",
@@ -935,6 +1051,9 @@
         "security": [
           {
             "bearerAuth": []
+          },
+          {
+            "apiKey": []
           }
         ],
         "responses": {
@@ -945,6 +1064,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
                     "data": {
                       "type": "array",
                       "description": "List of markets",
@@ -952,73 +1074,43 @@
                         "type": "object",
                         "properties": {
                           "exchangeId": {
-                            "type": "string",
-                            "description": "The unique ID of the exchange",
-                            "example": "binanceus"
+                            "type": "string"
                           },
                           "rank": {
-                            "type": "string",
-                            "description": "The rank of the market on the exchange",
-                            "example": "97"
+                            "type": "string"
                           },
                           "baseSymbol": {
-                            "type": "string",
-                            "description": "The symbol of the base asset",
-                            "example": "XRP"
+                            "type": "string"
                           },
                           "baseId": {
-                            "type": "string",
-                            "description": "The ID of the base asset",
-                            "example": "ripple"
+                            "type": "string"
                           },
                           "quoteSymbol": {
-                            "type": "string",
-                            "description": "The symbol of the quote asset",
-                            "example": "USD"
+                            "type": "string"
                           },
                           "quoteId": {
-                            "type": "string",
-                            "description": "The ID of the quote asset",
-                            "example": "united-states-dollar"
+                            "type": "string"
                           },
                           "priceQuote": {
-                            "type": "string",
-                            "description": "The price of the base asset in the quote asset",
-                            "example": "0.0000000000000000"
+                            "type": "string"
                           },
                           "priceUsd": {
-                            "type": "string",
-                            "description": "The price of the base asset in USD",
-                            "example": "0.0000000000000000"
+                            "type": "string"
                           },
                           "volumeUsd24Hr": {
-                            "type": "string",
-                            "description": "The 24-hour trading volume of the market in USD",
-                            "example": "0.0000000000000000"
+                            "type": "string"
                           },
                           "percentExchangeVolume": {
-                            "type": "string",
-                            "description": "The percentage of total exchange volume represented by this market",
-                            "example": "0.0000000000000000"
+                            "type": "string"
                           },
                           "tradesCount24Hr": {
-                            "type": "string",
-                            "nullable": true,
-                            "description": "The number of trades executed in this market in the last 24 hours",
-                            "example": null
+                            "type": "number"
                           },
                           "updated": {
-                            "type": "integer",
-                            "description": "The timestamp of the last update for the market",
-                            "example": 1726084607513
+                            "type": "integer"
                           }
                         }
                       }
-                    },
-                    "timestamp": {
-                      "type": "integer",
-                      "description": "Unix timestamp when the data was retrieved",
-                      "example": 1726084684904
                     }
                   }
                 }
@@ -1026,41 +1118,15 @@
             }
           },
           "400": {
-            "description": "Invalid query parameters",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "Invalid query parameters"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Invalid query parameters"
           },
           "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "Internal server error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Internal server error"
           }
         }
       }
     },
-    "/v3/rates": {
+    "/rates": {
       "get": {
         "summary": "Retrieve conversion rates",
         "description": "Retrieve a list of all conversion rates or filter by comma-separated slugs",
@@ -1070,6 +1136,9 @@
         "security": [
           {
             "bearerAuth": []
+          },
+          {
+            "apiKey": []
           }
         ],
         "parameters": [
@@ -1077,10 +1146,9 @@
             "in": "query",
             "name": "ids",
             "required": false,
-            "description": "Comma-separated list of slugs to filter by (e.g. `bitcoin,ethereum`)",
+            "description": "Comma-separated list of slugs to filter by (e.g. bitcoin,ethereum)",
             "schema": {
-              "type": "string",
-              "example": "bitcoin,ethereum"
+              "type": "string"
             }
           }
         ],
@@ -1092,59 +1160,31 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
                     "data": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "properties": {
                           "id": {
-                            "type": "string",
-                            "description": "The unique ID of the conversion rate",
-                            "example": "bitcoin"
+                            "type": "string"
                           },
                           "symbol": {
-                            "type": "string",
-                            "description": "The symbol of the currency",
-                            "example": "BTC"
+                            "type": "string"
                           },
                           "currencySymbol": {
-                            "type": "string",
-                            "description": "The currency symbol, e.g., \"$\", \"₿\", \"Rp\"",
-                            "example": "₿"
+                            "type": "string"
                           },
                           "type": {
-                            "type": "string",
-                            "description": "The type of currency (crypto or fiat)",
-                            "example": "crypto"
+                            "type": "string"
                           },
                           "rateUsd": {
-                            "type": "string",
-                            "description": "The conversion rate to USD",
-                            "example": "57566.1808511293640215"
+                            "type": "string"
                           }
                         }
                       }
-                    },
-                    "timestamp": {
-                      "type": "integer",
-                      "description": "Unix timestamp when the data was retrieved",
-                      "example": 1726084787747
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Conversion rate not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "Conversion rate not found"
                     }
                   }
                 }
@@ -1152,25 +1192,12 @@
             }
           },
           "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "Internal server error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Internal server error"
           }
         }
       }
     },
-    "/v3/rates/{slug}": {
+    "/rates/{slug}": {
       "get": {
         "summary": "Retrieve a conversion rate by slug",
         "description": "Retrieve details for a specific conversion rate by its slug",
@@ -1191,6 +1218,9 @@
         "security": [
           {
             "bearerAuth": []
+          },
+          {
+            "apiKey": []
           }
         ],
         "responses": {
@@ -1201,19 +1231,28 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
                     "data": {
                       "type": "object",
-                      "example": {
-                        "id": "bitcoin",
-                        "symbol": "BTC",
-                        "currencySymbol": "₿",
-                        "type": "crypto",
-                        "rateUsd": 45000
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "symbol": {
+                          "type": "string"
+                        },
+                        "currencySymbol": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "rateUsd": {
+                          "type": "string"
+                        }
                       }
-                    },
-                    "timestamp": {
-                      "type": "integer",
-                      "example": 1625792400000
                     }
                   }
                 }
@@ -1221,10 +1260,2848 @@
             }
           },
           "404": {
-            "description": "Conversion rate not found"
+            "description": "Conversion rate not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
             "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/ta/{slug}/sma": {
+      "get": {
+        "summary": "Full SMA series",
+        "description": "LEGACY — prefer /agentFriendly/ta/{slug}/sma (agent-optimized output) or /ta/{slug}/allLatest for all indicators at once. Use this legacy endpoint only when you need a custom start/end range or non-default periods — the agentFriendly variant computes a fixed recent window.",
+        "tags": [
+          "Technical Analysis"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g. bitcoin)"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Start timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "End timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "window",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "SMA window in bars of fetchInterval (default: 5)"
+          },
+          {
+            "in": "query",
+            "name": "fetchInterval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ]
+            },
+            "description": "Timeframe for price bars"
+          },
+          {
+            "in": "query",
+            "name": "includeOriginal",
+            "schema": {
+              "type": "string",
+              "enum": [
+                true,
+                false
+              ]
+            },
+            "description": "Include original price data"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full SMA series"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/ta/{slug}/sma/latest": {
+      "get": {
+        "summary": "Latest SMA datapoint",
+        "description": "LEGACY — prefer /agentFriendly/ta/{slug}/sma (agent-optimized output) or /ta/{slug}/allLatest for all indicators at once. Use this legacy endpoint only when you need a custom start/end range or non-default periods — the agentFriendly variant computes a fixed recent window.",
+        "tags": [
+          "Technical Analysis"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g. bitcoin)"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Start timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "End timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "window",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "SMA window in bars of fetchInterval (default: 5)"
+          },
+          {
+            "in": "query",
+            "name": "fetchInterval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ]
+            },
+            "description": "Timeframe for price bars"
+          },
+          {
+            "in": "query",
+            "name": "includeOriginal",
+            "schema": {
+              "type": "string",
+              "enum": [
+                true,
+                false
+              ]
+            },
+            "description": "Include original price data"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Latest SMA datapoint"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/ta/{slug}/ema": {
+      "get": {
+        "summary": "Full EMA series",
+        "description": "LEGACY — prefer /agentFriendly/ta/{slug}/ema (agent-optimized output) or /ta/{slug}/allLatest for all indicators at once. Use this legacy endpoint only when you need a custom start/end range or non-default periods — the agentFriendly variant computes a fixed recent window.",
+        "tags": [
+          "Technical Analysis"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g. bitcoin)"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Start timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "End timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "period",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "EMA period (default: 5)"
+          },
+          {
+            "in": "query",
+            "name": "fetchInterval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ]
+            },
+            "description": "Timeframe for price bars"
+          },
+          {
+            "in": "query",
+            "name": "includeOriginal",
+            "schema": {
+              "type": "string",
+              "enum": [
+                true,
+                false
+              ]
+            },
+            "description": "Include original price data"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full EMA series"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/ta/{slug}/ema/latest": {
+      "get": {
+        "summary": "Latest EMA datapoint",
+        "description": "LEGACY — prefer /agentFriendly/ta/{slug}/ema (agent-optimized output) or /ta/{slug}/allLatest for all indicators at once. Use this legacy endpoint only when you need a custom start/end range or non-default periods — the agentFriendly variant computes a fixed recent window.",
+        "tags": [
+          "Technical Analysis"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g. bitcoin)"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Start timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "End timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "period",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "EMA period (default: 5)"
+          },
+          {
+            "in": "query",
+            "name": "fetchInterval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ]
+            },
+            "description": "Timeframe for price bars"
+          },
+          {
+            "in": "query",
+            "name": "includeOriginal",
+            "schema": {
+              "type": "string",
+              "enum": [
+                true,
+                false
+              ]
+            },
+            "description": "Include original price data"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Latest EMA datapoint"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/ta/{slug}/macd": {
+      "get": {
+        "summary": "Full MACD series",
+        "description": "LEGACY — prefer /agentFriendly/ta/{slug}/macd (agent-optimized output) or /ta/{slug}/allLatest for all indicators at once. Use this legacy endpoint only when you need a custom start/end range or non-default periods — the agentFriendly variant computes a fixed recent window.",
+        "tags": [
+          "Technical Analysis"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g. bitcoin)"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Start timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "End timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "short",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "Short EMA period (default: 12)"
+          },
+          {
+            "in": "query",
+            "name": "long",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "Long EMA period (default: 26)"
+          },
+          {
+            "in": "query",
+            "name": "signal",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "Signal line EMA period (default: 9)"
+          },
+          {
+            "in": "query",
+            "name": "fetchInterval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ]
+            },
+            "description": "Timeframe for price bars"
+          },
+          {
+            "in": "query",
+            "name": "includeOriginal",
+            "schema": {
+              "type": "string",
+              "enum": [
+                true,
+                false
+              ]
+            },
+            "description": "Include original price data"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full MACD series"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/ta/{slug}/macd/latest": {
+      "get": {
+        "summary": "Latest MACD datapoint",
+        "description": "LEGACY — prefer /agentFriendly/ta/{slug}/macd (agent-optimized output) or /ta/{slug}/allLatest for all indicators at once. Use this legacy endpoint only when you need a custom start/end range or non-default periods — the agentFriendly variant computes a fixed recent window.",
+        "tags": [
+          "Technical Analysis"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g. bitcoin)"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Start timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "End timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "short",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "Short EMA period (default: 12)"
+          },
+          {
+            "in": "query",
+            "name": "long",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "Long EMA period (default: 26)"
+          },
+          {
+            "in": "query",
+            "name": "signal",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "Signal line EMA period (default: 9)"
+          },
+          {
+            "in": "query",
+            "name": "fetchInterval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ]
+            },
+            "description": "Timeframe for price bars"
+          },
+          {
+            "in": "query",
+            "name": "includeOriginal",
+            "schema": {
+              "type": "string",
+              "enum": [
+                true,
+                false
+              ]
+            },
+            "description": "Include original price data"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Latest MACD datapoint"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/ta/{slug}/vwap/latest": {
+      "get": {
+        "summary": "24h VWAP (latest)",
+        "tags": [
+          "Technical Analysis"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g. bitcoin)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "24h VWAP value"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/ta/{slug}/candlesticks": {
+      "get": {
+        "summary": "Candlestick data",
+        "tags": [
+          "Technical Analysis"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g. bitcoin)"
+          },
+          {
+            "in": "query",
+            "name": "interval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ]
+            },
+            "description": "Timeframe interval"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Start timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "End timestamp in ms"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Candlestick data"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/ta/{slug}/rsi": {
+      "get": {
+        "summary": "Full RSI series",
+        "description": "LEGACY — prefer /agentFriendly/ta/{slug}/rsi (agent-optimized output) or /ta/{slug}/allLatest for all indicators at once. Use this legacy endpoint only when you need a custom start/end range or non-default periods — the agentFriendly variant computes a fixed recent window.",
+        "tags": [
+          "Technical Analysis"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g. bitcoin)"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Start timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "End timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "period",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "RSI calculation period (default: 14)"
+          },
+          {
+            "in": "query",
+            "name": "smoothing",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "WSMA",
+                "EMA",
+                "SMA",
+                "WMA"
+              ]
+            },
+            "description": "Smoothing method (default: WSMA, Wilder's smoothing — the standard RSI definition)"
+          },
+          {
+            "in": "query",
+            "name": "fetchInterval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ]
+            },
+            "description": "Timeframe for price bars"
+          },
+          {
+            "in": "query",
+            "name": "includeOriginal",
+            "schema": {
+              "type": "string",
+              "enum": [
+                true,
+                false
+              ]
+            },
+            "description": "Include original price data"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full RSI series"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/ta/{slug}/rsi/latest": {
+      "get": {
+        "summary": "Latest RSI datapoint",
+        "description": "LEGACY — prefer /agentFriendly/ta/{slug}/rsi (agent-optimized output) or /ta/{slug}/allLatest for all indicators at once. Use this legacy endpoint only when you need a custom start/end range or non-default periods — the agentFriendly variant computes a fixed recent window.",
+        "tags": [
+          "Technical Analysis"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g. bitcoin)"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Start timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "End timestamp in ms"
+          },
+          {
+            "in": "query",
+            "name": "period",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "RSI calculation period (default: 14)"
+          },
+          {
+            "in": "query",
+            "name": "smoothing",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "WSMA",
+                "EMA",
+                "SMA",
+                "WMA"
+              ]
+            },
+            "description": "Smoothing method (default: WSMA, Wilder's smoothing — the standard RSI definition)"
+          },
+          {
+            "in": "query",
+            "name": "fetchInterval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ]
+            },
+            "description": "Timeframe for price bars"
+          },
+          {
+            "in": "query",
+            "name": "includeOriginal",
+            "schema": {
+              "type": "string",
+              "enum": [
+                true,
+                false
+              ]
+            },
+            "description": "Include original price data"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Latest RSI datapoint"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/ta/{slug}/allLatest": {
+      "get": {
+        "summary": "Latest values for all indicators",
+        "tags": [
+          "Technical Analysis"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "fetchInterval",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Timeframe (e.g. d1, h1)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Latest indicators combined"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/account": {
+      "get": {
+        "summary": "Retrieve account information for the current API key",
+        "description": "Returns wallet address, tier information, staked balances, available API keys, reward rates, and more.",
+        "tags": [
+          "Account"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account info successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "walletAddress": {
+                          "type": "string",
+                          "example": "0xabc123..."
+                        },
+                        "tier": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "stripeTier": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "stakedTier": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "stakedBalance": {
+                          "type": "string",
+                          "example": "15.213"
+                        },
+                        "stakedArbitrumBalance": {
+                          "type": "string",
+                          "example": "7.321"
+                        },
+                        "stakedBaseBalance": {
+                          "type": "string",
+                          "example": "7.892"
+                        },
+                        "arbBalance": {
+                          "type": "string",
+                          "example": "3.1204"
+                        },
+                        "baseBalance": {
+                          "type": "string",
+                          "example": "5.5000"
+                        },
+                        "apiKeys": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "key": {
+                                "type": "string",
+                                "example": "xxxxxxxx"
+                              },
+                              "label": {
+                                "type": "string",
+                                "example": "My Key"
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "example": "2024-06-01T15:00:00.000Z"
+                              },
+                              "status": {
+                                "type": "string",
+                                "example": "enabled"
+                              }
+                            }
+                          }
+                        },
+                        "points": {
+                          "type": "number",
+                          "example": 3201
+                        },
+                        "pointsPerDay": {
+                          "type": "number",
+                          "example": 12.45
+                        },
+                        "morRewardsPerDay": {
+                          "type": "number",
+                          "example": 0.01321
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user@example.com"
+                        },
+                        "emailVerified": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    },
+                    "timestamp": {
+                      "type": "integer",
+                      "example": 1726084787747
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invalid or unauthorized API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "auth"
+                    },
+                    "http_status": {
+                      "type": "integer",
+                      "example": 403
+                    },
+                    "retryable": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "retry_after_ms": {
+                      "type": "integer",
+                      "nullable": true,
+                      "example": null
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Forbidden: API key is disabled. Check that the API key is valid and enabled."
+                    },
+                    "hint_tool": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agentFriendly/history/{slug}": {
+      "get": {
+        "summary": "Get price history for a SINGLE asset, optimized for AI analysis",
+        "description": "Returns ~200 intelligently sampled price data points in CSV format for any custom time range. 'slug' must be a CoinCap asset slug — resolve it first with /agentFriendly/assets_search. CoinCap slugs differ from other providers: use 'xrp' (not 'ripple'), 'render' (not 'render-token'), 'fetch' (not 'fetch-ai'), 'avalanche' (not 'avalanche-2'). Unknown slugs return HTTP 404. For MULTIPLE assets in one call (comparisons, screening, movers) use /agentFriendly/full_assets_by_slug with slugs=a,b,c and includeHistory=true; for a single current snapshot use /assets/{slug}.",
+        "tags": [
+          "AgentFriendly"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g., bitcoin, ethereum)"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Start timestamp in milliseconds (defaults to 30 days ago)"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "End timestamp in milliseconds (defaults to 1 day ago)"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          },
+          {
+            "x402": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historical price data with approximately 200 data points",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "slug": {
+                          "type": "string"
+                        },
+                        "startTime": {
+                          "type": "integer"
+                        },
+                        "endTime": {
+                          "type": "integer"
+                        },
+                        "intervalMinutes": {
+                          "type": "integer"
+                        },
+                        "dataPoints": {
+                          "type": "integer"
+                        },
+                        "history": {
+                          "type": "string",
+                          "description": "CSV format data \"timestamp,price\" (one per line)"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters"
+          },
+          "402": {
+            "description": "Payment Required"
+          },
+          "404": {
+            "description": "Asset not found or no history data available"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.010000"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ],
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "atomicAmount": "10000",
+          "payTo": "0x9baa4417D1E78F2eD5b09aa4Abfb541aeB2cD6Ed"
+        }
+      }
+    },
+    "/agentFriendly/full_assets_by_slug": {
+      "get": {
+        "summary": "Get comprehensive data for one OR MANY assets in a single call",
+        "description": "Get comprehensive data for one OR MANY assets in a single call (comma-separated slugs, max 10). PREFER THIS over repeated single-asset history calls for comparison and screening tasks; set includeHistory=true for performance windows (5min/24h, daily/30d, weekly/365d) and includeTaData=true for indicators. Returns price, market data, technical analysis, token addresses, and news with selective field inclusion.",
+        "tags": [
+          "AgentFriendly"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "slugs",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-separated list of asset slugs (max 10)"
+          },
+          {
+            "in": "query",
+            "name": "includeWebsite",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "Include website URL"
+          },
+          {
+            "in": "query",
+            "name": "includeExplorer",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "Include explorer URL"
+          },
+          {
+            "in": "query",
+            "name": "includeTaData",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "Include technical analysis data"
+          },
+          {
+            "in": "query",
+            "name": "includeSupply",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "Include supply information"
+          },
+          {
+            "in": "query",
+            "name": "includeTokens",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "Include token addresses"
+          },
+          {
+            "in": "query",
+            "name": "includeNews",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "Include news headlines"
+          },
+          {
+            "in": "query",
+            "name": "includeHistory",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "Include historical price data (5min/24h, daily/30d, weekly/365d)"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          },
+          {
+            "x402": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Extended asset data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "slug": {
+                            "type": "string"
+                          },
+                          "price": {
+                            "type": "string"
+                          },
+                          "volume": {
+                            "type": "string"
+                          },
+                          "symbol": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "marketCap": {
+                            "type": "string"
+                          },
+                          "changePercent24Hr": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "websiteUrl": {
+                            "type": "string"
+                          },
+                          "explorerUrl": {
+                            "type": "string"
+                          },
+                          "taData": {
+                            "type": "object",
+                            "properties": {
+                              "vwap24Hr": {
+                                "type": "string"
+                              },
+                              "rsi": {
+                                "type": "number"
+                              },
+                              "sma": {
+                                "type": "number"
+                              },
+                              "ema": {
+                                "type": "number"
+                              },
+                              "macd": {
+                                "type": "number"
+                              }
+                            }
+                          },
+                          "supply": {
+                            "type": "string"
+                          },
+                          "maxSupply": {
+                            "type": "string"
+                          },
+                          "tokens": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "address": {
+                                  "type": "string"
+                                },
+                                "chainId": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "news": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "history": {
+                            "type": "object",
+                            "properties": {
+                              "last24Hours": {
+                                "type": "string",
+                                "description": "CSV format data \"timestamp,price\" (5-minute intervals for past day)"
+                              },
+                              "last30Days": {
+                                "type": "string",
+                                "description": "CSV format data \"timestamp,price\" (daily intervals for past 30 days)"
+                              },
+                              "last365Days": {
+                                "type": "string",
+                                "description": "CSV format data \"timestamp,price\" (weekly intervals for past year)"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid parameters"
+          },
+          "402": {
+            "description": "Payment Required"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.002000"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ],
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "atomicAmount": "2000",
+          "payTo": "0x9baa4417D1E78F2eD5b09aa4Abfb541aeB2cD6Ed"
+        }
+      }
+    },
+    "/agentFriendly/assets_search": {
+      "get": {
+        "summary": "Search and discover crypto assets",
+        "description": "AI-optimized asset search with fuzzy matching on names, symbols, slugs, and token addresses. Returns up to 100 results with pagination and sorting options.",
+        "tags": [
+          "AgentFriendly"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search by asset symbol, name, slug, or token address (0x...)"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "default": 100
+            },
+            "description": "Number of results to return (max 100)"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Number of results to skip for pagination"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "price",
+                "volume",
+                "marketCap",
+                "changePercent24Hr"
+              ],
+              "default": "marketCap"
+            },
+            "description": "Field to sort by"
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "desc"
+            },
+            "description": "Sort order"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          },
+          {
+            "x402": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of assets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "slug": {
+                            "type": "string"
+                          },
+                          "price": {
+                            "type": "string"
+                          },
+                          "volume": {
+                            "type": "string"
+                          },
+                          "symbol": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "marketCap": {
+                            "type": "string"
+                          },
+                          "changePercent24Hr": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.004000"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ],
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "atomicAmount": "4000",
+          "payTo": "0x9baa4417D1E78F2eD5b09aa4Abfb541aeB2cD6Ed"
+        }
+      }
+    },
+    "/agentFriendly/ta/candlesticks_batch": {
+      "get": {
+        "summary": "Candlestick (OHLC) data for MULTIPLE assets in one call",
+        "description": "Returns OHLC candlestick data (no volume — the underlying history source is price-only) for up to 10 CoinCap slugs in a single call — use this instead of looping per-asset candlestick calls for comparison and screening tasks. Per-slug failures (e.g. an unknown slug) are returned in-band as { slug, ok: false, error } entries rather than failing the whole request. Resolve slugs with /agentFriendly/assets_search before calling. One batch call consumes a single token from the shared TA rate pool (15 calls / 15s), regardless of how many slugs are requested. Each asset's candles are capped at 30 days of underlying history per call — coarse intervals return fewer candles than requested once that cap is hit (e.g. interval=d1 returns at most ~30 candles even if limit is higher). Duplicate slugs are deduplicated. If the slug list had to be cut down to 10, the requested limit had to be clamped to 200, or the 30-day history cap reduced the number of candles returned, the response includes a top-level \"truncated\": true flag (omitted when nothing was truncated).",
+        "tags": [
+          "AgentFriendly"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "slugs",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-separated CoinCap asset slugs (deduplicated, max 10, e.g. bitcoin,ethereum)"
+          },
+          {
+            "in": "query",
+            "name": "interval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ],
+              "default": "h1"
+            },
+            "description": "Candle timeframe, shared across all requested slugs"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 24,
+              "maximum": 200
+            },
+            "description": "Number of most recent candles to return per asset (max 200). Actual history fetched per asset is also capped at 30 days, so a large limit with a coarse interval (e.g. d1) may return fewer candles than requested."
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          },
+          {
+            "x402": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Per-slug candlestick results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
+                    "interval": {
+                      "type": "string"
+                    },
+                    "truncated": {
+                      "type": "boolean",
+                      "description": "Present and true when the slug list was cut down to 10, the requested limit was clamped to 200, or the 30-day history cap reduced the number of candles returned for an interval/limit combination; omitted otherwise."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "slug": {
+                            "type": "string"
+                          },
+                          "ok": {
+                            "type": "boolean"
+                          },
+                          "error": {
+                            "type": "string",
+                            "enum": [
+                              "not_found",
+                              "server_error"
+                            ]
+                          },
+                          "candles": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "time": {
+                                  "type": "integer"
+                                },
+                                "open": {
+                                  "type": "number"
+                                },
+                                "high": {
+                                  "type": "number"
+                                },
+                                "low": {
+                                  "type": "number"
+                                },
+                                "close": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid parameters"
+          },
+          "402": {
+            "description": "Payment Required"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.004000"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ],
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "atomicAmount": "4000",
+          "payTo": "0x9baa4417D1E78F2eD5b09aa4Abfb541aeB2cD6Ed"
+        }
+      }
+    },
+    "/agentFriendly/news_top": {
+      "get": {
+        "summary": "Get latest crypto news for market analysis",
+        "description": "Returns the top 10 most recent crypto news headlines from major sources. Perfect for sentiment analysis and market context in AI conversations.",
+        "tags": [
+          "AgentFriendly"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "default": 10
+            },
+            "description": "Maximum number of headlines to return (1-10)",
+            "example": 10
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          },
+          {
+            "x402": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Top crypto news headlines",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.006000"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ],
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "atomicAmount": "6000",
+          "payTo": "0x9baa4417D1E78F2eD5b09aa4Abfb541aeB2cD6Ed"
+        }
+      }
+    },
+    "/agentFriendly/ta/{slug}/sma": {
+      "get": {
+        "summary": "Get Simple Moving Average for technical analysis",
+        "description": "Returns SMA indicator data optimized for AI trading analysis, automatically sampled to 200 data points for efficient processing while maintaining trend accuracy. Preferred SMA tool — the /ta/{slug}/sma and /ta/{slug}/sma/latest variants are legacy; use this, or /ta/{slug}/allLatest for all indicators in one call. Subject to the shared TA rate pool; for many assets prefer /agentFriendly/full_assets_by_slug with includeTaData=true.",
+        "tags": [
+          "AgentFriendly"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g., bitcoin)"
+          },
+          {
+            "in": "query",
+            "name": "window",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 5
+            },
+            "description": "SMA window in bars of fetchInterval"
+          },
+          {
+            "in": "query",
+            "name": "fetchInterval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ],
+              "default": "d1"
+            },
+            "description": "Timeframe for price bars"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          },
+          {
+            "x402": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SMA data culled to 200 points",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
+                    "dataPoints": {
+                      "type": "integer"
+                    },
+                    "sma": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "time": {
+                            "type": "integer"
+                          },
+                          "value": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required"
+          }
+        },
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.004000"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ],
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "atomicAmount": "4000",
+          "payTo": "0x9baa4417D1E78F2eD5b09aa4Abfb541aeB2cD6Ed"
+        }
+      }
+    },
+    "/agentFriendly/ta/{slug}/ema": {
+      "get": {
+        "summary": "Get Exponential Moving Average for trend analysis",
+        "description": "Returns EMA indicator data optimized for AI trading signals, more responsive than SMA and sampled to 200 points for efficient trend detection. Preferred EMA tool — the /ta/{slug}/ema and /ta/{slug}/ema/latest variants are legacy; use this, or /ta/{slug}/allLatest for all indicators in one call. Subject to the shared TA rate pool; for many assets prefer /agentFriendly/full_assets_by_slug with includeTaData=true.",
+        "tags": [
+          "AgentFriendly"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g., bitcoin)"
+          },
+          {
+            "in": "query",
+            "name": "period",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 5
+            },
+            "description": "EMA period"
+          },
+          {
+            "in": "query",
+            "name": "fetchInterval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ],
+              "default": "d1"
+            },
+            "description": "Timeframe for price bars"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          },
+          {
+            "x402": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "EMA data culled to 200 points",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required"
+          }
+        },
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.004000"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ],
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "atomicAmount": "4000",
+          "payTo": "0x9baa4417D1E78F2eD5b09aa4Abfb541aeB2cD6Ed"
+        }
+      }
+    },
+    "/agentFriendly/ta/{slug}/rsi": {
+      "get": {
+        "summary": "Get Relative Strength Index for momentum analysis",
+        "description": "Returns RSI oscillator data (0-100 scale) for identifying overbought/oversold conditions, sampled to ~200 data points showing momentum trends. Preferred RSI tool — the /ta/{slug}/rsi and /ta/{slug}/rsi/latest variants are legacy; use this, or /ta/{slug}/allLatest for all indicators in one call. Subject to the shared TA rate pool; for many assets prefer /agentFriendly/full_assets_by_slug with includeTaData=true.",
+        "tags": [
+          "AgentFriendly"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g., bitcoin)"
+          },
+          {
+            "in": "query",
+            "name": "period",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 14
+            },
+            "description": "RSI period"
+          },
+          {
+            "in": "query",
+            "name": "fetchInterval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ],
+              "default": "d1"
+            },
+            "description": "Timeframe for price bars"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          },
+          {
+            "x402": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "RSI data culled to 200 points",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required"
+          }
+        },
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.004000"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ],
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "atomicAmount": "4000",
+          "payTo": "0x9baa4417D1E78F2eD5b09aa4Abfb541aeB2cD6Ed"
+        }
+      }
+    },
+    "/agentFriendly/ta/{slug}/macd": {
+      "get": {
+        "summary": "Get MACD for trend and momentum analysis",
+        "description": "Returns MACD line, signal line, and histogram data for identifying trend changes and momentum shifts, sampled to 200 points for AI trading analysis. Preferred MACD tool — the /ta/{slug}/macd and /ta/{slug}/macd/latest variants are legacy; use this, or /ta/{slug}/allLatest for all indicators in one call. Subject to the shared TA rate pool; for many assets prefer /agentFriendly/full_assets_by_slug with includeTaData=true.",
+        "tags": [
+          "AgentFriendly"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g., bitcoin)"
+          },
+          {
+            "in": "query",
+            "name": "short",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 12
+            },
+            "description": "Short EMA period"
+          },
+          {
+            "in": "query",
+            "name": "long",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 26
+            },
+            "description": "Long EMA period"
+          },
+          {
+            "in": "query",
+            "name": "signal",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 9
+            },
+            "description": "Signal line EMA period"
+          },
+          {
+            "in": "query",
+            "name": "fetchInterval",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "m1",
+                "m5",
+                "m15",
+                "m30",
+                "h1",
+                "h2",
+                "h6",
+                "h12",
+                "d1"
+              ],
+              "default": "d1"
+            },
+            "description": "Timeframe for price bars"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          },
+          {
+            "x402": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "MACD data culled to 200 points",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required"
+          }
+        },
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.004000"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ],
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "atomicAmount": "4000",
+          "payTo": "0x9baa4417D1E78F2eD5b09aa4Abfb541aeB2cD6Ed"
+        }
+      }
+    },
+    "/agentFriendly/top_movers": {
+      "get": {
+        "summary": "Market-wide top gainers/losers with volume filter, in one call",
+        "description": "Returns the top gaining or losing assets over the last 24h in a single call — use this for movers/screening queries instead of looping per-asset history. Filter thin markets with minVolumeUsd24Hr. Window is 24h (for intraday detail follow up with /agentFriendly/ta/candlesticks_batch on the returned slugs).",
+        "tags": [
+          "AgentFriendly"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "direction",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "gainers",
+                "losers"
+              ],
+              "default": "gainers"
+            },
+            "description": "Rank by biggest 24h gainers or losers"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "maximum": 100
+            },
+            "description": "Number of assets to return (max 100)"
+          },
+          {
+            "in": "query",
+            "name": "minVolumeUsd24Hr",
+            "schema": {
+              "type": "number",
+              "default": 0
+            },
+            "description": "Filter out assets with 24h USD volume below this floor (thin markets)"
+          },
+          {
+            "in": "query",
+            "name": "topN",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Restrict to the top-N assets by market cap BEFORE ranking movers (0 = no restriction, consider the full universe)"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          },
+          {
+            "x402": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ranked movers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timestamp": {
+                      "type": "integer"
+                    },
+                    "direction": {
+                      "type": "string"
+                    },
+                    "window": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "slug": {
+                            "type": "string"
+                          },
+                          "symbol": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "priceUsd": {
+                            "type": "string"
+                          },
+                          "changePercent24Hr": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "volumeUsd24Hr": {
+                            "type": "string"
+                          },
+                          "marketCapUsd": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid parameters"
+          },
+          "402": {
+            "description": "Payment Required"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.004000"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ],
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "atomicAmount": "4000",
+          "payTo": "0x9baa4417D1E78F2eD5b09aa4Abfb541aeB2cD6Ed"
+        }
+      }
+    },
+    "/agentFriendly/asset_mcap_history/{slug}": {
+      "get": {
+        "summary": "Get asset market cap history (direct from mcap_history table) optimized for AI analysis",
+        "description": "Returns ~200 intelligently sampled market cap data points with high/low tracking within the requested time range, sourced directly from pre-computed market cap values",
+        "tags": [
+          "AgentFriendly"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Asset slug (e.g., bitcoin, ethereum)"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Start timestamp in milliseconds (defaults to all time)"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "End timestamp in milliseconds (defaults to now)"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          },
+          {
+            "x402": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Asset market cap history with approximately 200 data points",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid parameters"
+          },
+          "402": {
+            "description": "Payment Required"
+          },
+          "404": {
+            "description": "Asset not found or no history data available"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.010000"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ],
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "atomicAmount": "10000",
+          "payTo": "0x9baa4417D1E78F2eD5b09aa4Abfb541aeB2cD6Ed"
+        }
+      }
+    },
+    "/agentFriendly/total_market_cap_history": {
+      "get": {
+        "summary": "Get total market cap history optimized for AI analysis",
+        "description": "Returns ~200 intelligently sampled total market cap data points with high/low tracking within the requested time range",
+        "tags": [
+          "AgentFriendly"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Start timestamp in milliseconds (defaults to all time)"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "End timestamp in milliseconds (defaults to now)"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKey": []
+          },
+          {
+            "x402": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Total market cap history with approximately 200 data points",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid parameters"
+          },
+          "402": {
+            "description": "Payment Required"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.010000"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ],
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "atomicAmount": "10000",
+          "payTo": "0x9baa4417D1E78F2eD5b09aa4Abfb541aeB2cD6Ed"
+        }
+      }
+    },
+    "/prepaid/create": {
+      "post": {
+        "summary": "Create a free prepaid API key",
+        "description": "Creates a new prepaid API key with 50 free starter credits. No payment or signup required.\nWhen credits run out, the API will return 402 with instructions to refill via /prepaid/refill.\n",
+        "tags": [
+          "Prepaid"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "API key created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "apiKey": {
+                      "type": "string",
+                      "description": "Your new 64-char hex API key"
+                    },
+                    "credits": {
+                      "type": "integer",
+                      "description": "Total credits available (50 free)"
+                    },
+                    "usage": {
+                      "type": "integer",
+                      "description": "Credits used (0 for new key)"
+                    },
+                    "remaining": {
+                      "type": "integer",
+                      "description": "Credits remaining"
+                    },
+                    "callsPerMinute": {
+                      "type": "integer",
+                      "description": "Rate limit (600)"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/prepaid/refill": {
+      "post": {
+        "summary": "Refill a prepaid API key (x402 payment)",
+        "description": "Adds credits to an existing prepaid API key via x402 USDC payment on Base.\n\n**Flow:**\n1. POST with just `apiKey` in body (no PAYMENT header) → returns 402 with payment instructions\n2. Sign an EIP-3009 `transferWithAuthorization` using EIP-712 typed data with domain `{name: \"USD Coin\", version: \"2\", chainId: 8453, verifyingContract: \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\"}`\n3. Base64-encode the JSON payload `{from, to, value, validAfter, validBefore, nonce, v, r, s}` and retry with `PAYMENT` header\n\n500 credits per $1 USDC. Minimum payment: $0.01 USDC.\n",
+        "tags": [
+          "Prepaid"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "PAYMENT",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "Base64-encoded JSON with EIP-3009 transferWithAuthorization signature.\nShape: { from: address, to: address, value: string (USDC smallest units, 6 decimals), validAfter: number, validBefore: number, nonce: bytes32, v: number, r: bytes32, s: bytes32 }\n"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "apiKey"
+                ],
+                "properties": {
+                  "apiKey": {
+                    "type": "string",
+                    "description": "The prepaid API key to refill"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Credits added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "apiKey": {
+                      "type": "string"
+                    },
+                    "creditsAdded": {
+                      "type": "integer"
+                    },
+                    "totalCredits": {
+                      "type": "integer"
+                    },
+                    "usage": {
+                      "type": "integer"
+                    },
+                    "remaining": {
+                      "type": "integer"
+                    },
+                    "txHash": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required. Response includes full x402 payment instructions.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "x402": {
+                      "type": "object",
+                      "properties": {
+                        "version": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "payTo": {
+                          "type": "string",
+                          "description": "USDC recipient address — use as the `to` field when signing transferWithAuthorization (the server wallet only submits the tx and pays gas)"
+                        },
+                        "token": {
+                          "type": "string",
+                          "description": "USDC contract address on Base"
+                        },
+                        "network": {
+                          "type": "string",
+                          "example": "base"
+                        },
+                        "chainId": {
+                          "type": "integer",
+                          "example": 8453
+                        },
+                        "amountRequired": {
+                          "type": "string",
+                          "description": "Amount in smallest USDC units (6 decimals)"
+                        },
+                        "amountRequiredFormatted": {
+                          "type": "string",
+                          "example": "$1 USDC"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "example": "eip-3009"
+                        },
+                        "eip712Domain": {
+                          "type": "object",
+                          "description": "EIP-712 domain for signing transferWithAuthorization",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "USD Coin"
+                            },
+                            "version": {
+                              "type": "string",
+                              "example": "2"
+                            },
+                            "chainId": {
+                              "type": "integer",
+                              "example": 8453
+                            },
+                            "verifyingContract": {
+                              "type": "string",
+                              "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+                            }
+                          }
+                        },
+                        "payloadFormat": {
+                          "type": "string",
+                          "description": "Expected flat JSON shape for the PAYMENT header (base64-encoded)",
+                          "example": "{ from, to, value, validAfter, validBefore, nonce, v, r, s }"
+                        },
+                        "instructions": {
+                          "type": "object",
+                          "properties": {
+                            "summary": {
+                              "type": "string"
+                            },
+                            "steps": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Prepaid key not found"
+          }
+        }
+      }
+    },
+    "/prepaid/info": {
+      "get": {
+        "summary": "Check prepaid key balance",
+        "description": "Returns credit balance, usage, and remaining credits for a prepaid API key. No payment or authentication required.",
+        "tags": [
+          "Prepaid"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The prepaid API key to check"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Key info returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "credits": {
+                      "type": "integer"
+                    },
+                    "usage": {
+                      "type": "integer"
+                    },
+                    "remaining": {
+                      "type": "integer"
+                    },
+                    "callCount": {
+                      "type": "integer"
+                    },
+                    "callsPerMinute": {
+                      "type": "integer"
+                    },
+                    "enabled": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "refillEndpoint": {
+                      "type": "string"
+                    },
+                    "creditsPerDollar": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Prepaid key not found"
           }
         }
       }
@@ -1232,20 +4109,40 @@
   },
   "tags": [
     {
+      "name": "Price",
+      "description": "Minimal endpoints to fetch a USD price by address+network or by symbol."
+    },
+    {
       "name": "Assets",
-      "description": "The asset price is a volume-weighted average calculated by collecting ticker data from exchanges. Each exchange contributes to this price in relation to their volume, meaning higher volume exchanges have more affect on this global price. All values are translated into USD (United States Dollar) and can be translated into other units of measurement through the /rates endpoint."
+      "description": "The asset price is a volume-weighted average calculated by collecting ticker data from exchanges. Each exchange contributes to this price in relation to their volume. All values are translated into USD and can be converted through the /rates endpoint."
     },
     {
       "name": "Exchanges",
-      "description": "The /exchanges endpoint offers an understanding into the where cryptocurrency is being exchanged and offers high-level information on those exchanges. CoinCap strives to provide transparency in the recency of our exchange data. For that purpose you will find an \"updated\" key for each exchange. For more details into coin pairs and volume, see the /markets endpoint."
+      "description": "The /exchanges endpoint offers an understanding into where cryptocurrency is being exchanged and provides high-level information on those exchanges. CoinCap strives to provide transparency in the recency of our exchange data. For that purpose, you will find an \"updated\" key for each exchange. For more details into coin pairs and volume, see the /markets endpoint."
     },
     {
       "name": "Markets",
-      "description": "Take a closer look into exchanges with the /markets endpoint. Similar to the /exchanges endpoint, we strive to offer transparency into how real-time our data is with a key identifying when the market was last updated. For a historical view on how a market has performed, see the /candles endpoint. All market data represents actual trades processed, orders on an exchange are not represented. Data received from individual markets is used to calculate the current price of an asset."
+      "description": "Take a closer look into exchanges with the /markets endpoint. Similar to the /exchanges endpoint, we strive to offer transparency into how real-time our data is with a key identifying when the market was last updated. For a historical view on how a market has performed, see the /candles endpoint."
     },
     {
       "name": "Rates",
-      "description": "All prices on the CoinCap API are standardized in USD (United States Dollar). To make translating to other values easy, CoinCap now offers a Rates endpoint. We offer fiat and top cryptocurrency translated rates. Fiat rates are available through OpenExchangeRates.org."
+      "description": "All prices on the CoinCap API are standardized in USD (United States Dollar). To make translating to other values easy, CoinCap offers a Rates endpoint with fiat and top cryptocurrency translated rates. Fiat rates are available through OpenExchangeRates.org."
+    },
+    {
+      "name": "Technical Analysis",
+      "description": "TA related endpoints for retrieving technical indicators and derived candlestick data."
+    },
+    {
+      "name": "Account",
+      "description": "Returns wallet address, tier information, staked balances, available API keys, reward rates, and more. Staked balances are in terms of Morpheos Tokens (MOR) on either base or arbitrum chains."
+    },
+    {
+      "name": "AgentFriendly (Beta)",
+      "description": "Experimental agent optimized endpoints for use by our chatbot and others.\n- Limits data points per response for optimal processing\n- Simplified JSON structures with clear field names\n\n** These endpoints are under development and may change without notice. Use at your own risk. **\n"
+    },
+    {
+      "name": "Prepaid",
+      "description": "Accountless prepaid API keys via x402 USDC payments on Base. No signup required — pay with USDC to create or refill a key."
     }
   ]
 }

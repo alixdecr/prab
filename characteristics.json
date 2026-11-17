@@ -1979,16 +1979,25 @@
         ]
     },
     "coincap": {
-        "title": "Coincap OpenAPI",
+        "title": "CoinCap API",
         "oas": {
             "validated": true,
             "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "servers": [],
+        "servers": [
+            {
+                "url": "https://rest.coincap.io/v3",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            }
+        ],
         "authentication": [
-            "bearerAuth"
+            "bearerAuth",
+            "apiKey",
+            "x402"
         ],
         "rate-limit": {
             "active": false,
@@ -1997,56 +2006,204 @@
         "routes": [
             {
                 "method": "get",
-                "path": "/v3/assets"
+                "path": "/price/bysymbol/{symbol}"
             },
             {
                 "method": "get",
-                "path": "/v3/assets/{slug}"
+                "path": "/price/byaddress"
             },
             {
                 "method": "get",
-                "path": "/v3/assets/{slug}/markets"
+                "path": "/assets"
             },
             {
                 "method": "get",
-                "path": "/v3/assets/{slug}/history"
+                "path": "/assets/{slug}"
             },
             {
                 "method": "get",
-                "path": "/v3/exchanges"
+                "path": "/assets/{slug}/markets"
             },
             {
                 "method": "get",
-                "path": "/v3/exchanges/{exchange}"
+                "path": "/assets/{slug}/history"
             },
             {
                 "method": "get",
-                "path": "/v3/markets"
+                "path": "/assets/totals/total-marketcap-history"
             },
             {
                 "method": "get",
-                "path": "/v3/rates"
+                "path": "/assets/{slug}/marketcap-history"
             },
             {
                 "method": "get",
-                "path": "/v3/rates/{slug}"
+                "path": "/exchanges"
+            },
+            {
+                "method": "get",
+                "path": "/exchanges/{exchange}"
+            },
+            {
+                "method": "get",
+                "path": "/markets"
+            },
+            {
+                "method": "get",
+                "path": "/rates"
+            },
+            {
+                "method": "get",
+                "path": "/rates/{slug}"
+            },
+            {
+                "method": "get",
+                "path": "/ta/{slug}/sma"
+            },
+            {
+                "method": "get",
+                "path": "/ta/{slug}/sma/latest"
+            },
+            {
+                "method": "get",
+                "path": "/ta/{slug}/ema"
+            },
+            {
+                "method": "get",
+                "path": "/ta/{slug}/ema/latest"
+            },
+            {
+                "method": "get",
+                "path": "/ta/{slug}/macd"
+            },
+            {
+                "method": "get",
+                "path": "/ta/{slug}/macd/latest"
+            },
+            {
+                "method": "get",
+                "path": "/ta/{slug}/vwap/latest"
+            },
+            {
+                "method": "get",
+                "path": "/ta/{slug}/candlesticks"
+            },
+            {
+                "method": "get",
+                "path": "/ta/{slug}/rsi"
+            },
+            {
+                "method": "get",
+                "path": "/ta/{slug}/rsi/latest"
+            },
+            {
+                "method": "get",
+                "path": "/ta/{slug}/allLatest"
+            },
+            {
+                "method": "get",
+                "path": "/account"
+            },
+            {
+                "method": "get",
+                "path": "/agentFriendly/history/{slug}"
+            },
+            {
+                "method": "get",
+                "path": "/agentFriendly/full_assets_by_slug"
+            },
+            {
+                "method": "get",
+                "path": "/agentFriendly/assets_search"
+            },
+            {
+                "method": "get",
+                "path": "/agentFriendly/ta/candlesticks_batch"
+            },
+            {
+                "method": "get",
+                "path": "/agentFriendly/news_top"
+            },
+            {
+                "method": "get",
+                "path": "/agentFriendly/ta/{slug}/sma"
+            },
+            {
+                "method": "get",
+                "path": "/agentFriendly/ta/{slug}/ema"
+            },
+            {
+                "method": "get",
+                "path": "/agentFriendly/ta/{slug}/rsi"
+            },
+            {
+                "method": "get",
+                "path": "/agentFriendly/ta/{slug}/macd"
+            },
+            {
+                "method": "get",
+                "path": "/agentFriendly/top_movers"
+            },
+            {
+                "method": "get",
+                "path": "/agentFriendly/asset_mcap_history/{slug}"
+            },
+            {
+                "method": "get",
+                "path": "/agentFriendly/total_market_cap_history"
+            },
+            {
+                "method": "post",
+                "path": "/prepaid/create"
+            },
+            {
+                "method": "post",
+                "path": "/prepaid/refill"
+            },
+            {
+                "method": "get",
+                "path": "/prepaid/info"
             }
         ],
         "query-parameters": [
+            "apiKey",
             "assetId",
             "assetSymbol",
             "baseId",
             "baseSymbol",
+            "direction",
             "end",
             "exchangeId",
+            "fetchInterval",
             "ids",
+            "includeExplorer",
+            "includeHistory",
+            "includeNews",
+            "includeOriginal",
+            "includeSupply",
+            "includeTaData",
+            "includeTokens",
+            "includeWebsite",
             "interval",
             "limit",
+            "long",
+            "minVolumeUsd24Hr",
+            "network",
             "offset",
+            "period",
             "quoteId",
             "quoteSymbol",
             "search",
-            "start"
+            "short",
+            "signal",
+            "slugs",
+            "smoothing",
+            "sortBy",
+            "sortOrder",
+            "start",
+            "tokenAddress",
+            "topN",
+            "window"
         ]
     },
     "cwa-verification-server": {
@@ -4421,7 +4578,7 @@
             "validated": true,
             "error": null,
             "family": "openapi",
-            "version": "3.0.3"
+            "version": "3.1.0"
         },
         "servers": [
             {
@@ -4434,7 +4591,7 @@
         "authentication": null,
         "rate-limit": {
             "active": true,
-            "reason": "presence of rate limiting headers"
+            "reason": "presence of 429 status code response"
         },
         "routes": [
             {
@@ -4448,6 +4605,86 @@
             {
                 "method": "get",
                 "path": "/advisories/{ghsa_id}"
+            },
+            {
+                "method": "get",
+                "path": "/agents/automations"
+            },
+            {
+                "method": "get",
+                "path": "/agents/repos/{owner}/{repo}/automations"
+            },
+            {
+                "method": "post",
+                "path": "/agents/repos/{owner}/{repo}/automations"
+            },
+            {
+                "method": "get",
+                "path": "/agents/repos/{owner}/{repo}/automations/available-tools"
+            },
+            {
+                "method": "get",
+                "path": "/agents/repos/{owner}/{repo}/automations/available-triggers"
+            },
+            {
+                "method": "get",
+                "path": "/agents/repos/{owner}/{repo}/automations/{automation_id}"
+            },
+            {
+                "method": "patch",
+                "path": "/agents/repos/{owner}/{repo}/automations/{automation_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/agents/repos/{owner}/{repo}/automations/{automation_id}"
+            },
+            {
+                "method": "get",
+                "path": "/agents/repos/{owner}/{repo}/automations/{automation_id}/revisions"
+            },
+            {
+                "method": "get",
+                "path": "/agents/repos/{owner}/{repo}/automations/{automation_id}/revisions/{revision_id}"
+            },
+            {
+                "method": "get",
+                "path": "/agents/repos/{owner}/{repo}/automations/{automation_id}/tasks"
+            },
+            {
+                "method": "post",
+                "path": "/agents/repos/{owner}/{repo}/automations/{automation_id}/tasks"
+            },
+            {
+                "method": "get",
+                "path": "/agents/repos/{owner}/{repo}/pulls/{pull_number}/agent-merge"
+            },
+            {
+                "method": "put",
+                "path": "/agents/repos/{owner}/{repo}/pulls/{pull_number}/agent-merge"
+            },
+            {
+                "method": "delete",
+                "path": "/agents/repos/{owner}/{repo}/pulls/{pull_number}/agent-merge"
+            },
+            {
+                "method": "get",
+                "path": "/agents/repos/{owner}/{repo}/tasks"
+            },
+            {
+                "method": "post",
+                "path": "/agents/repos/{owner}/{repo}/tasks"
+            },
+            {
+                "method": "get",
+                "path": "/agents/repos/{owner}/{repo}/tasks/{task_id}"
+            },
+            {
+                "method": "get",
+                "path": "/agents/tasks"
+            },
+            {
+                "method": "get",
+                "path": "/agents/tasks/{task_id}"
             },
             {
                 "method": "get",
@@ -4562,16 +4799,120 @@
                 "path": "/codes_of_conduct/{key}"
             },
             {
+                "method": "post",
+                "path": "/credentials/revoke"
+            },
+            {
                 "method": "get",
                 "path": "/emojis"
             },
             {
                 "method": "get",
-                "path": "/enterprises/{enterprise}/copilot/billing/seats"
+                "path": "/enterprises/{enterprise}/actions/cache/retention-limit"
+            },
+            {
+                "method": "put",
+                "path": "/enterprises/{enterprise}/actions/cache/retention-limit"
             },
             {
                 "method": "get",
-                "path": "/enterprises/{enterprise}/copilot/usage"
+                "path": "/enterprises/{enterprise}/actions/cache/storage-limit"
+            },
+            {
+                "method": "put",
+                "path": "/enterprises/{enterprise}/actions/cache/storage-limit"
+            },
+            {
+                "method": "get",
+                "path": "/enterprises/{enterprise}/actions/oidc/customization/properties/repo"
+            },
+            {
+                "method": "post",
+                "path": "/enterprises/{enterprise}/actions/oidc/customization/properties/repo"
+            },
+            {
+                "method": "delete",
+                "path": "/enterprises/{enterprise}/actions/oidc/customization/properties/repo/{custom_property_name}"
+            },
+            {
+                "method": "get",
+                "path": "/enterprises/{enterprise}/code-security/configurations"
+            },
+            {
+                "method": "post",
+                "path": "/enterprises/{enterprise}/code-security/configurations"
+            },
+            {
+                "method": "get",
+                "path": "/enterprises/{enterprise}/code-security/configurations/defaults"
+            },
+            {
+                "method": "get",
+                "path": "/enterprises/{enterprise}/code-security/configurations/{configuration_id}"
+            },
+            {
+                "method": "patch",
+                "path": "/enterprises/{enterprise}/code-security/configurations/{configuration_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/enterprises/{enterprise}/code-security/configurations/{configuration_id}"
+            },
+            {
+                "method": "post",
+                "path": "/enterprises/{enterprise}/code-security/configurations/{configuration_id}/attach"
+            },
+            {
+                "method": "put",
+                "path": "/enterprises/{enterprise}/code-security/configurations/{configuration_id}/defaults"
+            },
+            {
+                "method": "get",
+                "path": "/enterprises/{enterprise}/code-security/configurations/{configuration_id}/repositories"
+            },
+            {
+                "method": "get",
+                "path": "/enterprises/{enterprise}/copilot/metrics/reports/enterprise-1-day"
+            },
+            {
+                "method": "get",
+                "path": "/enterprises/{enterprise}/copilot/metrics/reports/enterprise-28-day/latest"
+            },
+            {
+                "method": "get",
+                "path": "/enterprises/{enterprise}/copilot/metrics/reports/repos-1-day"
+            },
+            {
+                "method": "get",
+                "path": "/enterprises/{enterprise}/copilot/metrics/reports/user-teams-1-day"
+            },
+            {
+                "method": "get",
+                "path": "/enterprises/{enterprise}/copilot/metrics/reports/users-1-day"
+            },
+            {
+                "method": "get",
+                "path": "/enterprises/{enterprise}/copilot/metrics/reports/users-28-day/latest"
+            },
+            {
+                "method": "get",
+                "path": "/enterprises/{enterprise}/copilot/policies/code-review"
+            },
+            {
+                "method": "put",
+                "path": "/enterprises/{enterprise}/copilot/policies/code-review"
+            },
+            {
+                "method": "put",
+                "path": "/enterprises/{enterprise}/copilot/policies/coding_agent"
+            },
+            {
+                "method": "post",
+                "path": "/enterprises/{enterprise}/copilot/policies/coding_agent/organizations"
+            },
+            {
+                "method": "delete",
+                "path": "/enterprises/{enterprise}/copilot/policies/coding_agent/organizations"
             },
             {
                 "method": "get",
@@ -4579,11 +4920,15 @@
             },
             {
                 "method": "get",
-                "path": "/enterprises/{enterprise}/secret-scanning/alerts"
+                "path": "/enterprises/{enterprise}/dependabot/repository-access"
             },
             {
-                "method": "get",
-                "path": "/enterprises/{enterprise}/team/{team_slug}/copilot/usage"
+                "method": "patch",
+                "path": "/enterprises/{enterprise}/dependabot/repository-access"
+            },
+            {
+                "method": "put",
+                "path": "/enterprises/{enterprise}/dependabot/repository-access/default-level"
             },
             {
                 "method": "get",
@@ -4779,6 +5124,58 @@
             },
             {
                 "method": "get",
+                "path": "/organizations/{org}/actions/cache/retention-limit"
+            },
+            {
+                "method": "put",
+                "path": "/organizations/{org}/actions/cache/retention-limit"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/{org}/actions/cache/storage-limit"
+            },
+            {
+                "method": "put",
+                "path": "/organizations/{org}/actions/cache/storage-limit"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/{org}/settings/billing/ai_credit/usage"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/{org}/settings/billing/budgets"
+            },
+            {
+                "method": "post",
+                "path": "/organizations/{org}/settings/billing/budgets"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+            },
+            {
+                "method": "patch",
+                "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/{org}/settings/billing/premium_request/usage"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/{org}/settings/billing/usage"
+            },
+            {
+                "method": "get",
+                "path": "/organizations/{org}/settings/billing/usage/summary"
+            },
+            {
+                "method": "get",
                 "path": "/orgs/{org}"
             },
             {
@@ -4799,6 +5196,82 @@
             },
             {
                 "method": "get",
+                "path": "/orgs/{org}/actions/hosted-runners"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/actions/hosted-runners"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/hosted-runners/images/custom"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}/versions"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}/versions/{version}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}/versions/{version}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/hosted-runners/images/github-owned"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/hosted-runners/images/partner"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/hosted-runners/limits"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/hosted-runners/machine-sizes"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/hosted-runners/platforms"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/hosted-runners/{hosted_runner_id}"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/actions/hosted-runners/{hosted_runner_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/actions/hosted-runners/{hosted_runner_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/oidc/customization/properties/repo"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/actions/oidc/customization/properties/repo"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/actions/oidc/customization/properties/repo/{custom_property_name}"
+            },
+            {
+                "method": "get",
                 "path": "/orgs/{org}/actions/oidc/customization/sub"
             },
             {
@@ -4812,6 +5285,30 @@
             {
                 "method": "put",
                 "path": "/orgs/{org}/actions/permissions"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/permissions/artifact-and-log-retention"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/actions/permissions/artifact-and-log-retention"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/permissions/fork-pr-contributor-approval"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/actions/permissions/fork-pr-contributor-approval"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/permissions/fork-pr-workflows-private-repos"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/actions/permissions/fork-pr-workflows-private-repos"
             },
             {
                 "method": "get",
@@ -4839,11 +5336,55 @@
             },
             {
                 "method": "get",
+                "path": "/orgs/{org}/actions/permissions/self-hosted-runners"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/actions/permissions/self-hosted-runners"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/permissions/self-hosted-runners/repositories"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/actions/permissions/self-hosted-runners/repositories"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/actions/permissions/self-hosted-runners/repositories/{repository_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/actions/permissions/self-hosted-runners/repositories/{repository_id}"
+            },
+            {
+                "method": "get",
                 "path": "/orgs/{org}/actions/permissions/workflow"
             },
             {
                 "method": "put",
                 "path": "/orgs/{org}/actions/permissions/workflow"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/policies"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/actions/policies"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/policies/{policy_id}"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/actions/policies/{policy_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/actions/policies/{policy_id}"
             },
             {
                 "method": "get",
@@ -4864,6 +5405,10 @@
             {
                 "method": "delete",
                 "path": "/orgs/{org}/actions/runner-groups/{runner_group_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/runner-groups/{runner_group_id}/hosted-runners"
             },
             {
                 "method": "get",
@@ -4900,6 +5445,10 @@
             {
                 "method": "get",
                 "path": "/orgs/{org}/actions/runners"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/actions/runners/deprecations/{version}"
             },
             {
                 "method": "get",
@@ -5019,6 +5568,126 @@
             },
             {
                 "method": "get",
+                "path": "/orgs/{org}/agents/secrets"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/agents/secrets/public-key"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/agents/secrets/{secret_name}"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/agents/secrets/{secret_name}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/agents/secrets/{secret_name}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/agents/secrets/{secret_name}/repositories"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/agents/secrets/{secret_name}/repositories"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/agents/secrets/{secret_name}/repositories/{repository_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/agents/secrets/{secret_name}/repositories/{repository_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/agents/variables"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/agents/variables"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/agents/variables/{name}"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/agents/variables/{name}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/agents/variables/{name}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/agents/variables/{name}/repositories"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/agents/variables/{name}/repositories"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/agents/variables/{name}/repositories/{repository_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/agents/variables/{name}/repositories/{repository_id}"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/artifacts/metadata/deployment-record"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/artifacts/metadata/deployment-record/cluster/{cluster}"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/artifacts/metadata/deployment-record/cluster/{cluster}/jobs"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/artifacts/metadata/deployment-record/cluster/{cluster}/jobs/{job_id}"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/artifacts/metadata/storage-record"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/artifacts/{subject_digest}/metadata/deployment-records"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/artifacts/{subject_digest}/metadata/storage-records"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/attestations/bulk-list"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/attestations/delete-request"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/attestations/digest/{subject_digest}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/attestations/repositories"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/attestations/{attestation_id}"
+            },
+            {
+                "method": "get",
                 "path": "/orgs/{org}/attestations/{subject_digest}"
             },
             {
@@ -5036,6 +5705,34 @@
             {
                 "method": "delete",
                 "path": "/orgs/{org}/blocks/{username}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/campaigns"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/campaigns"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/campaigns/{campaign_number}"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/campaigns/{campaign_number}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/campaigns/{campaign_number}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/code-scanning/ai-scan"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/code-scanning/ai-scan"
             },
             {
                 "method": "get",
@@ -5135,6 +5832,62 @@
             },
             {
                 "method": "get",
+                "path": "/orgs/{org}/copilot-spaces"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/copilot-spaces"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot-spaces/{space_number}"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/copilot-spaces/{space_number}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/copilot-spaces/{space_number}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot-spaces/{space_number}/collaborators"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/copilot-spaces/{space_number}/collaborators"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/copilot-spaces/{space_number}/collaborators/{actor_type}/{actor_identifier}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/copilot-spaces/{space_number}/collaborators/{actor_type}/{actor_identifier}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot-spaces/{space_number}/resources"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/copilot-spaces/{space_number}/resources"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot-spaces/{space_number}/resources/{space_resource_id}"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/copilot-spaces/{space_number}/resources/{space_resource_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/copilot-spaces/{space_number}/resources/{space_resource_id}"
+            },
+            {
+                "method": "get",
                 "path": "/orgs/{org}/copilot/billing"
             },
             {
@@ -5159,11 +5912,99 @@
             },
             {
                 "method": "get",
-                "path": "/orgs/{org}/copilot/usage"
+                "path": "/orgs/{org}/copilot/code-review/runner"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/copilot/code-review/runner"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot/code-review/settings"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/copilot/code-review/settings"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot/coding-agent/permissions"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/copilot/coding-agent/permissions"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot/coding-agent/permissions/repositories"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/copilot/coding-agent/permissions/repositories"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/copilot/coding-agent/permissions/repositories/{repository_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/copilot/coding-agent/permissions/repositories/{repository_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot/content_exclusion"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/copilot/content_exclusion"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot/metrics/reports/organization-1-day"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot/metrics/reports/organization-28-day/latest"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot/metrics/reports/repos-1-day"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot/metrics/reports/user-teams-1-day"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot/metrics/reports/users-1-day"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot/metrics/reports/users-28-day/latest"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/copilot/policies/code-review"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/copilot/policies/code-review"
             },
             {
                 "method": "get",
                 "path": "/orgs/{org}/dependabot/alerts"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/dependabot/repository-access"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/dependabot/repository-access"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/dependabot/repository-access/default-level"
             },
             {
                 "method": "get",
@@ -5259,6 +6100,42 @@
             },
             {
                 "method": "get",
+                "path": "/orgs/{org}/insights/api/route-stats/{actor_type}/{actor_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/insights/api/subject-stats"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/insights/api/summary-stats"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/insights/api/summary-stats/users/{user_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/insights/api/summary-stats/{actor_type}/{actor_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/insights/api/time-stats"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/insights/api/time-stats/users/{user_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/insights/api/time-stats/{actor_type}/{actor_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/insights/api/user-stats/{user_id}"
+            },
+            {
+                "method": "get",
                 "path": "/orgs/{org}/installation"
             },
             {
@@ -5279,6 +6156,14 @@
             },
             {
                 "method": "get",
+                "path": "/orgs/{org}/interaction-limits/pulls/creation-cap"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/interaction-limits/pulls/creation-cap"
+            },
+            {
+                "method": "get",
                 "path": "/orgs/{org}/invitations"
             },
             {
@@ -5292,6 +6177,38 @@
             {
                 "method": "get",
                 "path": "/orgs/{org}/invitations/{invitation_id}/teams"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/issue-fields"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/issue-fields"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/issue-fields/{issue_field_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/issue-fields/{issue_field_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/issue-types"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/issue-types"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/issue-types/{issue_type_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/issue-types/{issue_type_id}"
             },
             {
                 "method": "get",
@@ -5483,11 +6400,103 @@
             },
             {
                 "method": "get",
-                "path": "/orgs/{org}/projects"
+                "path": "/orgs/{org}/private-registries"
             },
             {
                 "method": "post",
-                "path": "/orgs/{org}/projects"
+                "path": "/orgs/{org}/private-registries"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/private-registries/public-key"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/private-registries/{secret_name}"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/private-registries/{secret_name}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/private-registries/{secret_name}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/projectsV2"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/projectsV2/{project_number}"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/projectsV2/{project_number}/drafts"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/projectsV2/{project_number}/fields"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/projectsV2/{project_number}/fields"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/projectsV2/{project_number}/fields/{field_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/projectsV2/{project_number}/items"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/projectsV2/{project_number}/items"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/projectsV2/{project_number}/items/{item_id}"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/projectsV2/{project_number}/items/{item_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/projectsV2/{project_number}/items/{item_id}"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/projectsV2/{project_number}/views"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/projectsV2/{project_number}/views/{view_number}/items"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/properties/installations"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/properties/installations"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/properties/installations/schema"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/properties/installations/values"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/properties/installations/values/{property_name}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/properties/installations/values/{property_name}"
             },
             {
                 "method": "get",
@@ -5571,7 +6580,39 @@
             },
             {
                 "method": "get",
+                "path": "/orgs/{org}/rulesets/{ruleset_id}/history"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/rulesets/{ruleset_id}/history/{version_id}"
+            },
+            {
+                "method": "get",
                 "path": "/orgs/{org}/secret-scanning/alerts"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/secret-scanning/custom-patterns"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/secret-scanning/custom-patterns"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/secret-scanning/custom-patterns"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/secret-scanning/custom-patterns/{pattern_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/secret-scanning/pattern-configurations"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/secret-scanning/pattern-configurations"
             },
             {
                 "method": "get",
@@ -5591,19 +6632,51 @@
             },
             {
                 "method": "get",
-                "path": "/orgs/{org}/settings/billing/actions"
+                "path": "/orgs/{org}/settings/immutable-releases"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/settings/immutable-releases"
             },
             {
                 "method": "get",
-                "path": "/orgs/{org}/settings/billing/packages"
+                "path": "/orgs/{org}/settings/immutable-releases/repositories"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/settings/immutable-releases/repositories"
+            },
+            {
+                "method": "put",
+                "path": "/orgs/{org}/settings/immutable-releases/repositories/{repository_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/settings/immutable-releases/repositories/{repository_id}"
             },
             {
                 "method": "get",
-                "path": "/orgs/{org}/settings/billing/shared-storage"
+                "path": "/orgs/{org}/settings/network-configurations"
+            },
+            {
+                "method": "post",
+                "path": "/orgs/{org}/settings/network-configurations"
             },
             {
                 "method": "get",
-                "path": "/orgs/{org}/team/{team_slug}/copilot/usage"
+                "path": "/orgs/{org}/settings/network-configurations/{network_configuration_id}"
+            },
+            {
+                "method": "patch",
+                "path": "/orgs/{org}/settings/network-configurations/{network_configuration_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/orgs/{org}/settings/network-configurations/{network_configuration_id}"
+            },
+            {
+                "method": "get",
+                "path": "/orgs/{org}/settings/network-settings/{network_settings_id}"
             },
             {
                 "method": "get",
@@ -5627,67 +6700,15 @@
             },
             {
                 "method": "get",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions"
+                "path": "/orgs/{org}/teams/{team_slug}/copilot/customizations"
             },
             {
-                "method": "post",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions"
-            },
-            {
-                "method": "get",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}"
-            },
-            {
-                "method": "patch",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}"
+                "method": "put",
+                "path": "/orgs/{org}/teams/{team_slug}/copilot/customizations"
             },
             {
                 "method": "delete",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}"
-            },
-            {
-                "method": "get",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments"
-            },
-            {
-                "method": "post",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments"
-            },
-            {
-                "method": "get",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}"
-            },
-            {
-                "method": "patch",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}"
-            },
-            {
-                "method": "delete",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}"
-            },
-            {
-                "method": "get",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions"
-            },
-            {
-                "method": "post",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions"
-            },
-            {
-                "method": "delete",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions/{reaction_id}"
-            },
-            {
-                "method": "get",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions"
-            },
-            {
-                "method": "post",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions"
-            },
-            {
-                "method": "delete",
-                "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions/{reaction_id}"
+                "path": "/orgs/{org}/teams/{team_slug}/copilot/customizations"
             },
             {
                 "method": "get",
@@ -5708,22 +6729,6 @@
             {
                 "method": "delete",
                 "path": "/orgs/{org}/teams/{team_slug}/memberships/{username}"
-            },
-            {
-                "method": "get",
-                "path": "/orgs/{org}/teams/{team_slug}/projects"
-            },
-            {
-                "method": "get",
-                "path": "/orgs/{org}/teams/{team_slug}/projects/{project_id}"
-            },
-            {
-                "method": "put",
-                "path": "/orgs/{org}/teams/{team_slug}/projects/{project_id}"
-            },
-            {
-                "method": "delete",
-                "path": "/orgs/{org}/teams/{team_slug}/projects/{project_id}"
             },
             {
                 "method": "get",
@@ -5748,82 +6753,6 @@
             {
                 "method": "post",
                 "path": "/orgs/{org}/{security_product}/{enablement}"
-            },
-            {
-                "method": "get",
-                "path": "/projects/columns/cards/{card_id}"
-            },
-            {
-                "method": "patch",
-                "path": "/projects/columns/cards/{card_id}"
-            },
-            {
-                "method": "delete",
-                "path": "/projects/columns/cards/{card_id}"
-            },
-            {
-                "method": "post",
-                "path": "/projects/columns/cards/{card_id}/moves"
-            },
-            {
-                "method": "get",
-                "path": "/projects/columns/{column_id}"
-            },
-            {
-                "method": "patch",
-                "path": "/projects/columns/{column_id}"
-            },
-            {
-                "method": "delete",
-                "path": "/projects/columns/{column_id}"
-            },
-            {
-                "method": "get",
-                "path": "/projects/columns/{column_id}/cards"
-            },
-            {
-                "method": "post",
-                "path": "/projects/columns/{column_id}/cards"
-            },
-            {
-                "method": "post",
-                "path": "/projects/columns/{column_id}/moves"
-            },
-            {
-                "method": "get",
-                "path": "/projects/{project_id}"
-            },
-            {
-                "method": "patch",
-                "path": "/projects/{project_id}"
-            },
-            {
-                "method": "delete",
-                "path": "/projects/{project_id}"
-            },
-            {
-                "method": "get",
-                "path": "/projects/{project_id}/collaborators"
-            },
-            {
-                "method": "put",
-                "path": "/projects/{project_id}/collaborators/{username}"
-            },
-            {
-                "method": "delete",
-                "path": "/projects/{project_id}/collaborators/{username}"
-            },
-            {
-                "method": "get",
-                "path": "/projects/{project_id}/collaborators/{username}/permission"
-            },
-            {
-                "method": "get",
-                "path": "/projects/{project_id}/columns"
-            },
-            {
-                "method": "post",
-                "path": "/projects/{project_id}/columns"
             },
             {
                 "method": "get",
@@ -5859,6 +6788,22 @@
             },
             {
                 "method": "get",
+                "path": "/repos/{owner}/{repo}/actions/cache/retention-limit"
+            },
+            {
+                "method": "put",
+                "path": "/repos/{owner}/{repo}/actions/cache/retention-limit"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/actions/cache/storage-limit"
+            },
+            {
+                "method": "put",
+                "path": "/repos/{owner}/{repo}/actions/cache/storage-limit"
+            },
+            {
+                "method": "get",
                 "path": "/repos/{owner}/{repo}/actions/cache/usage"
             },
             {
@@ -5875,6 +6820,14 @@
             },
             {
                 "method": "get",
+                "path": "/repos/{owner}/{repo}/actions/concurrency_groups"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/actions/concurrency_groups/{concurrency_group_name}"
+            },
+            {
+                "method": "get",
                 "path": "/repos/{owner}/{repo}/actions/jobs/{job_id}"
             },
             {
@@ -5884,6 +6837,10 @@
             {
                 "method": "post",
                 "path": "/repos/{owner}/{repo}/actions/jobs/{job_id}/rerun"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/actions/jobs/{job_id}/steps/{step_number}/logs"
             },
             {
                 "method": "get",
@@ -5919,6 +6876,30 @@
             },
             {
                 "method": "get",
+                "path": "/repos/{owner}/{repo}/actions/permissions/artifact-and-log-retention"
+            },
+            {
+                "method": "put",
+                "path": "/repos/{owner}/{repo}/actions/permissions/artifact-and-log-retention"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/actions/permissions/fork-pr-contributor-approval"
+            },
+            {
+                "method": "put",
+                "path": "/repos/{owner}/{repo}/actions/permissions/fork-pr-contributor-approval"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/actions/permissions/fork-pr-workflows-private-repos"
+            },
+            {
+                "method": "put",
+                "path": "/repos/{owner}/{repo}/actions/permissions/fork-pr-workflows-private-repos"
+            },
+            {
+                "method": "get",
                 "path": "/repos/{owner}/{repo}/actions/permissions/selected-actions"
             },
             {
@@ -5932,10 +6913,34 @@
             {
                 "method": "put",
                 "path": "/repos/{owner}/{repo}/actions/permissions/workflow"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/actions/policies"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/actions/policies"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/actions/policies/{policy_id}"
+            },
+            {
+                "method": "put",
+                "path": "/repos/{owner}/{repo}/actions/policies/{policy_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/repos/{owner}/{repo}/actions/policies/{policy_id}"
             },
             {
                 "method": "get",
                 "path": "/repos/{owner}/{repo}/actions/runners"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/actions/runners/deprecations/{version}"
             },
             {
                 "method": "get",
@@ -6020,6 +7025,10 @@
             {
                 "method": "post",
                 "path": "/repos/{owner}/{repo}/actions/runs/{run_id}/cancel"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/actions/runs/{run_id}/concurrency_groups"
             },
             {
                 "method": "post",
@@ -6132,6 +7141,54 @@
             {
                 "method": "get",
                 "path": "/repos/{owner}/{repo}/activity"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/agents/organization-secrets"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/agents/organization-variables"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/agents/secrets"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/agents/secrets/public-key"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/agents/secrets/{secret_name}"
+            },
+            {
+                "method": "put",
+                "path": "/repos/{owner}/{repo}/agents/secrets/{secret_name}"
+            },
+            {
+                "method": "delete",
+                "path": "/repos/{owner}/{repo}/agents/secrets/{secret_name}"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/agents/variables"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/agents/variables"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/agents/variables/{name}"
+            },
+            {
+                "method": "patch",
+                "path": "/repos/{owner}/{repo}/agents/variables/{name}"
+            },
+            {
+                "method": "delete",
+                "path": "/repos/{owner}/{repo}/agents/variables/{name}"
             },
             {
                 "method": "get",
@@ -6363,6 +7420,30 @@
             },
             {
                 "method": "get",
+                "path": "/repos/{owner}/{repo}/code-quality/findings"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/code-quality/findings/{finding_number}"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/code-quality/setup"
+            },
+            {
+                "method": "patch",
+                "path": "/repos/{owner}/{repo}/code-quality/setup"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/code-scanning/ai-scan"
+            },
+            {
+                "method": "patch",
+                "path": "/repos/{owner}/{repo}/code-scanning/ai-scan"
+            },
+            {
+                "method": "get",
                 "path": "/repos/{owner}/{repo}/code-scanning/alerts"
             },
             {
@@ -6372,6 +7453,18 @@
             {
                 "method": "patch",
                 "path": "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/autofix"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/autofix"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/autofix/commits"
             },
             {
                 "method": "get",
@@ -6395,6 +7488,10 @@
             },
             {
                 "method": "get",
+                "path": "/repos/{owner}/{repo}/code-scanning/codeql/databases/{language}"
+            },
+            {
+                "method": "delete",
                 "path": "/repos/{owner}/{repo}/code-scanning/codeql/databases/{language}"
             },
             {
@@ -6591,6 +7688,18 @@
             },
             {
                 "method": "get",
+                "path": "/repos/{owner}/{repo}/copilot/cloud-agent/configuration"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/copilot/code-review/settings"
+            },
+            {
+                "method": "patch",
+                "path": "/repos/{owner}/{repo}/copilot/code-review/settings"
+            },
+            {
+                "method": "get",
                 "path": "/repos/{owner}/{repo}/dependabot/alerts"
             },
             {
@@ -6600,6 +7709,14 @@
             {
                 "method": "patch",
                 "path": "/repos/{owner}/{repo}/dependabot/alerts/{alert_number}"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/dependabot/runner-settings"
+            },
+            {
+                "method": "put",
+                "path": "/repos/{owner}/{repo}/dependabot/runner-settings"
             },
             {
                 "method": "get",
@@ -6628,6 +7745,14 @@
             {
                 "method": "get",
                 "path": "/repos/{owner}/{repo}/dependency-graph/sbom"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/dependency-graph/sbom/fetch-report/{sbom_uuid}"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/dependency-graph/sbom/generate-report"
             },
             {
                 "method": "post",
@@ -6827,6 +7952,10 @@
             },
             {
                 "method": "get",
+                "path": "/repos/{owner}/{repo}/hash-algorithm"
+            },
+            {
+                "method": "get",
                 "path": "/repos/{owner}/{repo}/hooks"
             },
             {
@@ -6872,6 +8001,18 @@
             {
                 "method": "post",
                 "path": "/repos/{owner}/{repo}/hooks/{hook_id}/tests"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/immutable-releases"
+            },
+            {
+                "method": "put",
+                "path": "/repos/{owner}/{repo}/immutable-releases"
+            },
+            {
+                "method": "delete",
+                "path": "/repos/{owner}/{repo}/immutable-releases"
             },
             {
                 "method": "get",
@@ -6923,6 +8064,26 @@
             },
             {
                 "method": "get",
+                "path": "/repos/{owner}/{repo}/interaction-limits/pulls/bypass-list"
+            },
+            {
+                "method": "put",
+                "path": "/repos/{owner}/{repo}/interaction-limits/pulls/bypass-list"
+            },
+            {
+                "method": "delete",
+                "path": "/repos/{owner}/{repo}/interaction-limits/pulls/bypass-list"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/interaction-limits/pulls/creation-cap"
+            },
+            {
+                "method": "patch",
+                "path": "/repos/{owner}/{repo}/interaction-limits/pulls/creation-cap"
+            },
+            {
+                "method": "get",
                 "path": "/repos/{owner}/{repo}/invitations"
             },
             {
@@ -6932,6 +8093,10 @@
             {
                 "method": "delete",
                 "path": "/repos/{owner}/{repo}/invitations/{invitation_id}"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/issue-types"
             },
             {
                 "method": "get",
@@ -6956,6 +8121,14 @@
             {
                 "method": "delete",
                 "path": "/repos/{owner}/{repo}/issues/comments/{comment_id}"
+            },
+            {
+                "method": "put",
+                "path": "/repos/{owner}/{repo}/issues/comments/{comment_id}/pin"
+            },
+            {
+                "method": "delete",
+                "path": "/repos/{owner}/{repo}/issues/comments/{comment_id}/pin"
             },
             {
                 "method": "get",
@@ -6986,6 +8159,26 @@
                 "path": "/repos/{owner}/{repo}/issues/{issue_number}"
             },
             {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/artifacts"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/artifacts"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/artifacts/{artifact_number}"
+            },
+            {
+                "method": "patch",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/artifacts/{artifact_number}"
+            },
+            {
+                "method": "delete",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/artifacts/{artifact_number}"
+            },
+            {
                 "method": "post",
                 "path": "/repos/{owner}/{repo}/issues/{issue_number}/assignees"
             },
@@ -7007,7 +8200,39 @@
             },
             {
                 "method": "get",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by"
+            },
+            {
+                "method": "delete",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by/{issue_id}"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocking"
+            },
+            {
+                "method": "get",
                 "path": "/repos/{owner}/{repo}/issues/{issue_number}/events"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/issue-field-values"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/issue-field-values"
+            },
+            {
+                "method": "put",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/issue-field-values"
+            },
+            {
+                "method": "delete",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/issue-field-values/{issue_field_id}"
             },
             {
                 "method": "get",
@@ -7039,6 +8264,10 @@
             },
             {
                 "method": "get",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/parent"
+            },
+            {
+                "method": "get",
                 "path": "/repos/{owner}/{repo}/issues/{issue_number}/reactions"
             },
             {
@@ -7048,6 +8277,46 @@
             {
                 "method": "delete",
                 "path": "/repos/{owner}/{repo}/issues/{issue_number}/reactions/{reaction_id}"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/relates_to"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/relates_to"
+            },
+            {
+                "method": "delete",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/relates_to/{issue_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/sub_issue"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/sub_issues"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/sub_issues"
+            },
+            {
+                "method": "patch",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/sub_issues/priority"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/suggestions"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/suggestions/{suggestion_id}/approve"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/issues/{issue_number}/suggestions/{suggestion_id}/dismiss"
             },
             {
                 "method": "get",
@@ -7187,6 +8456,10 @@
             },
             {
                 "method": "get",
+                "path": "/repos/{owner}/{repo}/planning-statuses"
+            },
+            {
+                "method": "get",
                 "path": "/repos/{owner}/{repo}/private-vulnerability-reporting"
             },
             {
@@ -7196,14 +8469,6 @@
             {
                 "method": "delete",
                 "path": "/repos/{owner}/{repo}/private-vulnerability-reporting"
-            },
-            {
-                "method": "get",
-                "path": "/repos/{owner}/{repo}/projects"
-            },
-            {
-                "method": "post",
-                "path": "/repos/{owner}/{repo}/projects"
             },
             {
                 "method": "get",
@@ -7278,6 +8543,10 @@
                 "path": "/repos/{owner}/{repo}/pulls/{pull_number}/commits"
             },
             {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/pulls/{pull_number}/copilot-code-review"
+            },
+            {
                 "method": "get",
                 "path": "/repos/{owner}/{repo}/pulls/{pull_number}/files"
             },
@@ -7290,6 +8559,14 @@
                 "path": "/repos/{owner}/{repo}/pulls/{pull_number}/merge"
             },
             {
+                "method": "put",
+                "path": "/repos/{owner}/{repo}/pulls/{pull_number}/merge-async"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/pulls/{pull_number}/merge-async/{uuid}"
+            },
+            {
                 "method": "get",
                 "path": "/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers"
             },
@@ -7300,6 +8577,10 @@
             {
                 "method": "delete",
                 "path": "/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers/rerequest"
             },
             {
                 "method": "get",
@@ -7443,6 +8724,14 @@
             },
             {
                 "method": "get",
+                "path": "/repos/{owner}/{repo}/rulesets/{ruleset_id}/history"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/rulesets/{ruleset_id}/history/{version_id}"
+            },
+            {
+                "method": "get",
                 "path": "/repos/{owner}/{repo}/secret-scanning/alerts"
             },
             {
@@ -7458,8 +8747,28 @@
                 "path": "/repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}/locations"
             },
             {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/secret-scanning/custom-patterns"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/secret-scanning/custom-patterns"
+            },
+            {
+                "method": "delete",
+                "path": "/repos/{owner}/{repo}/secret-scanning/custom-patterns"
+            },
+            {
+                "method": "patch",
+                "path": "/repos/{owner}/{repo}/secret-scanning/custom-patterns/{pattern_id}"
+            },
+            {
                 "method": "post",
                 "path": "/repos/{owner}/{repo}/secret-scanning/push-protection-bypasses"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/secret-scanning/scan-history"
             },
             {
                 "method": "get",
@@ -7482,6 +8791,22 @@
                 "path": "/repos/{owner}/{repo}/security-advisories/{ghsa_id}"
             },
             {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/security-advisories/{ghsa_id}/comments"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/security-advisories/{ghsa_id}/comments"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/security-advisories/{ghsa_id}/comments/{comment_id}"
+            },
+            {
+                "method": "patch",
+                "path": "/repos/{owner}/{repo}/security-advisories/{ghsa_id}/comments/{comment_id}"
+            },
+            {
                 "method": "post",
                 "path": "/repos/{owner}/{repo}/security-advisories/{ghsa_id}/cve"
             },
@@ -7491,7 +8816,35 @@
             },
             {
                 "method": "get",
+                "path": "/repos/{owner}/{repo}/stacks"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/stacks"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/stacks/{stack_number}"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/stacks/{stack_number}/add"
+            },
+            {
+                "method": "post",
+                "path": "/repos/{owner}/{repo}/stacks/{stack_number}/unstack"
+            },
+            {
+                "method": "get",
                 "path": "/repos/{owner}/{repo}/stargazers"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/stargazers/count"
+            },
+            {
+                "method": "get",
+                "path": "/repos/{owner}/{repo}/stargazers/history"
             },
             {
                 "method": "get",
@@ -7536,18 +8889,6 @@
             {
                 "method": "get",
                 "path": "/repos/{owner}/{repo}/tags"
-            },
-            {
-                "method": "get",
-                "path": "/repos/{owner}/{repo}/tags/protection"
-            },
-            {
-                "method": "post",
-                "path": "/repos/{owner}/{repo}/tags/protection"
-            },
-            {
-                "method": "delete",
-                "path": "/repos/{owner}/{repo}/tags/protection/{tag_protection_id}"
             },
             {
                 "method": "get",
@@ -7651,62 +8992,6 @@
             },
             {
                 "method": "get",
-                "path": "/teams/{team_id}/discussions"
-            },
-            {
-                "method": "post",
-                "path": "/teams/{team_id}/discussions"
-            },
-            {
-                "method": "get",
-                "path": "/teams/{team_id}/discussions/{discussion_number}"
-            },
-            {
-                "method": "patch",
-                "path": "/teams/{team_id}/discussions/{discussion_number}"
-            },
-            {
-                "method": "delete",
-                "path": "/teams/{team_id}/discussions/{discussion_number}"
-            },
-            {
-                "method": "get",
-                "path": "/teams/{team_id}/discussions/{discussion_number}/comments"
-            },
-            {
-                "method": "post",
-                "path": "/teams/{team_id}/discussions/{discussion_number}/comments"
-            },
-            {
-                "method": "get",
-                "path": "/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}"
-            },
-            {
-                "method": "patch",
-                "path": "/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}"
-            },
-            {
-                "method": "delete",
-                "path": "/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}"
-            },
-            {
-                "method": "get",
-                "path": "/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}/reactions"
-            },
-            {
-                "method": "post",
-                "path": "/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}/reactions"
-            },
-            {
-                "method": "get",
-                "path": "/teams/{team_id}/discussions/{discussion_number}/reactions"
-            },
-            {
-                "method": "post",
-                "path": "/teams/{team_id}/discussions/{discussion_number}/reactions"
-            },
-            {
-                "method": "get",
                 "path": "/teams/{team_id}/invitations"
             },
             {
@@ -7736,22 +9021,6 @@
             {
                 "method": "delete",
                 "path": "/teams/{team_id}/memberships/{username}"
-            },
-            {
-                "method": "get",
-                "path": "/teams/{team_id}/projects"
-            },
-            {
-                "method": "get",
-                "path": "/teams/{team_id}/projects/{project_id}"
-            },
-            {
-                "method": "put",
-                "path": "/teams/{team_id}/projects/{project_id}"
-            },
-            {
-                "method": "delete",
-                "path": "/teams/{team_id}/projects/{project_id}"
             },
             {
                 "method": "get",
@@ -7963,6 +9232,38 @@
             },
             {
                 "method": "get",
+                "path": "/user/issue-fields"
+            },
+            {
+                "method": "post",
+                "path": "/user/issue-fields"
+            },
+            {
+                "method": "patch",
+                "path": "/user/issue-fields/{issue_field_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/user/issue-fields/{issue_field_id}"
+            },
+            {
+                "method": "get",
+                "path": "/user/issue-types"
+            },
+            {
+                "method": "post",
+                "path": "/user/issue-types"
+            },
+            {
+                "method": "put",
+                "path": "/user/issue-types/{issue_type_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/user/issue-types/{issue_type_id}"
+            },
+            {
+                "method": "get",
                 "path": "/user/issues"
             },
             {
@@ -8066,10 +9367,6 @@
                 "path": "/user/packages/{package_type}/{package_name}/versions/{package_version_id}/restore"
             },
             {
-                "method": "post",
-                "path": "/user/projects"
-            },
-            {
                 "method": "get",
                 "path": "/user/public_emails"
             },
@@ -8150,16 +9447,96 @@
                 "path": "/user/{account_id}"
             },
             {
+                "method": "post",
+                "path": "/user/{user_id}/projectsV2/{project_number}/drafts"
+            },
+            {
                 "method": "get",
                 "path": "/users"
+            },
+            {
+                "method": "post",
+                "path": "/users/{user_id}/projectsV2/{project_number}/views"
             },
             {
                 "method": "get",
                 "path": "/users/{username}"
             },
             {
+                "method": "post",
+                "path": "/users/{username}/attestations/bulk-list"
+            },
+            {
+                "method": "post",
+                "path": "/users/{username}/attestations/delete-request"
+            },
+            {
+                "method": "delete",
+                "path": "/users/{username}/attestations/digest/{subject_digest}"
+            },
+            {
+                "method": "delete",
+                "path": "/users/{username}/attestations/{attestation_id}"
+            },
+            {
                 "method": "get",
                 "path": "/users/{username}/attestations/{subject_digest}"
+            },
+            {
+                "method": "get",
+                "path": "/users/{username}/copilot-spaces"
+            },
+            {
+                "method": "post",
+                "path": "/users/{username}/copilot-spaces"
+            },
+            {
+                "method": "get",
+                "path": "/users/{username}/copilot-spaces/{space_number}"
+            },
+            {
+                "method": "put",
+                "path": "/users/{username}/copilot-spaces/{space_number}"
+            },
+            {
+                "method": "delete",
+                "path": "/users/{username}/copilot-spaces/{space_number}"
+            },
+            {
+                "method": "get",
+                "path": "/users/{username}/copilot-spaces/{space_number}/collaborators"
+            },
+            {
+                "method": "post",
+                "path": "/users/{username}/copilot-spaces/{space_number}/collaborators"
+            },
+            {
+                "method": "put",
+                "path": "/users/{username}/copilot-spaces/{space_number}/collaborators/{actor_type}/{actor_identifier}"
+            },
+            {
+                "method": "delete",
+                "path": "/users/{username}/copilot-spaces/{space_number}/collaborators/{actor_type}/{actor_identifier}"
+            },
+            {
+                "method": "get",
+                "path": "/users/{username}/copilot-spaces/{space_number}/resources"
+            },
+            {
+                "method": "post",
+                "path": "/users/{username}/copilot-spaces/{space_number}/resources"
+            },
+            {
+                "method": "get",
+                "path": "/users/{username}/copilot-spaces/{space_number}/resources/{space_resource_id}"
+            },
+            {
+                "method": "put",
+                "path": "/users/{username}/copilot-spaces/{space_number}/resources/{space_resource_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/users/{username}/copilot-spaces/{space_number}/resources/{space_resource_id}"
             },
             {
                 "method": "get",
@@ -8247,7 +9624,47 @@
             },
             {
                 "method": "get",
-                "path": "/users/{username}/projects"
+                "path": "/users/{username}/projectsV2"
+            },
+            {
+                "method": "get",
+                "path": "/users/{username}/projectsV2/{project_number}"
+            },
+            {
+                "method": "get",
+                "path": "/users/{username}/projectsV2/{project_number}/fields"
+            },
+            {
+                "method": "post",
+                "path": "/users/{username}/projectsV2/{project_number}/fields"
+            },
+            {
+                "method": "get",
+                "path": "/users/{username}/projectsV2/{project_number}/fields/{field_id}"
+            },
+            {
+                "method": "get",
+                "path": "/users/{username}/projectsV2/{project_number}/items"
+            },
+            {
+                "method": "post",
+                "path": "/users/{username}/projectsV2/{project_number}/items"
+            },
+            {
+                "method": "get",
+                "path": "/users/{username}/projectsV2/{project_number}/items/{item_id}"
+            },
+            {
+                "method": "patch",
+                "path": "/users/{username}/projectsV2/{project_number}/items/{item_id}"
+            },
+            {
+                "method": "delete",
+                "path": "/users/{username}/projectsV2/{project_number}/items/{item_id}"
+            },
+            {
+                "method": "get",
+                "path": "/users/{username}/projectsV2/{project_number}/views/{view_number}/items"
             },
             {
                 "method": "get",
@@ -8263,15 +9680,19 @@
             },
             {
                 "method": "get",
-                "path": "/users/{username}/settings/billing/actions"
+                "path": "/users/{username}/settings/billing/ai_credit/usage"
             },
             {
                 "method": "get",
-                "path": "/users/{username}/settings/billing/packages"
+                "path": "/users/{username}/settings/billing/premium_request/usage"
             },
             {
                 "method": "get",
-                "path": "/users/{username}/settings/billing/shared-storage"
+                "path": "/users/{username}/settings/billing/usage"
+            },
+            {
+                "method": "get",
+                "path": "/users/{username}/settings/billing/usage/summary"
             },
             {
                 "method": "get",
@@ -8299,23 +9720,32 @@
             }
         ],
         "query-parameters": [
+            "action",
             "activity_type",
             "actor",
             "actor_name",
+            "actor_name_substring",
+            "advanced_search",
             "affects",
             "affiliation",
             "after",
+            "ahead_of_job",
+            "ahead_of_run",
             "all",
             "anon",
+            "api_route_substring",
             "app_id",
-            "archived_state",
+            "artifact_registry",
+            "artifact_registry_url",
             "assignee",
+            "assignees",
             "author",
             "base",
             "before",
             "branch",
             "check_name",
             "check_suite_id",
+            "classification",
             "client_ip",
             "collab",
             "committer",
@@ -8323,46 +9753,64 @@
             "content",
             "created",
             "creator",
+            "creator_id",
             "cursor",
             "cve_id",
             "cwes",
+            "day",
             "devcontainer_path",
             "direction",
             "ecosystem",
             "environment",
             "epss_percentage",
             "epss_percentile",
+            "evaluate_status",
             "event",
             "exclude",
+            "exclude_providers",
             "exclude_pull_requests",
+            "exclude_secret_types",
             "featured",
+            "fields",
             "filter",
-            "first",
             "ghsa_id",
+            "has",
+            "has_parents",
             "head",
             "head_sha",
+            "hide_secret",
+            "include_metadata",
+            "included_metadata",
             "includes_parents",
             "invitation_source",
+            "is_archived",
+            "is_bypassed",
+            "is_done",
             "is_multi_repo",
             "is_publicly_leaked",
             "is_withdrawn",
+            "issue_field_values",
             "key",
             "label",
             "labels",
-            "last",
             "last_used_after",
             "last_used_before",
             "location",
             "manifest",
+            "max_timestamp",
             "mentioned",
             "milestone",
+            "min_timestamp",
+            "model",
             "modified",
+            "month",
             "name",
             "order",
             "orgs",
             "outdated",
             "owned",
             "owner",
+            "owner_email_hash",
             "package",
             "package_type",
             "page",
@@ -8371,15 +9819,19 @@
             "per",
             "per_page",
             "permission",
-            "pinned",
             "pr",
+            "predicate_type",
+            "product",
             "protected",
+            "providers",
             "published",
+            "pull_request",
             "pulls",
+            "push_protection",
             "q",
             "recursive",
-            "redelivery",
             "ref",
+            "relationship",
             "repository",
             "repository_id",
             "repository_name",
@@ -8387,31 +9839,40 @@
             "resolution",
             "role",
             "rule_suite_result",
+            "runtime_risk",
             "s",
             "sarif_id",
             "scope",
+            "search_type",
             "secret_type",
             "severity",
             "sha",
             "since",
+            "sku",
             "sort",
             "state",
             "status",
             "subject_id",
+            "subject_name_substring",
             "subject_type",
             "target_type",
             "targets",
             "task",
+            "team_type",
             "time_period",
+            "timestamp_increment",
             "token",
+            "token_id",
             "tool_guid",
             "tool_name",
             "type",
             "until",
             "updated",
+            "user",
             "validity",
             "visibility",
-            "visible_to_repository"
+            "visible_to_repository",
+            "year"
         ]
     },
     "gitlab": {

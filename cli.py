@@ -53,7 +53,7 @@ def generate_api_characteristics(only: list[str] | None = None) -> None:
         except Exception as e:
             error_name = type(e).__name__
             oas = {"validated": False, "error": error_name}
-            print(f"- {error_name}: {' '.join(str(e).split())[:60]}...")
+            print(f"- {error_name}:\n{str(e)}")
 
         # oas version
         family = "openapi" if spec.get("openapi") else "swagger" if spec.get("swagger") else "unknown"

@@ -30,6 +30,7 @@ PRAB contains the following:
 - `apis/`: Folder containing all APIs of the benchmark. Each API has a sub-folder, containing a global overview in `README.md`, an OpenAPI Specification (OAS) in `<api-name>-openapi.json`, and optionally a Postman Collection or other useful files.
 - `legacy/`: Folder containing legacy content (cf. **Legacy** section for more details).
 - `characteristics.json`: File containing the structural characteristics of the APIs.
+- `sources.json` (WIP): File containing the source URLs for the benchmark specifications.
 - `cli.py`: File containing the main Python code for the CLI.
 - `utils.py`: File containing utility code for the CLI.
 - `requirements.txt`: File containing the Python requirements for the CLI.

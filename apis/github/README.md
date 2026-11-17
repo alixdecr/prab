@@ -3,7 +3,7 @@
 
 *Last update: 2026-11-17*
 
-![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.3-brightgreen.svg)
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.1.0-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-True-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
@@ -19,23 +19,23 @@
 
 **Authentication Methods:** No authentication required
 
-**Rate Limiting:** True (presence of rate limiting headers)
+**Rate Limiting:** True (presence of 429 status code response)
 
 ## Structural Information
 
-**Total Paths:** 638
+**Total Paths:** 842
 
-**Query Parameters:** 113
+**Query Parameters:** 153
 
 **Paths by Method:**
 
 | Method | Paths |
 | ------ | ----- |
-| `GET` | 510 |
-| `POST` | 154 |
-| `PUT` | 91 |
-| `PATCH` | 56 |
-| `DELETE` | 154 |
+| `GET` | 667 |
+| `POST` | 200 |
+| `PUT` | 141 |
+| `PATCH` | 79 |
+| `DELETE` | 194 |
 | `HEAD` | 0 |
 | `OPTIONS` | 0 |
 | `TRACE` | 0 |
