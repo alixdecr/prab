@@ -36,6 +36,13 @@ PRAB contains the following:
 - `requirements.txt`: File containing the Python requirements for the CLI.
 - `STATUS.md`: File containing the latest status of the benchmark. It is separated into different sections: **Unreachable Servers**, **Outdated OAS Formats**, and **OAS Validation Fails**. This content is useful to check for outdated APIs and to update them accordingly.
 
+Work in progress:
+
+- [x] CLI
+- [ ] CLI advanced filtering
+- [ ] API pricing information
+- [ ] API sources
+
 ## CLI Setup
 
 The CLI uses Python v3.10 or later. To set it up, enter the following commands in a terminal at the root of the repository:
