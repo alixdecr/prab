@@ -1,15 +1,15 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "version": "1.5.2",
+        "version": "1.5.8",
         "title": "Unified Shipment Tracking API",
-        "contact": {
-            "name": "Support",
-            "url": "https://developer.dhl.com/help-center"
-        },
-        "description": "### DHL Shipment Tracking API\nThe unified DHL tracking experience.\nDetailed documentation and release notes are available at https://developer.dhl/api-reference/shipment-tracking."
+        "description": "\nThe Shipment Tracking API provides up-to-the-minute shipment status reports. Users of this API can:\n\n * Retrieve tracking information for shipments\n\n * Identify the Deutsche Post DHL (DP DHL) service provider involved with the shipment\n\n * Verify DP DHL is using the correct delivery address. This can reduce the number of misdelivered shipments\n\n### Note ###\nDate and Time always conform to the ISO 8601 format e.g.: 2017-06-21T14:07:17+2:00, 2017-06-21T14:07:00Z (zoned date time) or 2017-06-21T14:07:17 (date time) or 2017-06-21 (date).\nIf no time zone information is provided then time zone should be interpreted as in the place of the respective shipment event."
     },
     "servers": [
+        {
+            "url": "https://api-sandbox.dhl.com/track",
+            "description": "Test server"
+        },
         {
             "url": "https://api-eu.dhl.com/track",
             "description": "Production server"
@@ -51,12 +51,17 @@
                 ],
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "DHL-API-Key": []
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Shipments information for given trackingNumber were found and retrieved",
+                        "headers": {
+                            "correlation-id": {
+                                "$ref": "#/components/headers/correlation-id"
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -72,6 +77,11 @@
                     },
                     "404": {
                         "description": "Shipment was not found",
+                        "headers": {
+                            "correlation-id": {
+                                "$ref": "#/components/headers/correlation-id"
+                            }
+                        },
                         "content": {
                             "application/problem+json": {
                                 "schema": {
@@ -85,90 +95,6 @@
         }
     },
     "components": {
-        "securitySchemes": {
-            "ApiKeyAuth": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "DHL-API-Key"
-            }
-        },
-        "parameters": {
-            "trackingNumber": {
-                "name": "trackingNumber",
-                "in": "query",
-                "description": "The tracking number of the shipment for which to return the information.",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                }
-            },
-            "service": {
-                "name": "service",
-                "in": "query",
-                "description": "Hint which service (provider) should be used to resolve the tracking number.",
-                "required": false,
-                "schema": {
-                    "$ref": "#/components/schemas/Service"
-                }
-            },
-            "language": {
-                "name": "language",
-                "in": "query",
-                "description": "ISO 639-1 2-character language code for the response. This parameter serves as an indication of the client preferences ONLY. Language availability depends on the service used. The actual response language is indicated by the Content-Language header.",
-                "required": false,
-                "schema": {
-                    "type": "string",
-                    "default": "en"
-                }
-            },
-            "requesterCountryCode": {
-                "name": "requesterCountryCode",
-                "in": "query",
-                "description": "Optional [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code represents country of the consumer of the API response. It optimizes the return of the API response.",
-                "required": false,
-                "schema": {
-                    "type": "string"
-                }
-            },
-            "originCountryCode": {
-                "name": "originCountryCode",
-                "in": "query",
-                "description": "Optional [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code of the shipment origin to further qualify the shipment tracking number (`trackingNumber`) parameter of the request.",
-                "required": false,
-                "schema": {
-                    "type": "string"
-                }
-            },
-            "recipientPostalCode": {
-                "name": "recipientPostalCode",
-                "in": "query",
-                "description": "Postal code of the destination address to\n* further qualify the shipment tracking number (trackingNumber) parameter of the request or\n* parcel-nl and parcel-de services to display full set of data in the response.",
-                "required": false,
-                "schema": {
-                    "type": "string"
-                }
-            },
-            "offset": {
-                "name": "offset",
-                "in": "query",
-                "description": "Pagination parameter. Offset from the start of the result set at which to retrieve the remainder of the results (if any).",
-                "required": false,
-                "schema": {
-                    "type": "number",
-                    "default": 0
-                }
-            },
-            "limit": {
-                "name": "limit",
-                "in": "query",
-                "description": "Pagination parameter. Maximal number of results to retireve.",
-                "required": false,
-                "schema": {
-                    "type": "number",
-                    "default": 5
-                }
-            }
-        },
         "schemas": {
             "TrackingShipments": {
                 "description": "Unified tracking response object",
@@ -220,9 +146,6 @@
                 "description": "Unified tracking shipment",
                 "type": "object",
                 "properties": {
-                    "@ttl": {
-                        "$ref": "#/components/schemas/ttl"
-                    },
                     "id": {
                         "description": "Shipment identification tracking number",
                         "type": "string"
@@ -246,12 +169,17 @@
                     "pickUpDate": {
                         "description": "Shipment pickup date",
                         "type": "string",
-                        "format": "date-time"
+                        "format": "iso8601-date-time"
                     },
                     "estimatedTimeOfDelivery": {
                         "description": "Estimated time of delivery",
                         "type": "string",
-                        "format": "date-time"
+                        "format": "iso8601-date-time"
+                    },
+                    "agreedDeliveryDate": {
+                        "description": "Agreed Delivery Date",
+                        "type": "string",
+                        "format": "iso8601-date-time"
                     },
                     "estimatedDeliveryTimeFrame": {
                         "$ref": "#/components/schemas/EstimatedDeliveryTimeFrame"
@@ -304,6 +232,12 @@
                     "carrier": {
                         "$ref": "#/components/schemas/PersonEntity"
                     },
+                    "shipper": {
+                        "$ref": "#/components/schemas/PersonEntity"
+                    },
+                    "consignee": {
+                        "$ref": "#/components/schemas/PersonEntity"
+                    },
                     "proofOfDelivery": {
                         "$ref": "#/components/schemas/ProofOfDelivery"
                     },
@@ -345,17 +279,7 @@
                         }
                     },
                     "valueAddedServices": {
-                        "description": "Services I booked together with my Tracking details",
-                        "type": "object",
-                        "properties": {
-                            "services": {
-                                "description": "List of customer services",
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/components/schemas/ValueAddedService"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/schemas/ValueAddedServices"
                     },
                     "controlledDataCodes": {
                         "description": "Extra Controlled Access Data Codes",
@@ -364,11 +288,23 @@
                             "$ref": "#/components/schemas/ControlledDataCode"
                         }
                     },
+                    "shipmentActivationDate": {
+                        "description": "Shipment Activation date",
+                        "type": "string",
+                        "format": "iso8601-date-time"
+                    },
                     "dgf:routes": {
                         "description": "DHL Global Forwarding routing Details",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/DgfRoute"
+                        }
+                    },
+                    "telemetry": {
+                        "description": "list of all sensor measurements from devices",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Measurement"
                         }
                     }
                 }
@@ -380,7 +316,7 @@
                     "timestamp": {
                         "description": "A combination of date and time of day",
                         "type": "string",
-                        "format": "date-time"
+                        "format": "iso8601-date-time"
                     },
                     "location": {
                         "$ref": "#/components/schemas/SecuredPlace"
@@ -390,6 +326,10 @@
                     },
                     "status": {
                         "description": "Short description of the status - title",
+                        "type": "string"
+                    },
+                    "statusDetailed": {
+                        "description": "Detailed status of the shipment",
                         "type": "string"
                     },
                     "description": {
@@ -430,43 +370,16 @@
                     }
                 ]
             },
-            "ttl": {
-                "description": "Define the TTL value in seconds of shipment between 30 and 365 days",
-                "type": "integer",
-                "format": "int32",
-                "minimum": 2592000,
-                "maximum": 31536000,
-                "default": 15552000
-            },
-            "ProblemDetail": {
-                "description": "A problem detail response",
+            "ValueAddedServices": {
+                "description": "Services I booked together with my Tracking details",
                 "type": "object",
                 "properties": {
-                    "detail": {
-                        "description": "A human-readable explanation specific to this occurrence of the problem",
-                        "example": "Detailed explanation of problem",
-                        "type": "string"
-                    },
-                    "instance": {
-                        "description": "A URI reference that identifies the specific occurrence of the problem",
-                        "example": "https://www.some.uri/issue/400",
-                        "format": "uri",
-                        "type": "string"
-                    },
-                    "status": {
-                        "description": "The HTTP status code",
-                        "example": 400,
-                        "type": "number"
-                    },
-                    "title": {
-                        "description": "A short, human-readable summary of the problem type",
-                        "example": "Something already happen",
-                        "type": "string"
-                    },
-                    "type": {
-                        "description": "An identity of caused exception class",
-                        "example": "SomeException",
-                        "type": "string"
+                    "services": {
+                        "description": "List of customer services",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValueAddedService"
+                        }
                     }
                 }
             },
@@ -480,6 +393,7 @@
                     "ecommerce-apac",
                     "ecommerce-europe",
                     "ecommerce-ppl",
+                    "ecommerce-iberia",
                     "express",
                     "freight",
                     "parcel-de",
@@ -500,6 +414,7 @@
                     "ECP",
                     "ECE",
                     "PPL",
+                    "ECI",
                     "XPR",
                     "FRT",
                     "PAD",
@@ -512,24 +427,15 @@
                     "SVB"
                 ]
             },
-            "SecuredPlace": {
-                "description": "The location of object",
-                "type": "object",
-                "properties": {
-                    "address": {
-                        "$ref": "#/components/schemas/SecuredAddress"
-                    },
-                    "servicePoint": {
-                        "$ref": "#/components/schemas/ServicePoint"
-                    }
-                }
+            "CountryCode": {
+                "description": "Code specifying the country using ISO 3166-1 alpha-2",
+                "type": "string",
+                "format": "country-code",
+                "example": "CZ"
             },
             "SecuredAddress": {
                 "description": "The mailing address secured by policy",
                 "properties": {
-                    "@policy": {
-                        "$ref": "#/components/schemas/SecretPolicy"
-                    },
                     "addressLocality": {
                         "description": "Text specifying the name of the locality, for example a city",
                         "type": "string",
@@ -546,10 +452,7 @@
                         "example": "Prague 11"
                     },
                     "countryCode": {
-                        "description": "Code specifying the country for the address using ISO 3166-1",
-                        "format": "country-code",
-                        "type": "string",
-                        "example": "CZ"
+                        "$ref": "#/components/schemas/CountryCode"
                     },
                     "postalCode": {
                         "description": "Text specifying the postal code for an address",
@@ -560,6 +463,11 @@
                         "description": "The street address expressed as free form text",
                         "type": "string",
                         "example": "Batman Avenue 1040"
+                    },
+                    "addressLine": {
+                        "description": "Text specifying the addressLine, for example an apartment, suite, or floor number",
+                        "type": "string",
+                        "example": "3rd Floor"
                     }
                 }
             },
@@ -573,15 +481,29 @@
                     }
                 }
             },
-            "SecretPolicy": {
-                "description": "A secret policy protecting sensitive information",
+            "SecuredPlace": {
+                "description": "The location of object",
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "$ref": "#/components/schemas/SecuredAddress"
+                    },
+                    "servicePoint": {
+                        "$ref": "#/components/schemas/ServicePoint"
+                    }
+                }
+            },
+            "StatusCode": {
+                "description": "Code of the status (high-level grouping statuses)",
                 "type": "string",
                 "enum": [
-                    "none",
-                    "postal-code"
+                    "delivered",
+                    "failure",
+                    "pre-transit",
+                    "transit",
+                    "unknown"
                 ],
-                "default": "postal-code",
-                "example": "postal-code"
+                "example": "delivered"
             },
             "EstimatedDeliveryTimeFrame": {
                 "description": "A term when shipment is expected to arrive",
@@ -589,12 +511,12 @@
                 "properties": {
                     "estimatedFrom": {
                         "description": "The start date of the estimated time frame",
-                        "format": "date-time",
+                        "format": "iso8601-date-time",
                         "type": "string"
                     },
                     "estimatedThrough": {
                         "description": "The end date of the estimated time frame",
-                        "format": "date-time",
+                        "format": "iso8601-date-time",
                         "type": "string"
                     }
                 }
@@ -620,183 +542,6 @@
                         "description": "Business unit product or service",
                         "type": "string",
                         "example": "Worldwide Priority"
-                    }
-                }
-            },
-            "ProofOfDelivery": {
-                "description": "An acknowledgment that an order successfully arrived at its intended destination",
-                "type": "object",
-                "properties": {
-                    "documentUrl": {
-                        "description": "The link to related electronic proof of delivery document",
-                        "format": "uri",
-                        "type": "string",
-                        "example": "https://webpod.dhl.com/pod?token=510f1359603a768a57af49cf10083f90&language=en"
-                    },
-                    "signatureUrl": {
-                        "description": "The link to related electronic signature",
-                        "format": "uri",
-                        "type": "string"
-                    },
-                    "signed": {
-                        "$ref": "#/components/schemas/PersonEntity"
-                    },
-                    "timestamp": {
-                        "description": "Date and time of related proof of delivery document",
-                        "format": "date-time",
-                        "type": "string",
-                        "example": "2022-10-21T12:30:00"
-                    }
-                }
-            },
-            "PersonEntity": {
-                "description": "A real organization or personal entity, if type is not specified, a Organization implementation is used",
-                "type": "object",
-                "x-field-extra-annotation": "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"@type\", visible = true, defaultImpl = com.dhl.utapi.common.dto.UnknownEntity.class)",
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/UnknownEntity"
-                    },
-                    {
-                        "$ref": "#/components/schemas/Organization"
-                    },
-                    {
-                        "$ref": "#/components/schemas/Company"
-                    },
-                    {
-                        "$ref": "#/components/schemas/Person"
-                    }
-                ],
-                "discriminator": {
-                    "propertyName": "@type",
-                    "mapping": {
-                        "UnknownEntity": "#/components/schemas/UnknownEntity",
-                        "Organization": "#/components/schemas/Organization",
-                        "Company": "#/components/schemas/Company",
-                        "Person": "#/components/schemas/Person"
-                    }
-                }
-            },
-            "Company": {
-                "description": "A business organization",
-                "type": "object",
-                "properties": {
-                    "@type": {
-                        "type": "string",
-                        "default": "Company",
-                        "example": "Company",
-                        "x-field-extra-annotation": "@com.dhl.utapi.common.dto.validation.PersonEntityTypeConstraint"
-                    },
-                    "@policy": {
-                        "default": "postal-code",
-                        "allOf": [
-                            {
-                                "$ref": "#/components/schemas/SecretPolicy"
-                            }
-                        ]
-                    },
-                    "name": {
-                        "description": "The name of the person",
-                        "type": "string",
-                        "example": "Linford Alene"
-                    },
-                    "organizationName": {
-                        "description": "The name of organization",
-                        "type": "string",
-                        "example": "The First Dome Ltd."
-                    }
-                }
-            },
-            "Organization": {
-                "description": "Common organization such as school, club etc.",
-                "type": "object",
-                "properties": {
-                    "@type": {
-                        "type": "string",
-                        "default": "Organization",
-                        "example": "Organization",
-                        "x-field-extra-annotation": "@com.dhl.utapi.common.dto.validation.PersonEntityTypeConstraint"
-                    },
-                    "@policy": {
-                        "default": "postal-code",
-                        "allOf": [
-                            {
-                                "$ref": "#/components/schemas/SecretPolicy"
-                            }
-                        ]
-                    },
-                    "name": {
-                        "description": "The name of the person",
-                        "type": "string",
-                        "example": "Linford Alene"
-                    },
-                    "organizationName": {
-                        "description": "The name of organization",
-                        "type": "string",
-                        "example": "Highgate School and Academy"
-                    }
-                }
-            },
-            "Person": {
-                "description": "A person",
-                "properties": {
-                    "@type": {
-                        "type": "string",
-                        "default": "Person",
-                        "example": "Person",
-                        "x-field-extra-annotation": "@com.dhl.utapi.common.dto.validation.PersonEntityTypeConstraint"
-                    },
-                    "@policy": {
-                        "default": "postal-code",
-                        "allOf": [
-                            {
-                                "$ref": "#/components/schemas/SecretPolicy"
-                            }
-                        ]
-                    },
-                    "familyName": {
-                        "description": "Family name, the last name of a person",
-                        "type": "string"
-                    },
-                    "givenName": {
-                        "description": "Given name, the first name of a person",
-                        "type": "string"
-                    },
-                    "name": {
-                        "description": "The name of the person",
-                        "type": "string",
-                        "example": "Dariel Leola"
-                    }
-                }
-            },
-            "UnknownEntity": {
-                "description": "Technical internal integration object, not intended for direct integration! Use Organization or Person please.",
-                "properties": {
-                    "@type": {
-                        "type": "string",
-                        "default": "UnknownEntity",
-                        "x-field-extra-annotation": "@com.dhl.utapi.common.dto.validation.PersonEntityTypeConstraint"
-                    },
-                    "@policy": {
-                        "default": null,
-                        "nullable": true,
-                        "allOf": [
-                            {
-                                "$ref": "#/components/schemas/SecretPolicy"
-                            }
-                        ]
-                    },
-                    "familyName": {
-                        "type": "string"
-                    },
-                    "givenName": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "organizationName": {
-                        "type": "string"
                     }
                 }
             },
@@ -856,6 +601,169 @@
                     }
                 }
             },
+            "UnknownEntity": {
+                "description": "Technical internal integration object, not intended for direct integration! Use Organization or Person please.",
+                "properties": {
+                    "@type": {
+                        "type": "string",
+                        "default": "UnknownEntity"
+                    },
+                    "familyName": {
+                        "type": "string"
+                    },
+                    "givenName": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "organizationName": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "$ref": "#/components/schemas/SecuredAddress"
+                    }
+                },
+                "required": [
+                    "@type"
+                ]
+            },
+            "Organization": {
+                "description": "A sensitive common organization or company",
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "type": "string",
+                        "default": "Organization",
+                        "example": "Organization"
+                    },
+                    "name": {
+                        "description": "The name of the person",
+                        "type": "string",
+                        "example": "Linford Alene"
+                    },
+                    "organizationName": {
+                        "description": "The name of organization",
+                        "type": "string",
+                        "example": "Highgate School and Academy"
+                    },
+                    "address": {
+                        "$ref": "#/components/schemas/SecuredAddress"
+                    }
+                },
+                "required": [
+                    "@type"
+                ]
+            },
+            "Company": {
+                "description": "A public business organization",
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "type": "string",
+                        "default": "Company",
+                        "example": "Company"
+                    },
+                    "name": {
+                        "description": "The name of the person",
+                        "type": "string",
+                        "example": "Linford Alene"
+                    },
+                    "organizationName": {
+                        "description": "The name of organization",
+                        "type": "string",
+                        "example": "The First Dome Ltd."
+                    },
+                    "address": {
+                        "$ref": "#/components/schemas/SecuredAddress"
+                    }
+                },
+                "required": [
+                    "@type"
+                ]
+            },
+            "Person": {
+                "description": "A person",
+                "properties": {
+                    "@type": {
+                        "type": "string",
+                        "default": "Person",
+                        "example": "Person"
+                    },
+                    "familyName": {
+                        "description": "Family name, the last name of a person",
+                        "type": "string"
+                    },
+                    "givenName": {
+                        "description": "Given name, the first name of a person",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "The name of the person",
+                        "type": "string",
+                        "example": "Dariel Leola"
+                    },
+                    "address": {
+                        "$ref": "#/components/schemas/SecuredAddress"
+                    }
+                },
+                "required": [
+                    "@type"
+                ]
+            },
+            "PersonEntity": {
+                "description": "A real organization or personal entity, if type is not specified, a Organization implementation is used",
+                "type": "object",
+                "oneOf": [
+                    {
+                        "$ref": "#/components/schemas/UnknownEntity"
+                    },
+                    {
+                        "$ref": "#/components/schemas/Organization"
+                    },
+                    {
+                        "$ref": "#/components/schemas/Company"
+                    },
+                    {
+                        "$ref": "#/components/schemas/Person"
+                    }
+                ],
+                "discriminator": {
+                    "propertyName": "@type",
+                    "mapping": {
+                        "UnknownEntity": "#/components/schemas/UnknownEntity",
+                        "Organization": "#/components/schemas/Organization",
+                        "Company": "#/components/schemas/Company",
+                        "Person": "#/components/schemas/Person"
+                    }
+                }
+            },
+            "ProofOfDelivery": {
+                "description": "An acknowledgment that an order successfully arrived at its intended destination",
+                "type": "object",
+                "properties": {
+                    "documentUrl": {
+                        "description": "The link to related electronic proof of delivery document",
+                        "format": "uri",
+                        "type": "string",
+                        "example": "https://webpod.dhl.com/pod?token=510f1359603a768a57af49cf10083f90&language=en"
+                    },
+                    "signatureUrl": {
+                        "description": "The link to related electronic signature",
+                        "format": "uri",
+                        "type": "string"
+                    },
+                    "signed": {
+                        "$ref": "#/components/schemas/PersonEntity"
+                    },
+                    "timestamp": {
+                        "description": "Date and time of related proof of delivery document",
+                        "format": "iso8601-date-time",
+                        "type": "string",
+                        "example": "2022-10-21T12:30:00"
+                    }
+                }
+            },
             "PieceId": {
                 "description": "Identification of item or piece in the shipment",
                 "type": "string"
@@ -891,6 +799,38 @@
                     }
                 }
             },
+            "SecretScope": {
+                "description": "A secret scope of protected or sensitive information",
+                "type": "string",
+                "enum": [
+                    "public",
+                    "secret",
+                    "sensitive"
+                ],
+                "example": "public"
+            },
+            "ReferenceType": {
+                "description": "Type of reference",
+                "type": "string",
+                "enum": [
+                    "container-number",
+                    "customer-confirmation-number",
+                    "customer-reference",
+                    "domestic-consignment-id",
+                    "ecommerce-number",
+                    "housebill",
+                    "local-tracking-number",
+                    "masterbill",
+                    "payer-account-number",
+                    "receiver-account-number",
+                    "reference",
+                    "shipment-id",
+                    "shipper-account-number",
+                    "routing-code",
+                    "customer-order-number"
+                ],
+                "example": "customer-confirmation-number"
+            },
             "Reference": {
                 "description": "An indication that refers to related shipment",
                 "type": "object",
@@ -910,36 +850,6 @@
                     "type"
                 ]
             },
-            "ReferenceType": {
-                "description": "Type of reference",
-                "type": "string",
-                "enum": [
-                    "container-number",
-                    "customer-confirmation-number",
-                    "customer-reference",
-                    "domestic-consignment-id",
-                    "ecommerce-number",
-                    "housebill",
-                    "local-tracking-number",
-                    "masterbill",
-                    "payer-account-number",
-                    "receiver-account-number",
-                    "reference",
-                    "shipment-id",
-                    "shipper-account-number"
-                ],
-                "example": "customer-confirmation-number"
-            },
-            "SecretScope": {
-                "description": "A secret scope of protected or sensitive information",
-                "type": "string",
-                "enum": [
-                    "public",
-                    "secret",
-                    "sensitive"
-                ],
-                "example": "public"
-            },
             "ValueAddedService": {
                 "description": "End customer service",
                 "type": "object",
@@ -953,7 +863,8 @@
                             "priority",
                             "extraInsurance",
                             "directInjection",
-                            "cashOnDelivery"
+                            "cashOnDelivery",
+                            "importFees"
                         ]
                     },
                     "serviceCriteria": {
@@ -974,6 +885,36 @@
                     "signatory-name"
                 ],
                 "example": "consignee-city"
+            },
+            "DgfLocation": {
+                "description": "DHL Global Forwarding Location",
+                "type": "object",
+                "properties": {
+                    "dgf:locationName": {
+                        "description": "The name of the location",
+                        "type": "string",
+                        "example": "GOTHENBURG"
+                    }
+                }
+            },
+            "DgfAirport": {
+                "description": "DHL Global Forwarding Airport",
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/DgfLocation"
+                    }
+                ],
+                "properties": {
+                    "dgf:locationCode": {
+                        "description": "Airport of departure/destination in IATA code format",
+                        "type": "string",
+                        "example": "AMS"
+                    },
+                    "countryCode": {
+                        "$ref": "#/components/schemas/CountryCode"
+                    }
+                }
             },
             "DgfRoute": {
                 "description": "DHL Global Forwarding Route",
@@ -998,12 +939,12 @@
                     "dgf:estimatedDepartureDate": {
                         "description": "Flight Estimated Date and Time of Departure",
                         "type": "string",
-                        "format": "date-time"
+                        "format": "iso8601-date-time"
                     },
                     "dgf:estimatedArrivalDate": {
                         "description": "Flight Estimated Date and Time of Arrival",
                         "type": "string",
-                        "format": "date-time"
+                        "format": "iso8601-date-time"
                     },
                     "dgf:placeOfAcceptance": {
                         "$ref": "#/components/schemas/DgfLocation"
@@ -1019,50 +960,191 @@
                     }
                 }
             },
-            "DgfAirport": {
-                "description": "DHL Global Forwarding Airport",
+            "Location": {
+                "description": "location co-ordinates of shipment",
                 "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/DgfLocation"
-                    }
-                ],
                 "properties": {
-                    "dgf:locationCode": {
-                        "description": "Airport of departure/destination in IATA code format",
-                        "type": "string",
-                        "example": "AMS"
+                    "lat": {
+                        "description": "Latitude value",
+                        "type": "number",
+                        "format": "float",
+                        "example": 18.556873
                     },
-                    "countryCode": {
-                        "description": "Airport of departure/destination ISO country code",
-                        "type": "string",
-                        "format": "country-code",
-                        "example": "NL"
+                    "lon": {
+                        "description": "Longitude value",
+                        "type": "number",
+                        "format": "float",
+                        "example": -70.06104
                     }
                 }
             },
-            "DgfLocation": {
-                "description": "DHL Global Forwarding Location",
+            "Humidity": {
+                "description": "Humidity measurement",
                 "type": "object",
                 "properties": {
-                    "dgf:locationName": {
-                        "description": "The name of the location",
+                    "value": {
+                        "description": "Humidity value",
+                        "type": "string"
+                    },
+                    "unit": {
+                        "description": "Unit of measurement",
                         "type": "string",
-                        "example": "GOTHENBURG"
+                        "enum": [
+                            "percentage"
+                        ],
+                        "example": "percentage"
+                    },
+                    "deviceId": {
+                        "description": "Sensor device id measured the humidity",
+                        "type": "string"
                     }
                 }
             },
-            "StatusCode": {
-                "description": "Code of the status (high-level grouping statuses)",
-                "type": "string",
-                "enum": [
-                    "delivered",
-                    "failure",
-                    "pre-transit",
-                    "transit",
-                    "unknown"
-                ],
-                "example": "delivered"
+            "Pressure": {
+                "description": "Pressure measurement",
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "description": "Pressure value",
+                        "type": "string"
+                    },
+                    "unit": {
+                        "description": "Unit of measurement",
+                        "type": "string",
+                        "enum": [
+                            "pascal",
+                            "bar",
+                            "psi"
+                        ],
+                        "example": "pascal"
+                    },
+                    "deviceId": {
+                        "description": "Sensor device id measured the pressure",
+                        "type": "string"
+                    }
+                }
+            },
+            "Temperature": {
+                "description": "Temperature measurement",
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "description": "Temperature value",
+                        "type": "string"
+                    },
+                    "unit": {
+                        "description": "Unit of measurement",
+                        "type": "string",
+                        "enum": [
+                            "celsius",
+                            "fahrenheit",
+                            "kelvin"
+                        ],
+                        "example": "celsius"
+                    },
+                    "deviceId": {
+                        "description": "Sensor device id measured the temperature",
+                        "type": "string"
+                    }
+                }
+            },
+            "Tilt": {
+                "description": "Tilt measurement",
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "description": "Tilt value",
+                        "type": "string"
+                    },
+                    "unit": {
+                        "description": "Unit of measurement",
+                        "type": "string",
+                        "enum": [
+                            "degree",
+                            "radian"
+                        ],
+                        "example": "degree"
+                    },
+                    "deviceId": {
+                        "description": "Sensor device id measured the tilt",
+                        "type": "string"
+                    }
+                }
+            },
+            "Measurement": {
+                "description": "Telemetry measurement details about shipment",
+                "properties": {
+                    "timestamp": {
+                        "description": "Date and time when the telemetry data was created by the origin system",
+                        "type": "string",
+                        "format": "iso8601-date-time"
+                    },
+                    "deviceId": {
+                        "description": "Sensor device id measured the humidity",
+                        "type": "string"
+                    },
+                    "pieceIds": {
+                        "description": "piece ids of shipment",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PieceId"
+                        }
+                    },
+                    "location": {
+                        "$ref": "#/components/schemas/Location"
+                    },
+                    "humidity": {
+                        "$ref": "#/components/schemas/Humidity"
+                    },
+                    "pressure": {
+                        "$ref": "#/components/schemas/Pressure"
+                    },
+                    "temperature": {
+                        "$ref": "#/components/schemas/Temperature"
+                    },
+                    "tilt": {
+                        "$ref": "#/components/schemas/Tilt"
+                    }
+                }
+            },
+            "ProblemDetail": {
+                "description": "A problem detail response",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "description": "A human-readable explanation specific to this occurrence of the problem",
+                        "example": "Detailed explanation of problem",
+                        "type": "string"
+                    },
+                    "instance": {
+                        "description": "A URI reference that identifies the specific occurrence of the problem",
+                        "example": "https://www.some.uri/issue/400",
+                        "format": "uri",
+                        "type": "string"
+                    },
+                    "status": {
+                        "description": "The HTTP status code",
+                        "example": 400,
+                        "type": "number"
+                    },
+                    "title": {
+                        "description": "A short, human-readable summary of the problem type",
+                        "example": "Something already happen",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "An identity of caused exception class",
+                        "example": "SomeException",
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "DHL-API-Key": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "DHL-API-Key"
             }
         },
         "examples": {
@@ -1093,7 +1175,7 @@
                                 }
                             },
                             "status": {
-                                "timestamp": "2023-01-29T16:02:00.000Z",
+                                "timestamp": "2023-01-29T16:02:00",
                                 "location": {
                                     "address": {
                                         "countryCode": "UK",
@@ -1129,7 +1211,7 @@
                             },
                             "events": [
                                 {
-                                    "timestamp": "2023-01-29T16:02:00.000Z",
+                                    "timestamp": "2023-01-29T16:02:00",
                                     "location": {
                                         "address": {
                                             "countryCode": "UK",
@@ -1141,7 +1223,7 @@
                                     "status": "ARRIVED AT CUSTOMS"
                                 },
                                 {
-                                    "timestamp": "2023-01-23T08:52:15.000Z",
+                                    "timestamp": "2023-01-23T08:52:15",
                                     "location": {
                                         "address": {
                                             "countryCode": "US",
@@ -1153,7 +1235,7 @@
                                     "status": "SCANNED INTO SACK/CONTAINER"
                                 },
                                 {
-                                    "timestamp": "2023-01-23T08:52:14.000Z",
+                                    "timestamp": "2023-01-23T08:52:14",
                                     "location": {
                                         "address": {
                                             "countryCode": "US",
@@ -1165,7 +1247,7 @@
                                     "status": "PROCESSING COMPLETED AT ORIGIN"
                                 },
                                 {
-                                    "timestamp": "2023-01-23T08:50:36.000Z",
+                                    "timestamp": "2023-01-23T08:50:36",
                                     "location": {
                                         "address": {
                                             "countryCode": "US",
@@ -1177,7 +1259,7 @@
                                     "status": "CLOSE BAG"
                                 },
                                 {
-                                    "timestamp": "2023-01-20T14:04:18.000Z",
+                                    "timestamp": "2023-01-20T14:04:18",
                                     "location": {
                                         "address": {
                                             "countryCode": "US",
@@ -1189,12 +1271,12 @@
                                     "status": "PROCESSED"
                                 },
                                 {
-                                    "timestamp": "2023-01-20T10:21:25.000Z",
+                                    "timestamp": "2023-01-20T10:21:25",
                                     "statusCode": "pre-transit",
                                     "status": "DHL ECOMMERCE CURRENTLY AWAITING SHIPMENT AND TRACKING WILL BE UPDATED WHEN RECEIVED"
                                 },
                                 {
-                                    "timestamp": "2023-01-18T09:39:28.000Z",
+                                    "timestamp": "2023-01-18T09:39:28",
                                     "location": {
                                         "address": {
                                             "countryCode": "US",
@@ -1206,7 +1288,7 @@
                                     "status": "PACKAGE RECEIVED AT DHL ECOMMERCE DISTRIBUTION CENTER"
                                 },
                                 {
-                                    "timestamp": "2023-01-11T11:58:34.000Z",
+                                    "timestamp": "2023-01-11T11:58:34",
                                     "statusCode": "unknown",
                                     "status": "LABEL CREATED"
                                 }
@@ -1227,6 +1309,231 @@
                         "/track/shipments?trackingNumber=GMDBD8E9CCE94842E495B7&service=ecommerce-europe",
                         "/track/shipments?trackingNumber=GMDBD8E9CCE94842E495B7&service=post-international"
                     ]
+                }
+            },
+            "trackingShipment": {
+                "summary": "Tracking shipment",
+                "value": {
+                    "id": "GMDBD8E9CCE94842E495B7",
+                    "service": "ecommerce",
+                    "origin": {
+                        "address": {
+                            "countryCode": "US",
+                            "postalCode": "84003",
+                            "addressLocality": "AMERICAN FORK"
+                        }
+                    },
+                    "destination": {
+                        "address": {
+                            "countryCode": "GB",
+                            "postalCode": "S87FA",
+                            "addressLocality": "SHEFFIELD"
+                        }
+                    },
+                    "status": {
+                        "timestamp": "2023-01-29T16:02:00",
+                        "location": {
+                            "address": {
+                                "countryCode": "UK",
+                                "postalCode": "HEATHROW",
+                                "addressLocality": "HEATHROW, GB"
+                            }
+                        },
+                        "statusCode": "transit",
+                        "status": "ARRIVED AT CUSTOMS"
+                    },
+                    "details": {
+                        "product": {
+                            "productName": "DHL Parcel Intl Standard"
+                        },
+                        "weight": {
+                            "value": 0.831,
+                            "unitText": "LB"
+                        },
+                        "references": [
+                            {
+                                "number": "GMDBD8E9CCE94842E495B7",
+                                "type": "customer-confirmation-number"
+                            },
+                            {
+                                "number": "2042200157621303",
+                                "type": "ecommerce-number"
+                            },
+                            {
+                                "number": "H01PQA0010751022",
+                                "type": "local-tracking-number"
+                            }
+                        ]
+                    },
+                    "events": [
+                        {
+                            "timestamp": "2023-01-29T16:02:00",
+                            "location": {
+                                "address": {
+                                    "countryCode": "UK",
+                                    "postalCode": "HEATHROW",
+                                    "addressLocality": "HEATHROW, GB"
+                                }
+                            },
+                            "statusCode": "transit",
+                            "status": "ARRIVED AT CUSTOMS"
+                        },
+                        {
+                            "timestamp": "2023-01-23T08:52:15",
+                            "location": {
+                                "address": {
+                                    "countryCode": "US",
+                                    "postalCode": "90601",
+                                    "addressLocality": "Whittier, CA, US"
+                                }
+                            },
+                            "statusCode": "unknown",
+                            "status": "SCANNED INTO SACK/CONTAINER"
+                        },
+                        {
+                            "timestamp": "2023-01-23T08:52:14",
+                            "location": {
+                                "address": {
+                                    "countryCode": "US",
+                                    "postalCode": "90601",
+                                    "addressLocality": "Whittier, CA, US"
+                                }
+                            },
+                            "statusCode": "transit",
+                            "status": "PROCESSING COMPLETED AT ORIGIN"
+                        },
+                        {
+                            "timestamp": "2023-01-23T08:50:36",
+                            "location": {
+                                "address": {
+                                    "countryCode": "US",
+                                    "postalCode": "90601",
+                                    "addressLocality": "Whittier, CA, US"
+                                }
+                            },
+                            "statusCode": "unknown",
+                            "status": "CLOSE BAG"
+                        },
+                        {
+                            "timestamp": "2023-01-20T14:04:18",
+                            "location": {
+                                "address": {
+                                    "countryCode": "US",
+                                    "postalCode": "90601",
+                                    "addressLocality": "Whittier, CA, US"
+                                }
+                            },
+                            "statusCode": "transit",
+                            "status": "PROCESSED"
+                        },
+                        {
+                            "timestamp": "2023-01-20T10:21:25",
+                            "statusCode": "pre-transit",
+                            "status": "DHL ECOMMERCE CURRENTLY AWAITING SHIPMENT AND TRACKING WILL BE UPDATED WHEN RECEIVED"
+                        },
+                        {
+                            "timestamp": "2023-01-18T09:39:28",
+                            "location": {
+                                "address": {
+                                    "countryCode": "US",
+                                    "postalCode": "90601",
+                                    "addressLocality": "Whittier, CA, US"
+                                }
+                            },
+                            "statusCode": "transit",
+                            "status": "PACKAGE RECEIVED AT DHL ECOMMERCE DISTRIBUTION CENTER"
+                        },
+                        {
+                            "timestamp": "2023-01-11T11:58:34",
+                            "statusCode": "unknown",
+                            "status": "LABEL CREATED"
+                        }
+                    ]
+                }
+            }
+        },
+        "parameters": {
+            "trackingNumber": {
+                "name": "trackingNumber",
+                "description": "The tracking number of the shipment for which to return the information.",
+                "required": true,
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "service": {
+                "name": "service",
+                "description": "Hint which service (provider) should be used to resolve the tracking number.",
+                "required": false,
+                "in": "query",
+                "schema": {
+                    "$ref": "#/components/schemas/Service"
+                }
+            },
+            "requesterCountryCode": {
+                "name": "requesterCountryCode",
+                "description": "Optional [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code represents country of the consumer of the API response. It optimizes the return of the API response.",
+                "required": false,
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "originCountryCode": {
+                "name": "originCountryCode",
+                "description": "Optional [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code of the shipment origin to further qualify the shipment tracking number (`trackingNumber`) parameter of the request.",
+                "required": false,
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "recipientPostalCode": {
+                "name": "recipientPostalCode",
+                "description": "Postal code of the destination address to\n* further qualify the shipment tracking number (trackingNumber) parameter of the request or\n* parcel-nl and parcel-de services to display full set of data in the response.",
+                "required": false,
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "language": {
+                "name": "language",
+                "description": "ISO 639-1 2-character language code for the response. This parameter serves as an indication of the client preferences ONLY. Language availability depends on the service used. The actual response language is indicated by the Content-Language header.",
+                "required": false,
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "default": "en"
+                }
+            },
+            "offset": {
+                "name": "offset",
+                "description": "Pagination parameter. Offset from the start of the result set at which to retrieve the remainder of the results (if any).",
+                "required": false,
+                "in": "query",
+                "schema": {
+                    "type": "number",
+                    "default": 0
+                }
+            },
+            "limit": {
+                "name": "limit",
+                "description": "Pagination parameter. Maximal number of results to retireve.",
+                "required": false,
+                "in": "query",
+                "schema": {
+                    "type": "number",
+                    "default": 5
+                }
+            }
+        },
+        "headers": {
+            "correlation-id": {
+                "description": "correlation ID for tracking transaction within UTAPI",
+                "schema": {
+                    "type": "string"
                 }
             }
         }

@@ -1,7 +1,7 @@
 
 # Structural Characteristics of kafka-rest-proxy (REST Admin API)
 
-*Last update: 2026-11-17*
+*Last update: 2026-11-18*
 
 ![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
@@ -24,15 +24,15 @@
 
 ## Structural Information
 
-**Total Paths:** 38
+**Total Paths:** 39
 
-**Query Parameters:** 8
+**Query Parameters:** 9
 
 **Paths by Method:**
 
 | Method | Paths |
 | ------ | ----- |
-| `GET` | 32 |
+| `GET` | 33 |
 | `POST` | 8 |
 | `PUT` | 3 |
 | `PATCH` | 1 |

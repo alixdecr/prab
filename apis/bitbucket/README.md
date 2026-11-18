@@ -1,7 +1,7 @@
 
 # Structural Characteristics of bitbucket (Bitbucket API)
 
-*Last update: 2026-11-17*
+*Last update: 2026-11-18*
 
 ![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
@@ -23,19 +23,19 @@
 
 ## Structural Information
 
-**Total Paths:** 185
+**Total Paths:** 176
 
-**Query Parameters:** 28
+**Query Parameters:** 42
 
 **Paths by Method:**
 
 | Method | Paths |
 | ------ | ----- |
-| `GET` | 171 |
-| `POST` | 48 |
-| `PUT` | 47 |
+| `GET` | 161 |
+| `POST` | 45 |
+| `PUT` | 44 |
 | `PATCH` | 0 |
-| `DELETE` | 53 |
+| `DELETE` | 50 |
 | `HEAD` | 0 |
 | `OPTIONS` | 0 |
 | `TRACE` | 0 |

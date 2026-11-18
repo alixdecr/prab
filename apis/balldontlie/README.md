@@ -1,9 +1,9 @@
 
-# Structural Characteristics of balldontlie (balldontlie)
+# Structural Characteristics of balldontlie (BALLDONTLIE - NBA API)
 
-*Last update: 2026-11-17*
+*Last update: 2026-11-18*
 
-![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.3-brightgreen.svg)
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.1.0-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
@@ -15,23 +15,23 @@
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
-| https://balldontlie.io | online | True |
+| https://api.balldontlie.io | online | True |
 
-**Authentication Methods:** No authentication required
+**Authentication Methods:** ApiKeyAuth
 
-**Rate Limiting:** False (no 429 status code response or rate limiting headers)
+**Rate Limiting:** True (presence of 429 status code response)
 
 ## Structural Information
 
-**Total Paths:** 10
+**Total Paths:** 37
 
-**Query Parameters:** 5
+**Query Parameters:** 39
 
 **Paths by Method:**
 
 | Method | Paths |
 | ------ | ----- |
-| `GET` | 10 |
+| `GET` | 37 |
 | `POST` | 0 |
 | `PUT` | 0 |
 | `PATCH` | 0 |

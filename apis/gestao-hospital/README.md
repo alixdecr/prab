@@ -1,7 +1,7 @@
 
 # Structural Characteristics of gestao-hospital (Sistema de Gestão Hospital API)
 
-*Last update: 2026-11-17*
+*Last update: 2026-11-18*
 
 ![alt text](https://img.shields.io/badge/oas_version-openapi_v3.1.1-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)

@@ -1,4 +1,4 @@
-![alt text](https://img.shields.io/badge/apis-60-blue.svg) ![alt text](https://img.shields.io/badge/reachable_servers-100%25-brightgreen.svg) ![alt text](https://img.shields.io/badge/openapi_v3-100%25-brightgreen.svg) ![alt text](https://img.shields.io/badge/openapi--spec--validator-100%25-brightgreen.svg)
+![alt text](https://img.shields.io/badge/apis-59-blue.svg) ![alt text](https://img.shields.io/badge/reachable_servers-99%25-yellowgreen.svg) ![alt text](https://img.shields.io/badge/openapi_v3-100%25-brightgreen.svg) ![alt text](https://img.shields.io/badge/openapi--spec--validator-95%25-yellowgreen.svg)
 
 # PRAB: Public REST API Benchmark
 
@@ -30,18 +30,11 @@ PRAB contains the following:
 - `apis/`: Folder containing all APIs of the benchmark. Each API has a sub-folder, containing a global overview in `README.md`, an OpenAPI Specification (OAS) in `<api-name>-openapi.json`, and optionally a Postman Collection or other useful files.
 - `legacy/`: Folder containing legacy content (cf. **Legacy** section for more details).
 - `characteristics.json`: File containing the structural characteristics of the APIs.
-- `sources.json` (WIP): File containing the source URLs for the benchmark specifications.
+- `sources.json`: File containing the source URLs for the benchmark specifications along with additional information such as API availability, authentication, pricing, and rate limits.
 - `cli.py`: File containing the main Python code for the CLI.
 - `utils.py`: File containing utility code for the CLI.
 - `requirements.txt`: File containing the Python requirements for the CLI.
 - `STATUS.md`: File containing the latest status of the benchmark. It is separated into different sections: **Unreachable Servers**, **Outdated OAS Formats**, and **OAS Validation Fails**. This content is useful to check for outdated APIs and to update them accordingly.
-
-Work in progress:
-
-- [x] CLI update function
-- [x] CLI filtering function
-- [ ] API pricing information
-- [ ] API sources
 
 ## CLI Setup
 
