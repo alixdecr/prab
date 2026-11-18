@@ -36,7 +36,9 @@ PRAB contains the following:
 - `requirements.txt`: File containing the Python requirements for the CLI.
 - `STATUS.md`: File containing the latest status of the benchmark. It is separated into different sections: **Unreachable Servers**, **Outdated OAS Formats**, and **OAS Validation Fails**. This content is useful to check for outdated APIs and to update them accordingly.
 
-## CLI Setup
+## CLI
+
+PRAB provides a Python CLI to update and filter the current APIs of the benchmark. The CLI can also be used to create entirely new REST API benchmarks by adding new APIs in the `apis/` folder.
 
 The CLI uses Python v3.10 or later. To set it up, enter the following commands in a terminal at the root of the repository:
 
@@ -67,24 +69,30 @@ The CLI uses Python v3.10 or later. To set it up, enter the following commands i
 
     To list available CLI commands, you may use `python cli.py --help`.
 
-5. Example:
+5. Examples:
 
-    For instance, if you add a new API folder in `apis/my-api/` containing `my-api-openapi.json`, you can generate its README and update the benchmark status with:
-
-    ```
-    python cli.py update --only my-api
-    ```
-
-    Or, if you want to update all APIs contained in `apis/`:
+    Updating all benchmark APIs:
 
     ```
     python cli.py update
     ```
 
-    You can also filter APIs based on criteria:
+    Updating only specific benchmark APIs:
 
     ```
-    python cli.py filter --hosted local
+    python cli.py update --only github gitlab spotify
+    ```
+
+    Filtering benchmark APIs based on specific criteria:
+
+    ```
+    python cli.py filter --hosted local --no-auth --max-routes 50 --min-params 10
+    ```
+
+    Converting a YAML API specification into JSON:
+
+    ```
+    python cli.py convert --path apis/my-api/my-api.yaml
     ```
 
 ## Actionable Insights and Guidance on Using the Benchmark
