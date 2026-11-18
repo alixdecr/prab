@@ -379,6 +379,10 @@ def build_parser() -> argparse.ArgumentParser:
     filter_parser.add_argument("--min-params", type=int, metavar="MIN_AMOUNT", help="Filter APIs with a minimum amount of query parameters (inclusive).")
     filter_parser.add_argument("--max-params", type=int, metavar="MAX_AMOUNT",help="Filter APIs with a maximum amount of query parameters (inclusive).")
 
+    # convert parser
+    convert_parser = subparsers.add_parser("convert", help="Convert YAML to JSON.")
+    convert_parser.add_argument("-p", "--path", required=True, help="Path of the file to convert.")
+
     return parser
 
 
@@ -404,7 +408,11 @@ def main(argv: list[str] | None = None) -> None:
         if matches:
             print("\n".join(matches))
         else:
-            print("No API matches the given filter.")
+            print("No API matches the given filter")
+
+    elif args.command == "convert":
+        path = Path(args.path)
+        utils.convert_yaml_to_json(path)
 
 if __name__ == "__main__":
     main()
