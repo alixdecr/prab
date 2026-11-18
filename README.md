@@ -38,8 +38,8 @@ PRAB contains the following:
 
 Work in progress:
 
-- [x] CLI
-- [ ] CLI advanced filtering
+- [x] CLI update function
+- [x] CLI filtering function
 - [ ] API pricing information
 - [ ] API sources
 

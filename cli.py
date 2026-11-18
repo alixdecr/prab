@@ -318,16 +318,41 @@ def filter_apis(criteria: dict) -> list[str]:
         Sorted list of API ids matching the criteria.
     """
 
+    print(f"Filtering APIs with the following criteria: {criteria}")
+
     data = utils.load_json(CHAR_PATH)
     matches = []
 
     for api_id, chars in data.items():
 
+        can_add = True
+
         if criteria.get("hosted"):
-            for server in chars["servers"]:
-                if server["hosted"] == criteria["hosted"]:
-                    matches.append(api_id)
-                    break
+            can_add &= any(server["hosted"] == criteria["hosted"] for server in chars["servers"])
+
+        if criteria.get("no_auth"):
+            can_add &= chars["authentication"] is None
+
+        if criteria.get("no_limit"):
+            can_add &= not chars["rate-limit"]["active"]
+
+        # "is not None" allows 0 as a valid filter value for min or max
+        if criteria.get("min_routes") is not None:
+            can_add &= len(chars["routes"]) >= criteria["min_routes"]
+
+        if criteria.get("max_routes") is not None:
+            can_add &= len(chars["routes"]) <= criteria["max_routes"]
+
+        if criteria.get("min_params") is not None:
+            can_add &= len(chars["query-parameters"]) >= criteria["min_params"]
+
+        if criteria.get("max_params") is not None:
+            can_add &= len(chars["query-parameters"]) <= criteria["max_params"]
+
+        if can_add:
+            matches.append(api_id)
+
+    print(f"Filtered {len(matches)} APIs")
 
     return sorted(matches)
 
@@ -345,8 +370,14 @@ def build_parser() -> argparse.ArgumentParser:
     update_parser.add_argument("-o", "--only", nargs="+", metavar="API_ID", help="Only update the specified APIs.")
 
     # filter parser
-    filter_parser = subparsers.add_parser("filter", help="Filter APIs based on characteristics.")
-    filter_parser.add_argument("--hosted", choices=("local", "online"), help="Filter APIs by hosting (online or local).")
+    filter_parser = subparsers.add_parser("filter", help="Filter APIs by specified criteria.")
+    filter_parser.add_argument("--hosted", choices=("local", "online"), help="Filter APIs by hosting.")
+    filter_parser.add_argument("--no-auth", action="store_true", help="Filter APIs with no authentication.")
+    filter_parser.add_argument("--no-limit", action="store_true", help="Filter APIs with no rate limiting.")
+    filter_parser.add_argument("--min-routes", type=int, metavar="MIN_AMOUNT", help="Filter APIs with a minimum amount of routes (inclusive).")
+    filter_parser.add_argument("--max-routes", type=int, metavar="MAX_AMOUNT",help="Filter APIs with a maximum amount of routes (inclusive).")
+    filter_parser.add_argument("--min-params", type=int, metavar="MIN_AMOUNT", help="Filter APIs with a minimum amount of query parameters (inclusive).")
+    filter_parser.add_argument("--max-params", type=int, metavar="MAX_AMOUNT",help="Filter APIs with a maximum amount of query parameters (inclusive).")
 
     return parser
 
