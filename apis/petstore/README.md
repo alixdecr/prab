@@ -3,7 +3,7 @@
 
 *Last update: 2026-11-19*
 
-![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.2-brightgreen.svg)
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.4-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
@@ -15,7 +15,7 @@
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
-| http://localhost:8080/api/v3 | local | True |
+| https://petstore3.swagger.io/api/v3 | online | True |
 
 **Authentication Methods:** petstore_auth, api_key
 

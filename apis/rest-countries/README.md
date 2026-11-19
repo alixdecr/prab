@@ -1,9 +1,9 @@
 
-# Structural Characteristics of rest-countries (REST countries API)
+# Structural Characteristics of rest-countries (REST Countries API)
 
 *Last update: 2026-11-19*
 
-![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
+![alt text](https://img.shields.io/badge/oas_version-openapi_v3.1.1-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
@@ -15,23 +15,23 @@
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
-| http://localhost:8080/rest | local | True |
+| https://api.restcountries.com | online | True |
 
-**Authentication Methods:** No authentication required
+**Authentication Methods:** ApiKey
 
-**Rate Limiting:** False (no 429 status code response or rate limiting headers)
+**Rate Limiting:** True (presence of 429 status code response)
 
 ## Structural Information
 
-**Total Paths:** 22
+**Total Paths:** 4
 
-**Query Parameters:** 3
+**Query Parameters:** 6
 
 **Paths by Method:**
 
 | Method | Paths |
 | ------ | ----- |
-| `GET` | 22 |
+| `GET` | 4 |
 | `POST` | 0 |
 | `PUT` | 0 |
 | `PATCH` | 0 |

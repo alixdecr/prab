@@ -1,5 +1,5 @@
 
-# Structural Characteristics of omdb (OMDb)
+# Structural Characteristics of omdb (OMDb API)
 
 *Last update: 2026-11-19*
 
@@ -15,8 +15,8 @@
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
-| http://www.omdbapi.com/ | online | True |
-| https://www.omdbapi.com/ | online | True |
+| https://www.omdbapi.com | online | True |
+| http://www.omdbapi.com | online | True |
 
 **Authentication Methods:** No authentication required
 
@@ -26,7 +26,7 @@
 
 **Total Paths:** 1
 
-**Query Parameters:** 11
+**Query Parameters:** 13
 
 **Paths by Method:**
 

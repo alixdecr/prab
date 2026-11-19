@@ -15,7 +15,7 @@
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
-| http://localhost:8000 | local | True |
+| http://localhost:80 | local | True |
 
 **Authentication Methods:** No authentication required
 
@@ -23,7 +23,7 @@
 
 ## Structural Information
 
-**Total Paths:** 8
+**Total Paths:** 10
 
 **Query Parameters:** 0
 
@@ -31,8 +31,8 @@
 
 | Method | Paths |
 | ------ | ----- |
-| `GET` | 7 |
-| `POST` | 1 |
+| `GET` | 8 |
+| `POST` | 2 |
 | `PUT` | 3 |
 | `PATCH` | 0 |
 | `DELETE` | 0 |

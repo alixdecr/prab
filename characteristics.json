@@ -20801,7 +20801,7 @@
             "tfaToken"
         ]
     },
-    "management-api-for-apache-cassandra": {
+    "management-cassandra": {
         "title": "Management API for Apache Cassandra\u2122",
         "oas": {
             "validated": true,
@@ -20809,14 +20809,7 @@
             "family": "openapi",
             "version": "3.0.1"
         },
-        "servers": [
-            {
-                "url": "http://localhost:8080",
-                "hosted": "local",
-                "available": true,
-                "error": null
-            }
-        ],
+        "servers": [],
         "authentication": null,
         "rate-limit": {
             "active": false,
@@ -20854,6 +20847,14 @@
             {
                 "method": "get",
                 "path": "/api/v0/metadata/versions/release"
+            },
+            {
+                "method": "delete",
+                "path": "/api/v0/ops/auth/role"
+            },
+            {
+                "method": "get",
+                "path": "/api/v0/ops/auth/role"
             },
             {
                 "method": "post",
@@ -21004,6 +21005,14 @@
                 "path": "/api/v0/probes/readiness"
             },
             {
+                "method": "delete",
+                "path": "/api/v1/ops/auth/identity_to_role"
+            },
+            {
+                "method": "post",
+                "path": "/api/v1/ops/auth/identity_to_role"
+            },
+            {
                 "method": "post",
                 "path": "/api/v1/ops/keyspace/cleanup"
             },
@@ -21081,6 +21090,7 @@
             "password",
             "profile",
             "rawLevel",
+            "replace_consistency",
             "replace_ip",
             "rf_per_dc",
             "snapshotNames",
@@ -21913,539 +21923,120 @@
         ]
     },
     "ohsome": {
-        "title": "ohsome API",
+        "title": "ohsome-api",
         "oas": {
             "validated": true,
             "error": null,
             "family": "openapi",
-            "version": "3.1.1"
+            "version": "3.1.0"
         },
         "servers": [
             {
-                "url": "http://api.ohsome.org/v1",
+                "url": "/ohsome-api/v2",
                 "hosted": "online",
-                "available": true,
-                "error": null
+                "available": false,
+                "error": "MissingSchema"
             }
         ],
-        "authentication": null,
+        "authentication": [
+            "APIKey"
+        ],
         "rate-limit": {
-            "active": false,
-            "reason": "no 429 status code response or rate limiting headers"
+            "active": true,
+            "reason": "presence of 429 status code response"
         },
         "routes": [
             {
-                "method": "get",
-                "path": "/elements/area"
-            },
-            {
                 "method": "post",
-                "path": "/elements/area"
+                "path": "/filter/validation"
             },
             {
                 "method": "get",
-                "path": "/elements/area/density"
-            },
-            {
-                "method": "post",
-                "path": "/elements/area/density"
+                "path": "/filter/validation"
             },
             {
                 "method": "get",
-                "path": "/elements/area/density/groupBy/boundary"
+                "path": "/metadata"
             },
             {
                 "method": "post",
-                "path": "/elements/area/density/groupBy/boundary"
+                "path": "/stats/features/{measure}.json"
+            },
+            {
+                "method": "post",
+                "path": "/stats/features/{measure}.csv"
+            },
+            {
+                "method": "post",
+                "path": "/stats/contributors/count.json"
+            },
+            {
+                "method": "post",
+                "path": "/stats/contributors/count.csv"
+            },
+            {
+                "method": "post",
+                "path": "/stats/contributions/count.json"
+            },
+            {
+                "method": "post",
+                "path": "/stats/contributions/count.csv"
+            },
+            {
+                "method": "post",
+                "path": "/stats/currentness/{measure}.json"
+            },
+            {
+                "method": "post",
+                "path": "/stats/currentness/{measure}.csv"
+            },
+            {
+                "method": "post",
+                "path": "/extraction/features.parquet"
             },
             {
                 "method": "get",
-                "path": "/elements/area/density/groupBy/boundary/groupBy/tag"
+                "path": "/extraction/features.parquet"
             },
             {
                 "method": "post",
-                "path": "/elements/area/density/groupBy/boundary/groupBy/tag"
+                "path": "/extraction/collections.parquet"
             },
             {
                 "method": "get",
-                "path": "/elements/area/density/groupBy/tag"
+                "path": "/extraction/collections.parquet"
             },
             {
                 "method": "post",
-                "path": "/elements/area/density/groupBy/tag"
+                "path": "/extraction/collections_members.parquet"
             },
             {
                 "method": "get",
-                "path": "/elements/area/density/groupBy/type"
+                "path": "/extraction/collections_members.parquet"
             },
             {
                 "method": "post",
-                "path": "/elements/area/density/groupBy/type"
+                "path": "/extraction/contributions.parquet"
             },
             {
                 "method": "get",
-                "path": "/elements/area/groupBy/boundary"
-            },
-            {
-                "method": "post",
-                "path": "/elements/area/groupBy/boundary"
+                "path": "/extraction/contributions.parquet"
             },
             {
                 "method": "get",
-                "path": "/elements/area/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/area/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/area/groupBy/key"
-            },
-            {
-                "method": "post",
-                "path": "/elements/area/groupBy/key"
-            },
-            {
-                "method": "get",
-                "path": "/elements/area/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/area/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/area/groupBy/type"
-            },
-            {
-                "method": "post",
-                "path": "/elements/area/groupBy/type"
-            },
-            {
-                "method": "get",
-                "path": "/elements/area/ratio"
-            },
-            {
-                "method": "post",
-                "path": "/elements/area/ratio"
-            },
-            {
-                "method": "get",
-                "path": "/elements/area/ratio/groupBy/boundary"
-            },
-            {
-                "method": "post",
-                "path": "/elements/area/ratio/groupBy/boundary"
-            },
-            {
-                "method": "get",
-                "path": "/elements/count"
-            },
-            {
-                "method": "post",
-                "path": "/elements/count"
-            },
-            {
-                "method": "get",
-                "path": "/elements/count/density"
-            },
-            {
-                "method": "post",
-                "path": "/elements/count/density"
-            },
-            {
-                "method": "get",
-                "path": "/elements/count/density/groupBy/boundary"
-            },
-            {
-                "method": "post",
-                "path": "/elements/count/density/groupBy/boundary"
-            },
-            {
-                "method": "get",
-                "path": "/elements/count/density/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/count/density/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/count/density/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/count/density/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/count/density/groupBy/type"
-            },
-            {
-                "method": "post",
-                "path": "/elements/count/density/groupBy/type"
-            },
-            {
-                "method": "get",
-                "path": "/elements/count/groupBy/boundary"
-            },
-            {
-                "method": "post",
-                "path": "/elements/count/groupBy/boundary"
-            },
-            {
-                "method": "get",
-                "path": "/elements/count/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/count/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/count/groupBy/key"
-            },
-            {
-                "method": "post",
-                "path": "/elements/count/groupBy/key"
-            },
-            {
-                "method": "get",
-                "path": "/elements/count/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/count/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/count/groupBy/type"
-            },
-            {
-                "method": "post",
-                "path": "/elements/count/groupBy/type"
-            },
-            {
-                "method": "get",
-                "path": "/elements/count/ratio"
-            },
-            {
-                "method": "post",
-                "path": "/elements/count/ratio"
-            },
-            {
-                "method": "get",
-                "path": "/elements/count/ratio/groupBy/boundary"
-            },
-            {
-                "method": "post",
-                "path": "/elements/count/ratio/groupBy/boundary"
-            },
-            {
-                "method": "get",
-                "path": "/elements/length"
-            },
-            {
-                "method": "post",
-                "path": "/elements/length"
-            },
-            {
-                "method": "get",
-                "path": "/elements/length/density"
-            },
-            {
-                "method": "post",
-                "path": "/elements/length/density"
-            },
-            {
-                "method": "get",
-                "path": "/elements/length/density/groupBy/boundary"
-            },
-            {
-                "method": "post",
-                "path": "/elements/length/density/groupBy/boundary"
-            },
-            {
-                "method": "get",
-                "path": "/elements/length/density/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/length/density/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/length/density/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/length/density/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/length/density/groupBy/type"
-            },
-            {
-                "method": "post",
-                "path": "/elements/length/density/groupBy/type"
-            },
-            {
-                "method": "get",
-                "path": "/elements/length/groupBy/boundary"
-            },
-            {
-                "method": "post",
-                "path": "/elements/length/groupBy/boundary"
-            },
-            {
-                "method": "get",
-                "path": "/elements/length/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/length/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/length/groupBy/key"
-            },
-            {
-                "method": "post",
-                "path": "/elements/length/groupBy/key"
-            },
-            {
-                "method": "get",
-                "path": "/elements/length/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/length/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/length/groupBy/type"
-            },
-            {
-                "method": "post",
-                "path": "/elements/length/groupBy/type"
-            },
-            {
-                "method": "get",
-                "path": "/elements/length/ratio"
-            },
-            {
-                "method": "post",
-                "path": "/elements/length/ratio"
-            },
-            {
-                "method": "get",
-                "path": "/elements/length/ratio/groupBy/boundary"
-            },
-            {
-                "method": "post",
-                "path": "/elements/length/ratio/groupBy/boundary"
-            },
-            {
-                "method": "get",
-                "path": "/elements/perimeter"
-            },
-            {
-                "method": "post",
-                "path": "/elements/perimeter"
-            },
-            {
-                "method": "get",
-                "path": "/elements/perimeter/density"
-            },
-            {
-                "method": "post",
-                "path": "/elements/perimeter/density"
-            },
-            {
-                "method": "get",
-                "path": "/elements/perimeter/density/groupBy/boundary"
-            },
-            {
-                "method": "post",
-                "path": "/elements/perimeter/density/groupBy/boundary"
-            },
-            {
-                "method": "get",
-                "path": "/elements/perimeter/density/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/perimeter/density/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/perimeter/density/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/perimeter/density/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/perimeter/density/groupBy/type"
-            },
-            {
-                "method": "post",
-                "path": "/elements/perimeter/density/groupBy/type"
-            },
-            {
-                "method": "get",
-                "path": "/elements/perimeter/groupBy/boundary"
-            },
-            {
-                "method": "post",
-                "path": "/elements/perimeter/groupBy/boundary"
-            },
-            {
-                "method": "get",
-                "path": "/elements/perimeter/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/perimeter/groupBy/boundary/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/perimeter/groupBy/key"
-            },
-            {
-                "method": "post",
-                "path": "/elements/perimeter/groupBy/key"
-            },
-            {
-                "method": "get",
-                "path": "/elements/perimeter/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/elements/perimeter/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/elements/perimeter/groupBy/type"
-            },
-            {
-                "method": "post",
-                "path": "/elements/perimeter/groupBy/type"
-            },
-            {
-                "method": "get",
-                "path": "/elements/perimeter/ratio"
-            },
-            {
-                "method": "post",
-                "path": "/elements/perimeter/ratio"
-            },
-            {
-                "method": "get",
-                "path": "/elements/perimeter/ratio/groupBy/boundary"
-            },
-            {
-                "method": "post",
-                "path": "/elements/perimeter/ratio/groupBy/boundary"
-            },
-            {
-                "method": "get",
-                "path": "/users/count"
-            },
-            {
-                "method": "post",
-                "path": "/users/count"
-            },
-            {
-                "method": "get",
-                "path": "/users/count/density"
-            },
-            {
-                "method": "post",
-                "path": "/users/count/density"
-            },
-            {
-                "method": "get",
-                "path": "/users/count/density/groupBy/boundary"
-            },
-            {
-                "method": "post",
-                "path": "/users/count/density/groupBy/boundary"
-            },
-            {
-                "method": "get",
-                "path": "/users/count/density/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/users/count/density/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/users/count/density/groupBy/type"
-            },
-            {
-                "method": "post",
-                "path": "/users/count/density/groupBy/type"
-            },
-            {
-                "method": "get",
-                "path": "/users/count/groupBy/boundary"
-            },
-            {
-                "method": "post",
-                "path": "/users/count/groupBy/boundary"
-            },
-            {
-                "method": "get",
-                "path": "/users/count/groupBy/key"
-            },
-            {
-                "method": "post",
-                "path": "/users/count/groupBy/key"
-            },
-            {
-                "method": "get",
-                "path": "/users/count/groupBy/tag"
-            },
-            {
-                "method": "post",
-                "path": "/users/count/groupBy/tag"
-            },
-            {
-                "method": "get",
-                "path": "/users/count/groupBy/type"
-            },
-            {
-                "method": "post",
-                "path": "/users/count/groupBy/type"
+                "path": "/health"
             }
         ],
         "query-parameters": [
-            "bboxes",
-            "bcircles",
-            "bpolys",
+            "aoi",
+            "clip",
             "filter",
-            "filter2",
-            "format",
-            "groupByKey",
-            "groupByKeys",
-            "groupByValues",
-            "keys",
-            "keys2",
-            "showMetadata",
-            "time",
-            "timeout",
-            "types",
-            "types2",
-            "values",
-            "values2"
+            "member_filter",
+            "time"
         ]
     },
     "omdb": {
-        "title": "OMDb",
+        "title": "OMDb API",
         "oas": {
             "validated": true,
             "error": null,
@@ -22454,13 +22045,13 @@
         },
         "servers": [
             {
-                "url": "http://www.omdbapi.com/",
+                "url": "https://www.omdbapi.com",
                 "hosted": "online",
                 "available": true,
                 "error": null
             },
             {
-                "url": "https://www.omdbapi.com/",
+                "url": "http://www.omdbapi.com",
                 "hosted": "online",
                 "available": true,
                 "error": null
@@ -22478,6 +22069,9 @@
             }
         ],
         "query-parameters": [
+            "Episode",
+            "Season",
+            "apikey",
             "callback",
             "i",
             "page",
@@ -22485,7 +22079,6 @@
             "r",
             "s",
             "t",
-            "tomatoes",
             "type",
             "v",
             "y"
@@ -22497,7 +22090,7 @@
             "validated": true,
             "error": null,
             "family": "openapi",
-            "version": "3.0.0"
+            "version": "3.1.1"
         },
         "servers": [
             {
@@ -22523,25 +22116,30 @@
             },
             {
                 "method": "get",
+                "path": "/breweries/random"
+            },
+            {
+                "method": "get",
                 "path": "/breweries/search"
             },
             {
                 "method": "get",
-                "path": "/breweries/autocomplete"
-            },
-            {
-                "method": "get",
-                "path": "/breweries/random"
+                "path": "/breweries/meta"
             }
         ],
         "query-parameters": [
             "by_city",
+            "by_country",
             "by_dist",
+            "by_ids",
             "by_name",
             "by_postal",
+            "by_state",
+            "by_type",
             "page",
             "per_page",
             "query",
+            "size",
             "sort"
         ]
     },
@@ -22676,8 +22274,8 @@
     "paypal-invoices": {
         "title": "Invoices",
         "oas": {
-            "validated": true,
-            "error": null,
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "openapi",
             "version": "3.0.3"
         },
@@ -22782,16 +22380,17 @@
             {
                 "method": "delete",
                 "path": "/v2/invoicing/templates/{template_id}"
+            },
+            {
+                "method": "get",
+                "path": "/v2/invoicing/accounting-sync/merchant/connections"
+            },
+            {
+                "method": "get",
+                "path": "/v2/invoicing/accounting-sync/invoices/{id}/connections"
             }
         ],
-        "query-parameters": [
-            "fields",
-            "page",
-            "page_size",
-            "send_to_invoicer",
-            "send_to_recipient",
-            "total_required"
-        ]
+        "query-parameters": []
     },
     "petclinic": {
         "title": "Spring PetClinic",
@@ -22970,12 +22569,12 @@
             "validated": true,
             "error": null,
             "family": "openapi",
-            "version": "3.0.2"
+            "version": "3.0.4"
         },
         "servers": [
             {
-                "url": "http://localhost:8080/api/v3",
-                "hosted": "local",
+                "url": "https://petstore3.swagger.io/api/v3",
+                "hosted": "online",
                 "available": true,
                 "error": null
             }
@@ -23085,7 +22684,7 @@
         },
         "servers": [
             {
-                "url": "http://localhost:8000",
+                "url": "http://localhost:80",
                 "hosted": "local",
                 "available": true,
                 "error": null
@@ -23097,6 +22696,14 @@
             "reason": "no 429 status code response or rate limiting headers"
         },
         "routes": [
+            {
+                "method": "post",
+                "path": "/uaa/users"
+            },
+            {
+                "method": "get",
+                "path": "/uaa/users/current"
+            },
             {
                 "method": "get",
                 "path": "/accounts/{account}"
@@ -23135,11 +22742,11 @@
             },
             {
                 "method": "get",
-                "path": "/notifications/settings/current"
+                "path": "/notifications/recipients/current"
             },
             {
                 "method": "put",
-                "path": "/notifications/settings/current"
+                "path": "/notifications/recipients/current"
             }
         ],
         "query-parameters": []
@@ -23703,10 +23310,27 @@
         "routes": [
             {
                 "method": "get",
-                "path": "/api"
+                "path": "/api/"
+            },
+            {
+                "method": "get",
+                "path": "/api/{version}/"
             }
         ],
-        "query-parameters": []
+        "query-parameters": [
+            "callback",
+            "dl",
+            "exc",
+            "format",
+            "gender",
+            "inc",
+            "nat",
+            "noinfo",
+            "page",
+            "password",
+            "results",
+            "seed"
+        ]
     },
     "realworld-app": {
         "title": "RealWorld Conduit API",
@@ -23734,79 +23358,79 @@
         "routes": [
             {
                 "method": "post",
-                "path": "/api/users"
+                "path": "/users/login"
             },
             {
                 "method": "post",
-                "path": "/api/users/login"
+                "path": "/users"
             },
             {
                 "method": "get",
-                "path": "/api/user"
+                "path": "/user"
             },
             {
                 "method": "put",
-                "path": "/api/user"
+                "path": "/user"
             },
             {
                 "method": "get",
-                "path": "/api/profiles/{username}"
+                "path": "/profiles/{username}"
             },
             {
                 "method": "post",
-                "path": "/api/profiles/{username}/follow"
+                "path": "/profiles/{username}/follow"
             },
             {
                 "method": "delete",
-                "path": "/api/profiles/{username}/follow"
+                "path": "/profiles/{username}/follow"
             },
             {
                 "method": "get",
-                "path": "/api/articles"
+                "path": "/articles/feed"
+            },
+            {
+                "method": "get",
+                "path": "/articles"
             },
             {
                 "method": "post",
-                "path": "/api/articles"
+                "path": "/articles"
             },
             {
                 "method": "get",
-                "path": "/api/articles/feed"
-            },
-            {
-                "method": "get",
-                "path": "/api/articles/{slug}"
+                "path": "/articles/{slug}"
             },
             {
                 "method": "put",
-                "path": "/api/articles/{slug}"
+                "path": "/articles/{slug}"
             },
             {
                 "method": "delete",
-                "path": "/api/articles/{slug}"
-            },
-            {
-                "method": "post",
-                "path": "/api/articles/{slug}/favorite"
-            },
-            {
-                "method": "delete",
-                "path": "/api/articles/{slug}/favorite"
+                "path": "/articles/{slug}"
             },
             {
                 "method": "get",
-                "path": "/api/articles/{slug}/comments"
+                "path": "/articles/{slug}/comments"
             },
             {
                 "method": "post",
-                "path": "/api/articles/{slug}/comments"
+                "path": "/articles/{slug}/comments"
             },
             {
                 "method": "delete",
-                "path": "/api/articles/{slug}/comments/{id}"
+                "path": "/articles/{slug}/comments/{id}"
+            },
+            {
+                "method": "post",
+                "path": "/articles/{slug}/favorite"
+            },
+            {
+                "method": "delete",
+                "path": "/articles/{slug}/favorite"
             },
             {
                 "method": "get",
-                "path": "/api/tags"
+                "path": "/tags"
             }
         ],
         "query-parameters": [
@@ -23822,12 +23446,12 @@
         "oas": {
             "validated": true,
             "error": null,
-            "family": "openapi",
-            "version": "3.1.1"
+            "family": "swagger",
+            "version": "2.0"
         },
         "servers": [
             {
-                "url": "https://refugerestrooms.org/api",
+                "url": "https://www.refugerestrooms.org/api",
                 "hosted": "online",
                 "available": true,
                 "error": null
@@ -23874,198 +23498,363 @@
     "reqres": {
         "title": "ReqRes API",
         "oas": {
-            "validated": true,
-            "error": null,
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "openapi",
             "version": "3.0.3"
         },
         "servers": [
             {
-                "url": "https://reqres.in/api",
+                "url": "https://reqres.in",
                 "hosted": "online",
                 "available": true,
                 "error": null
             }
         ],
-        "authentication": null,
+        "authentication": [
+            "ApiKeyAuth",
+            "BearerAuth"
+        ],
         "rate-limit": {
-            "active": false,
-            "reason": "no 429 status code response or rate limiting headers"
+            "active": true,
+            "reason": "presence of 429 status code response"
         },
         "routes": [
             {
+                "method": "post",
+                "path": "/api/projects/sandbox"
+            },
+            {
                 "method": "get",
-                "path": "/{resource}/{id}"
+                "path": "/api/users"
+            },
+            {
+                "method": "post",
+                "path": "/api/users"
+            },
+            {
+                "method": "get",
+                "path": "/api/users/{id}"
             },
             {
                 "method": "put",
-                "path": "/{resource}/{id}"
-            },
-            {
-                "method": "delete",
-                "path": "/{resource}/{id}"
+                "path": "/api/users/{id}"
             },
             {
                 "method": "patch",
-                "path": "/{resource}/{id}"
+                "path": "/api/users/{id}"
+            },
+            {
+                "method": "delete",
+                "path": "/api/users/{id}"
             },
             {
                 "method": "get",
-                "path": "/{resource}"
+                "path": "/api/unknown"
             },
             {
                 "method": "get",
-                "path": "/users/{id}"
+                "path": "/api/unknown/{id}"
+            },
+            {
+                "method": "post",
+                "path": "/api/register"
+            },
+            {
+                "method": "post",
+                "path": "/api/login"
+            },
+            {
+                "method": "post",
+                "path": "/api/logout"
+            },
+            {
+                "method": "get",
+                "path": "/api/collections"
+            },
+            {
+                "method": "post",
+                "path": "/api/collections"
+            },
+            {
+                "method": "get",
+                "path": "/api/collections/{slug}"
             },
             {
                 "method": "put",
-                "path": "/users/{id}"
+                "path": "/api/collections/{slug}"
             },
             {
                 "method": "delete",
-                "path": "/users/{id}"
-            },
-            {
-                "method": "patch",
-                "path": "/users/{id}"
+                "path": "/api/collections/{slug}"
             },
             {
                 "method": "get",
-                "path": "/users"
+                "path": "/api/collections/{slug}/records"
             },
             {
                 "method": "post",
-                "path": "/login"
+                "path": "/api/collections/{slug}/records"
+            },
+            {
+                "method": "get",
+                "path": "/api/collections/{slug}/records/{recordId}"
+            },
+            {
+                "method": "put",
+                "path": "/api/collections/{slug}/records/{recordId}"
+            },
+            {
+                "method": "patch",
+                "path": "/api/collections/{slug}/records/{recordId}"
+            },
+            {
+                "method": "delete",
+                "path": "/api/collections/{slug}/records/{recordId}"
             },
             {
                 "method": "post",
-                "path": "/register"
+                "path": "/api/app-users/login"
             },
             {
                 "method": "post",
-                "path": "/logout"
+                "path": "/api/app-users/verify"
+            },
+            {
+                "method": "get",
+                "path": "/api/app-users/me"
+            },
+            {
+                "method": "get",
+                "path": "/api/app-users"
+            },
+            {
+                "method": "post",
+                "path": "/api/app-users"
+            },
+            {
+                "method": "get",
+                "path": "/api/app-users/{id}"
+            },
+            {
+                "method": "put",
+                "path": "/api/app-users/{id}"
+            },
+            {
+                "method": "delete",
+                "path": "/api/app-users/{id}"
+            },
+            {
+                "method": "post",
+                "path": "/api/app-users/{id}/sessions/simulate"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/app-users"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/app-users/total"
+            },
+            {
+                "method": "get",
+                "path": "/api/custom/{path}"
+            },
+            {
+                "method": "post",
+                "path": "/api/custom/{path}"
+            },
+            {
+                "method": "put",
+                "path": "/api/custom/{path}"
+            },
+            {
+                "method": "patch",
+                "path": "/api/custom/{path}"
+            },
+            {
+                "method": "delete",
+                "path": "/api/custom/{path}"
+            },
+            {
+                "method": "get",
+                "path": "/app/me"
+            },
+            {
+                "method": "get",
+                "path": "/app/collections"
+            },
+            {
+                "method": "get",
+                "path": "/app/collections/{slug}"
+            },
+            {
+                "method": "get",
+                "path": "/app/collections/{slug}/records"
+            },
+            {
+                "method": "post",
+                "path": "/app/collections/{slug}/records"
+            },
+            {
+                "method": "get",
+                "path": "/app/collections/{slug}/records/{recordId}"
+            },
+            {
+                "method": "put",
+                "path": "/app/collections/{slug}/records/{recordId}"
+            },
+            {
+                "method": "patch",
+                "path": "/app/collections/{slug}/records/{recordId}"
+            },
+            {
+                "method": "delete",
+                "path": "/app/collections/{slug}/records/{recordId}"
+            },
+            {
+                "method": "get",
+                "path": "/agent/v1/health"
+            },
+            {
+                "method": "get",
+                "path": "/agent/v1/users"
+            },
+            {
+                "method": "get",
+                "path": "/agent/v1/users/{id}"
+            },
+            {
+                "method": "post",
+                "path": "/agent/v1/auth/login"
+            },
+            {
+                "method": "post",
+                "path": "/agent/v1/auth/mfa/verify"
+            },
+            {
+                "method": "get",
+                "path": "/agent/v1/orders"
+            },
+            {
+                "method": "get",
+                "path": "/sim/payments/v1/"
+            },
+            {
+                "method": "get",
+                "path": "/agent/v1/chains"
+            },
+            {
+                "method": "post",
+                "path": "/agent/v1/chains"
+            },
+            {
+                "method": "get",
+                "path": "/agent/v1/chains/{name}"
+            },
+            {
+                "method": "delete",
+                "path": "/agent/v1/chains/{name}"
+            },
+            {
+                "method": "delete",
+                "path": "/agent/v1/chains/{name}/state"
+            },
+            {
+                "method": "get",
+                "path": "/agent/v1/trajectories"
+            },
+            {
+                "method": "get",
+                "path": "/agent/v1/trajectories/demo"
+            },
+            {
+                "method": "get",
+                "path": "/agent/v1/trajectories/{run_id}"
+            },
+            {
+                "method": "get",
+                "path": "/agent/v1/trajectories/{run_id}/export"
+            },
+            {
+                "method": "get",
+                "path": "/agent/v1/trajectories/{a}/diff/{b}"
+            },
+            {
+                "method": "get",
+                "path": "/agent/v1/scenarios"
+            },
+            {
+                "method": "get",
+                "path": "/agent/v1/scenarios/{scenario}"
             }
         ],
         "query-parameters": [
+            "created_after",
+            "created_before",
+            "cursor",
+            "data_contains",
+            "expand",
+            "fields",
+            "include_deleted",
+            "limit",
+            "order",
             "page",
-            "per_page"
+            "per_page",
+            "search",
+            "seed",
+            "status",
+            "statuses"
         ]
     },
     "rest-countries": {
-        "title": "REST countries API",
+        "title": "REST Countries API",
         "oas": {
             "validated": true,
             "error": null,
             "family": "openapi",
-            "version": "3.0.0"
+            "version": "3.1.1"
         },
         "servers": [
             {
-                "url": "http://localhost:8080/rest",
-                "hosted": "local",
+                "url": "https://api.restcountries.com",
+                "hosted": "online",
                 "available": true,
                 "error": null
             }
         ],
-        "authentication": null,
+        "authentication": [
+            "ApiKey"
+        ],
         "rate-limit": {
-            "active": false,
-            "reason": "no 429 status code response or rate limiting headers"
+            "active": true,
+            "reason": "presence of 429 status code response"
         },
         "routes": [
             {
                 "method": "get",
-                "path": "/v1/all"
+                "path": "/countries/v5"
             },
             {
                 "method": "get",
-                "path": "/v1/alpha/{alphacode}"
+                "path": "/countries/v5/{aggregate}"
             },
             {
                 "method": "get",
-                "path": "/v1/alpha"
+                "path": "/countries/v5/{property}"
             },
             {
                 "method": "get",
-                "path": "/v1/currency/{currency}"
-            },
-            {
-                "method": "get",
-                "path": "/v1/name/{name}"
-            },
-            {
-                "method": "get",
-                "path": "/v1/callingcode/{callingcode}"
-            },
-            {
-                "method": "get",
-                "path": "/v1/capital/{capital}"
-            },
-            {
-                "method": "get",
-                "path": "/v1/region/{region}"
-            },
-            {
-                "method": "get",
-                "path": "/v1/subregion/{subregion}"
-            },
-            {
-                "method": "get",
-                "path": "/v1/lang/{lang}"
-            },
-            {
-                "method": "get",
-                "path": "/v2/all"
-            },
-            {
-                "method": "get",
-                "path": "/v2/alpha/{alphacode}"
-            },
-            {
-                "method": "get",
-                "path": "/v2/alpha"
-            },
-            {
-                "method": "get",
-                "path": "/v2/currency/{currency}"
-            },
-            {
-                "method": "get",
-                "path": "/v2/name/{name}"
-            },
-            {
-                "method": "get",
-                "path": "/v2/callingcode/{callingcode}"
-            },
-            {
-                "method": "get",
-                "path": "/v2/capital/{capital}"
-            },
-            {
-                "method": "get",
-                "path": "/v2/region/{region}"
-            },
-            {
-                "method": "get",
-                "path": "/v2/subregion/{subregion}"
-            },
-            {
-                "method": "get",
-                "path": "/v2/lang/{lang}"
-            },
-            {
-                "method": "get",
-                "path": "/v2/demonym/{demonym}"
-            },
-            {
-                "method": "get",
-                "path": "/v2/regionalbloc/{regionalbloc}"
+                "path": "/countries/v5/{property}/{value}"
             }
         ],
         "query-parameters": [
-            "codes",
-            "fields",
-            "fullText"
+            "limit",
+            "offset",
+            "pretty",
+            "q",
+            "response_fields",
+            "response_fields_omit"
         ]
     },
     "rest-faults": {
@@ -24128,10 +23917,10 @@
     "rest-ncs": {
         "title": "API for Numerical Case Study (NCS)",
         "oas": {
-            "validated": true,
-            "error": null,
-            "family": "openapi",
-            "version": "3.1.1"
+            "validated": false,
+            "error": "OpenAPIValidationError",
+            "family": "swagger",
+            "version": "2.0"
         },
         "servers": [
             {
@@ -24177,14 +23966,14 @@
     "rest-news": {
         "title": "API for REST News",
         "oas": {
-            "validated": true,
-            "error": null,
-            "family": "openapi",
-            "version": "3.1.1"
+            "validated": false,
+            "error": "OpenAPIValidationError",
+            "family": "swagger",
+            "version": "2.0"
         },
         "servers": [
             {
-                "url": "http://localhost:8080/",
+                "url": "https://localhost:8080/",
                 "hosted": "local",
                 "available": true,
                 "error": null
@@ -24235,8 +24024,8 @@
         "oas": {
             "validated": true,
             "error": null,
-            "family": "openapi",
-            "version": "3.1.1"
+            "family": "swagger",
+            "version": "2.0"
         },
         "servers": [
             {
@@ -24302,19 +24091,12 @@
     "scout-api": {
         "title": "API for Aktivitetsbanken",
         "oas": {
-            "validated": true,
-            "error": null,
-            "family": "openapi",
-            "version": "3.1.1"
+            "validated": false,
+            "error": "DuplicateOperationIDError",
+            "family": "swagger",
+            "version": "2.0"
         },
-        "servers": [
-            {
-                "url": "localhost:8080/api",
-                "hosted": "local",
-                "available": true,
-                "error": null
-            }
-        ],
+        "servers": [],
         "authentication": null,
         "rate-limit": {
             "active": false,
@@ -24904,7 +24686,39 @@
             },
             {
                 "method": "get",
+                "path": "/playlists/{playlist_id}/items"
+            },
+            {
+                "method": "post",
+                "path": "/playlists/{playlist_id}/items"
+            },
+            {
+                "method": "put",
+                "path": "/playlists/{playlist_id}/items"
+            },
+            {
+                "method": "delete",
+                "path": "/playlists/{playlist_id}/items"
+            },
+            {
+                "method": "get",
                 "path": "/me/playlists"
+            },
+            {
+                "method": "post",
+                "path": "/me/playlists"
+            },
+            {
+                "method": "put",
+                "path": "/me/library"
+            },
+            {
+                "method": "delete",
+                "path": "/me/library"
+            },
+            {
+                "method": "get",
+                "path": "/me/library/contains"
             },
             {
                 "method": "get",
@@ -25354,6 +25168,10 @@
                 "path": "/v1/accounts/{account}/reject"
             },
             {
+                "method": "post",
+                "path": "/v1/accounts/{account}/unreject"
+            },
+            {
                 "method": "get",
                 "path": "/v1/apple_pay/domains"
             },
@@ -25399,6 +25217,26 @@
             },
             {
                 "method": "get",
+                "path": "/v1/apps/installs"
+            },
+            {
+                "method": "post",
+                "path": "/v1/apps/installs"
+            },
+            {
+                "method": "get",
+                "path": "/v1/apps/installs/{id}"
+            },
+            {
+                "method": "post",
+                "path": "/v1/apps/installs/{id}"
+            },
+            {
+                "method": "post",
+                "path": "/v1/apps/installs/{id}/uninstall"
+            },
+            {
+                "method": "get",
                 "path": "/v1/apps/secrets"
             },
             {
@@ -25424,6 +25262,14 @@
             {
                 "method": "get",
                 "path": "/v1/balance/history/{id}"
+            },
+            {
+                "method": "get",
+                "path": "/v1/balance_settings"
+            },
+            {
+                "method": "post",
+                "path": "/v1/balance_settings"
             },
             {
                 "method": "get",
@@ -25492,6 +25338,26 @@
             {
                 "method": "post",
                 "path": "/v1/billing/credit_grants/{id}/void"
+            },
+            {
+                "method": "get",
+                "path": "/v1/billing/feedback_options"
+            },
+            {
+                "method": "post",
+                "path": "/v1/billing/feedback_options"
+            },
+            {
+                "method": "get",
+                "path": "/v1/billing/feedback_options/{id}"
+            },
+            {
+                "method": "post",
+                "path": "/v1/billing/feedback_options/{id}"
+            },
+            {
+                "method": "post",
+                "path": "/v1/billing/feedback_options/{id}/deactivate"
             },
             {
                 "method": "post",
@@ -25986,6 +25852,10 @@
                 "path": "/v1/exchange_rates/{rate_id}"
             },
             {
+                "method": "post",
+                "path": "/v1/external_accounts/{id}"
+            },
+            {
                 "method": "get",
                 "path": "/v1/file_links"
             },
@@ -26103,6 +25973,14 @@
             },
             {
                 "method": "get",
+                "path": "/v1/invoice_payments"
+            },
+            {
+                "method": "get",
+                "path": "/v1/invoice_payments/{invoice_payment}"
+            },
+            {
+                "method": "get",
                 "path": "/v1/invoice_rendering_templates"
             },
             {
@@ -26154,14 +26032,6 @@
                 "path": "/v1/invoices/search"
             },
             {
-                "method": "get",
-                "path": "/v1/invoices/upcoming"
-            },
-            {
-                "method": "get",
-                "path": "/v1/invoices/upcoming/lines"
-            },
-            {
                 "method": "delete",
                 "path": "/v1/invoices/{invoice}"
             },
@@ -26176,6 +26046,10 @@
             {
                 "method": "post",
                 "path": "/v1/invoices/{invoice}/add_lines"
+            },
+            {
+                "method": "post",
+                "path": "/v1/invoices/{invoice}/attach_payment"
             },
             {
                 "method": "post",
@@ -26375,6 +26249,14 @@
             },
             {
                 "method": "get",
+                "path": "/v1/payment_attempt_records"
+            },
+            {
+                "method": "get",
+                "path": "/v1/payment_attempt_records/{id}"
+            },
+            {
+                "method": "get",
                 "path": "/v1/payment_intents"
             },
             {
@@ -26392,6 +26274,10 @@
             {
                 "method": "post",
                 "path": "/v1/payment_intents/{intent}"
+            },
+            {
+                "method": "get",
+                "path": "/v1/payment_intents/{intent}/amount_details_line_items"
             },
             {
                 "method": "post",
@@ -26499,6 +26385,42 @@
             },
             {
                 "method": "get",
+                "path": "/v1/payment_records"
+            },
+            {
+                "method": "post",
+                "path": "/v1/payment_records/report_payment"
+            },
+            {
+                "method": "get",
+                "path": "/v1/payment_records/{id}"
+            },
+            {
+                "method": "post",
+                "path": "/v1/payment_records/{id}/report_payment_attempt"
+            },
+            {
+                "method": "post",
+                "path": "/v1/payment_records/{id}/report_payment_attempt_canceled"
+            },
+            {
+                "method": "post",
+                "path": "/v1/payment_records/{id}/report_payment_attempt_failed"
+            },
+            {
+                "method": "post",
+                "path": "/v1/payment_records/{id}/report_payment_attempt_guaranteed"
+            },
+            {
+                "method": "post",
+                "path": "/v1/payment_records/{id}/report_payment_attempt_informational"
+            },
+            {
+                "method": "post",
+                "path": "/v1/payment_records/{id}/report_refund"
+            },
+            {
+                "method": "get",
                 "path": "/v1/payouts"
             },
             {
@@ -26560,6 +26482,22 @@
             {
                 "method": "post",
                 "path": "/v1/prices/{price}"
+            },
+            {
+                "method": "get",
+                "path": "/v1/product_catalog/trial_offers"
+            },
+            {
+                "method": "post",
+                "path": "/v1/product_catalog/trial_offers"
+            },
+            {
+                "method": "get",
+                "path": "/v1/product_catalog/trial_offers/{id}"
+            },
+            {
+                "method": "post",
+                "path": "/v1/product_catalog/trial_offers/{id}"
             },
             {
                 "method": "get",
@@ -26664,6 +26602,10 @@
             {
                 "method": "get",
                 "path": "/v1/radar/early_fraud_warnings/{early_fraud_warning}"
+            },
+            {
+                "method": "post",
+                "path": "/v1/radar/payment_evaluations"
             },
             {
                 "method": "get",
@@ -26802,6 +26744,10 @@
                 "path": "/v1/shipping_rates/{shipping_rate_token}"
             },
             {
+                "method": "post",
+                "path": "/v1/sigma/saved_queries/{id}"
+            },
+            {
                 "method": "get",
                 "path": "/v1/sigma/scheduled_query_runs"
             },
@@ -26859,14 +26805,6 @@
             },
             {
                 "method": "get",
-                "path": "/v1/subscription_items/{subscription_item}/usage_record_summaries"
-            },
-            {
-                "method": "post",
-                "path": "/v1/subscription_items/{subscription_item}/usage_records"
-            },
-            {
-                "method": "get",
                 "path": "/v1/subscription_schedules"
             },
             {
@@ -26919,7 +26857,19 @@
             },
             {
                 "method": "post",
+                "path": "/v1/subscriptions/{subscription}/migrate"
+            },
+            {
+                "method": "post",
+                "path": "/v1/subscriptions/{subscription}/pause"
+            },
+            {
+                "method": "post",
                 "path": "/v1/subscriptions/{subscription}/resume"
+            },
+            {
+                "method": "get",
+                "path": "/v1/tax/associations/find"
             },
             {
                 "method": "post",
@@ -26932,6 +26882,18 @@
             {
                 "method": "get",
                 "path": "/v1/tax/calculations/{calculation}/line_items"
+            },
+            {
+                "method": "get",
+                "path": "/v1/tax/locations"
+            },
+            {
+                "method": "post",
+                "path": "/v1/tax/locations"
+            },
+            {
+                "method": "get",
+                "path": "/v1/tax/locations/{location}"
             },
             {
                 "method": "get",
@@ -27058,6 +27020,10 @@
                 "path": "/v1/terminal/locations/{location}"
             },
             {
+                "method": "post",
+                "path": "/v1/terminal/onboarding_links"
+            },
+            {
                 "method": "get",
                 "path": "/v1/terminal/readers"
             },
@@ -27083,6 +27049,18 @@
             },
             {
                 "method": "post",
+                "path": "/v1/terminal/readers/{reader}/collect_inputs"
+            },
+            {
+                "method": "post",
+                "path": "/v1/terminal/readers/{reader}/collect_payment_method"
+            },
+            {
+                "method": "post",
+                "path": "/v1/terminal/readers/{reader}/confirm_payment_intent"
+            },
+            {
+                "method": "post",
                 "path": "/v1/terminal/readers/{reader}/process_payment_intent"
             },
             {
@@ -27096,6 +27074,10 @@
             {
                 "method": "post",
                 "path": "/v1/terminal/readers/{reader}/set_reader_display"
+            },
+            {
+                "method": "post",
+                "path": "/v1/terminal/refunds"
             },
             {
                 "method": "post",
@@ -27120,6 +27102,10 @@
             {
                 "method": "post",
                 "path": "/v1/test_helpers/issuing/authorizations/{authorization}/finalize_amount"
+            },
+            {
+                "method": "post",
+                "path": "/v1/test_helpers/issuing/authorizations/{authorization}/fraud_challenges/respond"
             },
             {
                 "method": "post",
@@ -27167,6 +27153,10 @@
             },
             {
                 "method": "post",
+                "path": "/v1/test_helpers/issuing/settlements/{settlement}/complete"
+            },
+            {
+                "method": "post",
                 "path": "/v1/test_helpers/issuing/transactions/create_force_capture"
             },
             {
@@ -27184,6 +27174,14 @@
             {
                 "method": "post",
                 "path": "/v1/test_helpers/terminal/readers/{reader}/present_payment_method"
+            },
+            {
+                "method": "post",
+                "path": "/v1/test_helpers/terminal/readers/{reader}/succeed_input_collection"
+            },
+            {
+                "method": "post",
+                "path": "/v1/test_helpers/terminal/readers/{reader}/timeout_input_collection"
             },
             {
                 "method": "get",
@@ -27256,6 +27254,26 @@
             {
                 "method": "post",
                 "path": "/v1/test_helpers/treasury/received_debits"
+            },
+            {
+                "method": "get",
+                "path": "/v1/three_d_secure/authentications"
+            },
+            {
+                "method": "post",
+                "path": "/v1/three_d_secure/authentications"
+            },
+            {
+                "method": "get",
+                "path": "/v1/three_d_secure/authentications/{authentication}"
+            },
+            {
+                "method": "post",
+                "path": "/v1/three_d_secure/authentications/{authentication}/cancel"
+            },
+            {
+                "method": "post",
+                "path": "/v1/three_d_secure/authentications/{authentication}/submit"
             },
             {
                 "method": "post",
@@ -27356,6 +27374,10 @@
             {
                 "method": "post",
                 "path": "/v1/treasury/financial_accounts/{financial_account}"
+            },
+            {
+                "method": "post",
+                "path": "/v1/treasury/financial_accounts/{financial_account}/close"
             },
             {
                 "method": "get",
@@ -27474,7 +27496,9 @@
             "alias",
             "allow_redisplay",
             "amount",
+            "app",
             "application",
+            "approval_required",
             "archived",
             "arrival_date",
             "attach_to_self",
@@ -27482,6 +27506,7 @@
             "canceled_at",
             "card",
             "cardholder",
+            "channel",
             "charge",
             "client_reference_id",
             "client_secret",
@@ -27491,17 +27516,20 @@
             "contains",
             "coupon",
             "created",
+            "created_after",
+            "created_before",
+            "created_by",
             "credit_amount",
             "credit_grant",
             "currency",
             "current_period_end",
             "current_period_start",
             "customer",
+            "customer_account",
             "customer_details",
             "delivery_success",
             "destination",
             "device_type",
-            "discounts",
             "domain_name",
             "due_date",
             "effective_at",
@@ -27520,10 +27548,8 @@
             "ids",
             "inclusive",
             "invoice",
-            "invoice_items",
             "is_account_default",
             "is_default",
-            "issuer",
             "last4",
             "limit",
             "lines",
@@ -27536,22 +27562,23 @@
             "meter",
             "name",
             "object",
-            "on_behalf_of",
             "order_by",
             "out_of_band_amount",
             "owner",
             "ownership",
             "page",
+            "payment",
             "payment_intent",
             "payment_link",
             "payment_method",
+            "payment_record",
             "payout",
             "pending",
             "personalization_design",
             "phone_number",
             "preferences",
-            "preview_mode",
             "price",
+            "prices",
             "product",
             "purpose",
             "query",
@@ -27559,14 +27586,13 @@
             "received_credit",
             "received_debit",
             "recurring",
-            "refund",
             "refund_amount",
+            "refunds",
             "related_customer",
+            "related_customer_account",
             "relationship",
             "released_at",
             "resolution",
-            "schedule",
-            "schedule_details",
             "scheduled",
             "scope",
             "serial_number",
@@ -27580,18 +27606,6 @@
             "status",
             "status_transitions",
             "subscription",
-            "subscription_billing_cycle_anchor",
-            "subscription_cancel_at",
-            "subscription_cancel_at_period_end",
-            "subscription_cancel_now",
-            "subscription_default_tax_rates",
-            "subscription_details",
-            "subscription_items",
-            "subscription_proration_behavior",
-            "subscription_proration_date",
-            "subscription_resume_at",
-            "subscription_start_date",
-            "subscription_trial_end",
             "test_clock",
             "transacted_at",
             "transaction",

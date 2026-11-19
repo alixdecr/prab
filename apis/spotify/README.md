@@ -23,7 +23,7 @@
 
 ## Structural Information
 
-**Total Paths:** 68
+**Total Paths:** 71
 
 **Query Parameters:** 66
 
@@ -31,11 +31,11 @@
 
 | Method | Paths |
 | ------ | ----- |
-| `GET` | 59 |
-| `POST` | 5 |
-| `PUT` | 17 |
+| `GET` | 61 |
+| `POST` | 7 |
+| `PUT` | 19 |
 | `PATCH` | 0 |
-| `DELETE` | 8 |
+| `DELETE` | 10 |
 | `HEAD` | 0 |
 | `OPTIONS` | 0 |
 | `TRACE` | 0 |
