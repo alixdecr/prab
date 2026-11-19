@@ -1,207 +1,380 @@
 {
-    "openapi": "3.0.0",
+    "openapi": "3.1.1",
     "info": {
-      "title": "OpenBreweryDB",
-      "description": "![Open Brewery DB Logo](https://github.com/cipherwizard9/openbrewerydb/raw/master/obdb-logo-md.jpg)\n\nThis is the postman collection for [Open Brewery DB API](https://www.openbrewerydb.org/) which is served by a [REST API built with Ruby on Rails](https://github.com/chrisjm/openbrewerydb-rails-api)\n\n## About Open Brewery DB\nOpen Brewery DB is a free dataset and API with public information on breweries, cideries, brewpubs, and bottleshops. The goal of Open Brewery DB is to maintain an open-source, community-driven dataset and provide a public API. It is our belief that public information should be freely accessible for the betterment of the beer community and the happiness of web developers and data analysts.",
-      "version": "1.0.0"
+        "title": "OpenBreweryDB",
+        "version": "1.1.0",
+        "description": "![Open Brewery DB Logo](https://github.com/cipherwizard9/openbrewerydb/raw/master/obdb-logo-md.jpg)\n\nOpen Brewery DB is a free dataset and API with public information on breweries, cideries, brewpubs, and bottleshops. No authentication required.\n\nNeed the whole dataset? Download it directly from https://github.com/openbrewerydb/openbrewerydb instead of enumerating API requests or scraping pages.",
+        "contact": {
+            "name": "Open Brewery DB",
+            "url": "https://www.openbrewerydb.org"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://github.com/openbrewerydb/openbrewerydb-laravel-api/blob/main/LICENSE"
+        }
     },
     "servers": [
-      {
-        "url": "https://api.openbrewerydb.org/v1"
-      }
-    ],
-    "tags": [
-      {
-        "name": "List Breweries",
-        "description": "Returns a list of breweries.\n\n**Note:** For the parameters, you can use underscores or url encoding for spaces."
-      },
-      {
-        "name": "Get Brewery",
-        "description": "Get a single brewery.\n\n**Note:** For the parameters, you can use underscores or url encoding for spaces."
-      },
-      {
-        "name": "Search Breweries",
-        "description": "Search for breweries based on a search term\n\n**Note:** For the parameters, you can use underscores or url encoding for spaces."
-      },
-      {
-        "name": "Autocomplete",
-        "description": "Return a list of names and ids of breweries based on a search term. This endpoint is typically used for a drop-down selection.\n\n**Note:** For the parameters, you can use underscores or url encoding for spaces."
-      },
-      {
-        "name": "Random Brewery"
-      }
+        {
+            "url": "https://api.openbrewerydb.org/v1"
+        }
     ],
     "paths": {
-      "/breweries": {
-        "get": {
-          "tags": [
-            "List Breweries"
-          ],
-          "summary": "with all query params",
-          "parameters": [
-            {
-              "name": "by_city",
-              "in": "query",
-              "schema": {
-                "type": "string"
-              },
-              "example": "san diego"
-            },
-            {
-              "name": "by_dist",
-              "in": "query",
-              "schema": {
-                "type": "number"
-              },
-              "example": "-117.129593,32.714813"
-            },
-            {
-              "name": "by_name",
-              "in": "query",
-              "schema": {
-                "type": "string"
-              },
-              "example": "10 Barrel Brewing Co"
-            },
-            {
-              "name": "by_postal",
-              "in": "query",
-              "schema": {
-                "type": "string"
-              },
-              "example": "92101-6618"
-            },
-            {
-              "name": "page",
-              "in": "query",
-              "schema": {
-                "type": "integer"
-              },
-              "example": "1"
-            },
-            {
-              "name": "per_page",
-              "in": "query",
-              "schema": {
-                "type": "integer"
-              },
-              "example": "10"
-            },
-            {
-              "name": "sort",
-              "in": "query",
-              "schema": {
-                "type": "string"
-              },
-              "example": "name:desc"
+        "/breweries": {
+            "get": {
+                "summary": "List breweries",
+                "description": "Returns a paginated list of breweries. For parameters with spaces, use underscores or URL encoding.",
+                "operationId": "listBreweries",
+                "parameters": [
+                    { "$ref": "#/components/parameters/ByCity" },
+                    { "$ref": "#/components/parameters/ByCountry" },
+                    { "$ref": "#/components/parameters/ByDist" },
+                    { "$ref": "#/components/parameters/ByIds" },
+                    { "$ref": "#/components/parameters/ByName" },
+                    { "$ref": "#/components/parameters/ByState" },
+                    { "$ref": "#/components/parameters/ByPostal" },
+                    { "$ref": "#/components/parameters/ByType" },
+                    { "$ref": "#/components/parameters/Page" },
+                    { "$ref": "#/components/parameters/PerPage" },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort the results by one or more fields using `asc` or `desc`. Does not work with `by_dist`, since it is a filter of its own.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A paginated list of breweries.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": { "$ref": "#/components/schemas/Brewery" }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful response",
-              "content": {
-                "application/json": {}
-              }
+        },
+        "/breweries/{id}": {
+            "get": {
+                "summary": "Get a single brewery",
+                "operationId": "getBrewery",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier (obdb-id) for the brewery.",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The brewery.",
+                        "content": {
+                            "application/json": {
+                                "schema": { "$ref": "#/components/schemas/Brewery" }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No brewery found with that id."
+                    }
+                }
             }
-          }
+        },
+        "/breweries/random": {
+            "get": {
+                "summary": "Get a random brewery",
+                "description": "Returns an array of random brewery objects (the documentation states a single object is returned by default, but the API always returns an array, even when `size` is 1).",
+                "operationId": "getRandomBrewery",
+                "parameters": [
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Number of breweries to return.",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 50,
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "One or more random breweries (always an array).",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": { "$ref": "#/components/schemas/Brewery" }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/breweries/search": {
+            "get": {
+                "summary": "Search breweries",
+                "description": "Search for breweries based on a search term. The search performs partial, case-insensitive matching against brewery names. Returns an empty array when no breweries match.",
+                "operationId": "searchBreweries",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "required": true,
+                        "description": "Search term to match against brewery names. Supports partial matches.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    { "$ref": "#/components/parameters/Page" },
+                    { "$ref": "#/components/parameters/PerPage" }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Matching breweries.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": { "$ref": "#/components/schemas/Brewery" }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/breweries/meta": {
+            "get": {
+                "summary": "Get metadata",
+                "description": "Returns aggregate counts (total, by_state, by_country, by_type) for breweries matching the filters. Takes the same filters as List Breweries.",
+                "operationId": "getMeta",
+                "parameters": [
+                    { "$ref": "#/components/parameters/ByCity" },
+                    { "$ref": "#/components/parameters/ByCountry" },
+                    { "$ref": "#/components/parameters/ByDist" },
+                    { "$ref": "#/components/parameters/ByIds" },
+                    { "$ref": "#/components/parameters/ByName" },
+                    { "$ref": "#/components/parameters/ByState" },
+                    { "$ref": "#/components/parameters/ByPostal" },
+                    { "$ref": "#/components/parameters/ByType" },
+                    { "$ref": "#/components/parameters/Page" },
+                    { "$ref": "#/components/parameters/PerPage" }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Aggregate metadata.",
+                        "content": {
+                            "application/json": {
+                                "schema": { "$ref": "#/components/schemas/Meta" }
+                            }
+                        }
+                    }
+                }
+            }
         }
-      },
-      "/breweries/{id}": {
-        "get": {
-          "tags": [
-            "Get Brewery"
-          ],
-          "summary": "get a single brewery",
-          "description": "Provide the uuid for id path parameter for example ```modern-times-beer-san-diego```",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "schema": {
-                "type": "string"
-              },
-              "required": true,
-              "description": "Enter the brewery uuid",
-              "example": "modern-times-beer-san-diego"
+    },
+    "components": {
+        "parameters": {
+            "ByCity": {
+                "name": "by_city",
+                "in": "query",
+                "description": "Filter breweries by city.",
+                "schema": { "type": "string" }
+            },
+            "ByCountry": {
+                "name": "by_country",
+                "in": "query",
+                "description": "Filter breweries by country.",
+                "schema": { "type": "string" }
+            },
+            "ByDist": {
+                "name": "by_dist",
+                "in": "query",
+                "description": "Sort results by distance from an origin point (`latitude,longitude`).",
+                "schema": { "type": "string" }
+            },
+            "ByIds": {
+                "name": "by_ids",
+                "in": "query",
+                "description": "Comma-separated list of brewery IDs.",
+                "schema": { "type": "string" }
+            },
+            "ByName": {
+                "name": "by_name",
+                "in": "query",
+                "description": "Filter breweries by name.",
+                "schema": { "type": "string" }
+            },
+            "ByState": {
+                "name": "by_state",
+                "in": "query",
+                "description": "Filter breweries by full state name (no abbreviations).",
+                "schema": { "type": "string" }
+            },
+            "ByPostal": {
+                "name": "by_postal",
+                "in": "query",
+                "description": "Filter breweries by postal or ZIP code. Supports 5-digit and postal+4 formats; postal+4 must include a hyphen or underscore.",
+                "schema": { "type": "string" }
+            },
+            "ByType": {
+                "name": "by_type",
+                "in": "query",
+                "description": "Filter by type of brewery.",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "micro",
+                        "nano",
+                        "regional",
+                        "brewpub",
+                        "large",
+                        "planning",
+                        "bar",
+                        "contract",
+                        "proprietor",
+                        "closed"
+                    ]
+                }
+            },
+            "Page": {
+                "name": "page",
+                "in": "query",
+                "description": "Page number for pagination.",
+                "schema": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "default": 1
+                }
+            },
+            "PerPage": {
+                "name": "per_page",
+                "in": "query",
+                "description": "Number of breweries per page.",
+                "schema": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 200,
+                    "default": 50
+                }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful response",
-              "content": {
-                "application/json": {}
-              }
+        },
+        "schemas": {
+            "Brewery": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Unique identifier for the brewery."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Brewery name."
+                    },
+                    "brewery_type": {
+                        "type": "string",
+                        "description": "Type of brewery (see `by_type` values)."
+                    },
+                    "address_1": {
+                        "type": ["string", "null"],
+                        "description": "Primary street address."
+                    },
+                    "address_2": {
+                        "type": ["string", "null"],
+                        "description": "Secondary address line."
+                    },
+                    "address_3": {
+                        "type": ["string", "null"],
+                        "description": "Third address line."
+                    },
+                    "city": {
+                        "type": "string",
+                        "description": "City name."
+                    },
+                    "state_province": {
+                        "type": "string",
+                        "description": "State or province."
+                    },
+                    "postal_code": {
+                        "type": "string",
+                        "description": "Postal or ZIP code."
+                    },
+                    "country": {
+                        "type": "string",
+                        "description": "Country name."
+                    },
+                    "longitude": {
+                        "type": ["number", "null"],
+                        "description": "Longitude coordinate."
+                    },
+                    "latitude": {
+                        "type": ["number", "null"],
+                        "description": "Latitude coordinate."
+                    },
+                    "phone": {
+                        "type": ["string", "null"],
+                        "description": "Contact phone number."
+                    },
+                    "website_url": {
+                        "type": ["string", "null"],
+                        "description": "Brewery website URL."
+                    },
+                    "state": {
+                        "type": "string",
+                        "deprecated": true,
+                        "description": "State abbreviation or name (deprecated)."
+                    },
+                    "street": {
+                        "type": ["string", "null"],
+                        "deprecated": true,
+                        "description": "Street address (deprecated)."
+                    }
+                }
+            },
+            "Meta": {
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "type": "integer",
+                        "description": "Total number of breweries matching the filters."
+                    },
+                    "by_state": {
+                        "type": "object",
+                        "additionalProperties": { "type": "integer" },
+                        "description": "Brewery counts keyed by state/province."
+                    },
+                    "by_country": {
+                        "type": "object",
+                        "additionalProperties": { "type": "integer" },
+                        "description": "Brewery counts keyed by country."
+                    },
+                    "by_type": {
+                        "type": "object",
+                        "additionalProperties": { "type": "integer" },
+                        "description": "Brewery counts keyed by brewery type."
+                    },
+                    "page": {
+                        "type": ["integer", "null"]
+                    },
+                    "per_page": {
+                        "type": ["integer", "null"]
+                    }
+                }
             }
-          }
         }
-      },
-      "/breweries/search": {
-        "get": {
-          "tags": [
-            "Search Breweries"
-          ],
-          "summary": "search breweries",
-          "parameters": [
-            {
-              "name": "query",
-              "in": "query",
-              "schema": {
-                "type": "string"
-              },
-              "example": "dog"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful response",
-              "content": {
-                "application/json": {}
-              }
-            }
-          }
-        }
-      },
-      "/breweries/autocomplete": {
-        "get": {
-          "tags": [
-            "Autocomplete"
-          ],
-          "summary": "autocomplete",
-          "parameters": [
-            {
-              "name": "query",
-              "in": "query",
-              "schema": {
-                "type": "string"
-              },
-              "example": "dog"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful response",
-              "content": {
-                "application/json": {}
-              }
-            }
-          }
-        }
-      },
-      "/breweries/random": {
-        "get": {
-          "tags": [
-            "Random Brewery"
-          ],
-          "summary": "random",
-          "responses": {
-            "200": {
-              "description": "Successful response",
-              "content": {
-                "application/json": {}
-              }
-            }
-          }
-        }
-      }
     }
-  }
+}

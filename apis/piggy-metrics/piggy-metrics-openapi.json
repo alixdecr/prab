@@ -1,20 +1,51 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "title": "Piggy Metrics",
-      "version": "1.0.0",
-      "description": "OpenAPI Specification for Piggy Metrics, a simple financial advisor app built to demonstrate the Microservice Architecture Pattern using Spring Boot, Spring Cloud and Docker. This file was created by the PRAB (Public REST API Benchmark) developers."
+        "title": "Piggy Metrics",
+        "version": "1.1.0",
+        "description": "OpenAPI Specification for Piggy Metrics, a simple financial advisor app built to demonstrate the Microservice Architecture Pattern using Spring Boot, Spring Cloud and Docker. This file was created by the PRAB (Public REST API Benchmark) developers. Revised against upstream sqshq/piggymetrics master: gateway routes (/uaa, /accounts, /statistics, /notifications/recipients), corrected notifications recipients path and host port."
     },
     "servers": [
         {
-        "url": "http://localhost:8000",
-        "description": "Local Production Server for Piggy Metrics."
+            "url": "http://localhost:80",
+            "description": "Local deployment via docker-compose (API Gateway listens on container port 4000, published as host port 80)."
         }
     ],
     "paths": {
+        "/uaa/users": {
+            "post": {
+                "description": "Register a new user account (auth-service UserController).",
+                "responses": {
+                    "200": {
+                        "description": "Valid request."
+                    },
+                    "default": {
+                        "description": "Invalid request."
+                    }
+                }
+            }
+        },
+        "/uaa/users/current": {
+            "get": {
+                "description": "Get the current authenticated user (auth-service UserController).",
+                "responses": {
+                    "200": {
+                        "description": "Valid request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Invalid request."
+                    }
+                }
+            }
+        },
         "/accounts/{account}": {
             "get": {
-                "description": "Get specified account data.",
+                "description": "Get specified account data. Only accessible for the 'demo' account without a privileged (server scope) token (@PreAuthorize).",
                 "parameters": [
                     {
                         "name": "account",
@@ -77,7 +108,7 @@
         },
         "/accounts/demo": {
             "get": {
-                "description": "Get demo account data (pre-filled incomes/expenses items, etc).",
+                "description": "Get demo account data (pre-filled incomes/expenses items, etc). Publicly accessible.",
                 "responses": {
                     "200": {
                         "description": "Valid request.",
@@ -113,7 +144,7 @@
         },
         "/statistics/{account}": {
             "get": {
-                "description": "Get specified account statistics.",
+                "description": "Get specified account statistics. Only accessible for the 'demo' account without a privileged (server scope) token (@PreAuthorize).",
                 "parameters": [
                     {
                         "name": "account",
@@ -187,7 +218,7 @@
         },
         "/statistics/demo": {
             "get": {
-                "description": "Get demo account statistics.",
+                "description": "Get demo account statistics. Publicly accessible.",
                 "responses": {
                     "200": {
                         "description": "Valid request.",
@@ -203,9 +234,9 @@
                 }
             }
         },
-        "/notifications/settings/current": {
+        "/notifications/recipients/current": {
             "get": {
-                "description": "Get current account notification settings.",
+                "description": "Get current account notification settings. (notification-service RecipientController).",
                 "responses": {
                     "200": {
                         "description": "Valid request.",
@@ -221,7 +252,7 @@
                 }
             },
             "put": {
-                "description": "Save current account notification settings.",
+                "description": "Save current account notification settings. (notification-service RecipientController).",
                 "responses": {
                     "200": {
                         "description": "Valid request.",
@@ -238,5 +269,4 @@
             }
         }
     }
-  }
-  
+}

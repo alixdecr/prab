@@ -10,7 +10,7 @@
             "code": null
         },
         "authentication": {
-            "type": "oauth2",
+            "required": true,
             "source": "https://amadeus4dev.github.io/developer-guides/API-Keys/authorization/"
         },
         "pricing": {
@@ -21,7 +21,7 @@
             "required": true,
             "quota": {
                 "value": 10,
-                "renew": "second"
+                "per": "second"
             },
             "source": "https://amadeus4dev.github.io/developer-guides/api-rate-limits/"
         }
@@ -37,7 +37,7 @@
             "code": null
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://github.com/joakimskoog/AnApiOfIceAndFire/wiki/Authentication"
         },
         "pricing": {
@@ -48,7 +48,7 @@
             "required": true,
             "quota": {
                 "value": 20000,
-                "renew": "day"
+                "per": "day"
             },
             "source": "https://github.com/joakimskoog/AnApiOfIceAndFire/wiki/Rate-limiting"
         }
@@ -64,7 +64,7 @@
             "code": null
         },
         "authentication": {
-            "type": "api-key",
+            "required": true,
             "source": "https://docs.balldontlie.io/#authentication"
         },
         "pricing": {
@@ -75,7 +75,7 @@
             "required": true,
             "quota": {
                 "value": 5,
-                "renew": "minute"
+                "per": "minute"
             },
             "source": "https://docs.balldontlie.io/#account-tiers"
         }
@@ -91,7 +91,7 @@
             "code": null
         },
         "authentication": {
-            "type": "oauth2",
+            "required": true,
             "source": "https://developer.atlassian.com/cloud/bitbucket/rest/authentication/"
         },
         "pricing": {
@@ -102,7 +102,7 @@
             "required": true,
             "quota": {
                 "value": 1000,
-                "renew": "hour"
+                "per": "hour"
             },
             "source": "https://support.atlassian.com/bitbucket-cloud/docs/api-request-limits/"
         }
@@ -118,7 +118,7 @@
             "code": "https://github.com/zalando-incubator/catwatch"
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://github.com/zalando-incubator/catwatch"
         },
         "pricing": {
@@ -142,7 +142,7 @@
             "code": null
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://apidocs.cheapshark.com"
         },
         "pricing": {
@@ -166,7 +166,7 @@
             "code": null
         },
         "authentication": {
-            "type": "api-key",
+            "required": true,
             "source": "https://rest.coincap.io/api-docs.json"
         },
         "pricing": {
@@ -177,7 +177,7 @@
             "required": true,
             "quota": {
                 "value": 5,
-                "renew": "minute"
+                "per": "minute"
             },
             "source": "https://splash.coincap.io/pricing"
         }
@@ -193,7 +193,7 @@
             "code": "https://github.com/corona-warn-app/cwa-verification-server"
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://github.com/corona-warn-app/cwa-verification-server"
         },
         "pricing": {
@@ -217,7 +217,7 @@
             "code": "https://github.com/ExpediaGroup/cyclotron"
         },
         "authentication": {
-            "type": "api-key",
+            "required": true,
             "source": "https://raw.githubusercontent.com/ExpediaGroup/cyclotron/master/cyclotron-svc/swagger.json"
         },
         "pricing": {
@@ -241,7 +241,7 @@
             "code": null
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://www.datamuse.com/api/"
         },
         "pricing": {
@@ -252,7 +252,7 @@
             "required": true,
             "quota": {
                 "value": 100000,
-                "renew": "day"
+                "per": "day"
             },
             "source": "https://www.datamuse.com/api/"
         }
@@ -269,7 +269,7 @@
             "code": null
         },
         "authentication": {
-            "type": "api-key",
+            "required": true,
             "source": "https://developer.dhl.com/api-reference/shipment-tracking?language_content_entity=en"
         },
         "pricing": {
@@ -293,7 +293,7 @@
             "code": "https://github.com/treasure-data/digdag"
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://raw.githubusercontent.com/treasure-data/digdag/master/digdag-docs/src/_extra/api/swagger.yaml"
         },
         "pricing": {
@@ -317,7 +317,7 @@
             "code": "https://github.com/disease-sh/API"
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://disease.sh/docs/"
         },
         "pricing": {
@@ -341,7 +341,7 @@
             "code": "https://github.com/enviroCar/enviroCar-server"
         },
         "authentication": {
-            "type": "basic",
+            "required": true,
             "source": "https://envirocar.org/api/stable/api-docs.json"
         },
         "pricing": {
@@ -365,7 +365,7 @@
             "code": "https://github.com/web3labs/erc20-rest-service"
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://github.com/web3labs/erc20-rest-service"
         },
         "pricing": {
@@ -389,7 +389,7 @@
             "code": null
         },
         "authentication": {
-            "type": "api-key",
+            "required": true,
             "source": "https://api.fdic.gov/banks/docs"
         },
         "pricing": {
@@ -400,7 +400,7 @@
             "required": true,
             "quota": {
                 "value": 1000,
-                "renew": "hour"
+                "per": "hour"
             },
             "source": "https://api.data.gov/docs/developer-manual"
         }
@@ -416,7 +416,7 @@
             "code": "https://github.com/JavierMF/features-service"
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://github.com/JavierMF/features-service"
         },
         "pricing": {
@@ -441,7 +441,7 @@
             "code": null
         },
         "authentication": {
-            "type": "basic",
+            "required": true,
             "source": "https://developers.forte.net/introduction-rest-api"
         },
         "pricing": {
@@ -452,7 +452,7 @@
             "required": true,
             "quota": {
                 "value": 10,
-                "renew": "second"
+                "per": "second"
             },
             "source": "https://developers.forte.net/forte-rest-api-v3"
         }
@@ -468,7 +468,7 @@
             "code": null
         },
         "authentication": {
-            "type": "api-key",
+            "required": true,
             "source": "https://docs.foursquare.com/fsq-developers-places/reference/authentication"
         },
         "pricing": {
@@ -479,7 +479,7 @@
             "required": true,
             "quota": {
                 "value": 50,
-                "renew": "second"
+                "per": "second"
             },
             "source": "https://docs.foursquare.com/fsq-developers-places/reference/rate-limits"
         }
@@ -496,7 +496,7 @@
             "code": null
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://techdocs.gbif.org/en/openapi/"
         },
         "pricing": {
@@ -521,7 +521,7 @@
             "code": "https://github.com/genome-nexus/genome-nexus"
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://docs.genomenexus.org/api"
         },
         "pricing": {
@@ -545,7 +545,7 @@
             "code": "https://github.com/ValchanOficial/GestaoHospital"
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://github.com/ValchanOficial/GestaoHospital"
         },
         "pricing": {
@@ -569,7 +569,7 @@
             "code": null
         },
         "authentication": {
-            "type": "api-key",
+            "required": true,
             "source": "https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api"
         },
         "pricing": {
@@ -580,7 +580,7 @@
             "required": true,
             "quota": {
                 "value": 60,
-                "renew": "hour"
+                "per": "hour"
             },
             "source": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api"
         }
@@ -596,7 +596,7 @@
             "code": null
         },
         "authentication": {
-            "type": "api-key",
+            "required": true,
             "source": "https://docs.gitlab.com/api/rest/#authentication-availability"
         },
         "pricing": {
@@ -621,7 +621,7 @@
             "code": null
         },
         "authentication": {
-            "type": "api-key",
+            "required": true,
             "source": "https://developers.google.com/maps/documentation/geocoding/requests-geocoding"
         },
         "pricing": {
@@ -632,7 +632,7 @@
             "required": true,
             "quota": {
                 "value": 3000,
-                "renew": "minute"
+                "per": "minute"
             },
             "source": "https://developers.google.com/maps/documentation/geocoding/usage-and-billing"
         }
@@ -657,7 +657,7 @@
             "code": null
         },
         "authentication": {
-            "type": "api-key",
+            "required": true,
             "source": "https://developers.google.com/maps/documentation"
         },
         "pricing": {
@@ -681,7 +681,7 @@
             "code": null
         },
         "authentication": {
-            "type": "api-key",
+            "required": true,
             "source": "https://docs.graphhopper.com/"
         },
         "pricing": {
@@ -692,7 +692,7 @@
             "required": true,
             "quota": {
                 "value": 500,
-                "renew": "day"
+                "per": "day"
             },
             "source": "https://docs.graphhopper.com/"
         }
@@ -709,7 +709,7 @@
             "code": "https://github.com/confluentinc/kafka-rest"
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://docs.confluent.io/platform/current/kafka-rest/security.html"
         },
         "pricing": {
@@ -734,7 +734,7 @@
             "code": "https://github.com/languagetool-org/languagetool"
         },
         "authentication": {
-            "type": "no-auth",
+            "required": false,
             "source": "https://dev.languagetool.org/public-http-api"
         },
         "pricing": {
@@ -745,9 +745,759 @@
             "required": true,
             "quota": {
                 "value": 20,
-                "renew": "minute"
+                "per": "minute"
             },
             "source": "https://languagetool.org/http-api/languagetool-swagger.json"
+        }
+    },
+    "magento": {
+        "doc": "https://developer.adobe.com/commerce/webapi/rest/",
+        "oas": null,
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost/rest/default"
+            ],
+            "code": "https://github.com/magento/magento2"
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://developer.adobe.com/commerce/webapi/get-started/authentication/gs-authentication-token"
+        },
+        "pricing": {
+            "type": "optional",
+            "source": "https://business.adobe.com/products/commerce/pricing.html"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://developer.adobe.com/commerce/webapi/get-started/rate-limiting"
+        }
+    },
+    "management-api-for-apache-cassandra": {
+        "doc": "https://github.com/k8ssandra/management-api-for-apache-cassandra",
+        "oas": "https://raw.githubusercontent.com/k8ssandra/management-api-for-apache-cassandra/master/management-api-server/doc/openapi.json",
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost:8080"
+            ],
+            "code": "https://github.com/k8ssandra/management-api-for-apache-cassandra"
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://github.com/k8ssandra/management-api-for-apache-cassandra"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/k8ssandra/management-api-for-apache-cassandra"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/k8ssandra/management-api-for-apache-cassandra"
+        }
+    },
+    "ocvn": {
+        "doc": "https://github.com/devgateway/ocvn",
+        "oas": null,
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost:8090"
+            ],
+            "code": "https://github.com/devgateway/ocvn"
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://github.com/devgateway/ocvn"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/devgateway/ocvn"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/devgateway/ocvn"
+        }
+    },
+    "ohsome": {
+        "doc": "https://docs.ohsome.org/ohsome-api/v2/",
+        "oas": "https://api.heigit.org/ohsome-api/v2/openapi.json",
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://api.ohsome.org/v1",
+                "https://api.heigit.org/ohsome-api/v2"
+            ],
+            "code": "https://github.com/GIScience/ohsome-api"
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://docs.ohsome.org/ohsome-api/v2/migration_guide.html"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://account.heigit.org/info/plans"
+        },
+        "rate-limit": {
+            "required": true,
+            "quota": {
+                "value": 250,
+                "per": "day"
+            },
+            "source": "https://account.heigit.org/info/plans"
+        }
+    },
+    "omdb": {
+        "doc": "https://www.omdbapi.com/",
+        "oas": "https://www.omdbapi.com/swagger.json",
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://www.omdbapi.com"
+            ],
+            "code": null
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://www.omdbapi.com/apikey.aspx"
+        },
+        "pricing": {
+            "type": "optional",
+            "source": "https://www.omdbapi.com/apikey.aspx"
+        },
+        "rate-limit": {
+            "required": true,
+            "quota": {
+                "value": 1000,
+                "per": "day"
+            },
+            "source": "https://www.omdbapi.com/apikey.aspx"
+        }
+    },
+    "open-brewery-db": {
+        "doc": "https://www.openbrewerydb.org/documentation",
+        "oas": null,
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://api.openbrewerydb.org/v1"
+            ],
+            "code": "https://github.com/openbrewerydb/openbrewerydb-laravel-api"
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://www.openbrewerydb.org/faq"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://www.openbrewerydb.org/faq"
+        },
+        "rate-limit": {
+            "required": true,
+            "quota": null,
+            "source": "https://api.openbrewerydb.org/v1/breweries"
+        }
+    },
+    "openverse": {
+        "doc": "https://docs.openverse.org/",
+        "oas": null,
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://api.openverse.org"
+            ],
+            "code": "https://github.com/WordPress/openverse"
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://docs.openverse.org/api/reference/authentication_and_throttling.html"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://wordpress.github.io/openverse-api/terms_of_service.html"
+        },
+        "rate-limit": {
+            "required": true,
+            "quota": {
+                "value": 200,
+                "per": "day"
+            },
+            "source": "https://docs.openverse.org/api/reference/authentication_and_throttling.html"
+        }
+    },
+    "paypal-invoices": {
+        "doc": "https://developer.paypal.com/docs/multiparty/invoicing/",
+        "oas": "https://raw.githubusercontent.com/paypal/paypal-rest-api-specifications/main/openapi/invoicing_v2.json",
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://api-m.paypal.com",
+                "https://api-m.sandbox.paypal.com"
+            ],
+            "code": null
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://developer.paypal.com/api/rest/authentication/"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://developer.paypal.com/docs/multiparty/invoicing/"
+        },
+        "rate-limit": {
+            "required": true,
+            "quota": null,
+            "source": "https://developer.paypal.com/api/rest/reference/rate-limiting/"
+        }
+    },
+    "petclinic": {
+        "doc": "https://github.com/spring-petclinic/spring-petclinic-rest",
+        "oas": "http://localhost:9966/petclinic/api/v3/api-docs",
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost:9966/petclinic/api"
+            ],
+            "code": "https://github.com/spring-petclinic/spring-petclinic-rest"
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://github.com/spring-petclinic/spring-petclinic-rest"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/spring-petclinic/spring-petclinic-rest"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/spring-petclinic/spring-petclinic-rest"
+        }
+    },
+    "petstore": {
+        "doc": "https://github.com/swagger-api/swagger-petstore",
+        "oas": "https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/openapi.yaml",
+        "availability": {
+            "type": "both",
+            "servers": [
+                "https://petstore3.swagger.io/api/v3",
+                "http://localhost:8080/api/v3"
+            ],
+            "code": "https://github.com/swagger-api/swagger-petstore"
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/openapi.yaml"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/swagger-api/swagger-petstore"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/swagger-api/swagger-petstore"
+        }
+    },
+    "piggy-metrics": {
+        "doc": "https://github.com/sqshq/piggymetrics",
+        "oas": null,
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost:80"
+            ],
+            "code": "https://github.com/sqshq/piggymetrics"
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://github.com/sqshq/piggymetrics"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/sqshq/piggymetrics"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/sqshq/piggymetrics"
+        }
+    },
+    "proxyprint": {
+        "doc": "https://github.com/ProxyPrint/proxyprint-kitchen",
+        "oas": "http://localhost:8080/v2/api-docs",
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost:8080/"
+            ],
+            "code": "https://github.com/ProxyPrint/proxyprint-kitchen"
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://github.com/ProxyPrint/proxyprint-kitchen/blob/master/src/main/java/io/github/proxyprint/kitchen/config/WebSecurityConfig.java"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/ProxyPrint/proxyprint-kitchen"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/ProxyPrint/proxyprint-kitchen"
+        }
+    },
+    "quartz-manager": {
+        "doc": "https://github.com/fabioformosa/quartz-manager",
+        "oas": null,
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost:8080"
+            ],
+            "code": "https://github.com/fabioformosa/quartz-manager"
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://github.com/fabioformosa/quartz-manager"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/fabioformosa/quartz-manager"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/fabioformosa/quartz-manager"
+        }
+    },
+    "random-user-generator": {
+        "doc": "https://randomuser.me/documentation",
+        "oas": null,
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://randomuser.me"
+            ],
+            "code": null
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://randomuser.me/documentation"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://randomuser.me/documentation"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://randomuser.me/documentation"
+        }
+    },
+    "realworld-app": {
+        "doc": "https://github.com/realworld-apps/realworld",
+        "oas": "https://raw.githubusercontent.com/realworld-apps/realworld/main/specs/api/openapi.yml",
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://api.realworld.show/api"
+            ],
+            "code": "https://github.com/realworld-apps/realworld"
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://raw.githubusercontent.com/realworld-apps/realworld/main/specs/api/openapi.yml"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/realworld-apps/realworld"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/realworld-apps/realworld"
+        }
+    },
+    "refuge-restrooms": {
+        "doc": "https://refugerestrooms.org/api/docs/",
+        "oas": "https://www.refugerestrooms.org/api/swagger_doc.json",
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://refugerestrooms.org/api"
+            ],
+            "code": "https://github.com/RefugeRestrooms/refugerestrooms"
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://refugerestrooms.org/api/docs/"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/RefugeRestrooms/refugerestrooms"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://refugerestrooms.org/api/docs/"
+        }
+    },
+    "reqres": {
+        "doc": "https://reqres.in/docs",
+        "oas": "https://reqres.in/openapi.json",
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://reqres.in/api"
+            ],
+            "code": null
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://reqres.in/"
+        },
+        "pricing": {
+            "type": "optional",
+            "source": "https://reqres.in/pricing"
+        },
+        "rate-limit": {
+            "required": true,
+            "quota": {
+                "value": 250,
+                "per": "day"
+            },
+            "source": "https://reqres.in/pricing"
+        }
+    },
+    "rest-countries": {
+        "doc": "https://restcountries.com/docs/countries",
+        "oas": null,
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://api.restcountries.com"
+            ],
+            "code": null
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://restcountries.com/docs#authentication"
+        },
+        "pricing": {
+            "type": "optional",
+            "source": "https://restcountries.com/docs#request-limits"
+        },
+        "rate-limit": {
+            "required": true,
+            "quota": {
+                "value": 1000,
+                "per": "month"
+            },
+            "source": "https://restcountries.com/docs#request-limits"
+        }
+    },
+    "rest-faults": {
+        "doc": "https://github.com/WebFuzzing/rest-faults",
+        "oas": "http://localhost:8080/v3/api-docs",
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost:8080"
+            ],
+            "code": "https://github.com/WebFuzzing/rest-faults"
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://github.com/WebFuzzing/rest-faults"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/WebFuzzing/rest-faults"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/WebFuzzing/rest-faults"
+        }
+    },
+    "rest-ncs": {
+        "doc": "https://github.com/WebFuzzing/Dataset",
+        "oas": "https://raw.githubusercontent.com/WebFuzzing/Dataset/master/openapi/rest-ncs.json",
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost:8080"
+            ],
+            "code": "https://github.com/WebFuzzing/Dataset/tree/master/jdk_8_maven/cs/rest/artificial/ncs"
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://github.com/WebFuzzing/Dataset/tree/master/jdk_8_maven/cs/rest/artificial/ncs"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/WebFuzzing/Dataset"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/WebFuzzing/Dataset/tree/master/jdk_8_maven/cs/rest/artificial/ncs"
+        }
+    },
+    "rest-scs": {
+        "doc": "https://github.com/WebFuzzing/Dataset",
+        "oas": "https://raw.githubusercontent.com/WebFuzzing/Dataset/master/openapi/rest-scs.json",
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost:8080"
+            ],
+            "code": "https://github.com/WebFuzzing/Dataset/tree/master/jdk_8_maven/cs/rest/artificial/scs"
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://github.com/WebFuzzing/Dataset/tree/master/jdk_8_maven/cs/rest/artificial/scs"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/WebFuzzing/Dataset"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/WebFuzzing/Dataset/tree/master/jdk_8_maven/cs/rest/artificial/scs"
+        }
+    },
+    "rest-news": {
+        "doc": "https://github.com/WebFuzzing/Dataset",
+        "oas": "https://raw.githubusercontent.com/WebFuzzing/Dataset/master/openapi/rest-news.json",
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost:8080"
+            ],
+            "code": "https://github.com/WebFuzzing/Dataset/tree/master/jdk_8_maven/cs/rest/artificial/news"
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://github.com/WebFuzzing/Dataset/tree/master/jdk_8_maven/cs/rest/artificial/news"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/WebFuzzing/Dataset"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/WebFuzzing/Dataset/tree/master/jdk_8_maven/cs/rest/artificial/news"
+        }
+    },
+    "scout-api": {
+        "doc": "https://github.com/WebFuzzing/Dataset",
+        "oas": "https://raw.githubusercontent.com/WebFuzzing/Dataset/master/openapi/scout-api.json",
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost:8080/api"
+            ],
+            "code": "https://hub.docker.com/r/webfuzzing/wfd-scout-api"
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://github.com/WebFuzzing/Dataset/blob/master/auth/scout-api-auth.yaml"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/WebFuzzing/Dataset"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/WebFuzzing/Dataset"
+        }
+    },
+    "senzing": {
+        "doc": "https://docs.senzing.com",
+        "oas": "http://localhost:8250/specifications/open-api",
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost:8250"
+            ],
+            "code": "https://hub.docker.com/r/senzing/senzing-api-server"
+        },
+        "authentication": {
+            "required": false,
+            "source": "https://hub.docker.com/r/senzing/senzing-api-server"
+        },
+        "pricing": {
+            "type": "optional",
+            "source": "https://senzing.com/pricing/"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://hub.docker.com/r/senzing/senzing-api-server"
+        }
+    },
+    "spotify": {
+        "doc": "https://developer.spotify.com/documentation/web-api",
+        "oas": "https://raw.githubusercontent.com/sonallux/spotify-web-api/main/fixed-spotify-open-api.yml",
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://api.spotify.com/v1"
+            ],
+            "code": null
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://developer.spotify.com/documentation/web-api/tutorials/code-flow"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes"
+        },
+        "rate-limit": {
+            "required": true,
+            "quota": null,
+            "source": "https://developer.spotify.com/documentation/web-api/concepts/rate-limits"
+        }
+    },
+    "stripe": {
+        "doc": "https://docs.stripe.com/api",
+        "oas": "https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json",
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://api.stripe.com/"
+            ],
+            "code": null
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://docs.stripe.com/keys"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://stripe.com/pricing"
+        },
+        "rate-limit": {
+            "required": true,
+            "quota": {
+                "value": 100,
+                "per": "second"
+            },
+            "source": "https://docs.stripe.com/rate-limits"
+        }
+    },
+    "tumblr": {
+        "doc": "https://www.tumblr.com/docs/en/api/v2",
+        "oas": null,
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://api.tumblr.com/v2"
+            ],
+            "code": null
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://www.tumblr.com/docs/en/api/v2"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://www.tumblr.com/docs/en/api/v2"
+        },
+        "rate-limit": {
+            "required": true,
+            "quota": {
+                "value": 1000,
+                "per": "hour"
+            },
+            "source": "https://www.tumblr.com/docs/en/api/v2"
+        }
+    },
+    "ur-codebin": {
+        "doc": "https://github.com/Mathew-Estafanous/Ur-Codebin-API",
+        "oas": null,
+        "availability": {
+            "type": "local",
+            "servers": [
+                "http://localhost:8080"
+            ],
+            "code": "https://github.com/Mathew-Estafanous/Ur-Codebin-API"
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://github.com/Mathew-Estafanous/Ur-Codebin-API"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://github.com/Mathew-Estafanous/Ur-Codebin-API"
+        },
+        "rate-limit": {
+            "required": false,
+            "quota": null,
+            "source": "https://github.com/Mathew-Estafanous/Ur-Codebin-API"
+        }
+    },
+    "yelp": {
+        "doc": "https://docs.developer.yelp.com",
+        "oas": null,
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://api.yelp.com/v3"
+            ],
+            "code": null
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://docs.developer.yelp.com/docs/fusion-authentication"
+        },
+        "pricing": {
+            "type": "paid",
+            "source": "https://docs.developer.yelp.com/docs/places-faq"
+        },
+        "rate-limit": {
+            "required": true,
+            "quota": {
+                "value": 5000,
+                "per": "day"
+            },
+            "source": "https://docs.developer.yelp.com/docs/places-faq"
+        }
+    },
+    "youtube": {
+        "doc": "https://developers.google.com/youtube/v3/docs",
+        "oas": null,
+        "availability": {
+            "type": "online",
+            "servers": [
+                "https://www.googleapis.com/youtube/v3"
+            ],
+            "code": null
+        },
+        "authentication": {
+            "required": true,
+            "source": "https://developers.google.com/youtube/v3/guides/authentication"
+        },
+        "pricing": {
+            "type": "free",
+            "source": "https://developers.google.com/youtube/v3/determine_quota_cost"
+        },
+        "rate-limit": {
+            "required": true,
+            "quota": {
+                "value": 10000,
+                "per": "day"
+            },
+            "source": "https://developers.google.com/youtube/v3/determine_quota_cost"
         }
     }
 }

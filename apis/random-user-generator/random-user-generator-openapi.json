@@ -1,243 +1,388 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "title": "Random User Generator API",
-      "version": "1.0.0"
+        "title": "Random User Generator API",
+        "version": "1.4",
+        "description": "A free and easy to use service to generate random user data for application testing.\n\nSend all requests to `https://randomuser.me/api/`. Access a specific API version that won't be affected by updates via `https://randomuser.me/api/1.4/`.\n\nDocumentation: https://randomuser.me/documentation",
+        "contact": {
+            "name": "Random User Generator",
+            "url": "https://randomuser.me"
+        }
     },
     "servers": [
-      {
-        "url": "https://randomuser.me"
-      }
-    ],
-    "tags": [
-      {
-        "name": "Overview",
-        "description": "The Random User Generator API provides a free service to generate random user data for application testing. With random user data crafted for diverse use cases, you can test better with ready-made user data across your project.\n\n## Who is the Random User Generator API for\n\nThe audience for [https://randomuser.me/](https://randomuser.me/) is developers, data analysts, and researchers who need a quick and easy way to generate realistic mock user data for their applications or studies. This API generates random user profiles with diverse personal information, including name, gender, location, email address, and profile picture. It may also apply to UI/UX designers for placeholder data in designing user interfaces."
-      },
-      {
-        "name": "Overview > Authentication",
-        "description": "Authorization (authentication) is not required to use the Random User Generator API."
-      },
-      {
-        "name": "Overview > Base URL",
-        "description": "```\nhttps://randomuser.me/\n\n```"
-      },
-      {
-        "name": "Overview > Support",
-        "description": "If you encounter any errors when using the API, please reach us at [support@randomuser.me](mailto:support@randomuser.me) with the error details, including the HTTP status code and error message. We'll do our best to resolve the issue as quickly as possible.\n\nFor questions/feedback or would like to get in touch with us, tweet us [@randomapi](https://twitter.com/randomapi)\n\nFound a bug or have an idea?  \nContribute to randomuser.me's database on our [Github Repo](https://github.com/RandomAPI/Randomuser.me-Node)."
-      },
-      {
-        "name": "Overview > Issues",
-        "description": "These are some of the current issues with the Random User API\n\n- The endpoint is just one - /api\\*\n- The reason we can’t precisely specify the exact location when calling the API is that the data of users are random. So you will always get a random location regardless of the one you specify.  \n    (The only way around this is to specify nationality.)"
-      },
-      {
-        "name": "Endpoints",
-        "description": "Only `GET` requests are allowed now."
-      },
-      {
-        "name": "HTTP and Error Codes",
-        "description": "The Random API returns HTTP status code and error code messages.\n\n| HTTP Code | Message | Description |\n| --- | --- | --- |\n| 200 | OK | The request was successful |\n| 400 | Bad Request | The request was invalid or missing a required parameter. |\n| 404 | Not Found | The requested resource not found. |\n| 500 | Internal Server Error | An error occurred on the server |"
-      },
-      {
-        "name": "Random API Flags",
-        "description": "## List and explanation of the flags\n\nThe Random User Generator API ([https://randomuser.me/](https://randomuser.me/)) is a free, open-source API that provides randomly generated user data. Here are the flags you can use with the API:"
-      }
+        {
+            "url": "https://randomuser.me"
+        }
     ],
     "paths": {
-      "/api": {
-        "get": {
-          "tags": [
-            "Endpoints"
-          ],
-          "summary": "Get complete data of any user",
-          "description": "Access any user data",
-          "parameters": [
-            {
-              "name": "Accept",
-              "in": "header",
-              "schema": {
-                "type": "string"
-              },
-              "example": "application/json"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "headers": {
-                "Date": {
-                  "schema": {
-                    "type": "string",
-                    "example": "Fri, 10 Mar 2023 11:10:48 GMT"
-                  }
-                },
-                "Content-Type": {
-                  "schema": {
-                    "type": "string",
-                    "example": "application/json; charset=utf-8"
-                  }
-                },
-                "Transfer-Encoding": {
-                  "schema": {
-                    "type": "string",
-                    "example": "chunked"
-                  }
-                },
-                "Connection": {
-                  "schema": {
-                    "type": "string",
-                    "example": "keep-alive"
-                  }
-                },
-                "X-Powered-By": {
-                  "schema": {
-                    "type": "string",
-                    "example": "Express"
-                  }
-                },
-                "Access-Control-Allow-Origin": {
-                  "schema": {
-                    "type": "string",
-                    "example": "*"
-                  }
-                },
-                "Cache-Control": {
-                  "schema": {
-                    "type": "string",
-                    "example": "no-cache"
-                  }
-                },
-                "ETag": {
-                  "schema": {
-                    "type": "string",
-                    "example": "W/\"46c-gO+A1AkhPOK8MAOCxXcoBEMrsb4\""
-                  }
-                },
-                "Vary": {
-                  "schema": {
-                    "type": "string",
-                    "example": "Accept-Encoding"
-                  }
-                },
-                "CF-Cache-Status": {
-                  "schema": {
-                    "type": "string",
-                    "example": "DYNAMIC"
-                  }
-                },
-                "Report-To": {
-                  "schema": {
-                    "type": "string",
-                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=QOFgbpqTJHWVGvjkFEsz8hPCDsEWWuCBt9BUi3pOya5SevtnIXSjaXrgOkmEv2qURWDiW6AbqX2nZfDpWa2raX6HckKzZfNoManm9xMPkh1TSt4EED8YgOpnbkdBnMwP\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                  }
-                },
-                "NEL": {
-                  "schema": {
-                    "type": "string",
-                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                  }
-                },
-                "Server": {
-                  "schema": {
-                    "type": "string",
-                    "example": "cloudflare"
-                  }
-                },
-                "CF-RAY": {
-                  "schema": {
-                    "type": "string",
-                    "example": "7a5b1cff8cc6397a-IAD"
-                  }
-                },
-                "Content-Encoding": {
-                  "schema": {
-                    "type": "string",
-                    "example": "br"
-                  }
-                },
-                "alt-svc": {
-                  "schema": {
-                    "type": "string",
-                    "example": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
-                  }
-                }
-              },
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object"
-                  },
-                  "example": {
-                    "results": [
-                      {
-                        "gender": "female",
-                        "name": {
-                          "title": "Ms",
-                          "first": "Nalan",
-                          "last": "Tunçeri"
-                        },
-                        "location": {
-                          "street": {
-                            "number": 5182,
-                            "name": "Kushimoto Sk"
-                          },
-                          "city": "Kars",
-                          "state": "Edirne",
-                          "country": "Turkey",
-                          "postcode": 28472,
-                          "coordinates": {
-                            "latitude": "66.2873",
-                            "longitude": "53.4476"
-                          },
-                          "timezone": {
-                            "offset": "-9:00",
-                            "description": "Alaska"
-                          }
-                        },
-                        "email": "nalan.tunceri@example.com",
-                        "login": {
-                          "uuid": "bcf18374-37b2-46b8-bb39-419ce6418645",
-                          "username": "purpleelephant172",
-                          "password": "catwoman",
-                          "salt": "ERixTGDQ",
-                          "md5": "aa559725ceacffa5eaa05ac0b951b018",
-                          "sha1": "1b38c29aa17df3b1ec6c7ee924bcd838d7a8a08b",
-                          "sha256": "fede49a2da294c50da23901618274c1bdf4305db7ec6f5d6adff8effa36de8b2"
-                        },
-                        "dob": {
-                          "date": "1977-02-11T14:22:18.796Z",
-                          "age": 46
-                        },
-                        "registered": {
-                          "date": "2017-09-06T10:08:03.064Z",
-                          "age": 5
-                        },
-                        "phone": "(321)-542-3575",
-                        "cell": "(063)-492-9707",
-                        "id": {
-                          "name": "",
-                          "value": null
-                        },
-                        "picture": {
-                          "large": "https://randomuser.me/api/portraits/women/89.jpg",
-                          "medium": "https://randomuser.me/api/portraits/med/women/89.jpg",
-                          "thumbnail": "https://randomuser.me/api/portraits/thumb/women/89.jpg"
-                        },
-                        "nat": "TR"
-                      }
-                    ],
-                    "info": {
-                      "seed": "c2f2b9ea70089b8b",
-                      "results": 1,
-                      "page": 1,
-                      "version": "1.4"
+        "/api/": {
+            "get": {
+                "summary": "Generate random user(s)",
+                "description": "Returns one or more randomly generated users using the latest API version. By default one user is returned; use `results` for up to 5,000 per request.",
+                "operationId": "getRandomUsers",
+                "parameters": [
+                    { "$ref": "#/components/parameters/Results" },
+                    { "$ref": "#/components/parameters/Gender" },
+                    { "$ref": "#/components/parameters/Password" },
+                    { "$ref": "#/components/parameters/Seed" },
+                    { "$ref": "#/components/parameters/Format" },
+                    { "$ref": "#/components/parameters/Nat" },
+                    { "$ref": "#/components/parameters/Page" },
+                    { "$ref": "#/components/parameters/Inc" },
+                    { "$ref": "#/components/parameters/Exc" },
+                    { "$ref": "#/components/parameters/Dl" },
+                    { "$ref": "#/components/parameters/Noinfo" },
+                    { "$ref": "#/components/parameters/Callback" }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Generated user data. Format depends on the `format` parameter.",
+                        "content": {
+                            "application/json": {
+                                "schema": { "$ref": "#/components/schemas/Response" }
+                            },
+                            "application/xml": {
+                                "schema": { "type": "string" }
+                            },
+                            "text/csv": {
+                                "schema": { "type": "string" }
+                            },
+                            "application/x-yaml": {
+                                "schema": { "type": "string" }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "API error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Uh oh, something has gone wrong. Please tweet us @randomapi about the issue. Thank you."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                  }
                 }
-              }
             }
-          }
+        },
+        "/api/{version}/": {
+            "get": {
+                "summary": "Generate random user(s) using a specific API version",
+                "description": "Same as `/api/`, but pinned to a specific API version so results are not affected by future updates.",
+                "operationId": "getRandomUsersVersioned",
+                "parameters": [
+                    {
+                        "name": "version",
+                        "in": "path",
+                        "required": true,
+                        "description": "API version to use.",
+                        "schema": {
+                            "type": "string",
+                            "enum": ["1.0", "1.1", "1.2", "1.3", "1.4"]
+                        }
+                    },
+                    { "$ref": "#/components/parameters/Results" },
+                    { "$ref": "#/components/parameters/Gender" },
+                    { "$ref": "#/components/parameters/Password" },
+                    { "$ref": "#/components/parameters/Seed" },
+                    { "$ref": "#/components/parameters/Format" },
+                    { "$ref": "#/components/parameters/Nat" },
+                    { "$ref": "#/components/parameters/Page" },
+                    { "$ref": "#/components/parameters/Inc" },
+                    { "$ref": "#/components/parameters/Exc" },
+                    { "$ref": "#/components/parameters/Dl" },
+                    { "$ref": "#/components/parameters/Noinfo" },
+                    { "$ref": "#/components/parameters/Callback" }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Generated user data. Format depends on the `format` parameter.",
+                        "content": {
+                            "application/json": {
+                                "schema": { "$ref": "#/components/schemas/Response" }
+                            },
+                            "application/xml": {
+                                "schema": { "type": "string" }
+                            },
+                            "text/csv": {
+                                "schema": { "type": "string" }
+                            },
+                            "application/x-yaml": {
+                                "schema": { "type": "string" }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "API error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-      }
+    },
+    "components": {
+        "parameters": {
+            "Results": {
+                "name": "results",
+                "in": "query",
+                "required": false,
+                "description": "Number of users to generate in one request (up to 5,000).",
+                "schema": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5000,
+                    "default": 1
+                }
+            },
+            "Gender": {
+                "name": "gender",
+                "in": "query",
+                "required": false,
+                "description": "Generate only male or only female users. Any other value returns both.",
+                "schema": {
+                    "type": "string",
+                    "enum": ["male", "female"]
+                }
+            },
+            "Password": {
+                "name": "password",
+                "in": "query",
+                "required": false,
+                "description": "Control password generation: `CHARSETS,MIN_LENGTH-MAX_LENGTH` or `CHARSETS,MAX_LENGTH`. Charsets (mixable): special, upper, lower, number. Default: 8-64 chars chosen from a list of ~10k top used passwords.",
+                "schema": {
+                    "type": "string",
+                    "example": "upper,lower,1-16"
+                }
+            },
+            "Seed": {
+                "name": "seed",
+                "in": "query",
+                "required": false,
+                "description": "Any string or sequence of characters; the same seed always generates the same set of users (for a given version).",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "Format": {
+                "name": "format",
+                "in": "query",
+                "required": false,
+                "description": "Data format to return.",
+                "schema": {
+                    "type": "string",
+                    "enum": ["json", "prettyjson", "pretty", "csv", "yaml", "xml"],
+                    "default": "json"
+                }
+            },
+            "Nat": {
+                "name": "nat",
+                "in": "query",
+                "required": false,
+                "description": "Nationality/nationalities of the generated users (comma-separated). Random nationalities by default. v1.4 supports: AU, BR, CA, CH, DE, DK, ES, FI, FR, GB, IE, IN, IR, MX, NL, NO, NZ, RS, TR, UA, US.",
+                "schema": {
+                    "type": "string",
+                    "example": "us,dk,fr,gb"
+                }
+            },
+            "Page": {
+                "name": "page",
+                "in": "query",
+                "required": false,
+                "description": "1-based page index for requesting multiple pages of a seed. Use the same seed and page number to get back the same results.",
+                "schema": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "default": 1
+                }
+            },
+            "Inc": {
+                "name": "inc",
+                "in": "query",
+                "required": false,
+                "description": "Comma-delimited list of fields to include. Accepts: gender, name, location, email, login, registered, dob, phone, cell, id, picture, nat.",
+                "schema": {
+                    "type": "string",
+                    "example": "gender,name,nat"
+                }
+            },
+            "Exc": {
+                "name": "exc",
+                "in": "query",
+                "required": false,
+                "description": "Comma-delimited list of fields to exclude. Accepts: gender, name, location, email, login, registered, dob, phone, cell, id, picture, nat.",
+                "schema": {
+                    "type": "string",
+                    "example": "login"
+                }
+            },
+            "Dl": {
+                "name": "dl",
+                "in": "query",
+                "required": false,
+                "description": "Download the results with the appropriate format extension.",
+                "schema": {
+                    "type": "string",
+                    "enum": [""]
+                }
+            },
+            "Noinfo": {
+                "name": "noinfo",
+                "in": "query",
+                "required": false,
+                "description": "Return only the data, omitting seed, results, page and version info.",
+                "schema": {
+                    "type": "string",
+                    "enum": [""]
+                }
+            },
+            "Callback": {
+                "name": "callback",
+                "in": "query",
+                "required": false,
+                "description": "JSONP callback name. Only available with JSON formats.",
+                "schema": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas": {
+            "Response": {
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "type": "array",
+                        "items": { "$ref": "#/components/schemas/User" }
+                    },
+                    "info": { "$ref": "#/components/schemas/Info" }
+                }
+            },
+            "Info": {
+                "type": "object",
+                "description": "Omitted when the `noinfo` parameter is used.",
+                "properties": {
+                    "seed": {
+                        "type": "string",
+                        "description": "Seed used to generate the results."
+                    },
+                    "results": {
+                        "type": "integer",
+                        "description": "Number of results returned."
+                    },
+                    "page": {
+                        "type": "integer",
+                        "description": "Page returned."
+                    },
+                    "version": {
+                        "type": "string",
+                        "description": "API version used."
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "gender": {
+                        "type": "string",
+                        "enum": ["male", "female"]
+                    },
+                    "name": {
+                        "type": "object",
+                        "properties": {
+                            "title": { "type": "string" },
+                            "first": { "type": "string" },
+                            "last": { "type": "string" }
+                        }
+                    },
+                    "location": {
+                        "type": "object",
+                        "properties": {
+                            "street": {
+                                "type": "object",
+                                "properties": {
+                                    "number": { "type": "integer" },
+                                    "name": { "type": "string" }
+                                }
+                            },
+                            "city": { "type": "string" },
+                            "state": { "type": "string" },
+                            "country": { "type": "string" },
+                            "postcode": { "type": "string" },
+                            "coordinates": {
+                                "type": "object",
+                                "properties": {
+                                    "latitude": { "type": "string" },
+                                    "longitude": { "type": "string" }
+                                }
+                            },
+                            "timezone": {
+                                "type": "object",
+                                "properties": {
+                                    "offset": { "type": "string" },
+                                    "description": { "type": "string" }
+                                }
+                            }
+                        }
+                    },
+                    "email": { "type": "string" },
+                    "login": {
+                        "type": "object",
+                        "properties": {
+                            "uuid": { "type": "string" },
+                            "username": { "type": "string" },
+                            "password": { "type": "string" },
+                            "salt": { "type": "string" },
+                            "md5": { "type": "string" },
+                            "sha1": { "type": "string" },
+                            "sha256": { "type": "string" }
+                        }
+                    },
+                    "dob": { "$ref": "#/components/schemas/DatedAge" },
+                    "registered": { "$ref": "#/components/schemas/DatedAge" },
+                    "phone": { "type": "string" },
+                    "cell": { "type": "string" },
+                    "id": {
+                        "type": "object",
+                        "properties": {
+                            "name": { "type": "string" },
+                            "value": { "type": "string" }
+                        }
+                    },
+                    "picture": {
+                        "type": "object",
+                        "properties": {
+                            "large": { "type": "string", "format": "uri" },
+                            "medium": { "type": "string", "format": "uri" },
+                            "thumbnail": { "type": "string", "format": "uri" }
+                        }
+                    },
+                    "nat": { "type": "string" }
+                }
+            },
+            "DatedAge": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "description": "ISO 8601 date."
+                    },
+                    "age": { "type": "integer" }
+                }
+            }
+        }
     }
-  }
+}

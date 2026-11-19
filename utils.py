@@ -125,7 +125,7 @@ def save_json(path: Path, data: dict) -> None:
     """
 
     with open(path, mode="w", encoding="utf-8") as file:
-        json.dump(data, file, indent=4)
+        json.dump(data, file, indent=4, default=str)
 
 
 def load_text(path: Path) -> str:
