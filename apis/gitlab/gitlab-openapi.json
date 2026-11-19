@@ -1302,14 +1302,8 @@
     ],
     "servers": [
         {
-            "url": "https://{hostname}",
-            "description": "GitLab REST API",
-            "variables": {
-                "hostname": {
-                    "default": "gitlab.com",
-                    "description": "Your GitLab instance hostname"
-                }
-            }
+            "url": "https://gitlab.com/api/v4",
+            "description": "GitLab REST API"
         }
     ],
     "paths": {

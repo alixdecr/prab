@@ -1830,10 +1830,10 @@
         },
         "servers": [
             {
-                "url": "https://catwatch.opensource.zalan.do",
-                "hosted": "online",
-                "available": false,
-                "error": "ConnectionError"
+                "url": "http://localhost:8080",
+                "hosted": "local",
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -1961,12 +1961,6 @@
                 "hosted": "online",
                 "available": true,
                 "error": null
-            },
-            {
-                "url": "/v3",
-                "hosted": "online",
-                "available": false,
-                "error": "MissingSchema"
             }
         ],
         "authentication": [
@@ -3370,10 +3364,10 @@
         },
         "servers": [
             {
-                "url": "/banks",
+                "url": "https://api.fdic.gov/banks",
                 "hosted": "online",
-                "available": false,
-                "error": "MissingSchema"
+                "available": true,
+                "error": null
             }
         ],
         "authentication": null,
@@ -9872,10 +9866,10 @@
         },
         "servers": [
             {
-                "url": "https://{hostname}",
+                "url": "https://gitlab.com/api/v4",
                 "hosted": "online",
-                "available": false,
-                "error": "ConnectionError"
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [
@@ -18208,16 +18202,16 @@
         },
         "servers": [
             {
-                "url": "{protocol}://{address}:{port}/v3",
-                "hosted": "online",
-                "available": false,
-                "error": "InvalidSchema"
+                "url": "http://localhost:8082/v3",
+                "hosted": "local",
+                "available": true,
+                "error": null
             },
             {
-                "url": "{protocol}://{address}:{port}/kafka/v3",
-                "hosted": "online",
-                "available": false,
-                "error": "InvalidSchema"
+                "url": "http://localhost:8090/kafka/v3",
+                "hosted": "local",
+                "available": true,
+                "error": null
             },
             {
                 "url": "https://pkc-00000.region.provider.confluent.cloud/kafka/v3",
@@ -21932,10 +21926,10 @@
         },
         "servers": [
             {
-                "url": "/ohsome-api/v2",
+                "url": "https://api.heigit.org/ohsome-api/v2",
                 "hosted": "online",
-                "available": false,
-                "error": "MissingSchema"
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [

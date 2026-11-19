@@ -3,14 +3,7 @@
 *Last update: 2026-11-19*
 
 ## Unreachable Servers
-- `catwatch` (`https://catwatch.opensource.zalan.do`)
-- `coincap` (`/v3`)
-- `fdic` (`/banks`)
-- `gitlab` (`https://{hostname}`)
-- `kafka-rest-proxy` (`{protocol}://{address}:{port}/v3`)
-- `kafka-rest-proxy` (`{protocol}://{address}:{port}/kafka/v3`)
 - `kafka-rest-proxy` (`https://pkc-00000.region.provider.confluent.cloud/kafka/v3`)
-- `ohsome` (`/ohsome-api/v2`)
 
 ## Outdated OAS Formats
 - `catwatch` (`swagger v2.0`)

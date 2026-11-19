@@ -3831,7 +3831,7 @@
   ],
   "servers": [
     {
-      "url": "/ohsome-api/v2"
+      "url": "https://api.heigit.org/ohsome-api/v2"
     }
   ]
 }

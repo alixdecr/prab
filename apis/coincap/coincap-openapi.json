@@ -18,10 +18,6 @@
     {
       "url": "https://rest.coincap.io/v3",
       "description": "Production"
-    },
-    {
-      "url": "/v3",
-      "description": "Relative (same host as docs)"
     }
   ],
   "components": {

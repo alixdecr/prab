@@ -3,7 +3,7 @@
     "servers": [
         {
             "description": "API to serve banking industry data to the public.",
-            "url": "/banks"
+            "url": "https://api.fdic.gov/banks"
         }
     ],
     "info": {
