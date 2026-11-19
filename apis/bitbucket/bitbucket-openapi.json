@@ -587,7 +587,7 @@
         "tags": [
           "Repositories"
         ],
-        "description": "Creates a new repository.\n\nNote: In order to set the project for the newly created repository,\npass in either the project key or the project UUID as part of the\nrequest body as shown in the examples below:\n\n```\n$ curl -X POST -H \"Content-Type: application/json\" -d '{\n    \"scm\": \"git\",\n    \"project\": {\n        \"key\": \"MARS\"\n    }\n}' https://api.bitbucket.org/2.0/repositories/teamsinspace/hablanding\n```\n\nor\n\n```\n$ curl -X POST -H \"Content-Type: application/json\" -d '{\n    \"scm\": \"git\",\n    \"project\": {\n        \"key\": \"{ba516952-992a-4c2d-acbd-17d502922f96}\"\n    }\n}' https://api.bitbucket.org/2.0/repositories/teamsinspace/hablanding\n```\n\nThe project must be assigned for all repositories. If the project is not provided,\nthe repository is automatically assigned to the oldest project in the workspace.\n\nNote: In the examples above, the workspace ID `teamsinspace`,\nand/or the repository name `hablanding` can be replaced by UUIDs.",
+        "description": "Creates a new repository.\n\nNote: In order to set the project for the newly created repository,\npass in either the project key or the project UUID as part of the\nrequest body as shown in the examples below:\n\n```\n$ curl -X POST -H \"Content-Type: application/json\" -d '{\n    \"scm\": \"git\",\n    \"project\": {\n        \"key\": \"MARS\"\n    }\n}' https://api.bitbucket.org/2.0/repositories/teamsinspace/hablanding\n```\n\nor\n\n```\n$ curl -X POST -H \"Content-Type: application/json\" -d '{\n    \"scm\": \"git\",\n    \"project\": {\n        \"key\": \"{ba516952-992a-4c2d-acbd-17d502922f96}\"\n    }\n}' https://api.bitbucket.org/2.0/repositories/teamsinspace/hablanding\n```\n\nThe project must be assigned for all repositories. If the project is not provided,\nthe repository is automatically assigned to the oldest project in the workspace.\n\nNote: In order to require signed commits for the newly created repository,\npass in `enforced_signed_commits` as part of the request body as shown in\nthe example below. This requires the workspace to be on a Premium plan.\nCannot be disabled while the setting is enforced at the project or\nworkspace level.\n\n```\n$ curl -X POST -H \"Content-Type: application/json\" -d '{\n    \"enforced_signed_commits\": true\n}' https://api.bitbucket.org/2.0/repositories/teamsinspace/hablanding\n```\n\nNote: In the examples above, the workspace ID `teamsinspace`,\nand/or the repository name `hablanding` can be replaced by UUIDs.",
         "summary": "Create a repository",
         "responses": {
           "200": {
@@ -601,7 +601,7 @@
             }
           },
           "400": {
-            "description": "If the input document was invalid, or if the caller lacks the privilege to create repositories under the targeted account.",
+            "description": "If the input document was invalid, if the caller lacks the privilege to create repositories under the targeted account, or if `enforced_signed_commits` cannot be changed.",
             "content": {
               "application/json": {
                 "schema": {
@@ -662,7 +662,7 @@
         "tags": [
           "Repositories"
         ],
-        "description": "Since this endpoint can be used to both update and to create a\nrepository, the request body depends on the intent.\n\n#### Creation\n\nSee the POST documentation for the repository endpoint for an example\nof the request body.\n\n#### Update\n\nNote: Changing the `name` of the repository will cause the location to\nbe changed. This is because the URL of the repo is derived from the\nname (a process called slugification). In such a scenario, it is\npossible for the request to fail if the newly created slug conflicts\nwith an existing repository's slug. But if there is no conflict,\nthe new location will be returned in the `Location` header of the\nresponse.",
+        "description": "Since this endpoint can be used to both update and to create a\nrepository, the request body depends on the intent.\n\n#### Creation\n\nSee the POST documentation for the repository endpoint for an example\nof the request body.\n\n#### Update\n\nNote: Changing the `name` of the repository will cause the location to\nbe changed. This is because the URL of the repo is derived from the\nname (a process called slugification). In such a scenario, it is\npossible for the request to fail if the newly created slug conflicts\nwith an existing repository's slug. But if there is no conflict,\nthe new location will be returned in the `Location` header of the\nresponse.\n\nNote: Changing the `enforced_signed_commits` setting requires the workspace\nto be on a Premium plan. Cannot be disabled while the setting is enforced\nat the project or workspace level.",
         "summary": "Update a repository",
         "responses": {
           "200": {
@@ -702,7 +702,7 @@
             }
           },
           "400": {
-            "description": "If the input document was invalid, or if the caller lacks the privilege to create repositories under the targeted account.",
+            "description": "If the input document was invalid, if the caller lacks the privilege to create repositories under the targeted account, or if `enforced_signed_commits` cannot be changed.",
             "content": {
               "application/json": {
                 "schema": {
@@ -24851,7 +24851,7 @@
         "tags": [
           "Projects"
         ],
-        "description": "Creates a new project.\n\nNote that the avatar has to be embedded as either a data-url\nor a URL to an external image as shown in the examples below:\n\n```\n$ body=$(cat << EOF\n{\n    \"name\": \"Mars Project\",\n    \"key\": \"MARS\",\n    \"description\": \"Software for colonizing mars.\",\n    \"links\": {\n        \"avatar\": {\n            \"href\": \"data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/...\"\n        }\n    },\n    \"is_private\": false\n}\nEOF\n)\n$ curl -H \"Content-Type: application/json\" \\\n       -X POST \\\n       -d \"$body\" \\\n       https://api.bitbucket.org/2.0/workspaces/teams-in-space/projects/ | jq .\n{\n  // Serialized project document\n}\n```\n\nor even:\n\n```\n$ body=$(cat << EOF\n{\n    \"name\": \"Mars Project\",\n    \"key\": \"MARS\",\n    \"description\": \"Software for colonizing mars.\",\n    \"links\": {\n        \"avatar\": {\n            \"href\": \"http://i.imgur.com/72tRx4w.gif\"\n        }\n    },\n    \"is_private\": false\n}\nEOF\n)\n$ curl -H \"Content-Type: application/json\" \\\n       -X POST \\\n       -d \"$body\" \\\n       https://api.bitbucket.org/2.0/workspaces/teams-in-space/projects/ | jq .\n{\n  // Serialized project document\n}\n```",
+        "description": "Creates a new project.\n\nNote: Setting `enforced_signed_commits` requires the workspace to be on a\nPremium plan. Cannot be disabled while the setting is enforced at the\nworkspace level.\n\nNote that the avatar has to be embedded as either a data-url\nor a URL to an external image as shown in the examples below:\n\n```\n$ body=$(cat << EOF\n{\n    \"name\": \"Mars Project\",\n    \"key\": \"MARS\",\n    \"description\": \"Software for colonizing mars.\",\n    \"links\": {\n        \"avatar\": {\n            \"href\": \"data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/...\"\n        }\n    },\n    \"is_private\": false\n}\nEOF\n)\n$ curl -H \"Content-Type: application/json\" \\\n       -X POST \\\n       -d \"$body\" \\\n       https://api.bitbucket.org/2.0/workspaces/teams-in-space/projects/ | jq .\n{\n  // Serialized project document\n}\n```\n\nor even:\n\n```\n$ body=$(cat << EOF\n{\n    \"name\": \"Mars Project\",\n    \"key\": \"MARS\",\n    \"description\": \"Software for colonizing mars.\",\n    \"links\": {\n        \"avatar\": {\n            \"href\": \"http://i.imgur.com/72tRx4w.gif\"\n        }\n    },\n    \"is_private\": false\n}\nEOF\n)\n$ curl -H \"Content-Type: application/json\" \\\n       -X POST \\\n       -d \"$body\" \\\n       https://api.bitbucket.org/2.0/workspaces/teams-in-space/projects/ | jq .\n{\n  // Serialized project document\n}\n```",
         "summary": "Create a project in a workspace",
         "responses": {
           "201": {
@@ -24868,6 +24868,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/project"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request body is invalid, or `enforced_signed_commits` can't be set.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
                 }
               }
             }
@@ -25074,7 +25084,7 @@
         "tags": [
           "Projects"
         ],
-        "description": "Since this endpoint can be used to both update and to create a\nproject, the request body depends on the intent.\n\n#### Creation\n\nSee the POST documentation for the project collection for an\nexample of the request body.\n\nNote: The `key` should not be specified in the body of request\n(since it is already present in the URL). The `name` is required,\neverything else is optional.\n\n#### Update\n\nSee the POST documentation for the project collection for an\nexample of the request body.\n\nNote: The key is not required in the body (since it is already in\nthe URL). The key may be specified in the body, if the intent is\nto change the key itself. In such a scenario, the location of the\nproject is changed and is returned in the `Location` header of the\nresponse.",
+        "description": "Since this endpoint can be used to both update and to create a\nproject, the request body depends on the intent.\n\n#### Creation\n\nSee the POST documentation for the project collection for an\nexample of the request body.\n\nNote: The `key` should not be specified in the body of request\n(since it is already present in the URL). The `name` is required,\neverything else is optional.\n\n#### Update\n\nSee the POST documentation for the project collection for an\nexample of the request body.\n\nNote: The key is not required in the body (since it is already in\nthe URL). The key may be specified in the body, if the intent is\nto change the key itself. In such a scenario, the location of the\nproject is changed and is returned in the `Location` header of the\nresponse.\n\nNote: Changing the `enforced_signed_commits` setting requires the workspace\nto be on a Premium plan. Cannot be disabled while the setting is enforced\nat the workspace level.",
         "summary": "Update a project for a workspace",
         "responses": {
           "200": {
@@ -25109,6 +25119,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/project"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request body is invalid, or `enforced_signed_commits` can't be changed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
                 }
               }
             }
@@ -27753,7 +27773,7 @@
       "description": "A workspace is where you create repositories, collaborate on\nyour code, and organize different streams of work in your Bitbucket\nCloud account. Workspaces replace the use of teams and users in API\ncalls.\n"
     }
   ],
-  "x-revision": "ec08f2e7e307",
+  "x-revision": "fcf60e30afc5",
   "x-atlassian-narrative": {
     "documents": [
       {
@@ -31960,7 +31980,7 @@
               },
               "enforced_signed_commits": {
                 "type": "boolean",
-                "description": "Whether signed commits are required for this repository: true when the workspace has Premium and the repository, its project, or its workspace enforces them; otherwise false."
+                "description": "Whether signed commits are required for this repository:\n\n- true when the workspace is on a Premium plan and enforcement is enabled at the repository, project,\n  or workspace level;\n- otherwise false."
               },
               "project": {
                 "$ref": "#/components/schemas/project"
@@ -33280,6 +33300,10 @@
               "has_publicly_visible_repos": {
                 "type": "boolean",
                 "description": "\nIndicates whether the project contains publicly visible repositories.\nNote that private projects cannot contain public repositories."
+              },
+              "enforced_signed_commits": {
+                "type": "boolean",
+                "description": "Whether signed commits are required for this project:\n\n- true when the workspace is on a Premium plan and enforcement is enabled at the project or the\n  workspace level;\n- otherwise false."
               }
             },
             "additionalProperties": true
@@ -35619,7 +35643,7 @@
               },
               "enforced_signed_commits": {
                 "type": "boolean",
-                "description": "The workspace's stored signed-commit enforcement setting. Unset values are returned as false. Enforcement requires a Premium plan."
+                "description": "Whether signed commits are required for this workspace:\n\n- true when enforcement is enabled at the workspace level, even if the workspace is no longer on a\n  Premium plan. Signed commits are only enforced on a Premium plan;\n- otherwise false."
               },
               "is_privacy_enforced": {
                 "type": "boolean",

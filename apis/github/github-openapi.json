@@ -21546,11 +21546,11 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "Response"
+          },
           "404": {
             "$ref": "#/components/responses/not_found"
-          },
-          "202": {
-            "description": "Response"
           }
         },
         "x-github": {
@@ -21558,7 +21558,21 @@
           "enabledForGitHubApps": false,
           "category": "apps",
           "subcategory": "apps"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "change_delete_installation_success_status",
+            "patch": {
+              "responses": {
+                "202": {
+                  "description": "Response"
+                },
+                "204": null
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/app/installations/{installation_id}/access_tokens": {
@@ -29348,6 +29362,10 @@
                     "description": "**Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.\n\nWhether secret scanning push protection is automatically enabled for new repositories and repositories transferred to this organization.\n\nTo use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"\n\nYou can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request.",
                     "deprecated": true
                   },
+                  "secret_scanning_push_protection_custom_link_enabled": {
+                    "type": "boolean",
+                    "description": "Whether a custom link is shown to contributors who are blocked from pushing a secret by push protection."
+                  },
                   "secret_scanning_push_protection_custom_link": {
                     "type": "string",
                     "description": "If `secret_scanning_push_protection_custom_link_enabled` is true, the URL that will be displayed to contributors who are blocked from pushing a secret."
@@ -29419,7 +29437,26 @@
           "enabledForGitHubApps": true,
           "category": "orgs",
           "subcategory": "orgs"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_secret_scanning_custom_link_enablement_field",
+            "patch": {
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "properties": {
+                        "secret_scanning_push_protection_custom_link_enabled": null
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       },
       "delete": {
         "summary": "Delete an organization",
@@ -29446,9 +29483,6 @@
           },
           "403": {
             "$ref": "#/components/responses/forbidden"
-          },
-          "451": {
-            "$ref": "#/components/responses/validation_failed"
           }
         },
         "x-github": {
@@ -29456,7 +29490,20 @@
           "enabledForGitHubApps": true,
           "category": "orgs",
           "subcategory": "orgs"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "change_delete_organization_trade_compliance_respose_status",
+            "patch": {
+              "responses": {
+                "451": {
+                  "$ref": "#/components/responses/validation_failed"
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/orgs/{org}/actions/cache/usage": {
@@ -37379,6 +37426,25 @@
                         "items": {
                           "type": "object",
                           "properties": {
+                            "bundle": {
+                              "type": "object",
+                              "properties": {
+                                "mediaType": {
+                                  "type": "string"
+                                },
+                                "verificationMaterial": {
+                                  "type": "object",
+                                  "properties": {},
+                                  "additionalProperties": true
+                                },
+                                "dsseEnvelope": {
+                                  "type": "object",
+                                  "properties": {},
+                                  "additionalProperties": true
+                                }
+                              },
+                              "description": "The bundle of the attestation."
+                            },
                             "repository_id": {
                               "type": "integer"
                             },
@@ -37428,7 +37494,36 @@
           "enabledForGitHubApps": true,
           "category": "orgs",
           "subcategory": "attestations"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_bundle",
+            "patch": {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "properties": {
+                          "attestations_subject_digests": {
+                            "additionalProperties": {
+                              "items": {
+                                "properties": {
+                                  "bundle": null
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/orgs/{org}/attestations/delete-request": {
@@ -37752,6 +37847,28 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "bundle": {
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "mediaType": {
+                                "type": "string"
+                              },
+                              "verificationMaterial": {
+                                "type": "object",
+                                "properties": {},
+                                "additionalProperties": true
+                              },
+                              "dsseEnvelope": {
+                                "type": "object",
+                                "properties": {},
+                                "additionalProperties": true
+                              }
+                            },
+                            "description": "The attestation's Sigstore Bundle.\nRefer to the [Sigstore Bundle Specification](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_bundle.proto) for more information."
+                          },
                           "repository_id": {
                             "type": "integer"
                           },
@@ -37780,7 +37897,34 @@
           "enabledForGitHubApps": true,
           "category": "orgs",
           "subcategory": "attestations"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_bundle",
+            "patch": {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "properties": {
+                          "attestations": {
+                            "items": {
+                              "properties": {
+                                "bundle": null
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/orgs/{org}/blocks": {
@@ -45100,7 +45244,14 @@
                     "type": "array",
                     "description": "An array of repository ids that can access the organization secret. You can only provide a list of repository ids when the `visibility` is set to `selected`. You can manage the list of selected repositories using the [List selected repositories for an organization secret](https://docs.github.com/rest/dependabot/secrets#list-selected-repositories-for-an-organization-secret), [Set selected repositories for an organization secret](https://docs.github.com/rest/dependabot/secrets#set-selected-repositories-for-an-organization-secret), and [Remove selected repository from an organization secret](https://docs.github.com/rest/dependabot/secrets#remove-selected-repository-from-an-organization-secret) endpoints.",
                     "items": {
-                      "type": "integer"
+                      "anyOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
                     }
                   }
                 },
@@ -45149,7 +45300,22 @@
           "enabledForGitHubApps": true,
           "category": "dependabot",
           "subcategory": "secrets"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_string_type_from_repo_id_param",
+            "patch": [
+              {
+                "op": "replace",
+                "path": "/requestBody/content/application~1json/schema/properties/selected_repository_ids/items",
+                "value": {
+                  "type": "integer"
+                }
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "delete": {
         "summary": "Delete an organization secret",
@@ -48304,9 +48470,6 @@
           },
           "403": {
             "$ref": "#/components/responses/forbidden"
-          },
-          "451": {
-            "$ref": "#/components/responses/validation_failed"
           }
         },
         "x-github": {
@@ -48314,7 +48477,20 @@
           "enabledForGitHubApps": true,
           "category": "orgs",
           "subcategory": "members"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "change_remove_member_trade_compliance_response_status",
+            "patch": {
+              "responses": {
+                "451": {
+                  "$ref": "#/components/responses/validation_failed"
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/orgs/{org}/members/{username}/codespaces": {
@@ -48691,9 +48867,6 @@
           },
           "403": {
             "$ref": "#/components/responses/forbidden"
-          },
-          "451": {
-            "$ref": "#/components/responses/validation_failed"
           }
         },
         "x-github": {
@@ -48701,7 +48874,20 @@
           "enabledForGitHubApps": true,
           "category": "orgs",
           "subcategory": "members"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "change_update_user_membership_trade_compliance_response_status",
+            "patch": {
+              "responses": {
+                "451": {
+                  "$ref": "#/components/responses/validation_failed"
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       },
       "delete": {
         "summary": "Remove organization membership for a user",
@@ -49162,7 +49348,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/simple-repository"
+                    "$ref": "#/components/schemas/minimal-repository"
                   }
                 },
                 "examples": {
@@ -49187,7 +49373,43 @@
           "enabledForGitHubApps": false,
           "category": "migrations",
           "subcategory": "orgs"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "restrict_repo_fields_in_migration_resource",
+            "patch": {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "items": {
+                          "$ref": "#/components/schemas/simple-repository"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "restrict_repo_fields_in_migration_resource",
+            "patch": {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "examples": null
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/orgs/{org}/organization-roles": {
@@ -54447,9 +54669,6 @@
           },
           "422": {
             "$ref": "#/components/responses/validation_failed"
-          },
-          "451": {
-            "$ref": "#/components/responses/validation_failed"
           }
         },
         "x-github": {
@@ -54457,7 +54676,20 @@
           "enabledForGitHubApps": true,
           "category": "repos",
           "subcategory": "repos"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "change_create_repo_trade_compliance_response_status",
+            "patch": {
+              "responses": {
+                "451": {
+                  "$ref": "#/components/responses/validation_failed"
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/orgs/{org}/rulesets": {
@@ -56878,6 +57110,15 @@
                       "notifications_disabled"
                     ]
                   },
+                  "permission": {
+                    "type": "string",
+                    "description": "**Closing down notice**. The permission that new repositories will be added to the team with when none is specified.",
+                    "enum": [
+                      "pull",
+                      "push"
+                    ],
+                    "default": "pull"
+                  },
                   "parent_team_id": {
                     "type": "integer",
                     "description": "The ID of a team to set as the parent team."
@@ -56933,7 +57174,27 @@
           "enabledForGitHubApps": true,
           "category": "teams",
           "subcategory": "teams"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_team_permission",
+            "patch": {
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "properties": {
+                        "permission": null
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/orgs/{org}/teams/{team_slug}": {
@@ -63817,7 +64078,11 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "Empty response when `return_run_details` parameter is `false`."
+          },
           "200": {
+            "description": "Response including the workflow run ID and URLs when `return_run_details` parameter is `true`.",
             "content": {
               "application/json": {
                 "schema": {
@@ -63829,8 +64094,7 @@
                   }
                 }
               }
-            },
-            "description": "Response including the workflow run ID and URLs."
+            }
           }
         },
         "requestBody": {
@@ -63849,6 +64113,10 @@
                     "description": "Input keys and values configured in the workflow file. The maximum number of properties is 25. Any default properties configured in the workflow file will be used when `inputs` are omitted.",
                     "additionalProperties": true,
                     "maxProperties": 25
+                  },
+                  "return_run_details": {
+                    "type": "boolean",
+                    "description": "Whether the response should include the workflow run ID and URLs."
                   }
                 },
                 "required": [
@@ -63874,7 +64142,28 @@
           "enabledForGitHubApps": true,
           "category": "actions",
           "subcategory": "workflows"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "change_workflow_dispatch_response_status",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/responses/204"
+              },
+              {
+                "op": "remove",
+                "path": "/requestBody/content/application~1json/schema/properties/return_run_details"
+              },
+              {
+                "op": "replace",
+                "path": "/responses/200/description",
+                "value": "Response including the workflow run ID and URLs."
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/repos/{owner}/{repo}/actions/workflows/{workflow_id}/enable": {
@@ -65162,6 +65451,25 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "bundle": {
+                            "type": "object",
+                            "properties": {
+                              "mediaType": {
+                                "type": "string"
+                              },
+                              "verificationMaterial": {
+                                "type": "object",
+                                "properties": {},
+                                "additionalProperties": true
+                              },
+                              "dsseEnvelope": {
+                                "type": "object",
+                                "properties": {},
+                                "additionalProperties": true
+                              }
+                            },
+                            "description": "The attestation's Sigstore Bundle.\nRefer to the [Sigstore Bundle Specification](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_bundle.proto) for more information."
+                          },
                           "repository_id": {
                             "type": "integer"
                           },
@@ -65190,7 +65498,34 @@
           "enabledForGitHubApps": true,
           "category": "repos",
           "subcategory": "attestations"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_bundle",
+            "patch": {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "properties": {
+                          "attestations": {
+                            "items": {
+                              "properties": {
+                                "bundle": null
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/repos/{owner}/{repo}/autolinks": {
@@ -74322,7 +74657,7 @@
     "/repos/{owner}/{repo}/contents/{path}": {
       "get": {
         "summary": "Get repository content",
-        "description": "Gets the contents of a file or directory in a repository. Specify the file path or directory with the `path` parameter. If you omit the `path` parameter, you will receive the contents of the repository's root directory.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw file contents for files and symlinks.\n- **`application/vnd.github.html+json`**: Returns the file contents in HTML. Markup languages are rendered to HTML using GitHub's open-source [Markup library](https://github.com/github/markup).\n- **`application/vnd.github.object+json`**: Returns the contents in a consistent object format regardless of the content type. For example, instead of an array of objects for a directory, the response will be an object with an `entries` attribute containing the array of objects.\n\nIf the content is a directory: The response will be an array of objects, one object for each item in the directory.\n\nIf the content is a symlink and the symlink's target is a normal file in the repository, then the API responds with the content of the file. Otherwise, the API responds with an object describing the symlink itself.\n\nIf the content is a submodule, the `submodule_git_url` field identifies the location of the submodule repository, and the `sha` identifies a specific commit within the submodule repository. Git uses the given URL when cloning the submodule repository, and checks out the submodule at that specific commit. If the submodule repository is not hosted on github.com, the Git URLs (`git_url` and `_links[\"git\"]`) and the github.com URLs (`html_url` and `_links[\"html\"]`) will have null values.\n\n**Notes**:\n\n- To get a repository's contents recursively, you can [recursively get the tree](https://docs.github.com/rest/git/trees#get-a-tree).\n- This API has an upper limit of 1,000 files for a directory. If you need to retrieve\nmore files, use the [Git Trees API](https://docs.github.com/rest/git/trees#get-a-tree).\n- Download URLs expire and are meant to be used just once. To ensure the download URL does not expire, please use the contents API to obtain a fresh download URL for each download.\n- If the requested file's size is:\n  - 1 MB or smaller: All features of this endpoint are supported.\n  - Between 1-100 MB: Only the `raw` or `object` custom media types are supported. Both will work as normal, except that when using the `object` media type, the `content` field will be an empty\nstring and the `encoding` field will be `\"none\"`. To get the contents of these larger files, use the `raw` media type.\n  - Greater than 100 MB: This endpoint is not supported.",
+        "description": "Gets the contents of a file or directory in a repository. Specify the file path or directory with the `path` parameter. If you omit the `path` parameter, you will receive the contents of the repository's root directory.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw file contents for files and symlinks.\n- **`application/vnd.github.html+json`**: Returns the file contents in HTML. Markup languages are rendered to HTML using GitHub's open-source [Markup library](https://github.com/github/markup).\n- **`application/vnd.github.object+json`**: Returns the contents in a consistent object format regardless of the content type. For example, instead of an array of objects for a directory, the response will be an object with an `entries` attribute containing the array of objects.\n\nIf the content is a directory, the response will be an array of objects, one object for each item in the directory. When listing the contents of a directory, submodules have their \"type\" specified as \"file\". Logically, the value _should_ be \"submodule\". This behavior exists [for backwards compatibility purposes](https://git.io/v1YCW). In the next major version of the API, the type will be returned as \"submodule\".\n\nIf the content is a symlink and the symlink's target is a normal file in the repository, then the API responds with the content of the file. Otherwise, the API responds with an object describing the symlink itself.\n\nIf the content is a submodule, the `submodule_git_url` field identifies the location of the submodule repository, and the `sha` identifies a specific commit within the submodule repository. Git uses the given URL when cloning the submodule repository, and checks out the submodule at that specific commit. If the submodule repository is not hosted on github.com, the Git URLs (`git_url` and `_links[\"git\"]`) and the github.com URLs (`html_url` and `_links[\"html\"]`) will have null values.\n\n**Notes**:\n\n- To get a repository's contents recursively, you can [recursively get the tree](https://docs.github.com/rest/git/trees#get-a-tree).\n- This API has an upper limit of 1,000 files for a directory. If you need to retrieve\nmore files, use the [Git Trees API](https://docs.github.com/rest/git/trees#get-a-tree).\n- Download URLs expire and are meant to be used just once. To ensure the download URL does not expire, please use the contents API to obtain a fresh download URL for each download.\n- If the requested file's size is:\n  - 1 MB or smaller: All features of this endpoint are supported.\n  - Between 1-100 MB: Only the `raw` or `object` custom media types are supported. Both will work as normal, except that when using the `object` media type, the `content` field will be an empty\nstring and the `encoding` field will be `\"none\"`. To get the contents of these larger files, use the `raw` media type.\n  - Greater than 100 MB: This endpoint is not supported.",
         "tags": [
           "repos"
         ],
@@ -74463,7 +74798,16 @@
           "enabledForGitHubApps": true,
           "category": "repos",
           "subcategory": "contents"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "return_submodule_type_for_submodules_in_directory_lists",
+            "patch": {
+              "description": "Gets the contents of a file or directory in a repository. Specify the file path or directory with the `path` parameter. If you omit the `path` parameter, you will receive the contents of the repository's root directory.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw file contents for files and symlinks.\n- **`application/vnd.github.html+json`**: Returns the file contents in HTML. Markup languages are rendered to HTML using GitHub's open-source [Markup library](https://github.com/github/markup).\n- **`application/vnd.github.object+json`**: Returns the contents in a consistent object format regardless of the content type. For example, instead of an array of objects for a directory, the response will be an object with an `entries` attribute containing the array of objects.\n\nIf the content is a directory: The response will be an array of objects, one object for each item in the directory.\n\nIf the content is a symlink and the symlink's target is a normal file in the repository, then the API responds with the content of the file. Otherwise, the API responds with an object describing the symlink itself.\n\nIf the content is a submodule, the `submodule_git_url` field identifies the location of the submodule repository, and the `sha` identifies a specific commit within the submodule repository. Git uses the given URL when cloning the submodule repository, and checks out the submodule at that specific commit. If the submodule repository is not hosted on github.com, the Git URLs (`git_url` and `_links[\"git\"]`) and the github.com URLs (`html_url` and `_links[\"html\"]`) will have null values.\n\n**Notes**:\n\n- To get a repository's contents recursively, you can [recursively get the tree](https://docs.github.com/rest/git/trees#get-a-tree).\n- This API has an upper limit of 1,000 files for a directory. If you need to retrieve\nmore files, use the [Git Trees API](https://docs.github.com/rest/git/trees#get-a-tree).\n- Download URLs expire and are meant to be used just once. To ensure the download URL does not expire, please use the contents API to obtain a fresh download URL for each download.\n- If the requested file's size is:\n  - 1 MB or smaller: All features of this endpoint are supported.\n  - Between 1-100 MB: Only the `raw` or `object` custom media types are supported. Both will work as normal, except that when using the `object` media type, the `content` field will be an empty\nstring and the `encoding` field will be `\"none\"`. To get the contents of these larger files, use the `raw` media type.\n  - Greater than 100 MB: This endpoint is not supported."
+            },
+            "version": "2026-03-10"
+          }
+        ]
       },
       "put": {
         "summary": "Create or update file contents",
@@ -82411,6 +82755,13 @@
                       "In progress"
                     ]
                   },
+                  "assignee": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "Login for the user that this issue should be assigned to. _NOTE: Only users with push access can set the assignee for new issues. The assignee is silently dropped otherwise. **This field is closing down.**_"
+                  },
                   "milestone": {
                     "oneOf": [
                       {
@@ -82589,7 +82940,26 @@
           "enabledForGitHubApps": true,
           "category": "issues",
           "subcategory": "issues"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_singular_assignee_from_issues_and_pull_requests",
+            "patch": {
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "properties": {
+                        "assignee": null
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/repos/{owner}/{repo}/issues/comments": {
@@ -83415,6 +83785,13 @@
                     ],
                     "description": "The contents of the issue."
                   },
+                  "assignee": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "Username to assign to this issue. **This field is closing down.**"
+                  },
                   "state": {
                     "type": "string",
                     "description": "The open or closed state of the issue.",
@@ -83929,7 +84306,26 @@
           "enabledForGitHubApps": true,
           "category": "issues",
           "subcategory": "issues"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_singular_assignee_from_issues_and_pull_requests",
+            "patch": {
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "properties": {
+                        "assignee": null
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/repos/{owner}/{repo}/issues/{issue_number}/artifacts": {
@@ -106815,7 +107211,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/simple-repository"
+                    "$ref": "#/components/schemas/minimal-repository"
                   }
                 },
                 "examples": {
@@ -106840,7 +107236,43 @@
           "enabledForGitHubApps": false,
           "category": "migrations",
           "subcategory": "users"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "restrict_repo_fields_in_migration_resource",
+            "patch": {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "items": {
+                          "$ref": "#/components/schemas/simple-repository"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "restrict_repo_fields_in_migration_resource",
+            "patch": {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "examples": null
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/user/orgs": {
@@ -107775,9 +108207,6 @@
           },
           "400": {
             "$ref": "#/components/responses/bad_request"
-          },
-          "451": {
-            "$ref": "#/components/responses/validation_failed"
           }
         },
         "x-github": {
@@ -107785,7 +108214,20 @@
           "enabledForGitHubApps": true,
           "category": "repos",
           "subcategory": "repos"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "change_create_repo_trade_compliance_response_status",
+            "patch": {
+              "responses": {
+                "451": {
+                  "$ref": "#/components/responses/validation_failed"
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/user/repository_invitations": {
@@ -107885,9 +108327,6 @@
           },
           "304": {
             "$ref": "#/components/responses/not_modified"
-          },
-          "451": {
-            "$ref": "#/components/responses/validation_failed"
           }
         },
         "x-github": {
@@ -107895,7 +108334,20 @@
           "enabledForGitHubApps": false,
           "category": "collaborators",
           "subcategory": "invitations"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "change_accept_repository_invitation_response_status",
+            "patch": {
+              "responses": {
+                "451": {
+                  "$ref": "#/components/responses/validation_failed"
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       },
       "delete": {
         "summary": "Decline a repository invitation",
@@ -109352,6 +109804,25 @@
                         "items": {
                           "type": "object",
                           "properties": {
+                            "bundle": {
+                              "type": "object",
+                              "properties": {
+                                "mediaType": {
+                                  "type": "string"
+                                },
+                                "verificationMaterial": {
+                                  "type": "object",
+                                  "properties": {},
+                                  "additionalProperties": true
+                                },
+                                "dsseEnvelope": {
+                                  "type": "object",
+                                  "properties": {},
+                                  "additionalProperties": true
+                                }
+                              },
+                              "description": "The bundle of the attestation."
+                            },
                             "repository_id": {
                               "type": "integer"
                             },
@@ -109401,7 +109872,36 @@
           "enabledForGitHubApps": true,
           "category": "users",
           "subcategory": "attestations"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_bundle",
+            "patch": {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "properties": {
+                          "attestations_subject_digests": {
+                            "additionalProperties": {
+                              "items": {
+                                "properties": {
+                                  "bundle": null
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/users/{username}/attestations/delete-request": {
@@ -109654,6 +110154,25 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "bundle": {
+                            "type": "object",
+                            "properties": {
+                              "mediaType": {
+                                "type": "string"
+                              },
+                              "verificationMaterial": {
+                                "type": "object",
+                                "properties": {},
+                                "additionalProperties": true
+                              },
+                              "dsseEnvelope": {
+                                "type": "object",
+                                "properties": {},
+                                "additionalProperties": true
+                              }
+                            },
+                            "description": "The attestation's Sigstore Bundle.\nRefer to the [Sigstore Bundle Specification](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_bundle.proto) for more information."
+                          },
                           "repository_id": {
                             "type": "integer"
                           },
@@ -109703,7 +110222,34 @@
           "enabledForGitHubApps": true,
           "category": "users",
           "subcategory": "attestations"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_bundle",
+            "patch": {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "properties": {
+                          "attestations": {
+                            "items": {
+                              "properties": {
+                                "bundle": null
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       }
     },
     "/users/{username}/copilot-spaces": {
@@ -139908,6 +140454,10 @@
             "type": "string",
             "format": "uri-template"
           },
+          "authorizations_url": {
+            "type": "string",
+            "format": "uri-template"
+          },
           "code_search_url": {
             "type": "string",
             "format": "uri-template"
@@ -139943,6 +140493,11 @@
           "gists_url": {
             "type": "string",
             "format": "uri-template"
+          },
+          "hub_url": {
+            "type": "string",
+            "format": "uri-template",
+            "deprecated": true
           },
           "issue_search_url": {
             "type": "string",
@@ -140028,6 +140583,7 @@
         "required": [
           "current_user_url",
           "current_user_authorizations_html_url",
+          "authorizations_url",
           "code_search_url",
           "commit_search_url",
           "emails_url",
@@ -140056,6 +140612,31 @@
           "user_organizations_url",
           "user_repositories_url",
           "user_search_url"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_authorizations_url_from_api_root",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/authorizations_url"
+              },
+              {
+                "op": "remove",
+                "path": "/required/2"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_hub_url_from_api_root",
+            "patch": {
+              "properties": {
+                "hub_url": null
+              }
+            },
+            "version": "2026-03-10"
+          }
         ]
       },
       "security-advisory-ecosystems": {
@@ -140573,6 +141154,35 @@
               "$ref": "#/components/schemas/vulnerability"
             }
           },
+          "cvss": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "vector_string": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "The CVSS vector."
+              },
+              "score": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "description": "The CVSS score.",
+                "minimum": 0,
+                "maximum": 10,
+                "readOnly": true
+              }
+            },
+            "required": [
+              "vector_string",
+              "score"
+            ]
+          },
           "cvss_severities": {
             "$ref": "#/components/schemas/cvss-severities"
           },
@@ -140646,10 +141256,44 @@
           "nvd_published_at",
           "withdrawn_at",
           "vulnerabilities",
+          "cvss",
           "cwes",
           "credits"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "x-github-breaking-changes": [
+          {
+            "changeset": "deprecate_cvss",
+            "patch": {
+              "properties": {
+                "cvss": null
+              },
+              "required": [
+                "ghsa_id",
+                "cve_id",
+                "url",
+                "html_url",
+                "repository_advisory_url",
+                "summary",
+                "description",
+                "type",
+                "severity",
+                "source_code_location",
+                "identifiers",
+                "references",
+                "published_at",
+                "updated_at",
+                "github_reviewed_at",
+                "nvd_published_at",
+                "withdrawn_at",
+                "vulnerabilities",
+                "cwes",
+                "credits"
+              ]
+            },
+            "version": "2026-03-10"
+          }
+        ]
       },
       "basic-error": {
         "title": "Basic Error",
@@ -142598,6 +143242,15 @@
           "has_pages": {
             "type": "boolean"
           },
+          "has_downloads": {
+            "description": "Whether downloads are enabled.",
+            "default": true,
+            "type": "boolean",
+            "deprecated": true,
+            "examples": [
+              true
+            ]
+          },
           "has_discussions": {
             "description": "Whether discussions are enabled.",
             "default": false,
@@ -142713,6 +143366,12 @@
               false
             ]
           },
+          "use_squash_pr_title_as_default": {
+            "type": "boolean",
+            "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+            "default": false,
+            "deprecated": true
+          },
           "squash_merge_commit_title": {
             "type": "string",
             "enum": [
@@ -142769,6 +143428,9 @@
           },
           "watchers": {
             "type": "integer"
+          },
+          "master_branch": {
+            "type": "string"
           },
           "starred_at": {
             "type": "string",
@@ -142845,6 +143507,7 @@
           "forks",
           "forks_count",
           "git_url",
+          "has_downloads",
           "has_issues",
           "has_projects",
           "has_wiki",
@@ -142866,6 +143529,109 @@
           "watchers_count",
           "created_at",
           "updated_at"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": {
+              "properties": {
+                "use_squash_pr_title_as_default": null
+              }
+            },
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "deprecate_beta_media_type",
+            "patch": {
+              "properties": {
+                "master_branch": null
+              }
+            },
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_has_downloads",
+            "patch": {
+              "properties": {
+                "has_downloads": null
+              },
+              "required": [
+                "archive_url",
+                "assignees_url",
+                "blobs_url",
+                "branches_url",
+                "collaborators_url",
+                "comments_url",
+                "commits_url",
+                "compare_url",
+                "contents_url",
+                "contributors_url",
+                "deployments_url",
+                "description",
+                "downloads_url",
+                "events_url",
+                "fork",
+                "forks_url",
+                "full_name",
+                "git_commits_url",
+                "git_refs_url",
+                "git_tags_url",
+                "hooks_url",
+                "html_url",
+                "id",
+                "node_id",
+                "issue_comment_url",
+                "issue_events_url",
+                "issues_url",
+                "keys_url",
+                "labels_url",
+                "languages_url",
+                "merges_url",
+                "milestones_url",
+                "name",
+                "notifications_url",
+                "owner",
+                "private",
+                "pulls_url",
+                "releases_url",
+                "stargazers_url",
+                "statuses_url",
+                "subscribers_url",
+                "subscription_url",
+                "tags_url",
+                "teams_url",
+                "trees_url",
+                "url",
+                "clone_url",
+                "default_branch",
+                "forks",
+                "forks_count",
+                "git_url",
+                "has_issues",
+                "has_projects",
+                "has_wiki",
+                "has_pages",
+                "homepage",
+                "language",
+                "archived",
+                "disabled",
+                "mirror_url",
+                "open_issues",
+                "open_issues_count",
+                "license",
+                "pushed_at",
+                "size",
+                "ssh_url",
+                "stargazers_count",
+                "svn_url",
+                "watchers",
+                "watchers_count",
+                "created_at",
+                "updated_at"
+              ]
+            },
+            "version": "2026-03-10"
+          }
         ]
       },
       "installation-token": {
@@ -144240,6 +145006,33 @@
               "malware"
             ]
           },
+          "cvss": {
+            "type": "object",
+            "description": "Details for the advisory pertaining to the Common Vulnerability Scoring System.",
+            "readOnly": true,
+            "properties": {
+              "score": {
+                "type": "number",
+                "description": "The overall CVSS score of the advisory.",
+                "minimum": 0,
+                "maximum": 10,
+                "readOnly": true
+              },
+              "vector_string": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "The full CVSS vector string for the advisory.",
+                "readOnly": true
+              }
+            },
+            "required": [
+              "score",
+              "vector_string"
+            ],
+            "additionalProperties": false
+          },
           "cvss_severities": {
             "$ref": "#/components/schemas/cvss-severities"
           },
@@ -144355,6 +145148,7 @@
           "description",
           "vulnerabilities",
           "severity",
+          "cvss",
           "cwes",
           "identifiers",
           "references",
@@ -144362,7 +145156,32 @@
           "updated_at",
           "withdrawn_at"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "x-github-breaking-changes": [
+          {
+            "changeset": "deprecate_cvss",
+            "patch": {
+              "properties": {
+                "cvss": null
+              },
+              "required": [
+                "ghsa_id",
+                "cve_id",
+                "summary",
+                "description",
+                "vulnerabilities",
+                "severity",
+                "cwes",
+                "identifiers",
+                "references",
+                "published_at",
+                "updated_at",
+                "withdrawn_at"
+              ]
+            },
+            "version": "2026-03-10"
+          }
+        ]
       },
       "alert-url": {
         "type": "string",
@@ -146101,6 +146920,16 @@
               "registration"
             ]
           },
+          "assignee": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/simple-user"
+              }
+            ]
+          },
           "assignees": {
             "type": "array",
             "items": {
@@ -146137,40 +146966,35 @@
                   "string",
                   "null"
                 ],
-                "format": "date-time",
-                "nullable": false
+                "format": "date-time"
               },
               "diff_url": {
                 "type": [
                   "string",
                   "null"
                 ],
-                "format": "uri",
-                "nullable": false
+                "format": "uri"
               },
               "html_url": {
                 "type": [
                   "string",
                   "null"
                 ],
-                "format": "uri",
-                "nullable": false
+                "format": "uri"
               },
               "patch_url": {
                 "type": [
                   "string",
                   "null"
                 ],
-                "format": "uri",
-                "nullable": false
+                "format": "uri"
               },
               "url": {
                 "type": [
                   "string",
                   "null"
                 ],
-                "format": "uri",
-                "nullable": false
+                "format": "uri"
               }
             },
             "required": [
@@ -146272,6 +147096,7 @@
           }
         },
         "required": [
+          "assignee",
           "closed_at",
           "comments",
           "comments_url",
@@ -146291,6 +147116,66 @@
           "user",
           "created_at",
           "updated_at"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "deprecate_beta_media_type",
+            "patch": {
+              "properties": {
+                "pull_request": {
+                  "type": "object",
+                  "properties": {
+                    "merged_at": {
+                      "nullable": false
+                    },
+                    "diff_url": {
+                      "nullable": false
+                    },
+                    "html_url": {
+                      "nullable": false
+                    },
+                    "patch_url": {
+                      "nullable": false
+                    },
+                    "url": {
+                      "nullable": false
+                    }
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_singular_assignee_from_issues_and_pull_requests",
+            "patch": {
+              "properties": {
+                "assignee": null
+              },
+              "required": [
+                "closed_at",
+                "comments",
+                "comments_url",
+                "events_url",
+                "html_url",
+                "id",
+                "node_id",
+                "labels",
+                "labels_url",
+                "milestone",
+                "number",
+                "repository_url",
+                "state",
+                "locked",
+                "title",
+                "url",
+                "user",
+                "created_at",
+                "updated_at"
+              ]
+            },
+            "version": "2026-03-10"
+          }
         ]
       },
       "pull-request-minimal": {
@@ -146967,6 +147852,16 @@
           "comments_enabled": {
             "type": "boolean"
           },
+          "user": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/simple-user"
+              }
+            ]
+          },
           "comments_url": {
             "type": "string",
             "format": "uri"
@@ -146976,6 +147871,14 @@
           },
           "truncated": {
             "type": "boolean"
+          },
+          "forks": {
+            "type": "array",
+            "items": {}
+          },
+          "history": {
+            "type": "array",
+            "items": {}
           }
         },
         "required": [
@@ -146991,16 +147894,380 @@
           "public",
           "description",
           "comments",
+          "user",
           "files",
           "created_at",
           "updated_at"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "deprecate_beta_media_type",
+            "patch": {
+              "properties": {
+                "user": null
+              },
+              "required": [
+                "id",
+                "node_id",
+                "url",
+                "forks_url",
+                "commits_url",
+                "git_pull_url",
+                "git_push_url",
+                "html_url",
+                "comments_url",
+                "public",
+                "description",
+                "comments",
+                "files",
+                "created_at",
+                "updated_at"
+              ]
+            },
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_forks_history_from_base_gist",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/forks"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/history"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
+      },
+      "public-user": {
+        "title": "Public User",
+        "description": "Public User",
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "user_view_type": {
+            "type": "string"
+          },
+          "node_id": {
+            "type": "string"
+          },
+          "avatar_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "gravatar_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "html_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "followers_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "following_url": {
+            "type": "string"
+          },
+          "gists_url": {
+            "type": "string"
+          },
+          "starred_url": {
+            "type": "string"
+          },
+          "subscriptions_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "organizations_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "repos_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "events_url": {
+            "type": "string"
+          },
+          "received_events_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "type": {
+            "type": "string"
+          },
+          "site_admin": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "company": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "blog": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "location": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "email"
+          },
+          "notification_email": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "email"
+          },
+          "hireable": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "bio": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "twitter_username": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "public_repos": {
+            "type": "integer"
+          },
+          "public_gists": {
+            "type": "integer"
+          },
+          "followers": {
+            "type": "integer"
+          },
+          "following": {
+            "type": "integer"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "plan": {
+            "type": "object",
+            "properties": {
+              "collaborators": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "space": {
+                "type": "integer"
+              },
+              "private_repos": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "collaborators",
+              "name",
+              "space",
+              "private_repos"
+            ]
+          },
+          "private_gists": {
+            "type": "integer",
+            "examples": [
+              1
+            ]
+          },
+          "total_private_repos": {
+            "type": "integer",
+            "examples": [
+              2
+            ]
+          },
+          "owned_private_repos": {
+            "type": "integer",
+            "examples": [
+              2
+            ]
+          },
+          "disk_usage": {
+            "type": "integer",
+            "examples": [
+              1
+            ]
+          },
+          "collaborators": {
+            "type": "integer",
+            "examples": [
+              3
+            ]
+          }
+        },
+        "required": [
+          "avatar_url",
+          "events_url",
+          "followers_url",
+          "following_url",
+          "gists_url",
+          "gravatar_id",
+          "html_url",
+          "id",
+          "node_id",
+          "login",
+          "organizations_url",
+          "received_events_url",
+          "repos_url",
+          "site_admin",
+          "starred_url",
+          "subscriptions_url",
+          "type",
+          "url",
+          "bio",
+          "blog",
+          "company",
+          "email",
+          "followers",
+          "following",
+          "hireable",
+          "location",
+          "name",
+          "public_gists",
+          "public_repos",
+          "created_at",
+          "updated_at"
+        ],
+        "additionalProperties": false
+      },
+      "gist-history": {
+        "title": "Gist History",
+        "description": "Gist History",
+        "type": "object",
+        "properties": {
+          "user": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/simple-user"
+              }
+            ]
+          },
+          "version": {
+            "type": "string"
+          },
+          "committed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "change_status": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer"
+              },
+              "additions": {
+                "type": "integer"
+              },
+              "deletions": {
+                "type": "integer"
+              }
+            }
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
       },
       "gist-simple": {
         "title": "Gist Simple",
         "description": "Gist Simple",
         "type": "object",
         "properties": {
+          "forks": {
+            "deprecated": true,
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "user": {
+                  "$ref": "#/components/schemas/public-user"
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          },
+          "history": {
+            "deprecated": true,
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/gist-history"
+            }
+          },
           "fork_of": {
             "title": "Gist",
             "description": "Gist",
@@ -147237,7 +148504,23 @@
           "truncated": {
             "type": "boolean"
           }
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_forks_history_from_base_gist",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/forks"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/history"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "gist-comment": {
         "title": "Gist Comment",
@@ -148521,6 +149804,9 @@
           "has_pages": {
             "type": "boolean"
           },
+          "has_downloads": {
+            "type": "boolean"
+          },
           "has_discussions": {
             "type": "boolean"
           },
@@ -148725,6 +150011,17 @@
           "teams_url",
           "trees_url",
           "url"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_has_downloads",
+            "patch": {
+              "properties": {
+                "has_downloads": null
+              }
+            },
+            "version": "2026-03-10"
+          }
         ]
       },
       "thread": {
@@ -150394,6 +151691,13 @@
             ],
             "deprecated": true
           },
+          "secret_scanning_push_protection_custom_link_enabled": {
+            "type": "boolean",
+            "description": "Whether a custom link is shown to contributors who are blocked from pushing a secret by push protection.",
+            "examples": [
+              false
+            ]
+          },
           "secret_scanning_push_protection_custom_link": {
             "type": [
               "string",
@@ -150454,6 +151758,18 @@
           "created_at",
           "updated_at",
           "archived_at"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_secret_scanning_custom_link_enablement_field",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/secret_scanning_push_protection_custom_link_enabled"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "actions-cache-usage-org-enterprise": {
@@ -155563,6 +156879,13 @@
           "org_metadata_only": {
             "type": "boolean"
           },
+          "repositories": {
+            "type": "array",
+            "description": "The repositories included in the migration. Only returned for export migrations.",
+            "items": {
+              "$ref": "#/components/schemas/repository"
+            }
+          },
           "url": {
             "type": "string",
             "format": "uri",
@@ -155598,13 +156921,6 @@
               "description": "Allowed values that can be passed to the exclude parameter. The array can include any of: `\"repositories\"`.",
               "type": "string"
             }
-          },
-          "repositories": {
-            "type": "array",
-            "description": "The repositories included in the migration. Only returned for export migrations.",
-            "items": {
-              "$ref": "#/components/schemas/simple-repository"
-            }
           }
         },
         "required": [
@@ -155624,6 +156940,25 @@
           "url",
           "created_at",
           "updated_at"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "restrict_repo_fields_in_migration_resource",
+            "patch": [
+              {
+                "op": "replace",
+                "path": "/properties/repositories",
+                "value": {
+                  "type": "array",
+                  "description": "The repositories included in the migration. Only returned for export migrations.",
+                  "items": {
+                    "$ref": "#/components/schemas/simple-repository"
+                  }
+                }
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "organization-role": {
@@ -157220,6 +158555,25 @@
               "2011-01-26T19:01:12Z"
             ]
           },
+          "merge_commit_sha": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "examples": [
+              "e5bd3914e2e596debea16f433f57875b5b90bcd6"
+            ]
+          },
+          "assignee": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/simple-user"
+              }
+            ]
+          },
           "assignees": {
             "type": "array",
             "items": {
@@ -157364,6 +158718,7 @@
         },
         "required": [
           "_links",
+          "assignee",
           "labels",
           "base",
           "body",
@@ -157377,6 +158732,7 @@
           "id",
           "node_id",
           "issue_url",
+          "merge_commit_sha",
           "merged_at",
           "milestone",
           "number",
@@ -157392,6 +158748,89 @@
           "user",
           "author_association",
           "auto_merge"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": {
+              "properties": {
+                "merge_commit_sha": null
+              },
+              "required": [
+                "_links",
+                "assignee",
+                "labels",
+                "base",
+                "body",
+                "closed_at",
+                "comments_url",
+                "commits_url",
+                "created_at",
+                "diff_url",
+                "head",
+                "html_url",
+                "id",
+                "node_id",
+                "issue_url",
+                "merged_at",
+                "milestone",
+                "number",
+                "patch_url",
+                "review_comment_url",
+                "review_comments_url",
+                "statuses_url",
+                "state",
+                "locked",
+                "title",
+                "updated_at",
+                "url",
+                "user",
+                "author_association",
+                "auto_merge"
+              ]
+            },
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_singular_assignee_from_issues_and_pull_requests",
+            "patch": {
+              "properties": {
+                "assignee": null
+              },
+              "required": [
+                "_links",
+                "labels",
+                "base",
+                "body",
+                "closed_at",
+                "comments_url",
+                "commits_url",
+                "created_at",
+                "diff_url",
+                "head",
+                "html_url",
+                "id",
+                "node_id",
+                "issue_url",
+                "merged_at",
+                "milestone",
+                "number",
+                "patch_url",
+                "review_comment_url",
+                "review_comments_url",
+                "statuses_url",
+                "state",
+                "locked",
+                "title",
+                "updated_at",
+                "url",
+                "user",
+                "author_association",
+                "auto_merge"
+              ]
+            },
+            "version": "2026-03-10"
+          }
         ]
       },
       "projects-v2-draft-issue": {
@@ -158951,6 +160390,12 @@
           "has_pages": {
             "type": "boolean"
           },
+          "has_downloads": {
+            "type": "boolean",
+            "examples": [
+              true
+            ]
+          },
           "has_discussions": {
             "type": "boolean",
             "examples": [
@@ -159085,6 +160530,12 @@
             "type": "boolean",
             "examples": [
               true
+            ]
+          },
+          "use_squash_pr_title_as_default": {
+            "type": "boolean",
+            "examples": [
+              false
             ]
           },
           "squash_merge_commit_title": {
@@ -159288,6 +160739,26 @@
           "updated_at",
           "network_count",
           "subscribers_count"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": {
+              "properties": {
+                "use_squash_pr_title_as_default": null
+              }
+            },
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_has_downloads",
+            "patch": {
+              "properties": {
+                "has_downloads": null
+              }
+            },
+            "version": "2026-03-10"
+          }
         ]
       },
       "repository-ruleset-bypass-actor": {
@@ -162659,6 +164130,35 @@
               "$ref": "#/components/schemas/repository-advisory-vulnerability"
             }
           },
+          "cvss": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "vector_string": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "The CVSS vector."
+              },
+              "score": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "description": "The CVSS score.",
+                "minimum": 0,
+                "maximum": 10,
+                "readOnly": true
+              }
+            },
+            "required": [
+              "vector_string",
+              "score"
+            ]
+          },
           "cvss_severities": {
             "$ref": "#/components/schemas/cvss-severities"
           },
@@ -162777,6 +164277,7 @@
           "withdrawn_at",
           "submission",
           "vulnerabilities",
+          "cvss",
           "cwes",
           "cwe_ids",
           "credits",
@@ -162785,7 +164286,45 @@
           "collaborating_teams",
           "private_fork"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "x-github-breaking-changes": [
+          {
+            "changeset": "deprecate_cvss",
+            "patch": {
+              "properties": {
+                "cvss": null
+              },
+              "required": [
+                "ghsa_id",
+                "cve_id",
+                "url",
+                "html_url",
+                "summary",
+                "description",
+                "severity",
+                "author",
+                "publisher",
+                "identifiers",
+                "state",
+                "created_at",
+                "updated_at",
+                "published_at",
+                "closed_at",
+                "withdrawn_at",
+                "submission",
+                "vulnerabilities",
+                "cwes",
+                "cwe_ids",
+                "credits",
+                "credits_detailed",
+                "collaborating_users",
+                "collaborating_teams",
+                "private_fork"
+              ]
+            },
+            "version": "2026-03-10"
+          }
+        ]
       },
       "immutable-releases-organization-settings": {
         "title": "Check immutable releases organization settings",
@@ -164209,6 +165748,14 @@
           "has_pages": {
             "type": "boolean"
           },
+          "has_downloads": {
+            "description": "Whether downloads are enabled.",
+            "default": true,
+            "type": "boolean",
+            "examples": [
+              true
+            ]
+          },
           "archived": {
             "description": "Whether the repository is archived.",
             "default": false,
@@ -164381,6 +165928,7 @@
           "forks",
           "forks_count",
           "git_url",
+          "has_downloads",
           "has_issues",
           "has_projects",
           "has_wiki",
@@ -164402,6 +165950,91 @@
           "watchers_count",
           "created_at",
           "updated_at"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_has_downloads",
+            "patch": {
+              "properties": {
+                "has_downloads": null
+              },
+              "required": [
+                "archive_url",
+                "assignees_url",
+                "blobs_url",
+                "branches_url",
+                "collaborators_url",
+                "comments_url",
+                "commits_url",
+                "compare_url",
+                "contents_url",
+                "contributors_url",
+                "deployments_url",
+                "description",
+                "downloads_url",
+                "events_url",
+                "fork",
+                "forks_url",
+                "full_name",
+                "git_commits_url",
+                "git_refs_url",
+                "git_tags_url",
+                "hooks_url",
+                "html_url",
+                "id",
+                "node_id",
+                "issue_comment_url",
+                "issue_events_url",
+                "issues_url",
+                "keys_url",
+                "labels_url",
+                "languages_url",
+                "merges_url",
+                "milestones_url",
+                "name",
+                "notifications_url",
+                "owner",
+                "private",
+                "pulls_url",
+                "releases_url",
+                "stargazers_url",
+                "statuses_url",
+                "subscribers_url",
+                "subscription_url",
+                "tags_url",
+                "teams_url",
+                "trees_url",
+                "url",
+                "clone_url",
+                "default_branch",
+                "forks",
+                "forks_count",
+                "git_url",
+                "has_issues",
+                "has_projects",
+                "has_wiki",
+                "has_pages",
+                "homepage",
+                "language",
+                "archived",
+                "disabled",
+                "mirror_url",
+                "open_issues",
+                "open_issues_count",
+                "license",
+                "pushed_at",
+                "size",
+                "ssh_url",
+                "stargazers_count",
+                "svn_url",
+                "watchers",
+                "watchers_count",
+                "created_at",
+                "updated_at"
+              ]
+            },
+            "version": "2026-03-10"
+          }
         ]
       },
       "rate-limit": {
@@ -164477,10 +166110,28 @@
               "core",
               "search"
             ]
+          },
+          "rate": {
+            "$ref": "#/components/schemas/rate-limit"
           }
         },
         "required": [
+          "rate",
           "resources"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_rate_limit_rate",
+            "patch": {
+              "properties": {
+                "rate": null
+              },
+              "required": [
+                "resources"
+              ]
+            },
+            "version": "2026-03-10"
+          }
         ]
       },
       "artifact": {
@@ -170069,8 +171720,10 @@
                 "go",
                 "java-kotlin",
                 "javascript-typescript",
+                "javascript",
                 "python",
                 "ruby",
+                "typescript",
                 "swift"
               ]
             }
@@ -170135,7 +171788,32 @@
               null
             ]
           }
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_single_js_ts",
+            "patch": {
+              "properties": {
+                "languages": {
+                  "items": {
+                    "enum": [
+                      "actions",
+                      "c-cpp",
+                      "csharp",
+                      "go",
+                      "java-kotlin",
+                      "javascript-typescript",
+                      "python",
+                      "ruby",
+                      "swift"
+                    ]
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       },
       "code-scanning-default-setup-update": {
         "description": "Configuration for code scanning default setup.",
@@ -179795,6 +181473,25 @@
               "2011-01-26T19:01:12Z"
             ]
           },
+          "merge_commit_sha": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "examples": [
+              "e5bd3914e2e596debea16f433f57875b5b90bcd6"
+            ]
+          },
+          "assignee": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/simple-user"
+              }
+            ]
+          },
           "assignees": {
             "type": "array",
             "items": {
@@ -180005,6 +181702,7 @@
         },
         "required": [
           "_links",
+          "assignee",
           "labels",
           "base",
           "body",
@@ -180018,6 +181716,7 @@
           "id",
           "node_id",
           "issue_url",
+          "merge_commit_sha",
           "merged_at",
           "milestone",
           "number",
@@ -180044,6 +181743,111 @@
           "maintainer_can_modify",
           "merged_by",
           "review_comments"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": {
+              "properties": {
+                "merge_commit_sha": null
+              },
+              "required": [
+                "_links",
+                "assignee",
+                "labels",
+                "base",
+                "body",
+                "closed_at",
+                "comments_url",
+                "commits_url",
+                "created_at",
+                "diff_url",
+                "head",
+                "html_url",
+                "id",
+                "node_id",
+                "issue_url",
+                "merged_at",
+                "milestone",
+                "number",
+                "patch_url",
+                "review_comment_url",
+                "review_comments_url",
+                "statuses_url",
+                "state",
+                "locked",
+                "title",
+                "updated_at",
+                "url",
+                "user",
+                "author_association",
+                "auto_merge",
+                "additions",
+                "changed_files",
+                "comments",
+                "commits",
+                "deletions",
+                "mergeable",
+                "mergeable_state",
+                "merged",
+                "maintainer_can_modify",
+                "merged_by",
+                "review_comments"
+              ]
+            },
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_singular_assignee_from_issues_and_pull_requests",
+            "patch": {
+              "properties": {
+                "assignee": null
+              },
+              "required": [
+                "_links",
+                "labels",
+                "base",
+                "body",
+                "closed_at",
+                "comments_url",
+                "commits_url",
+                "created_at",
+                "diff_url",
+                "head",
+                "html_url",
+                "id",
+                "node_id",
+                "issue_url",
+                "merged_at",
+                "milestone",
+                "number",
+                "patch_url",
+                "review_comment_url",
+                "review_comments_url",
+                "statuses_url",
+                "state",
+                "locked",
+                "title",
+                "updated_at",
+                "url",
+                "user",
+                "author_association",
+                "auto_merge",
+                "additions",
+                "changed_files",
+                "comments",
+                "commits",
+                "deletions",
+                "mergeable",
+                "mergeable_state",
+                "merged",
+                "maintainer_can_modify",
+                "merged_by",
+                "review_comments"
+              ]
+            },
+            "version": "2026-03-10"
+          }
         ]
       },
       "copilot-code-review-request": {
@@ -183319,6 +185123,16 @@
               "null"
             ]
           },
+          "assignee": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/simple-user"
+              }
+            ]
+          },
           "milestone": {
             "anyOf": [
               {
@@ -183449,6 +185263,7 @@
           }
         },
         "required": [
+          "assignee",
           "closed_at",
           "comments",
           "comments_url",
@@ -183470,6 +185285,40 @@
           "created_at",
           "updated_at",
           "score"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_singular_assignee_from_issues_and_pull_requests",
+            "patch": {
+              "properties": {
+                "assignee": null
+              },
+              "required": [
+                "closed_at",
+                "comments",
+                "comments_url",
+                "events_url",
+                "html_url",
+                "id",
+                "node_id",
+                "labels",
+                "labels_url",
+                "milestone",
+                "number",
+                "repository_url",
+                "state",
+                "locked",
+                "title",
+                "url",
+                "user",
+                "author_association",
+                "created_at",
+                "updated_at",
+                "score"
+              ]
+            },
+            "version": "2026-03-10"
+          }
         ]
       },
       "label-search-result-item": {
@@ -184294,245 +186143,6 @@
           "url",
           "score"
         ]
-      },
-      "public-user": {
-        "title": "Public User",
-        "description": "Public User",
-        "type": "object",
-        "properties": {
-          "login": {
-            "type": "string"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "user_view_type": {
-            "type": "string"
-          },
-          "node_id": {
-            "type": "string"
-          },
-          "avatar_url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "gravatar_id": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "html_url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "followers_url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "following_url": {
-            "type": "string"
-          },
-          "gists_url": {
-            "type": "string"
-          },
-          "starred_url": {
-            "type": "string"
-          },
-          "subscriptions_url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "organizations_url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "repos_url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "events_url": {
-            "type": "string"
-          },
-          "received_events_url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "type": {
-            "type": "string"
-          },
-          "site_admin": {
-            "type": "boolean"
-          },
-          "name": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "company": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "blog": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "location": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "email": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "email"
-          },
-          "notification_email": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "email"
-          },
-          "hireable": {
-            "type": [
-              "boolean",
-              "null"
-            ]
-          },
-          "bio": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "twitter_username": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "public_repos": {
-            "type": "integer"
-          },
-          "public_gists": {
-            "type": "integer"
-          },
-          "followers": {
-            "type": "integer"
-          },
-          "following": {
-            "type": "integer"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "plan": {
-            "type": "object",
-            "properties": {
-              "collaborators": {
-                "type": "integer"
-              },
-              "name": {
-                "type": "string"
-              },
-              "space": {
-                "type": "integer"
-              },
-              "private_repos": {
-                "type": "integer"
-              }
-            },
-            "required": [
-              "collaborators",
-              "name",
-              "space",
-              "private_repos"
-            ]
-          },
-          "private_gists": {
-            "type": "integer",
-            "examples": [
-              1
-            ]
-          },
-          "total_private_repos": {
-            "type": "integer",
-            "examples": [
-              2
-            ]
-          },
-          "owned_private_repos": {
-            "type": "integer",
-            "examples": [
-              2
-            ]
-          },
-          "disk_usage": {
-            "type": "integer",
-            "examples": [
-              1
-            ]
-          },
-          "collaborators": {
-            "type": "integer",
-            "examples": [
-              3
-            ]
-          }
-        },
-        "required": [
-          "avatar_url",
-          "events_url",
-          "followers_url",
-          "following_url",
-          "gists_url",
-          "gravatar_id",
-          "html_url",
-          "id",
-          "node_id",
-          "login",
-          "organizations_url",
-          "received_events_url",
-          "repos_url",
-          "site_admin",
-          "starred_url",
-          "subscriptions_url",
-          "type",
-          "url",
-          "bio",
-          "blog",
-          "company",
-          "email",
-          "followers",
-          "following",
-          "hireable",
-          "location",
-          "name",
-          "public_gists",
-          "public_repos",
-          "created_at",
-          "updated_at"
-        ],
-        "additionalProperties": false
       },
       "private-user": {
         "title": "Private User",
@@ -187637,6 +189247,9 @@
               "allow_update_branch": {
                 "type": "boolean"
               },
+              "use_squash_pr_title_as_default": {
+                "type": "boolean"
+              },
               "squash_merge_commit_title": {
                 "type": "string",
                 "enum": [
@@ -187718,6 +189331,12 @@
               false
             ]
           },
+          "use_squash_pr_title_as_default": {
+            "type": "boolean",
+            "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+            "default": false,
+            "deprecated": true
+          },
           "squash_merge_commit_title": {
             "type": "string",
             "enum": [
@@ -187780,6 +189399,9 @@
           },
           "watchers": {
             "type": "integer"
+          },
+          "master_branch": {
+            "type": "string"
           },
           "starred_at": {
             "type": "string",
@@ -187866,6 +189488,31 @@
           "watchers_count",
           "created_at",
           "updated_at"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": {
+              "properties": {
+                "use_squash_pr_title_as_default": null,
+                "template_repository": {
+                  "properties": {
+                    "use_squash_pr_title_as_default": null
+                  }
+                }
+              }
+            },
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "deprecate_beta_media_type",
+            "patch": {
+              "properties": {
+                "master_branch": null
+              }
+            },
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhooks_rule": {
@@ -196441,6 +198088,12 @@
             "description": "Indicates whether maintainers can modify the pull request.",
             "type": "boolean"
           },
+          "merge_commit_sha": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "mergeable": {
             "type": [
               "boolean",
@@ -197310,6 +198963,7 @@
           "updated_at",
           "closed_at",
           "merged_at",
+          "merge_commit_sha",
           "assignee",
           "assignees",
           "requested_reviewers",
@@ -197328,6 +198982,54 @@
           "auto_merge",
           "active_lock_reason",
           "draft"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": {
+              "properties": {
+                "merge_commit_sha": null
+              },
+              "required": [
+                "url",
+                "id",
+                "node_id",
+                "html_url",
+                "diff_url",
+                "patch_url",
+                "issue_url",
+                "number",
+                "state",
+                "locked",
+                "title",
+                "user",
+                "body",
+                "created_at",
+                "updated_at",
+                "closed_at",
+                "merged_at",
+                "assignee",
+                "assignees",
+                "requested_reviewers",
+                "requested_teams",
+                "labels",
+                "milestone",
+                "commits_url",
+                "review_comments_url",
+                "review_comment_url",
+                "comments_url",
+                "statuses_url",
+                "head",
+                "base",
+                "_links",
+                "author_association",
+                "auto_merge",
+                "active_lock_reason",
+                "draft"
+              ]
+            },
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhooks_review_comment": {
@@ -199215,6 +200917,24 @@
         "description": "The details of the security advisory, including summary, description, and severity.",
         "type": "object",
         "properties": {
+          "cvss": {
+            "type": "object",
+            "properties": {
+              "score": {
+                "type": "number"
+              },
+              "vector_string": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "vector_string",
+              "score"
+            ]
+          },
           "cvss_severities": {
             "$ref": "#/components/schemas/cvss-severities"
           },
@@ -199344,6 +201064,7 @@
           }
         },
         "required": [
+          "cvss",
           "cwes",
           "ghsa_id",
           "summary",
@@ -199355,6 +201076,30 @@
           "updated_at",
           "withdrawn_at",
           "vulnerabilities"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "deprecate_cvss",
+            "patch": {
+              "properties": {
+                "cvss": null
+              },
+              "required": [
+                "cwes",
+                "ghsa_id",
+                "summary",
+                "description",
+                "severity",
+                "identifiers",
+                "references",
+                "published_at",
+                "updated_at",
+                "withdrawn_at",
+                "vulnerabilities"
+              ]
+            },
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhooks_sponsorship": {
@@ -249868,6 +251613,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -250711,6 +252461,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -250983,6 +252738,12 @@
               "maintainer_can_modify": {
                 "description": "Indicates whether maintainers can modify the pull request.",
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "mergeable": {
                 "type": [
@@ -251865,6 +253626,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -251899,6 +253661,36 @@
           "assignee",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-auto-merge-disabled": {
@@ -252996,6 +254788,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -253833,6 +255630,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -254105,6 +255907,12 @@
               "maintainer_can_modify": {
                 "description": "Indicates whether maintainers can modify the pull request.",
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "mergeable": {
                 "type": [
@@ -254986,6 +256794,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -255023,6 +256832,36 @@
           "reason",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-auto-merge-enabled": {
@@ -256120,6 +257959,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -256956,6 +258800,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -257228,6 +259077,12 @@
               "maintainer_can_modify": {
                 "description": "Indicates whether maintainers can modify the pull request.",
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "mergeable": {
                 "type": [
@@ -258110,6 +259965,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -258146,6 +260002,36 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-closed": {
@@ -260486,6 +262372,12 @@
                 "description": "Indicates whether maintainers can modify the pull request.",
                 "type": "boolean"
               },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
               "mergeable": {
                 "type": [
                   "boolean",
@@ -261357,6 +263249,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -261408,6 +263301,22 @@
           "repository",
           "sender",
           "reason"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-edited": {
@@ -263727,6 +265636,12 @@
                 "description": "Indicates whether maintainers can modify the pull request.",
                 "type": "boolean"
               },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
               "mergeable": {
                 "type": [
                   "boolean",
@@ -264598,6 +266513,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -264631,6 +266547,22 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-labeled": {
@@ -265733,6 +267665,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -266576,6 +268513,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -266869,6 +268811,12 @@
               "maintainer_can_modify": {
                 "description": "Indicates whether maintainers can modify the pull request.",
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "mergeable": {
                 "type": [
@@ -267752,6 +269700,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -267785,6 +269734,36 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-locked": {
@@ -268883,6 +270862,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -269726,6 +271710,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -269998,6 +271987,12 @@
               "maintainer_can_modify": {
                 "description": "Indicates whether maintainers can modify the pull request.",
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "mergeable": {
                 "type": [
@@ -270880,6 +272875,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -270913,6 +272909,36 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-milestoned": {
@@ -272545,6 +274571,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -273370,6 +275401,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -273637,6 +275673,12 @@
               },
               "locked": {
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "merged_at": {
                 "type": [
@@ -274391,6 +276433,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -274422,6 +276465,36 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-review-comment-deleted": {
@@ -275515,6 +277588,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -276340,6 +278418,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -276608,6 +278691,12 @@
               },
               "locked": {
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "merged_at": {
                 "type": [
@@ -277351,6 +279440,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -277382,6 +279472,36 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-review-comment-edited": {
@@ -278481,6 +280601,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -279306,6 +281431,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -279574,6 +281704,12 @@
               },
               "locked": {
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "merged_at": {
                 "type": [
@@ -280318,6 +282454,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -280350,6 +282487,36 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-review-dismissed": {
@@ -281443,6 +283610,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -282268,6 +284440,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -282536,6 +284713,12 @@
               },
               "locked": {
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "merged_at": {
                 "type": [
@@ -283289,6 +285472,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -283537,6 +285721,36 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-review-edited": {
@@ -285627,6 +287841,12 @@
               "locked": {
                 "type": "boolean"
               },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
               "merged_at": {
                 "type": [
                   "string",
@@ -286377,6 +288597,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -286414,6 +288635,22 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-review-request-removed": {
@@ -287517,6 +289754,11 @@
                             "type": "string",
                             "format": "uri"
                           },
+                          "use_squash_pr_title_as_default": {
+                            "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                            "type": "boolean",
+                            "default": false
+                          },
                           "visibility": {
                             "type": "string",
                             "enum": [
@@ -288354,6 +290596,11 @@
                             "type": "string",
                             "format": "uri"
                           },
+                          "use_squash_pr_title_as_default": {
+                            "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                            "type": "boolean",
+                            "default": false
+                          },
                           "visibility": {
                             "type": "string",
                             "enum": [
@@ -288626,6 +290873,12 @@
                   "maintainer_can_modify": {
                     "description": "Indicates whether maintainers can modify the pull request.",
                     "type": "boolean"
+                  },
+                  "merge_commit_sha": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "mergeable": {
                     "type": [
@@ -289514,6 +291767,7 @@
                   "updated_at",
                   "closed_at",
                   "merged_at",
+                  "merge_commit_sha",
                   "assignee",
                   "assignees",
                   "requested_reviewers",
@@ -290747,6 +293001,11 @@
                             "type": "string",
                             "format": "uri"
                           },
+                          "use_squash_pr_title_as_default": {
+                            "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                            "type": "boolean",
+                            "default": false
+                          },
                           "visibility": {
                             "type": "string",
                             "enum": [
@@ -291584,6 +293843,11 @@
                             "type": "string",
                             "format": "uri"
                           },
+                          "use_squash_pr_title_as_default": {
+                            "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                            "type": "boolean",
+                            "default": false
+                          },
                           "visibility": {
                             "type": "string",
                             "enum": [
@@ -291856,6 +294120,12 @@
                   "maintainer_can_modify": {
                     "description": "Indicates whether maintainers can modify the pull request.",
                     "type": "boolean"
+                  },
+                  "merge_commit_sha": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "mergeable": {
                     "type": [
@@ -292744,6 +295014,7 @@
                   "updated_at",
                   "closed_at",
                   "merged_at",
+                  "merge_commit_sha",
                   "assignee",
                   "assignees",
                   "requested_reviewers",
@@ -292923,6 +295194,52 @@
               "repository",
               "sender"
             ]
+          }
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/oneOf/0/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/oneOf/0/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/oneOf/1/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/oneOf/1/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/oneOf/0/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/oneOf/0/properties/pull_request/required/17"
+              },
+              {
+                "op": "remove",
+                "path": "/oneOf/1/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/oneOf/1/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
           }
         ]
       },
@@ -294029,6 +296346,11 @@
                             "type": "string",
                             "format": "uri"
                           },
+                          "use_squash_pr_title_as_default": {
+                            "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                            "type": "boolean",
+                            "default": false
+                          },
                           "visibility": {
                             "type": "string",
                             "enum": [
@@ -294866,6 +297188,11 @@
                             "type": "string",
                             "format": "uri"
                           },
+                          "use_squash_pr_title_as_default": {
+                            "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                            "type": "boolean",
+                            "default": false
+                          },
                           "visibility": {
                             "type": "string",
                             "enum": [
@@ -295138,6 +297465,12 @@
                   "maintainer_can_modify": {
                     "description": "Indicates whether maintainers can modify the pull request.",
                     "type": "boolean"
+                  },
+                  "merge_commit_sha": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "mergeable": {
                     "type": [
@@ -296019,6 +298352,7 @@
                   "updated_at",
                   "closed_at",
                   "merged_at",
+                  "merge_commit_sha",
                   "assignee",
                   "assignees",
                   "requested_reviewers",
@@ -297255,6 +299589,11 @@
                             "type": "string",
                             "format": "uri"
                           },
+                          "use_squash_pr_title_as_default": {
+                            "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                            "type": "boolean",
+                            "default": false
+                          },
                           "visibility": {
                             "type": "string",
                             "enum": [
@@ -298092,6 +300431,11 @@
                             "type": "string",
                             "format": "uri"
                           },
+                          "use_squash_pr_title_as_default": {
+                            "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                            "type": "boolean",
+                            "default": false
+                          },
                           "visibility": {
                             "type": "string",
                             "enum": [
@@ -298364,6 +300708,12 @@
                   "maintainer_can_modify": {
                     "description": "Indicates whether maintainers can modify the pull request.",
                     "type": "boolean"
+                  },
+                  "merge_commit_sha": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "mergeable": {
                     "type": [
@@ -299236,6 +301586,7 @@
                   "updated_at",
                   "closed_at",
                   "merged_at",
+                  "merge_commit_sha",
                   "assignee",
                   "assignees",
                   "requested_reviewers",
@@ -299406,6 +301757,52 @@
               "repository",
               "sender"
             ]
+          }
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/oneOf/0/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/oneOf/0/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/oneOf/1/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/oneOf/1/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/oneOf/0/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/oneOf/0/properties/pull_request/required/17"
+              },
+              {
+                "op": "remove",
+                "path": "/oneOf/1/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/oneOf/1/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
           }
         ]
       },
@@ -300500,6 +302897,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -301328,6 +303730,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -301596,6 +304003,12 @@
               },
               "locked": {
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "merged_at": {
                 "type": [
@@ -302350,6 +304763,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -302386,6 +304800,36 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-review-thread-resolved": {
@@ -304506,6 +306950,12 @@
               "locked": {
                 "type": "boolean"
               },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
               "merged_at": {
                 "type": [
                   "string",
@@ -305258,6 +307708,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -305690,6 +308141,22 @@
           "thread",
           "pull_request",
           "repository"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-review-thread-unresolved": {
@@ -307801,6 +310268,12 @@
               "locked": {
                 "type": "boolean"
               },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
               "merged_at": {
                 "type": [
                   "string",
@@ -308542,6 +311015,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -308970,6 +311444,22 @@
           "thread",
           "pull_request",
           "repository"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-stacked": {
@@ -310072,6 +312562,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -310915,6 +313410,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -311187,6 +313687,12 @@
               "maintainer_can_modify": {
                 "description": "Indicates whether maintainers can modify the pull request.",
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "mergeable": {
                 "type": [
@@ -312070,6 +314576,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -312103,6 +314610,36 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-synchronize": {
@@ -313208,6 +315745,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -314045,6 +316587,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -314317,6 +316864,12 @@
               "maintainer_can_modify": {
                 "description": "Indicates whether maintainers can modify the pull request.",
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "mergeable": {
                 "type": [
@@ -315199,6 +317752,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -315234,6 +317788,36 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-unassigned": {
@@ -316339,6 +318923,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -317182,6 +319771,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -317454,6 +320048,12 @@
               "maintainer_can_modify": {
                 "description": "Indicates whether maintainers can modify the pull request.",
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "mergeable": {
                 "type": [
@@ -318337,6 +320937,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -318370,6 +320971,36 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-unlabeled": {
@@ -319472,6 +322103,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -320315,6 +322951,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -320587,6 +323228,12 @@
               "maintainer_can_modify": {
                 "description": "Indicates whether maintainers can modify the pull request.",
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "mergeable": {
                 "type": [
@@ -321469,6 +324116,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -321502,6 +324150,36 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-pull-request-unlocked": {
@@ -322596,6 +325274,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -323436,6 +326119,11 @@
                         "type": "string",
                         "format": "uri"
                       },
+                      "use_squash_pr_title_as_default": {
+                        "description": "Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.",
+                        "type": "boolean",
+                        "default": false
+                      },
                       "visibility": {
                         "type": "string",
                         "enum": [
@@ -323708,6 +326396,12 @@
               "maintainer_can_modify": {
                 "description": "Indicates whether maintainers can modify the pull request.",
                 "type": "boolean"
+              },
+              "merge_commit_sha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "mergeable": {
                 "type": [
@@ -324578,6 +327272,7 @@
               "updated_at",
               "closed_at",
               "merged_at",
+              "merge_commit_sha",
               "assignee",
               "assignees",
               "requested_reviewers",
@@ -324611,6 +327306,36 @@
           "pull_request",
           "repository",
           "sender"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_use_squash_pr_title_as_default",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/base/properties/repo/properties/use_squash_pr_title_as_default"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/head/properties/repo/properties/use_squash_pr_title_as_default"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/properties/merge_commit_sha"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/pull_request/required/17"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-push": {
@@ -329732,6 +332457,24 @@
             "description": "The details of the security advisory, including summary, description, and severity.",
             "type": "object",
             "properties": {
+              "cvss": {
+                "type": "object",
+                "properties": {
+                  "score": {
+                    "type": "number"
+                  },
+                  "vector_string": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "vector_string",
+                  "score"
+                ]
+              },
               "cvss_severities": {
                 "$ref": "#/components/schemas/cvss-severities"
               },
@@ -329858,6 +332601,7 @@
               }
             },
             "required": [
+              "cvss",
               "cwes",
               "ghsa_id",
               "summary",
@@ -329878,6 +332622,22 @@
         "required": [
           "action",
           "security_advisory"
+        ],
+        "x-github-breaking-changes": [
+          {
+            "changeset": "deprecate_cvss",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/properties/security_advisory/properties/cvss"
+              },
+              {
+                "op": "remove",
+                "path": "/properties/security_advisory/required/0"
+              }
+            ],
+            "version": "2026-03-10"
+          }
         ]
       },
       "webhook-security-and-analysis": {
@@ -340576,6 +343336,7 @@
         "value": {
           "current_user_url": "https://api.github.com/user",
           "current_user_authorizations_html_url": "https://github.com/settings/connections/applications{/client_id}",
+          "authorizations_url": "https://api.github.com/authorizations",
           "code_search_url": "https://api.github.com/search/code?q={query}{&page,per_page,sort,order}",
           "commit_search_url": "https://api.github.com/search/commits?q={query}{&page,per_page,sort,order}",
           "emails_url": "https://api.github.com/user/emails",
@@ -340585,6 +343346,7 @@
           "followers_url": "https://api.github.com/user/followers",
           "following_url": "https://api.github.com/user/following{/target}",
           "gists_url": "https://api.github.com/gists{/gist_id}",
+          "hub_url": "https://api.github.com/hub",
           "issue_search_url": "https://api.github.com/search/issues?q={query}{&page,per_page,sort,order}",
           "issues_url": "https://api.github.com/issues",
           "keys_url": "https://api.github.com/user/keys",
@@ -340605,7 +343367,28 @@
           "user_organizations_url": "https://api.github.com/user/orgs",
           "user_repositories_url": "https://api.github.com/users/{user}/repos{?type,page,per_page,sort}",
           "user_search_url": "https://api.github.com/search/users?q={query}{&page,per_page,sort,order}"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_authorizations_url_from_api_root",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/authorizations_url"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_hub_url_from_api_root",
+            "patch": {
+              "value": {
+                "hub_url": null
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       },
       "global-advisory-items": {
         "value": [
@@ -340747,6 +343530,10 @@
               ]
             }
           ],
+          "cvss": {
+            "vector_string": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:H",
+            "score": 7.6
+          },
           "cvss_severities": {
             "cvss_v3": {
               "vector_string": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:H",
@@ -340788,7 +343575,19 @@
               "type": "analyst"
             }
           ]
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "deprecate_cvss",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/cvss"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "integration": {
         "value": {
@@ -344667,6 +347466,7 @@
           "updated_at": "2011-06-20T11:34:15Z",
           "description": "Hello World Examples",
           "comments": 0,
+          "user": null,
           "comments_url": "https://api.github.com/gists/aa5a315d61ae9438b18d/comments/",
           "owner": {
             "login": "octocat",
@@ -344689,7 +347489,18 @@
             "site_admin": false
           },
           "truncated": false
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "deprecate_beta_media_type",
+            "patch": {
+              "value": {
+                "user": null
+              }
+            },
+            "version": "2026-03-10"
+          }
+        ]
       },
       "gitignore-template": {
         "value": {
@@ -345969,8 +348780,21 @@
           "advanced_security_enabled_for_new_repositories": false,
           "secret_scanning_enabled_for_new_repositories": false,
           "secret_scanning_push_protection_enabled_for_new_repositories": false,
-          "secret_scanning_push_protection_custom_link": "https://github.com/octo-org/octo-repo/blob/main/im-blocked.md"
-        }
+          "secret_scanning_push_protection_custom_link": "https://github.com/octo-org/octo-repo/blob/main/im-blocked.md",
+          "secret_scanning_push_protection_custom_link_enabled": false
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_secret_scanning_custom_link_enablement_field",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/secret_scanning_push_protection_custom_link_enabled"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "actions-cache-usage-org-enterprise": {
         "value": {
@@ -352194,6 +355018,7 @@
           "has_projects": true,
           "has_wiki": true,
           "has_pages": false,
+          "has_downloads": true,
           "archived": false,
           "disabled": false,
           "visibility": "public",
@@ -352601,7 +355426,19 @@
             "open_issues": 1,
             "watchers": 1
           }
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_has_downloads",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/has_downloads"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "org-ruleset-items": {
         "value": [
@@ -353915,6 +356752,7 @@
           "has_projects": true,
           "has_wiki": true,
           "has_pages": false,
+          "has_downloads": true,
           "archived": false,
           "disabled": false,
           "visibility": "public",
@@ -353948,7 +356786,19 @@
           "forks": 1,
           "open_issues": 1,
           "watchers": 1
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_has_downloads",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/has_downloads"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "team-items-response-if-child-teams-exist": {
         "value": [
@@ -354045,8 +356895,26 @@
               "remaining": 10,
               "reset": 1691591091
             }
+          },
+          "rate": {
+            "limit": 5000,
+            "used": 1,
+            "remaining": 4999,
+            "reset": 1372700873
           }
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_rate_limit_rate",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/rate"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "full-repository-default-response": {
         "summary": "Default response",
@@ -354142,6 +357010,7 @@
           "has_projects": true,
           "has_wiki": true,
           "has_pages": false,
+          "has_downloads": true,
           "has_discussions": false,
           "archived": false,
           "disabled": false,
@@ -354575,7 +357444,19 @@
               }
             }
           }
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_has_downloads",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/has_downloads"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "artifact-paginated": {
         "value": {
@@ -363271,6 +366152,26 @@
               "default": true
             }
           ],
+          "assignee": {
+            "login": "octocat",
+            "id": 1,
+            "node_id": "MDQ6VXNlcjE=",
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
           "assignees": [
             {
               "login": "octocat",
@@ -363364,7 +366265,19 @@
           },
           "author_association": "COLLABORATOR",
           "state_reason": "completed"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_singular_assignee_from_issues_and_pull_requests",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/assignee"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "issue-comment-items": {
         "value": [
@@ -363973,6 +366886,26 @@
               "default": true
             }
           ],
+          "assignee": {
+            "login": "octocat",
+            "id": 1,
+            "node_id": "MDQ6VXNlcjE=",
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
           "assignees": [
             {
               "login": "octocat",
@@ -364066,7 +366999,19 @@
           },
           "author_association": "COLLABORATOR",
           "state_reason": "completed"
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_singular_assignee_from_issues_and_pull_requests",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/assignee"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "issue-event-for-issue-items": {
         "value": [
@@ -364918,6 +367863,27 @@
           "updated_at": "2011-01-26T19:01:12Z",
           "closed_at": "2011-01-26T19:01:12Z",
           "merged_at": "2011-01-26T19:01:12Z",
+          "merge_commit_sha": "e5bd3914e2e596debea16f433f57875b5b90bcd6",
+          "assignee": {
+            "login": "octocat",
+            "id": 1,
+            "node_id": "MDQ6VXNlcjE=",
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
           "assignees": [
             {
               "login": "octocat",
@@ -365341,7 +368307,29 @@
           "additions": 100,
           "deletions": 3,
           "changed_files": 5
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/merge_commit_sha"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_singular_assignee_from_issues_and_pull_requests",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/assignee"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "pull-request-review-comment-items": {
         "value": [
@@ -366296,6 +369284,27 @@
           "updated_at": "2011-01-26T19:01:12Z",
           "closed_at": "2011-01-26T19:01:12Z",
           "merged_at": "2011-01-26T19:01:12Z",
+          "merge_commit_sha": "e5bd3914e2e596debea16f433f57875b5b90bcd6",
+          "assignee": {
+            "login": "octocat",
+            "id": 1,
+            "node_id": "MDQ6VXNlcjE=",
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
           "assignees": [
             {
               "login": "octocat",
@@ -366702,7 +369711,29 @@
           "author_association": "OWNER",
           "auto_merge": null,
           "draft": false
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_pull_request_merge_commit_sha",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/merge_commit_sha"
+              }
+            ],
+            "version": "2026-03-10"
+          },
+          {
+            "changeset": "remove_singular_assignee_from_issues_and_pull_requests",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/assignee"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "pull-request-review-items": {
         "value": [
@@ -367904,6 +370935,10 @@
               ]
             }
           ],
+          "cvss": {
+            "vector_string": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "score": 9.8
+          },
           "cvss_severities": {
             "cvss_v3": {
               "vector_string": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
@@ -368061,7 +371096,19 @@
             "teams_url": "https://api.github.com/repos/octo-org/octo-repo-ghsa-abcd-1234-efgh/teams",
             "trees_url": "https://api.github.com/repos/octo-org/octo-repo-ghsa-abcd-1234-efgh/git/trees{/sha}"
           }
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "deprecate_cvss",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/cvss"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "repository-advisory-pvr": {
         "value": {
@@ -368125,6 +371172,7 @@
               ]
             }
           ],
+          "cvss": null,
           "cvss_severities": {
             "cvss_v3": null,
             "cvss_v4": null
@@ -368210,7 +371258,19 @@
             }
           ],
           "private_fork": null
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "deprecate_cvss",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/cvss"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "repository-advisory-comment-items": {
         "value": [
@@ -368948,6 +372008,7 @@
           "has_projects": true,
           "has_wiki": true,
           "has_pages": false,
+          "has_downloads": true,
           "archived": false,
           "disabled": false,
           "visibility": "public",
@@ -369082,7 +372143,19 @@
             "subscribers_count": 42,
             "network_count": 0
           }
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_has_downloads",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/has_downloads"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "public-repository-items": {
         "value": [
@@ -369429,6 +372502,7 @@
                 }
               ],
               "state": "open",
+              "assignee": null,
               "milestone": {
                 "url": "https://api.github.com/repos/octocat/Hello-World/milestones/1",
                 "html_url": "https://github.com/octocat/Hello-World/milestones/v1.0",
@@ -369483,7 +372557,19 @@
               "state_reason": "completed"
             }
           ]
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_singular_assignee_from_issues_and_pull_requests",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/items/0/assignee"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "issue-search-result-item-paginated-lexical-fallback": {
         "summary": "Hybrid search with lexical fallback",
@@ -369869,6 +372955,7 @@
           "has_projects": true,
           "has_wiki": true,
           "has_pages": false,
+          "has_downloads": true,
           "archived": false,
           "disabled": false,
           "visibility": "public",
@@ -369902,7 +372989,19 @@
           "forks": 1,
           "open_issues": 1,
           "watchers": 1
-        }
+        },
+        "x-github-breaking-changes": [
+          {
+            "changeset": "remove_has_downloads",
+            "patch": [
+              {
+                "op": "remove",
+                "path": "/value/has_downloads"
+              }
+            ],
+            "version": "2026-03-10"
+          }
+        ]
       },
       "private-user-response-with-public-and-private-profile-information": {
         "summary": "Response with public and private profile information",

@@ -29,14 +29,36 @@ def generate_api_characteristics(only: list[str] | None = None) -> None:
     if only and CHAR_PATH.is_file():
         characteristics = utils.load_json(CHAR_PATH)
 
-    for path in sorted(APIS_PATH.glob("*/*openapi.json")):
+    # one OAS file is analyzed per API: an openapi file if the folder has one, otherwise a swagger file
+    paths = []
+
+    for folder in sorted(APIS_PATH.iterdir()):
+        if not folder.is_dir():
+            continue
+
+        openapi_paths = sorted(folder.glob("*openapi*"))
+
+        if openapi_paths:
+            candidates = [path for path in openapi_paths if path.suffix.lower() == ".json"]
+        else:
+            candidates = [path for path in sorted(folder.glob("*swagger*")) if path.suffix.lower() == ".json"]
+
+        if not candidates:
+            continue
+
+        if len(candidates) > 1:
+            print(f"{folder.name} has multiple OAS files, will analyze only {candidates[0].name}")
+
+        paths.append(candidates[0])
+
+    for path in sorted(paths):
         # api id
         api_id = path.parent.name
 
         if only and api_id not in only:
             continue
 
-        print(f"Analyzing {api_id}")
+        print(f"Analyzing {api_id} -> {path.name}")
 
         # oas
         spec = {}
@@ -56,7 +78,15 @@ def generate_api_characteristics(only: list[str] | None = None) -> None:
             print(f"- {error_name}:\n{str(e)}")
 
         # oas version
-        family = "openapi" if spec.get("openapi") else "swagger" if spec.get("swagger") else "unknown"
+        if spec.get("openapi"):
+            family = "openapi"
+        elif spec.get("swagger"):
+            family = "swagger"
+            print(f"- Deprecated documentation format: swagger")
+        else:
+            family = "unknown"
+            print("- Unknown documentation format")
+
         oas["family"] = family
         oas["version"] = spec.get(family) # will be set to None if the family is unknown
 
@@ -307,15 +337,12 @@ def update_api_status(date: str) -> None:
     print(f"Saved benchmark status badges to {README_PATH}")
 
 
-def filter_apis(criteria: dict) -> list[str]:
+def filter_apis(criteria: dict) -> None:
     """
-    Filters APIs based on the provided criteria.
+    Filters APIs based on the provided criteria and prints the matching API ids.
 
     Args:
         criteria: Dict of criteria.
-
-    Returns:
-        Sorted list of API ids matching the criteria.
     """
 
     print(f"Filtering APIs with the following criteria: {criteria}")
@@ -352,9 +379,44 @@ def filter_apis(criteria: dict) -> list[str]:
         if can_add:
             matches.append(api_id)
 
-    print(f"Filtered {len(matches)} APIs")
+    print(f"Filtered {len(matches)} APIs:")
 
-    return sorted(matches)
+    if matches:
+        print("\n".join(sorted(matches)))
+    else:
+        print("No API matches the given filter")
+
+
+def convert_apis(path: str | None = None, api_ids: list[str] | None = None) -> None:
+    """
+    Converts YAML files into JSON copies.
+
+    Args:
+        path: If set, path of the file to convert.
+        api_ids: If set, ids of the APIs whose folder YAML files are converted.
+    """
+
+    paths = []
+
+    if path:
+        paths.append(Path(path))
+
+    elif api_ids:
+        for api_id in api_ids:
+            api_paths = sorted((APIS_PATH / api_id).glob("*.y*ml"))
+
+            if not api_paths:
+                print(f"No YAML file found for {api_id}")
+
+            paths.extend(api_paths)
+
+    for yaml_path in paths:
+        out_path = utils.convert_yaml_to_json(yaml_path)
+
+        if out_path:
+            print(f"Created a JSON copy at {out_path}")
+        else:
+            print(f"Unable to convert {yaml_path}")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -381,7 +443,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     # convert parser
     convert_parser = subparsers.add_parser("convert", help="Convert YAML to JSON.")
-    convert_parser.add_argument("-p", "--path", required=True, help="Path of the file to convert.")
+    exclusive = convert_parser.add_mutually_exclusive_group(required=True)
+    exclusive.add_argument("-p", "--path", help="Path of the file to convert.")
+    exclusive.add_argument("-a", "--apis", nargs="+", metavar="API_ID", help="Convert YAML files for the specified APIs.")
 
     return parser
 
@@ -403,16 +467,10 @@ def main(argv: list[str] | None = None) -> None:
         update_api_status(date)
 
     elif args.command == "filter":
-        matches = filter_apis(vars(args))
-
-        if matches:
-            print("\n".join(matches))
-        else:
-            print("No API matches the given filter")
+        filter_apis(vars(args))
 
     elif args.command == "convert":
-        path = Path(args.path)
-        utils.convert_yaml_to_json(path)
+        convert_apis(args.path, args.apis)
 
 if __name__ == "__main__":
     main()

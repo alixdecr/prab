@@ -1,11 +1,11 @@
 
-# Structural Characteristics of catwatch (Api Documentation)
+# Structural Characteristics of catwatch (CatWatch API)
 
-*Last update: 2026-11-18*
+*Last update: 2026-11-19*
 
-![alt text](https://img.shields.io/badge/oas_version-openapi_v3.1.1-brightgreen.svg)
+![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
-![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_1-red.svg)
 
 **Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
@@ -15,7 +15,7 @@
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
-| http://localhost:8080/ | local | True |
+| https://catwatch.opensource.zalan.do | online | False |
 
 **Authentication Methods:** No authentication required
 
@@ -23,7 +23,7 @@
 
 ## Structural Information
 
-**Total Paths:** 17
+**Total Paths:** 6
 
 **Query Parameters:** 8
 
@@ -31,11 +31,11 @@
 
 | Method | Paths |
 | ------ | ----- |
-| `GET` | 15 |
-| `POST` | 3 |
-| `PUT` | 1 |
-| `PATCH` | 1 |
-| `DELETE` | 1 |
-| `HEAD` | 1 |
-| `OPTIONS` | 1 |
+| `GET` | 6 |
+| `POST` | 0 |
+| `PUT` | 0 |
+| `PATCH` | 0 |
+| `DELETE` | 0 |
+| `HEAD` | 0 |
+| `OPTIONS` | 0 |
 | `TRACE` | 0 |

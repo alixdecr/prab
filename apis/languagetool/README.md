@@ -1,9 +1,9 @@
 
 # Structural Characteristics of languagetool (LanguageTool API)
 
-*Last update: 2026-11-18*
+*Last update: 2026-11-19*
 
-![alt text](https://img.shields.io/badge/oas_version-openapi_v3.1.1-brightgreen.svg)
+![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
@@ -15,7 +15,7 @@
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
-| http://localhost:8081/v2 | local | True |
+| https://api.languagetoolplus.com/v2 | online | True |
 
 **Authentication Methods:** No authentication required
 

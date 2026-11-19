@@ -109,7 +109,7 @@
     },
     "catwatch": {
         "doc": "https://github.com/zalando-incubator/catwatch",
-        "oas": null,
+        "oas": "https://raw.githubusercontent.com/zalando-incubator/catwatch/refs/heads/master/catwatch-api/catwatch_rest_api.yaml",
         "availability": {
             "type": "local",
             "servers": [

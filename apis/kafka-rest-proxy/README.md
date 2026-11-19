@@ -1,11 +1,11 @@
 
 # Structural Characteristics of kafka-rest-proxy (REST Admin API)
 
-*Last update: 2026-11-18*
+*Last update: 2026-11-19*
 
 ![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
-![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
-![alt text](https://img.shields.io/badge/available_servers-2_of_2-brightgreen.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-fail-red.svg)
+![alt text](https://img.shields.io/badge/available_servers-0_of_3-red.svg)
 
 **Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
 
@@ -15,8 +15,9 @@
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
-| http://localhost:8082/v3 | local | True |
-| http://localhost:8090/kafka/v3 | local | True |
+| {protocol}://{address}:{port}/v3 | online | False |
+| {protocol}://{address}:{port}/kafka/v3 | online | False |
+| https://pkc-00000.region.provider.confluent.cloud/kafka/v3 | online | False |
 
 **Authentication Methods:** No authentication required
 
@@ -26,7 +27,7 @@
 
 **Total Paths:** 39
 
-**Query Parameters:** 9
+**Query Parameters:** 0
 
 **Paths by Method:**
 

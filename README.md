@@ -1,8 +1,8 @@
-![alt text](https://img.shields.io/badge/apis-59-blue.svg) ![alt text](https://img.shields.io/badge/reachable_servers-99%25-yellowgreen.svg) ![alt text](https://img.shields.io/badge/openapi_v3-100%25-brightgreen.svg) ![alt text](https://img.shields.io/badge/openapi--spec--validator-95%25-yellowgreen.svg)
+![alt text](https://img.shields.io/badge/apis-59-blue.svg) ![alt text](https://img.shields.io/badge/reachable_servers-91%25-yellowgreen.svg) ![alt text](https://img.shields.io/badge/openapi_v3-92%25-yellowgreen.svg) ![alt text](https://img.shields.io/badge/openapi--spec--validator-81%25-yellowgreen.svg)
 
 # PRAB: Public REST API Benchmark
 
-This GitHub repository contains a Public REST API Benchmark (PRAB). The benchmark contains the OpenAPI Specification (OAS), Postman Collection (when applicable), and various structural characteristics (HTTP method distribution, authentication method, routes and query parameters, etc.) of publicly available REST APIs. It is aimed to be used by researchers, testers, developers, and users alike, to support work in the REST API domain and its literature. For instance, a new testing tool can leverage the OpenAPI Specifications provided in this repository.
+This GitHub repository contains a Public REST API Benchmark (PRAB). The benchmark contains the OpenAPI Specification (OAS) and various structural characteristics (HTTP method distribution, authentication method, routes and query parameters, etc.) of publicly available REST APIs. It is aimed to be used by researchers, testers, developers, and users alike, to support work in the REST API domain and its literature. For instance, a new testing tool can leverage the OpenAPI Specifications provided in this repository.
 
 The repository was created by [Alix Decrop](https://orcid.org/0009-0007-2641-5983) and [Sara Eraso](https://orcid.org/0009-0002-7637-3869).
 
@@ -27,7 +27,7 @@ Decrop, A., Eraso, S., Devroey, X. and Perrouin, G., 2025. A Public Benchmark of
 
 PRAB contains the following:
 
-- `apis/`: Folder containing all APIs of the benchmark. Each API has a sub-folder, containing a global overview in `README.md`, an OpenAPI Specification (OAS) in `<api-name>-openapi.json`, and optionally a Postman Collection or other useful files.
+- `apis/`: Folder containing all APIs of the benchmark. Each API has a sub-folder, containing a global overview in `README.md`, an OpenAPI Specification (OAS) in `<api-name>-openapi.json`, and optionally other useful files (Postman collections, YAML versions, etc.).
 - `legacy/`: Folder containing legacy content (cf. **Legacy** section for more details).
 - `characteristics.json`: File containing the structural characteristics of the APIs.
 - `sources.json`: File containing the source URLs for the benchmark specifications along with additional information such as API availability, authentication, pricing, and rate limits.
@@ -89,10 +89,11 @@ The CLI uses Python v3.10 or later. To set it up, enter the following commands i
     python cli.py filter --hosted local --no-auth --max-routes 50 --min-params 10
     ```
 
-    Converting a YAML API specification into JSON:
+    Converting YAML API specifications into JSON:
 
     ```
     python cli.py convert --path apis/my-api/my-api.yaml
+    python cli.py convert --apis catwatch digdag gitlab
     ```
 
 ## Actionable Insights and Guidance on Using the Benchmark
@@ -103,13 +104,13 @@ Moreover, REST APIs utilize different HTTP methods depending on their applicatio
 
 Therefore, we leave the selection of APIs up to the benchmark users but provide concrete metrics to support evidence-based API selection. For instance, a tool for REST API security testing might require the evaluation of APIs that allow data to be sent to the server (i.e., with the POST HTTP method). The evaluation of such a tool would utilize a subset of our benchmark, comprising APIs with a high distribution of POST methods. Consequently, the structural characteristics provided in our benchmark enable researchers to filter the APIs they find relevant (i.e., that match specific experimental needs).
 
-For research involving source code analysis, we include URLs for downloading (local) or using (online) the REST APIs. Our quality criteria excluded non-deployable APIs. Fuzzing research also cares about request rate limits, pricing, and authentication mechanisms, which we also include. Finally, we provide up-to-date documentation in both OpenAPI/Postman formats, which testing tools can leverage. We did not include API source code in our benchmark but rather reference it via respective URLs (GitHub repositories, website downloads, etc.).
+For research involving source code analysis, we include URLs for downloading (local) or using (online) the REST APIs. Our quality criteria excluded non-deployable APIs. Fuzzing research also cares about request rate limits, pricing, and authentication mechanisms, which we also include. Finally, we provide up-to-date documentation in the OAS format, which testing tools can leverage. We did not include API source code in our benchmark but rather reference it via respective URLs (GitHub repositories, website downloads, etc.).
 
 ## Legacy
 
 The repository also contains a `legacy/` folder with the initial evaluation data of the benchmark (as reported in our research paper), and APIs that were retired from the benchmark:
 
-- `apis/`: APIs that were part of the benchmark but were retired (i.e., moved out of `/apis`), kept for reproducibility. An API is retired when it becomes unusable for the benchmark (e.g., its servers are permanently unreachable and it cannot be deployed locally). Each retired API keeps its original folder content (OpenAPI Specification, optional Postman Collection, README with structural characteristics).
+- `apis/`: Outdated or retired APIs (e.g., the API server shut down and no local instance is possible). Some APIs may still exist in the benchmark, with a newer documentation (old documentations are retired here).
 - `structural-characteristics.json`: The structural characteristics at the time of the initial evaluation (the current, up-to-date version is `apis/characteristics.json` along with the data in individual API `README.md` files).
 - `structural-characteristics-outdated.pdf` and `visualisation/`: The frozen table and visualisations from the paper, kept for reproducibility.
 - `study-data/`: The study data associated with the research paper. You can find the following files:

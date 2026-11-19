@@ -1,10 +1,10 @@
 
 # Structural Characteristics of genome-nexus (Genome Nexus API)
 
-*Last update: 2026-11-18*
+*Last update: 2026-11-19*
 
-![alt text](https://img.shields.io/badge/oas_version-openapi_v3.1.1-brightgreen.svg)
-![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
+![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
+![alt text](https://img.shields.io/badge/openapi--spec--validator-fail-red.svg)
 ![alt text](https://img.shields.io/badge/available_servers-2_of_2-brightgreen.svg)
 
 **Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
@@ -15,8 +15,8 @@
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
-| http://localhost:28125/ | local | True |
-| https://localhost:28125/ | local | True |
+| http://www.genomenexus.org/ | online | True |
+| https://www.genomenexus.org/ | online | True |
 
 **Authentication Methods:** No authentication required
 

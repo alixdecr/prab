@@ -106,10 +106,7 @@
                         "name": "level",
                         "in": "formData",
                         "type": "string",
-                        "enum": [
-                            "default",
-                            "picky"
-                        ],
+                        "enum": ["default", "picky"],
                         "description": "If set to `picky`, additional rules will be activated, i.e. rules that you might only find useful when checking formal text."
                     }
                 ],
@@ -508,5 +505,6 @@
                 }
             }
         }
+
     }
 }

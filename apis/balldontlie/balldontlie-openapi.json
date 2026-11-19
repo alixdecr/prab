@@ -60,7 +60,7 @@
                     },
                     "season": {
                         "type": "integer",
-                        "description": "Season start year; 2026 means 2026–27."
+                        "description": "Season start year; 2026 means 2026\u201327."
                     },
                     "season_type": {
                         "type": "string",
@@ -1843,7 +1843,7 @@
                     "period": {
                         "type": "integer",
                         "nullable": true,
-                        "description": "Recorded game period: 0 before play, 1–4 for regulation, and 5+ for overtime (5 is the first overtime, 6 the second). Some historical overtime finals return 4; use status to determine whether a game is complete."
+                        "description": "Recorded game period: 0 before play, 1\u20134 for regulation, and 5+ for overtime (5 is the first overtime, 6 the second). Some historical overtime finals return 4; use status to determine whether a game is complete."
                     },
                     "time": {
                         "type": "string",
@@ -2709,7 +2709,7 @@
                                     "number",
                                     "null"
                                 ],
-                                "description": "Passes leading to a teammate’s shot attempt."
+                                "description": "Passes leading to a teammate\u2019s shot attempt."
                             },
                             "ast_pts_created": {
                                 "type": [
@@ -5695,7 +5695,7 @@
                     {
                         "name": "seasons[]",
                         "in": "query",
-                        "description": "Season start years; 2026 means 2026–27.",
+                        "description": "Season start years; 2026 means 2026\u201327.",
                         "style": "form",
                         "explode": true,
                         "schema": {
@@ -6269,7 +6269,7 @@
         "/nba/v1/stats": {
             "get": {
                 "summary": "Get NBA stats",
-                "description": "Successful responses include meta, including on empty pages. When fewer than per_page records are returned, meta.next_cursor is omitted, not null. A full page can return a cursor even if the next page is empty. Pass this endpoint’s returned next_cursor as cursor, keeping the same filters, until next_cursor is absent; do not use page numbers or cursors from another endpoint.\nPlayer stats do not include participation-status classifications such as DNP, inactive, or did not dress, or a filter for those statuses. Zero minutes or zero statistics do not identify a participation reason. Missing stats do not establish that a player did not participate.\n",
+                "description": "Successful responses include meta, including on empty pages. When fewer than per_page records are returned, meta.next_cursor is omitted, not null. A full page can return a cursor even if the next page is empty. Pass this endpoint\u2019s returned next_cursor as cursor, keeping the same filters, until next_cursor is absent; do not use page numbers or cursors from another endpoint.\nPlayer stats do not include participation-status classifications such as DNP, inactive, or did not dress, or a filter for those statuses. Zero minutes or zero statistics do not identify a participation reason. Missing stats do not establish that a player did not participate.\n",
                 "tags": [
                     "NBA"
                 ],
@@ -7182,7 +7182,7 @@
         "/nba/v1/lineups": {
             "get": {
                 "summary": "Get NBA game lineups",
-                "description": "Retrieve starting lineups and bench players for NBA games. Also available at /v1/lineups.\n\n**Important Notes:**\n- Lineup data is only available from the 2025–26 NBA season onward\n- Lineup data is only available once the game begins\n",
+                "description": "Retrieve starting lineups and bench players for NBA games. Also available at /v1/lineups.\n\n**Important Notes:**\n- Lineup data is only available from the 2025\u201326 NBA season onward\n- Lineup data is only available once the game begins\n",
                 "tags": [
                     "NBA"
                 ],
@@ -7808,7 +7808,7 @@
         "/nba/v2/stats/advanced": {
             "get": {
                 "summary": "Get NBA advanced stats (V2)",
-                "description": "Retrieve comprehensive advanced statistics for NBA player performances. This V2 endpoint includes\nadditional metrics from tracking data, hustle stats, defensive matchups, and usage analytics.\n\nOmitting period returns available records across periods; use period=0 for full-game records only.\nAdvanced stats do not expose total playing minutes or seconds. matchup_minutes measures time guarding a matchup, not total playing time.\nNo participation-status classification is included, and missing rows do not establish non-participation.\nSuccessful responses include meta, including on empty pages. When fewer than per_page records are returned, meta.next_cursor is omitted, not null. A full page can return a cursor even if the next page is empty. Pass this endpoint’s returned next_cursor as cursor, keeping the same filters, until next_cursor is absent; do not use page numbers or cursors from another endpoint.\n\nIncludes data from:\n- Box score advanced (PIE, ratings, efficiency metrics)\n- Box score misc (fast break points, second chance points)\n- Box score scoring (shot distribution percentages)\n- Four factors (effective FG%, turnover rate)\n- Hustle stats (deflections, contested shots, loose balls)\n- Defensive matchups (matchup FG%, points allowed)\n- Player tracking (speed, distance, touches)\n- Usage stats (percentage of team stats)\n",
+                "description": "Retrieve comprehensive advanced statistics for NBA player performances. This V2 endpoint includes\nadditional metrics from tracking data, hustle stats, defensive matchups, and usage analytics.\n\nOmitting period returns available records across periods; use period=0 for full-game records only.\nAdvanced stats do not expose total playing minutes or seconds. matchup_minutes measures time guarding a matchup, not total playing time.\nNo participation-status classification is included, and missing rows do not establish non-participation.\nSuccessful responses include meta, including on empty pages. When fewer than per_page records are returned, meta.next_cursor is omitted, not null. A full page can return a cursor even if the next page is empty. Pass this endpoint\u2019s returned next_cursor as cursor, keeping the same filters, until next_cursor is absent; do not use page numbers or cursors from another endpoint.\n\nIncludes data from:\n- Box score advanced (PIE, ratings, efficiency metrics)\n- Box score misc (fast break points, second chance points)\n- Box score scoring (shot distribution percentages)\n- Four factors (effective FG%, turnover rate)\n- Hustle stats (deflections, contested shots, loose balls)\n- Defensive matchups (matchup FG%, points allowed)\n- Player tracking (speed, distance, touches)\n- Usage stats (percentage of team stats)\n",
                 "tags": [
                     "NBA"
                 ],
@@ -8327,7 +8327,7 @@
         "/nba/v1/stats/tracking": {
             "get": {
                 "summary": "Get NBA game tracking stats",
-                "description": "Get per-game player tracking stats, including potential assists with `type=passing`. Full-game data only; quarter splits are unavailable. Requires GOAT or ALL-ACCESS. Available from 2018–19; coverage varies. Data typically becomes available a few hours to a day after game completion. No live data.",
+                "description": "Get per-game player tracking stats, including potential assists with `type=passing`. Full-game data only; quarter splits are unavailable. Requires GOAT or ALL-ACCESS. Available from 2018\u201319; coverage varies. Data typically becomes available a few hours to a day after game completion. No live data.",
                 "tags": [
                     "NBA"
                 ],
@@ -8365,7 +8365,7 @@
                         "name": "seasons[]",
                         "in": "query",
                         "required": false,
-                        "description": "Season start years: `2018` means 2018–19.",
+                        "description": "Season start years: `2018` means 2018\u201319.",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -8561,7 +8561,7 @@
         "/nba/v1/stats/defense": {
             "get": {
                 "summary": "Get NBA game shot defense",
-                "description": "Get per-game player shot defense by shot category, including shooting percentages allowed. Requires GOAT or ALL-ACCESS. Available from 2018–19; coverage varies. Data typically becomes available a few hours to a day after game completion. No live data.",
+                "description": "Get per-game player shot defense by shot category, including shooting percentages allowed. Requires GOAT or ALL-ACCESS. Available from 2018\u201319; coverage varies. Data typically becomes available a few hours to a day after game completion. No live data.",
                 "tags": [
                     "NBA"
                 ],
@@ -8599,7 +8599,7 @@
                         "name": "seasons[]",
                         "in": "query",
                         "required": false,
-                        "description": "Season start years: `2018` means 2018–19.",
+                        "description": "Season start years: `2018` means 2018\u201319.",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -8786,7 +8786,7 @@
         "/nba/v1/stats/shooting": {
             "get": {
                 "summary": "Get NBA game shooting splits",
-                "description": "Get per-game player shooting splits by defender distance, dribble count, or touch time. Select one split type per request. Requires GOAT or ALL-ACCESS. Available from 2018–19; coverage varies. Data typically becomes available a few hours to a day after game completion. No live data.",
+                "description": "Get per-game player shooting splits by defender distance, dribble count, or touch time. Select one split type per request. Requires GOAT or ALL-ACCESS. Available from 2018\u201319; coverage varies. Data typically becomes available a few hours to a day after game completion. No live data.",
                 "tags": [
                     "NBA"
                 ],
@@ -8824,7 +8824,7 @@
                         "name": "seasons[]",
                         "in": "query",
                         "required": false,
-                        "description": "Season start years: `2018` means 2018–19.",
+                        "description": "Season start years: `2018` means 2018\u201319.",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -9039,7 +9039,7 @@
         "/nba/v1/lineup_stats": {
             "get": {
                 "summary": "Get NBA lineup stats",
-                "description": "Get per-game performance for five-player lineups, including ratings, pace, and shooting efficiency. Requires GOAT or ALL-ACCESS. Available from 2018–19; coverage varies. Data typically becomes available a few hours to a day after game completion. No live data.",
+                "description": "Get per-game performance for five-player lineups, including ratings, pace, and shooting efficiency. Requires GOAT or ALL-ACCESS. Available from 2018\u201319; coverage varies. Data typically becomes available a few hours to a day after game completion. No live data.",
                 "tags": [
                     "NBA"
                 ],
@@ -9077,7 +9077,7 @@
                         "name": "seasons[]",
                         "in": "query",
                         "required": false,
-                        "description": "Season start years: `2018` means 2018–19.",
+                        "description": "Season start years: `2018` means 2018\u201319.",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -9268,7 +9268,7 @@
         "/nba/v1/matchups": {
             "get": {
                 "summary": "Get NBA matchups",
-                "description": "Get an offensive player’s stats against an individual defender for a game. Requires GOAT or ALL-ACCESS. Available from 2018–19; coverage varies. Data typically becomes available a few hours to a day after game completion. No live data.",
+                "description": "Get an offensive player\u2019s stats against an individual defender for a game. Requires GOAT or ALL-ACCESS. Available from 2018\u201319; coverage varies. Data typically becomes available a few hours to a day after game completion. No live data.",
                 "tags": [
                     "NBA"
                 ],
@@ -9306,7 +9306,7 @@
                         "name": "seasons[]",
                         "in": "query",
                         "required": false,
-                        "description": "Season start years: `2018` means 2018–19.",
+                        "description": "Season start years: `2018` means 2018\u201319.",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -9508,7 +9508,7 @@
         "/nba/v1/win_probabilities": {
             "get": {
                 "summary": "Get NBA win probabilities",
-                "description": "Get a completed game’s win-probability timeline in one response. Points are chronological; points with `play: null` appear last. Requires GOAT or ALL-ACCESS. Available from 2018–19; coverage varies. Data typically becomes available a few hours to a day after game completion. No live data.",
+                "description": "Get a completed game\u2019s win-probability timeline in one response. Points are chronological; points with `play: null` appear last. Requires GOAT or ALL-ACCESS. Available from 2018\u201319; coverage varies. Data typically becomes available a few hours to a day after game completion. No live data.",
                 "tags": [
                     "NBA"
                 ],

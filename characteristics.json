@@ -1821,19 +1821,19 @@
         ]
     },
     "catwatch": {
-        "title": "Api Documentation",
+        "title": "CatWatch API",
         "oas": {
             "validated": true,
             "error": null,
-            "family": "openapi",
-            "version": "3.1.1"
+            "family": "swagger",
+            "version": "2.0"
         },
         "servers": [
             {
-                "url": "http://localhost:8080/",
-                "hosted": "local",
-                "available": true,
-                "error": null
+                "url": "https://catwatch.opensource.zalan.do",
+                "hosted": "online",
+                "available": false,
+                "error": "ConnectionError"
             }
         ],
         "authentication": null,
@@ -1844,83 +1844,11 @@
         "routes": [
             {
                 "method": "get",
-                "path": "/config"
-            },
-            {
-                "method": "post",
-                "path": "/config/scoring.project"
-            },
-            {
-                "method": "get",
-                "path": "/contributors"
-            },
-            {
-                "method": "get",
-                "path": "/delete"
-            },
-            {
-                "method": "get",
-                "path": "/error"
-            },
-            {
-                "method": "head",
-                "path": "/error"
-            },
-            {
-                "method": "post",
-                "path": "/error"
-            },
-            {
-                "method": "put",
-                "path": "/error"
-            },
-            {
-                "method": "delete",
-                "path": "/error"
-            },
-            {
-                "method": "options",
-                "path": "/error"
-            },
-            {
-                "method": "patch",
-                "path": "/error"
-            },
-            {
-                "method": "get",
-                "path": "/export"
-            },
-            {
-                "method": "get",
-                "path": "/fetch"
-            },
-            {
-                "method": "get",
-                "path": "/health"
-            },
-            {
-                "method": "get",
-                "path": "/health.json"
-            },
-            {
-                "method": "post",
-                "path": "/import"
-            },
-            {
-                "method": "get",
-                "path": "/init"
-            },
-            {
-                "method": "get",
-                "path": "/languages"
-            },
-            {
-                "method": "get",
-                "path": "/projects"
-            },
-            {
-                "method": "get",
                 "path": "/statistics"
+            },
+            {
+                "method": "get",
+                "path": "/statistics/projects"
             },
             {
                 "method": "get",
@@ -1928,11 +1856,15 @@
             },
             {
                 "method": "get",
-                "path": "/statistics/languages"
+                "path": "/contributors"
             },
             {
                 "method": "get",
-                "path": "/statistics/projects"
+                "path": "/projects"
+            },
+            {
+                "method": "get",
+                "path": "/languages"
             }
         ],
         "query-parameters": [
@@ -1942,7 +1874,7 @@
             "offset",
             "organizations",
             "q",
-            "sortBy",
+            "sort_by",
             "start_date"
         ]
     },
@@ -2018,8 +1950,8 @@
     "coincap": {
         "title": "CoinCap API",
         "oas": {
-            "validated": true,
-            "error": null,
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "openapi",
             "version": "3.0.0"
         },
@@ -2029,6 +1961,12 @@
                 "hosted": "online",
                 "available": true,
                 "error": null
+            },
+            {
+                "url": "/v3",
+                "hosted": "online",
+                "available": false,
+                "error": "MissingSchema"
             }
         ],
         "authentication": [
@@ -2291,19 +2229,12 @@
     "cyclotron": {
         "title": "Cyclotron API",
         "oas": {
-            "validated": true,
-            "error": null,
-            "family": "openapi",
-            "version": "3.1.1"
+            "validated": false,
+            "error": "OpenAPIValidationError",
+            "family": "swagger",
+            "version": "2.0"
         },
-        "servers": [
-            {
-                "url": "http://localhost:8080/",
-                "hosted": "local",
-                "available": true,
-                "error": null
-            }
-        ],
+        "servers": [],
         "authentication": [
             "authenticatedSession"
         ],
@@ -2630,19 +2561,12 @@
     "digdag": {
         "title": "Digdag",
         "oas": {
-            "validated": true,
-            "error": null,
-            "family": "openapi",
-            "version": "3.1.1"
+            "validated": false,
+            "error": "DuplicateOperationIDError",
+            "family": "swagger",
+            "version": "2.0"
         },
-        "servers": [
-            {
-                "url": "http://localhost:8080",
-                "hosted": "local",
-                "available": true,
-                "error": null
-            }
-        ],
+        "servers": [],
         "authentication": null,
         "rate-limit": {
             "active": false,
@@ -3016,8 +2940,8 @@
     "envirocar": {
         "title": "enviroCar REST API",
         "oas": {
-            "validated": true,
-            "error": null,
+            "validated": false,
+            "error": "JsonRefError",
             "family": "openapi",
             "version": "3.0.3"
         },
@@ -3354,30 +3278,7 @@
                 "path": "/announcements"
             }
         ],
-        "query-parameters": [
-            "after",
-            "bbox",
-            "before",
-            "begins",
-            "begunBy",
-            "contains",
-            "deleteContent",
-            "during",
-            "endedBy",
-            "ends",
-            "equals",
-            "limit",
-            "locale",
-            "meets",
-            "metBy",
-            "nearPoint",
-            "overlapped",
-            "overlaps",
-            "page",
-            "q",
-            "status",
-            "type"
-        ]
+        "query-parameters": []
     },
     "erc-20-rest-service": {
         "title": "ERC-20 API",
@@ -3462,17 +3363,17 @@
     "fdic": {
         "title": "FDIC Bank Data API (Beta)",
         "oas": {
-            "validated": true,
-            "error": null,
+            "validated": false,
+            "error": "Unresolvable",
             "family": "openapi",
             "version": "3.0.0"
         },
         "servers": [
             {
-                "url": "https://api.fdic.gov/banks",
+                "url": "/banks",
                 "hosted": "online",
-                "available": true,
-                "error": null
+                "available": false,
+                "error": "MissingSchema"
             }
         ],
         "authentication": null,
@@ -3520,11 +3421,8 @@
             "agg_sum_fields",
             "agg_term_fields",
             "api_key",
-            "download",
             "fields",
-            "filename",
             "filters",
-            "format",
             "limit",
             "max_value",
             "max_value_by",
@@ -4422,21 +4320,21 @@
     "genome-nexus": {
         "title": "Genome Nexus API",
         "oas": {
-            "validated": true,
-            "error": null,
-            "family": "openapi",
-            "version": "3.1.1"
+            "validated": false,
+            "error": "OpenAPIValidationError",
+            "family": "swagger",
+            "version": "2.0"
         },
         "servers": [
             {
-                "url": "http://localhost:28125/",
-                "hosted": "local",
+                "url": "http://www.genomenexus.org/",
+                "hosted": "online",
                 "available": true,
                 "error": null
             },
             {
-                "url": "https://localhost:28125/",
-                "hosted": "local",
+                "url": "https://www.genomenexus.org/",
+                "hosted": "online",
                 "available": true,
                 "error": null
             }
@@ -9967,17 +9865,17 @@
     "gitlab": {
         "title": "GitLab REST API",
         "oas": {
-            "validated": true,
-            "error": null,
+            "validated": false,
+            "error": "UnresolvableParameterError",
             "family": "openapi",
             "version": "3.0.0"
         },
         "servers": [
             {
-                "url": "https://gitlab.com/api/v4",
+                "url": "https://{hostname}",
                 "hosted": "online",
-                "available": true,
-                "error": null
+                "available": false,
+                "error": "ConnectionError"
             }
         ],
         "authentication": [
@@ -18303,23 +18201,29 @@
     "kafka-rest-proxy": {
         "title": "REST Admin API",
         "oas": {
-            "validated": true,
-            "error": null,
+            "validated": false,
+            "error": "OpenAPIValidationError",
             "family": "openapi",
             "version": "3.0.0"
         },
         "servers": [
             {
-                "url": "http://localhost:8082/v3",
-                "hosted": "local",
-                "available": true,
-                "error": null
+                "url": "{protocol}://{address}:{port}/v3",
+                "hosted": "online",
+                "available": false,
+                "error": "InvalidSchema"
             },
             {
-                "url": "http://localhost:8090/kafka/v3",
-                "hosted": "local",
-                "available": true,
-                "error": null
+                "url": "{protocol}://{address}:{port}/kafka/v3",
+                "hosted": "online",
+                "available": false,
+                "error": "InvalidSchema"
+            },
+            {
+                "url": "https://pkc-00000.region.provider.confluent.cloud/kafka/v3",
+                "hosted": "online",
+                "available": false,
+                "error": "ConnectionError"
             }
         ],
         "authentication": null,
@@ -18529,30 +18433,20 @@
                 "path": "/clusters/{cluster_id}/topics/{topic_name}/records:batch"
             }
         ],
-        "query-parameters": [
-            "host",
-            "include_authorized_operations",
-            "offset_type",
-            "operation",
-            "pattern_type",
-            "permission",
-            "principal",
-            "resource_name",
-            "resource_type"
-        ]
+        "query-parameters": []
     },
     "languagetool": {
         "title": "LanguageTool API",
         "oas": {
             "validated": true,
             "error": null,
-            "family": "openapi",
-            "version": "3.1.1"
+            "family": "swagger",
+            "version": "2.0"
         },
         "servers": [
             {
-                "url": "http://localhost:8081/v2",
-                "hosted": "local",
+                "url": "https://api.languagetoolplus.com/v2",
+                "hosted": "online",
                 "available": true,
                 "error": null
             }
@@ -18604,8 +18498,8 @@
             {
                 "url": "http://example.com/rest/default",
                 "hosted": "online",
-                "available": false,
-                "error": "ConnectionError"
+                "available": true,
+                "error": null
             }
         ],
         "authentication": [

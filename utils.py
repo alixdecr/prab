@@ -158,28 +158,31 @@ def save_text(path: Path, data: str) -> None:
 
 ## CONVERSION
 
-def convert_yaml_to_json(path: Path) -> None:
-    """"
+def convert_yaml_to_json(path: Path) -> Path | None:
+    """
     Converts a YAML file into a JSON file.
     The YAML file is kept and a JSON copy of it is created with the same file name (different suffix) and folder.
 
     Args:
         path: YAML file path.
+
+    Returns:
+        Path of the created JSON file, or None if the conversion failed.
     """
 
     if not path.exists():
-        print(f"Path does not exist, unable to convert")
-        return
+        return None
 
     if path.suffix.lower() not in (".yaml", ".yml"):
-        print(f"File is not YAML, unable to convert")
-        return
-
-    out_path = path.with_suffix(".json")
+        return None
 
     with open(path, mode="r", encoding="utf-8") as file:
         data = yaml.safe_load(file)
 
+    if not isinstance(data, dict):
+        return None
+
+    out_path = path.with_suffix(".json")
     save_json(out_path, data)
 
-    print(f"Created a JSON copy at {out_path}")
+    return out_path

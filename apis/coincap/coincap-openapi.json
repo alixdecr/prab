@@ -18,6 +18,10 @@
     {
       "url": "https://rest.coincap.io/v3",
       "description": "Production"
+    },
+    {
+      "url": "/v3",
+      "description": "Relative (same host as docs)"
     }
   ],
   "components": {
@@ -89,9 +93,16 @@
                       "type": "array",
                       "description": "Array of price strings (null for symbols not found/unavailable)",
                       "items": {
+                        "oneOf": [
+                          {
                             "type": "string",
-                            "nullable": true,
                             "description": "USD price as formatted string"
+                          },
+                          {
+                            "type": "null",
+                            "description": "Symbol not found or price unavailable"
+                          }
+                        ]
                       }
                     }
                   }
