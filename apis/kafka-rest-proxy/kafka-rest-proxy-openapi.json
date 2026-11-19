@@ -23,11 +23,6 @@
             "url": "http://localhost:8090/kafka/v3",
             "x-audience": "component-internal",
             "description": "Kafka REST Proxy as part of Confluent Server."
-        },
-        {
-            "url": "https://pkc-00000.region.provider.confluent.cloud/kafka/v3",
-            "x-audience": "business-unit-internal",
-            "description": "Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud"
         }
     ],
     "paths": {

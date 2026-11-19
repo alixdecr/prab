@@ -18212,12 +18212,6 @@
                 "hosted": "local",
                 "available": true,
                 "error": null
-            },
-            {
-                "url": "https://pkc-00000.region.provider.confluent.cloud/kafka/v3",
-                "hosted": "online",
-                "available": false,
-                "error": "ConnectionError"
             }
         ],
         "authentication": null,

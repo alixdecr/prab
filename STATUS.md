@@ -3,7 +3,7 @@
 *Last update: 2026-11-19*
 
 ## Unreachable Servers
-- `kafka-rest-proxy` (`https://pkc-00000.region.provider.confluent.cloud/kafka/v3`)
+- All servers are reachable. Local servers are flagged as reachable by default.
 
 ## Outdated OAS Formats
 - `catwatch` (`swagger v2.0`)
