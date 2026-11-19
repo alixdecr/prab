@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT_PATH = Path(__file__).resolve().parent
 APIS_PATH = ROOT_PATH / "apis"
 CHAR_PATH = ROOT_PATH / "characteristics.json"
+SOURCES_PATH = ROOT_PATH / "sources.json"
 STATUS_PATH = ROOT_PATH / "STATUS.md"
 README_PATH = ROOT_PATH / "README.md"
 HTTP_METHODS = ("get", "post", "put", "patch", "delete", "head", "options", "trace")
@@ -348,6 +349,7 @@ def filter_apis(criteria: dict) -> None:
     print(f"Filtering APIs with the following criteria: {criteria}")
 
     data = utils.load_json(CHAR_PATH)
+    sources = utils.load_json(SOURCES_PATH)
     matches = []
 
     for api_id, chars in data.items():
@@ -358,10 +360,13 @@ def filter_apis(criteria: dict) -> None:
             can_add &= any(server["hosted"] == criteria["hosted"] for server in chars["servers"])
 
         if criteria.get("no_auth"):
-            can_add &= chars["authentication"] is None
+            can_add &= chars["authentication"] is None and not sources[api_id]["authentication"]["required"]
 
         if criteria.get("no_limit"):
-            can_add &= not chars["rate-limit"]["active"]
+            can_add &= not chars["rate-limit"]["active"] and not sources[api_id]["rate-limit"]["required"]
+
+        if criteria.get("no_pricing"):
+            can_add &= sources[api_id]["pricing"]["type"] == "free"
 
         # "is not None" allows 0 as a valid filter value for min or max
         if criteria.get("min_routes") is not None:
@@ -436,6 +441,7 @@ def build_parser() -> argparse.ArgumentParser:
     filter_parser.add_argument("--hosted", choices=("local", "online"), help="Filter APIs by hosting.")
     filter_parser.add_argument("--no-auth", action="store_true", help="Filter APIs with no authentication.")
     filter_parser.add_argument("--no-limit", action="store_true", help="Filter APIs with no rate limiting.")
+    filter_parser.add_argument("--no-pricing", action="store_true", help="Filter APIs with no pricing.")
     filter_parser.add_argument("--min-routes", type=int, metavar="MIN_AMOUNT", help="Filter APIs with a minimum amount of routes (inclusive).")
     filter_parser.add_argument("--max-routes", type=int, metavar="MAX_AMOUNT",help="Filter APIs with a maximum amount of routes (inclusive).")
     filter_parser.add_argument("--min-params", type=int, metavar="MIN_AMOUNT", help="Filter APIs with a minimum amount of query parameters (inclusive).")

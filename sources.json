@@ -774,7 +774,7 @@
             "source": "https://developer.adobe.com/commerce/webapi/get-started/rate-limiting"
         }
     },
-    "management-api-for-apache-cassandra": {
+    "management-cassandra": {
         "doc": "https://github.com/k8ssandra/management-api-for-apache-cassandra",
         "oas": "https://raw.githubusercontent.com/k8ssandra/management-api-for-apache-cassandra/master/management-api-server/doc/openapi.json",
         "availability": {
