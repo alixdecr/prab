@@ -1,5 +1,5 @@
 
-# Structural Characteristics of paypal (Invoices)
+# Structural Characteristics of paypal-invoices (Invoices)
 
 *Last update: 2026-11-19*
 

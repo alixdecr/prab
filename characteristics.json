@@ -22673,7 +22673,7 @@
             "url"
         ]
     },
-    "paypal": {
+    "paypal-invoices": {
         "title": "Invoices",
         "oas": {
             "validated": true,
