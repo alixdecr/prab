@@ -169,7 +169,10 @@
             "headers": {
               "X-CWA-TELETAN-TYPE": {
                 "description": "Type of the TeleTan (TEST or EVENT)",
-                "style": "simple"
+                "required": false,
+                "schema": {
+                  "type": "string"
+                }
               }
             },
             "content": {

@@ -1842,7 +1842,7 @@
                         "in": "path"
                     },
                     {
-                        "name": "sbom_scan_id",
+                        "name": "sbom_digest",
                         "required": true,
                         "description": "ID of the SBOM scan.",
                         "schema": {
@@ -15470,7 +15470,7 @@
                         "description": "Package name",
                         "schema": {
                             "type": "string",
-                            "pattern": "^(?:@((?:(?:[a-zA-Z0-9_.][a-zA-Z0-9_\\-.]{0,254}[a-zA-Z0-9_\\-]|[a-zA-Z0-9_])(?:(?<!\\.git|\\.atom))))\\/)?[\\-+._a-zA-Z0-9]+$"
+                            "pattern": "^(?:@((?:(?:[a-zA-Z0-9_.][a-zA-Z0-9_\\-.]{0,254}[a-zA-Z0-9_\\-]|[a-zA-Z0-9_])))\\/)?[\\-+._a-zA-Z0-9]+$"
                         },
                         "in": "path"
                     },
@@ -17260,7 +17260,7 @@
                         "example": 5
                     },
                     {
-                        "name": "issue_id",
+                        "name": "epic_issue_id",
                         "required": true,
                         "description": "ID of the issue.",
                         "schema": {
@@ -114209,7 +114209,7 @@
                         "description": "Version prefix of runners to return.",
                         "schema": {
                             "type": "string",
-                            "pattern": "(?<=^|\\n(?!$))[\\d+.]+",
+                            "pattern": "[\\d+.]+",
                             "nullable": true
                         },
                         "in": "query",
@@ -114433,7 +114433,7 @@
                         "description": "Version prefix of runners to return.",
                         "schema": {
                             "type": "string",
-                            "pattern": "(?<=^|\\n(?!$))[\\d+.]+",
+                            "pattern": "[\\d+.]+",
                             "nullable": true
                         },
                         "in": "query",
@@ -115077,7 +115077,7 @@
                         "description": "Version prefix of runners to return.",
                         "schema": {
                             "type": "string",
-                            "pattern": "(?<=^|\\n(?!$))[\\d+.]+",
+                            "pattern": "[\\d+.]+",
                             "nullable": true
                         },
                         "in": "query",
@@ -115341,7 +115341,7 @@
                         "description": "Version prefix of runners to return.",
                         "schema": {
                             "type": "string",
-                            "pattern": "(?<=^|\\n(?!$))[\\d+.]+",
+                            "pattern": "[\\d+.]+",
                             "nullable": true
                         },
                         "in": "query",
@@ -158584,7 +158584,7 @@
                     "jsonl_sha256": {
                         "type": "string",
                         "description": "SHA-256 of the transcript file.",
-                        "pattern": "^\\p{AHex}{64}$",
+                        "pattern": "^[0-9A-Fa-f]{64}$",
                         "minLength": 1,
                         "maxLength": 64
                     }

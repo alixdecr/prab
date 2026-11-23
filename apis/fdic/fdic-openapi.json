@@ -1388,67 +1388,35 @@
         "schemas": {
             "institution": {
                 "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "institution_properties.yaml"
-                    }
-                ]
+                "x-real-ref": "https://api.fdic.gov/banks/docs/institution_properties.yaml"
             },
             "location": {
                 "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "location_properties.yaml"
-                    }
-                ]
+                "x-real-ref": "https://api.fdic.gov/banks/docs/location_properties.yaml"
             },
             "summary": {
                 "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "summary_properties.yaml"
-                    }
-                ]
+                "x-real-ref": "https://api.fdic.gov/banks/docs/summary_properties.yaml"
             },
             "failure": {
                 "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "failure_properties.yaml"
-                    }
-                ]
+                "x-real-ref": "https://api.fdic.gov/banks/docs/failure_properties.yaml"
             },
             "history": {
                 "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "history_properties.yaml"
-                    }
-                ]
+                "x-real-ref": "https://api.fdic.gov/banks/docs/history_properties.yaml"
             },
             "financial": {
                 "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "risview_properties.yaml"
-                    }
-                ]
+                "x-real-ref": "https://api.fdic.gov/banks/docs/risview_properties.yaml"
             },
             "sod": {
                 "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "sod_properties.yaml"
-                    }
-                ]
+                "x-real-ref": "https://api.fdic.gov/banks/docs/sod_properties.yaml"
             },
             "demographics": {
                 "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "demographics_properties.yaml"
-                    }
-                ]
+                "x-real-ref": "https://api.fdic.gov/banks/docs/demographics_properties.yaml"
             },
             "metadata": {
                 "type": "object",

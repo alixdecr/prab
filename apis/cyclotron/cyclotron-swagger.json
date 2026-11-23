@@ -5,7 +5,7 @@
     "description": "Cyclotron's REST API for Dashboard management",
     "version": "1.0.0"
   },
-  "host": "",
+  "host": "localhost:3000",
   "schemes": [
     "http"
   ],
@@ -21,13 +21,15 @@
         "tags": [
           "Dashboards"
         ],
-        "parameters": [{
-          "name": "q",
-          "in": "query",
-          "description": "The q parameter can be a string value or comma-separated list of values, where each value is used as a partial match for the Dashboard name, or an exact match of one of the Dashboard's tags.",
-          "required": false,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "The q parameter can be a string value or comma-separated list of values, where each value is used as a partial match for the Dashboard name, or an exact match of one of the Dashboard's tags.",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of Dashboards (without the Dashboard definition)",
@@ -49,15 +51,17 @@
         "tags": [
           "Dashboards"
         ],
-        "parameters": [{
-          "name": "dashboard",
-          "in": "body",
-          "description": "The Dashboard to be created.",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/Dashboard"
+        "parameters": [
+          {
+            "name": "dashboard",
+            "in": "body",
+            "description": "The Dashboard to be created.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Dashboard"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "The created Dashboard, including auto-populated fields such as date, rev, etc.",
@@ -84,13 +88,15 @@
         "tags": [
           "Dashboards"
         ],
-        "parameters": [{
-          "name": "name",
-          "in": "path",
-          "description": "The Dashboard name.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "A single Dashboard",
@@ -118,21 +124,24 @@
         "tags": [
           "Dashboards"
         ],
-        "parameters": [{
-          "name": "name",
-          "in": "path",
-          "description": "The Dashboard name.",
-          "required": true,
-          "type": "string"
-        }, {
-          "name": "dashboard",
-          "in": "body",
-          "description": "The modified Dashboard.",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/Dashboard"
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "dashboard",
+            "in": "body",
+            "description": "The modified Dashboard.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Dashboard"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "The updated Dashboard, including auto-populated fields such as date, rev, etc.",
@@ -163,13 +172,15 @@
         "tags": [
           "Dashboards"
         ],
-        "parameters": [{
-          "name": "name",
-          "in": "path",
-          "description": "The Dashboard name.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "The deleted Dashboard, including auto-populated fields such as date, rev, etc.",
@@ -202,24 +213,27 @@
         "tags": [
           "Dashboards"
         ],
-        "parameters": [{
-          "name": "name",
-          "in": "path",
-          "description": "The Dashboard name.",
-          "required": true,
-          "type": "string"
-        }, {
-          "name": "tags",
-          "in": "body",
-          "description": "The modified Dashboard.",
-          "required": true,
-          "schema": {
-            "type": "array",
-            "items": {
-              "type": "string"
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tags",
+            "in": "body",
+            "description": "The modified Dashboard.",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "The updated Dashboard, including auto-populated fields such as date, rev, etc.",
@@ -252,13 +266,15 @@
         "tags": [
           "Dashboards"
         ],
-        "parameters": [{
-          "name": "name",
-          "in": "path",
-          "description": "The Dashboard name.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of Dashboard Revisions (each without the Dashboard definition)",
@@ -285,19 +301,22 @@
         "tags": [
           "Dashboards"
         ],
-        "parameters": [{
-          "name": "name",
-          "in": "path",
-          "description": "The Dashboard name.",
-          "required": true,
-          "type": "string"
-        }, {
-          "name": "revision",
-          "in": "path",
-          "description": "The revision parameter specifies which Revision to return.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "revision",
+            "in": "path",
+            "description": "The revision parameter specifies which Revision to return.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "A single Dashboard Revision",
@@ -327,13 +346,15 @@
         "tags": [
           "Dashboards"
         ],
-        "parameters": [{
-          "name": "name",
-          "in": "path",
-          "description": "The Dashboard name.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "The list of Users who like the Dashboard."
@@ -355,13 +376,15 @@
         "tags": [
           "Dashboards"
         ],
-        "parameters": [{
-          "name": "name",
-          "in": "path",
-          "description": "The Dashboard name.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "The updated list of Users who like the Dashboard."
@@ -383,13 +406,15 @@
         "tags": [
           "Dashboards"
         ],
-        "parameters": [{
-          "name": "name",
-          "in": "path",
-          "description": "The Dashboard name.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "The updated list of Users who like the Dashboard."
@@ -482,13 +507,15 @@
         "tags": [
           "Export"
         ],
-        "parameters": [{
-          "name": "name",
-          "in": "path",
-          "description": "The Dashboard name.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "302": {
             "description": "Redirects to the generated PDF."
@@ -513,13 +540,15 @@
         "tags": [
           "Export"
         ],
-        "parameters": [{
-          "name": "name",
-          "in": "path",
-          "description": "The Dashboard name.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The Dashboard name.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "201": {
             "description": "Export job created successfully; returns the corresponding URL for /exportstatus",
@@ -549,13 +578,15 @@
         "tags": [
           "Export"
         ],
-        "parameters": [{
-          "name": "key",
-          "in": "path",
-          "description": "The Export job key.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The Export job key.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Returns the status of the export job.",
@@ -599,13 +630,15 @@
         "tags": [
           "Users"
         ],
-        "parameters": [{
-          "name": "username",
-          "in": "path",
-          "description": "The sAMAccountName of the User to return.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The sAMAccountName of the User to return.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of Users",
@@ -626,15 +659,17 @@
         "tags": [
           "Users"
         ],
-        "parameters": [{
-          "name": "body",
-          "in": "body",
-          "description": "The User's credentials.",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/LoginRequest"
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The User's credentials.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginRequest"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "An new active Session.",
@@ -655,15 +690,17 @@
         "tags": [
           "Users"
         ],
-        "parameters": [{
-          "name": "body",
-          "in": "body",
-          "description": "The session to terminate.",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/SessionRequest"
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The session to terminate.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SessionRequest"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "Logout successful."
@@ -687,15 +724,17 @@
         "tags": [
           "Users"
         ],
-        "parameters": [{
-          "name": "body",
-          "in": "body",
-          "description": "The session to validate.",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/SessionRequest"
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The session to validate.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SessionRequest"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "The active Session.",
@@ -722,19 +761,23 @@
         "tags": [
           "Crypto"
         ],
-        "parameters": [{
-          "name": "body",
-          "in": "body",
-          "description": "The value to encrypt.",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/CryptoRequest"
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The value to encrypt.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CryptoRequest"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "The encrypted form of the original value.",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           "400": {
             "description": "Missing body or value in request."
@@ -772,15 +815,17 @@
         "tags": [
           "Proxy"
         ],
-        "parameters": [{
-          "name": "body",
-          "in": "body",
-          "description": "The proxy request.",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/ProxyRequest"
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The proxy request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProxyRequest"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "The proxy response.",
@@ -804,13 +849,15 @@
         "tags": [
           "LDAP"
         ],
-        "parameters": [{
-          "name": "q",
-          "in": "query",
-          "description": "The q parameter specifies the partial string match used to filter users & groups.  The provided value is used to match either 'sAMAccountName' or 'displayName' properties.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "The q parameter specifies the partial string match used to filter users & groups.  The provided value is used to match either 'sAMAccountName' or 'displayName' properties.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of Users",
@@ -852,15 +899,17 @@
         "tags": [
           "Analytics"
         ],
-        "parameters": [{
-          "name": "body",
-          "in": "body",
-          "description": "Information about the Dashboard being viewed and the User.",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/PageViewAnalyticsRecord"
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Information about the Dashboard being viewed and the User.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageViewAnalyticsRecord"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "Record logged."
@@ -878,19 +927,22 @@
         "tags": [
           "Analytics"
         ],
-        "parameters": [{
-          "name": "dashboard",
-          "in": "query",
-          "description": "Optional Dashboard ID; filters page views to the specified Dashboard.",
-          "required": false,
-          "type": "string"
-        }, {
-          "name": "max",
-          "in": "query",
-          "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-          "required": false,
-          "type": "integer"
-        }],
+        "parameters": [
+          {
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters page views to the specified Dashboard.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of Page View Analytics records.",
@@ -914,15 +966,17 @@
         "tags": [
           "Analytics"
         ],
-        "parameters": [{
-          "name": "body",
-          "in": "body",
-          "description": "Information about the executed Data Source.",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/DataSourceAnalyticsRecord"
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Information about the executed Data Source.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataSourceAnalyticsRecord"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "Record logged."
@@ -940,19 +994,22 @@
         "tags": [
           "Analytics"
         ],
-        "parameters": [{
-          "name": "dashboard",
-          "in": "query",
-          "description": "Optional Dashboard ID; filters data sources to the specified Dashboard.",
-          "required": false,
-          "type": "string"
-        }, {
-          "name": "max",
-          "in": "query",
-          "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-          "required": false,
-          "type": "integer"
-        }],
+        "parameters": [
+          {
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters data sources to the specified Dashboard.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of Data Source Analytics records.",
@@ -976,38 +1033,43 @@
         "tags": [
           "Analytics"
         ],
-        "parameters": [{
-          "name": "dashboard",
-          "in": "query",
-          "description": "Optional Dashboard ID; filters page views to the specified Dashboard.",
-          "required": false,
-          "type": "string"
-        }, {
-          "name": "resolution",
-          "in": "query",
-          "description": "Specifies the time granularity to aggregate results int",
-          "required": false,
-          "type": "string",
-          "enum": [
-            "minute",
-            "hour",
-            "day"
-          ]
-        }, {
-          "name": "startDate",
-          "in": "query",
-          "description": "Specifies the starting time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }, {
-          "name": "endDate",
-          "in": "query",
-          "description": "Specifies the ending time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }],
+        "parameters": [
+          {
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters page views to the specified Dashboard.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "resolution",
+            "in": "query",
+            "description": "Specifies the time granularity to aggregate results int",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "minute",
+              "hour",
+              "day"
+            ]
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of aggregated results.",
@@ -1034,38 +1096,43 @@
         "tags": [
           "Analytics"
         ],
-        "parameters": [{
-          "name": "dashboard",
-          "in": "query",
-          "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-          "required": false,
-          "type": "string"
-        }, {
-          "name": "resolution",
-          "in": "query",
-          "description": "Specifies the time granularity to aggregate results int",
-          "required": false,
-          "type": "string",
-          "enum": [
-            "minute",
-            "hour",
-            "day"
-          ]
-        }, {
-          "name": "startDate",
-          "in": "query",
-          "description": "Specifies the starting time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }, {
-          "name": "endDate",
-          "in": "query",
-          "description": "Specifies the ending time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }],
+        "parameters": [
+          {
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "resolution",
+            "in": "query",
+            "description": "Specifies the time granularity to aggregate results int",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "minute",
+              "hour",
+              "day"
+            ]
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of aggregated results.",
@@ -1092,33 +1159,38 @@
         "tags": [
           "Analytics"
         ],
-        "parameters": [{
-          "name": "dashboard",
-          "in": "query",
-          "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-          "required": false,
-          "type": "string"
-        }, {
-          "name": "startDate",
-          "in": "query",
-          "description": "Specifies the starting time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }, {
-          "name": "endDate",
-          "in": "query",
-          "description": "Specifies the ending time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }, {
-          "name": "max",
-          "in": "query",
-          "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-          "required": false,
-          "type": "integer"
-        }],
+        "parameters": [
+          {
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of aggregated results.",
@@ -1142,33 +1214,38 @@
         "tags": [
           "Analytics"
         ],
-        "parameters": [{
-          "name": "dashboard",
-          "in": "query",
-          "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-          "required": false,
-          "type": "string"
-        }, {
-          "name": "startDate",
-          "in": "query",
-          "description": "Specifies the starting time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }, {
-          "name": "endDate",
-          "in": "query",
-          "description": "Specifies the ending time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }, {
-          "name": "max",
-          "in": "query",
-          "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-          "required": false,
-          "type": "integer"
-        }],
+        "parameters": [
+          {
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of aggregated results.",
@@ -1192,27 +1269,31 @@
         "tags": [
           "Analytics"
         ],
-        "parameters": [{
-          "name": "dashboard",
-          "in": "query",
-          "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-          "required": false,
-          "type": "string"
-        }, {
-          "name": "startDate",
-          "in": "query",
-          "description": "Specifies the starting time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }, {
-          "name": "endDate",
-          "in": "query",
-          "description": "Specifies the ending time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }],
+        "parameters": [
+          {
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of aggregated results.",
@@ -1236,33 +1317,38 @@
         "tags": [
           "Analytics"
         ],
-        "parameters": [{
-          "name": "dashboard",
-          "in": "query",
-          "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-          "required": false,
-          "type": "string"
-        }, {
-          "name": "startDate",
-          "in": "query",
-          "description": "Specifies the starting time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }, {
-          "name": "endDate",
-          "in": "query",
-          "description": "Specifies the ending time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }, {
-          "name": "max",
-          "in": "query",
-          "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-          "required": false,
-          "type": "integer"
-        }],
+        "parameters": [
+          {
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of aggregated results.",
@@ -1286,33 +1372,38 @@
         "tags": [
           "Analytics"
         ],
-        "parameters": [{
-          "name": "dashboard",
-          "in": "query",
-          "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-          "required": false,
-          "type": "string"
-        }, {
-          "name": "startDate",
-          "in": "query",
-          "description": "Specifies the starting time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }, {
-          "name": "endDate",
-          "in": "query",
-          "description": "Specifies the ending time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }, {
-          "name": "max",
-          "in": "query",
-          "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-          "required": false,
-          "type": "integer"
-        }],
+        "parameters": [
+          {
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of aggregated results.",
@@ -1336,33 +1427,38 @@
         "tags": [
           "Analytics"
         ],
-        "parameters": [{
-          "name": "dashboard",
-          "in": "query",
-          "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
-          "required": false,
-          "type": "string"
-        }, {
-          "name": "startDate",
-          "in": "query",
-          "description": "Specifies the starting time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }, {
-          "name": "endDate",
-          "in": "query",
-          "description": "Specifies the ending time for the aggregation.",
-          "required": false,
-          "type": "string",
-          "format": "date-time"
-        }, {
-          "name": "max",
-          "in": "query",
-          "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-          "required": false,
-          "type": "integer"
-        }],
+        "parameters": [
+          {
+            "name": "dashboard",
+            "in": "query",
+            "description": "Optional Dashboard ID; filters visits to the specified Dashboard.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Specifies the starting time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Specifies the ending time for the aggregation.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of aggregated results.",
@@ -1386,13 +1482,15 @@
         "tags": [
           "Analytics"
         ],
-        "parameters": [{
-          "name": "max",
-          "in": "query",
-          "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
-          "required": false,
-          "type": "integer"
-        }],
+        "parameters": [
+          {
+            "name": "max",
+            "in": "query",
+            "description": "Optionally limits the results to the top N. A value of 0 returns all results.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of Dashboards, ordered by Page Views.",
@@ -1437,15 +1535,17 @@
         "tags": [
           "Data"
         ],
-        "parameters": [{
-          "name": "databucket",
-          "in": "body",
-          "description": "The Data Bucket to be created.",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/DataBucket"
+        "parameters": [
+          {
+            "name": "databucket",
+            "in": "body",
+            "description": "The Data Bucket to be created.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataBucket"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "The created Data Bucket.",
@@ -1469,13 +1569,15 @@
         "tags": [
           "Data"
         ],
-        "parameters": [{
-          "name": "key",
-          "in": "path",
-          "description": "The Data Bucket key.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "A single Data Bucket, including the data",
@@ -1497,21 +1599,24 @@
         "tags": [
           "Data"
         ],
-        "parameters": [{
-          "name": "key",
-          "in": "path",
-          "description": "The Data Bucket key.",
-          "required": true,
-          "type": "string"
-        }, {
-          "name": "databucket",
-          "in": "body",
-          "description": "The Data Bucket to be created.",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/DataBucket"
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "databucket",
+            "in": "body",
+            "description": "The Data Bucket to be created.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataBucket"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "The updated Data Bucket.",
@@ -1536,13 +1641,15 @@
         "tags": [
           "Data"
         ],
-        "parameters": [{
-          "name": "key",
-          "in": "path",
-          "description": "The Data Bucket key.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -1566,13 +1673,15 @@
         "tags": [
           "Data"
         ],
-        "parameters": [{
-          "name": "key",
-          "in": "path",
-          "description": "The Data Bucket key.",
-          "required": true,
-          "type": "string"
-        }],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "The data array for a Data Bucket",
@@ -1594,29 +1703,35 @@
         "tags": [
           "Data"
         ],
-        "parameters": [{
-          "name": "key",
-          "in": "path",
-          "description": "The Data Bucket key.",
-          "required": true,
-          "type": "string"
-        }, {
-          "name": "data",
-          "in": "body",
-          "description": "The data array for a Data Bucket",
-          "required": true,
-          "schema": {
-            "type": "array"
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "description": "The data array for a Data Bucket",
+            "required": true,
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "rev",
+            "in": "query",
+            "description": "If provided, the update will only succeed if the Data Bucket has a matching revision. Useful for ensuring sequential updates.",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
           }
-        }, {
-          "name": "rev",
-          "in": "query",
-          "description": "If provided, the update will only succeed if the Data Bucket has a matching revision. Useful for ensuring sequential updates.",
-          "required": false,
-          "schema": {
-            "type": "array"
-          }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "The updated Data Bucket.",
@@ -1646,18 +1761,24 @@
         "tags": [
           "Data"
         ],
-        "parameters": [{
-          "name": "key",
-          "in": "path",
-          "description": "The Data Bucket key.",
-          "required": true,
-          "type": "string"
-        }, {
-          "name": "data",
-          "in": "body",
-          "description": "Either a single value, or array of values.",
-          "required": true
-        }],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "description": "Either a single value, or array of values.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "The updated Data Bucket.",
@@ -1684,18 +1805,24 @@
         "tags": [
           "Data"
         ],
-        "parameters": [{
-          "name": "key",
-          "in": "path",
-          "description": "The Data Bucket key.",
-          "required": true,
-          "type": "string"
-        }, {
-          "name": "data",
-          "in": "body",
-          "description": "An object containing 'keys' and 'data'.",
-          "required": true
-        }],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "description": "An object containing 'keys' and 'data'.",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "The updated Data Bucket.",
@@ -1722,18 +1849,24 @@
         "tags": [
           "Data"
         ],
-        "parameters": [{
-          "name": "key",
-          "in": "path",
-          "description": "The Data Bucket key.",
-          "required": true,
-          "type": "string"
-        }, {
-          "name": "matchingKeys",
-          "in": "body",
-          "description": "An object containing keys to match data.",
-          "required": true
-        }],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The Data Bucket key.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "matchingKeys",
+            "in": "body",
+            "description": "An object containing keys to match data.",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "The updated Data Bucket.",
@@ -1760,23 +1893,24 @@
       "properties": {
         "_id": {
           "type": "string",
-          "description": "ID of the Dashboard.",
-          "required": true
+          "description": "ID of the Dashboard."
         },
         "name": {
           "type": "string",
-          "description": "Name of the Dashboard.",
-          "required": true
+          "description": "Name of the Dashboard."
         }
-      }
+      },
+      "required": [
+        "_id",
+        "name"
+      ]
     },
     "DashboardInfo": {
       "description": "The wrapper around but not including the actual Dashboard definition",
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of the Dashboard.",
-          "required": true
+          "description": "Name of the Dashboard."
         },
         "date": {
           "type": "string",
@@ -1843,19 +1977,20 @@
           },
           "readOnly": true
         }
-      }
+      },
+      "required": [
+        "name"
+      ]
     },
     "Dashboard": {
       "description": "The entire Dashboard object, including the definition and metadata.",
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of the Dashboard.",
-          "required": true
+          "description": "Name of the Dashboard."
         },
         "dashboard": {
-          "$ref": "#/definitions/DashboardDefinition",
-          "required": true
+          "$ref": "#/definitions/DashboardDefinition"
         },
         "date": {
           "type": "string",
@@ -1922,37 +2057,39 @@
           },
           "readOnly": true
         }
-      }
+      },
+      "required": [
+        "name",
+        "dashboard"
+      ]
     },
     "DashboardDefinition": {
       "description": "Definition of a Dashboard. This is a non-exhaustive list of properties",
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of the Dashboard.",
-          "required": true
+          "description": "Name of the Dashboard."
         },
         "dataSources": {
           "type": "array",
-          "description": "List of Data Sources.",
-          "required": false
+          "description": "List of Data Sources."
         },
         "pages": {
           "type": "array",
-          "description": "List of Pages in the Dashboard.",
-          "required": false
+          "description": "List of Pages in the Dashboard."
         },
         "scripts": {
           "type": "array",
-          "description": "List of Scripts to run when the Dashboard is loaded.",
-          "required": false
+          "description": "List of Scripts to run when the Dashboard is loaded."
         },
         "styles": {
           "type": "array",
-          "description": "List of Styles to apply when the Dashboard is loaded.",
-          "required": false
+          "description": "List of Styles to apply when the Dashboard is loaded."
         }
-      }
+      },
+      "required": [
+        "name"
+      ]
     },
     "CreatedBy": {
       "properties": {
@@ -1992,8 +2129,7 @@
         },
         "dn": {
           "description": "LDAP distinguished name.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "mail": {
           "description": "Email address",
@@ -2003,7 +2139,10 @@
           "description": "Type of account, e.g. user, group",
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "dn"
+      ]
     },
     "Viewer": {
       "properties": {
@@ -2017,8 +2156,7 @@
         },
         "dn": {
           "description": "LDAP distinguished name.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "mail": {
           "description": "Email address",
@@ -2028,7 +2166,10 @@
           "description": "Type of account, e.g. user, group",
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "dn"
+      ]
     },
     "ExportResponse": {
       "properties": {
@@ -2081,95 +2222,91 @@
       "properties": {
         "dn": {
           "description": "LDAP distinguished name.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "distinguishedName": {
           "description": "LDAP distinguished name.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "displayName": {
           "description": "Display name of the User.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "memberOf": {
           "description": "List of LDAP distinguished names for groups this User is a member of.",
           "type": "array",
           "items": {
             "type": "string"
-          },
-          "required": true
+          }
         },
         "department": {
           "description": "The User's department.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "division": {
           "description": "The User's division.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "name": {
           "description": "Formal name of the User.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "sAMAccountName": {
           "description": "Username of the User.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "objectCategory": {
           "description": "LDAP distinguished name of the category of this user.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "mail": {
           "description": "Email address",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "category": {
           "description": "Type of account, e.g. user, group",
-          "type": "string",
-          "required": true
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "dn",
+        "distinguishedName",
+        "displayName",
+        "memberOf",
+        "department",
+        "division",
+        "name",
+        "sAMAccountName",
+        "objectCategory",
+        "mail",
+        "category"
+      ]
     },
     "User": {
       "properties": {
         "sAMAccountName": {
           "description": "Username of the User.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "name": {
           "description": "Formal name of the User.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "email": {
           "description": "Email address",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "emailHash": {
           "description": "An MD5 hash of the User's email address.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "distinguishedName": {
           "description": "LDAP distinguished name.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "displayName": {
           "description": "Display name of the User.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "givenName": {
           "description": "The User's given name.",
@@ -2189,27 +2326,37 @@
         },
         "firstLogin": {
           "description": "The date/time of the User's first login to Cyclotron.",
-          "type": "date-time"
+          "type": "string",
+          "format": "date-time"
         },
         "lastLogin": {
           "description": "The date/time of the User's last login to Cyclotron.",
-          "type": "date-time"
+          "type": "string",
+          "format": "date-time"
         },
         "timesLoggedIn": {
           "description": "The number of times this User has logged into Cyclotron.",
           "type": "integer",
-          "format": "int32",
-          "required": true
+          "format": "int32"
         },
         "memberOf": {
           "description": "List of LDAP distinguished names for groups this User is a member of.",
           "type": "array",
           "items": {
             "type": "string"
-          },
-          "required": true
+          }
         }
-      }
+      },
+      "required": [
+        "sAMAccountName",
+        "name",
+        "email",
+        "emailHash",
+        "distinguishedName",
+        "displayName",
+        "timesLoggedIn",
+        "memberOf"
+      ]
     },
     "LoginRequest": {
       "properties": {
@@ -2247,7 +2394,8 @@
         },
         "expiration": {
           "description": "The current expiration date of the Session.",
-          "type": "date-time"
+          "type": "string",
+          "format": "date-time"
         },
         "user": {
           "description": "The User logged into this Session.",
@@ -2267,10 +2415,12 @@
       "properties": {
         "url": {
           "description": "Target URL for the request.",
-          "type": "string",
-          "required": true
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "url"
+      ]
     },
     "ProxyResponse": {
       "properties": {
@@ -2289,105 +2439,98 @@
         "date": {
           "description": "The date this record was logged.",
           "type": "string",
-          "format": "date-time",
-          "required": false
+          "format": "date-time"
         },
         "dashboard": {
           "description": "The ID of the Dashboard being viewed.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "page": {
           "description": "The current page index (0-indexed).",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "rev": {
           "description": "The current revision of the Dashboard.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "visitId": {
           "description": "The current Visit ID: a unique value generated when a Dashboard is opened.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "user": {
           "description": "The ID of a logged-in User. Either this or 'uid' is required.",
-          "type": "string",
-          "required": false
+          "type": "string"
         },
         "uid": {
           "description": "The unique ID for a non-logged-in User.  Either this or 'user' is required.",
-          "type": "string",
-          "required": false
+          "type": "string"
         },
         "browser": {
           "description": "An object containing browser information.",
-          "type": "object",
-          "required": false
+          "type": "object"
         },
         "ip": {
           "description": "The IP of the computer logging this record",
-          "type": "string",
-          "required": false
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "dashboard",
+        "page",
+        "rev",
+        "visitId"
+      ]
     },
     "DataSourceAnalyticsRecord": {
       "properties": {
         "date": {
           "description": "The date this record was logged.",
           "type": "string",
-          "format": "date-time",
-          "required": false
+          "format": "date-time"
         },
         "dashboard": {
           "description": "The ID of the Dashboard being viewed.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "page": {
           "description": "The current page index (0-indexed).",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "rev": {
           "description": "The current revision of the Dashboard.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "visitId": {
           "description": "The current Visit ID: a unique value generated when a Dashboard is opened.",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "dataSourceName": {
           "description": "The name of the Data Source that was executed.",
-          "type": "string",
-          "required": false
+          "type": "string"
         },
         "dataSourceType": {
           "description": "The type of Data Source that was executed.",
-          "type": "string",
-          "required": false
+          "type": "string"
         },
         "success": {
           "description": "Indicates whether or not the Data Source execution was successful.",
-          "type": "boolean",
-          "required": false
+          "type": "boolean"
         },
         "duration": {
           "description": "The duration of execution, in milliseconds.",
-          "type": "integer",
-          "required": false
+          "type": "integer"
         },
         "browser": {
           "description": "An object containing Data Source information.",
-          "type": "object",
-          "required": false
+          "type": "object"
         }
-      }
+      },
+      "required": [
+        "dashboard",
+        "page",
+        "rev",
+        "visitId"
+      ]
     },
     "PageViewsResponse": {
       "properties": {
@@ -2541,8 +2684,7 @@
       "properties": {
         "key": {
           "type": "string",
-          "description": "Uniquely identifying key of the Data Bucket.",
-          "required": true
+          "description": "Uniquely identifying key of the Data Bucket."
         },
         "createdDate": {
           "type": "string",
@@ -2564,10 +2706,13 @@
         },
         "data": {
           "description": "Array of data contained in the Data Bucket.",
-          "type": "array",
-          "required": true
+          "type": "array"
         }
-      }
+      },
+      "required": [
+        "key",
+        "data"
+      ]
     }
   },
   "securityDefinitions": {

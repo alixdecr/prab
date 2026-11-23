@@ -490,7 +490,7 @@
                 ],
                 "summary": "Get a project",
                 "description": "",
-                "operationId": "getProject",
+                "operationId": "getProjectById",
                 "produces": [
                     "application/json"
                 ],
@@ -636,7 +636,7 @@
                 ],
                 "summary": "List schedules of a project with filters",
                 "description": "",
-                "operationId": "getSchedules",
+                "operationId": "getProjectSchedules",
                 "produces": [
                     "application/json"
                 ],
@@ -798,7 +798,7 @@
                 ],
                 "summary": "List sessions of a project with filters",
                 "description": "",
-                "operationId": "getSessions",
+                "operationId": "getProjectSessions",
                 "produces": [
                     "application/json"
                 ],
@@ -1012,7 +1012,7 @@
                 ],
                 "summary": "Get a schedule",
                 "description": "",
-                "operationId": "getSchedules",
+                "operationId": "getScheduleById",
                 "produces": [
                     "application/json"
                 ],
@@ -1450,7 +1450,7 @@
                 ],
                 "summary": "Get a workflow",
                 "description": "",
-                "operationId": "getWorkflowDefinition",
+                "operationId": "getWorkflowById",
                 "produces": [
                     "application/json"
                 ],
@@ -1481,7 +1481,7 @@
                 ],
                 "summary": "Get truncated local time based on the time zone of a workflow",
                 "description": "",
-                "operationId": "getWorkflowDefinition",
+                "operationId": "getTruncatedSessionTime",
                 "produces": [
                     "application/json"
                 ],

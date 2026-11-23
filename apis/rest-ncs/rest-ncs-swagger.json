@@ -49,8 +49,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Dto",
-              "originalRef": "Dto"
+              "$ref": "#/definitions/Dto"
             }
           },
           "401": {
@@ -98,8 +97,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Dto",
-              "originalRef": "Dto"
+              "$ref": "#/definitions/Dto"
             }
           },
           "401": {
@@ -155,8 +153,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Dto",
-              "originalRef": "Dto"
+              "$ref": "#/definitions/Dto"
             }
           },
           "401": {
@@ -204,8 +201,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Dto",
-              "originalRef": "Dto"
+              "$ref": "#/definitions/Dto"
             }
           },
           "401": {
@@ -253,8 +249,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Dto",
-              "originalRef": "Dto"
+              "$ref": "#/definitions/Dto"
             }
           },
           "401": {
@@ -285,7 +280,7 @@
             "name": "a",
             "in": "path",
             "description": "First edge",
-            "required": false,
+            "required": true,
             "type": "integer",
             "format": "int32"
           },
@@ -293,7 +288,7 @@
             "name": "b",
             "in": "path",
             "description": "Second edge",
-            "required": false,
+            "required": true,
             "type": "integer",
             "format": "int32"
           },
@@ -301,7 +296,7 @@
             "name": "c",
             "in": "path",
             "description": "Third edge",
-            "required": false,
+            "required": true,
             "type": "integer",
             "format": "int32"
           }
@@ -310,8 +305,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Dto",
-              "originalRef": "Dto"
+              "$ref": "#/definitions/Dto"
             }
           },
           "401": {

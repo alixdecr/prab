@@ -61,22 +61,27 @@ def generate_api_characteristics(only: list[str] | None = None) -> None:
 
         print(f"Analyzing {api_id} -> {path.name}")
 
-        # oas
-        spec = {}
-
+        # loading
         try:
             spec = utils.load_json(path)
-            # openapi-spec-validator check
+        except Exception as e:
+            print(f"- Failed to load specification ({type(e).__name__})")
+            spec = {}
+
+        # oas validation
+        try:
             validate(spec)
-            # jsonref dereferencing (empty dict instead of fetching external refs), cast since jsonref is untyped
-            spec = cast(dict, replace_refs(spec, proxies=False, loader=lambda uri: {}))
-
             oas = {"validated": True, "error": None}
-
         except Exception as e:
             error_name = type(e).__name__
             oas = {"validated": False, "error": error_name}
-            print(f"- {error_name}:\n{str(e)}")
+            print(f"- Failed to validate specification ({error_name})")
+
+        # json dereferencing
+        try:
+            spec = cast(dict, replace_refs(spec, proxies=False, loader=lambda uri: {}))
+        except Exception as e:
+            print(f"- Failed to dereference json ({type(e).__name__})")
 
         # oas version
         if spec.get("openapi"):

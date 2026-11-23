@@ -1950,10 +1950,10 @@
     "coincap": {
         "title": "CoinCap API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
-            "version": "3.0.0"
+            "version": "3.1.0"
         },
         "servers": [
             {
@@ -2178,8 +2178,8 @@
     "cwa-verification-server": {
         "title": "cwa-verification-server",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.1"
         },
@@ -2223,12 +2223,19 @@
     "cyclotron": {
         "title": "Cyclotron API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "swagger",
             "version": "2.0"
         },
-        "servers": [],
+        "servers": [
+            {
+                "url": "http://localhost:3000/",
+                "hosted": "local",
+                "available": true,
+                "error": null
+            }
+        ],
         "authentication": [
             "authenticatedSession"
         ],
@@ -2555,8 +2562,8 @@
     "digdag": {
         "title": "Digdag",
         "oas": {
-            "validated": false,
-            "error": "DuplicateOperationIDError",
+            "validated": true,
+            "error": null,
             "family": "swagger",
             "version": "2.0"
         },
@@ -2744,12 +2751,25 @@
     "disease-sh": {
         "title": "disease.sh Docs - An open API for disease-related statistics",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
-        "servers": [],
+        "servers": [
+            {
+                "url": "https://disease.sh/",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            },
+            {
+                "url": "http://disease.sh/",
+                "hosted": "online",
+                "available": true,
+                "error": null
+            }
+        ],
         "authentication": null,
         "rate-limit": {
             "active": false,
@@ -2934,8 +2954,8 @@
     "envirocar": {
         "title": "enviroCar REST API",
         "oas": {
-            "validated": false,
-            "error": "JsonRefError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
@@ -3357,8 +3377,8 @@
     "fdic": {
         "title": "FDIC Bank Data API (Beta)",
         "oas": {
-            "validated": false,
-            "error": "Unresolvable",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
@@ -3415,8 +3435,11 @@
             "agg_sum_fields",
             "agg_term_fields",
             "api_key",
+            "download",
             "fields",
+            "filename",
             "filters",
+            "format",
             "limit",
             "max_value",
             "max_value_by",
@@ -4084,8 +4107,8 @@
     "gbif-species": {
         "title": "Species API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.1.0"
         },
@@ -4314,8 +4337,8 @@
     "genome-nexus": {
         "title": "Genome Nexus API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "swagger",
             "version": "2.0"
         },
@@ -9859,8 +9882,8 @@
     "gitlab": {
         "title": "GitLab REST API",
         "oas": {
-            "validated": false,
-            "error": "UnresolvableParameterError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
@@ -18195,8 +18218,8 @@
     "kafka-rest-proxy": {
         "title": "REST Admin API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.0"
         },
@@ -18421,7 +18444,17 @@
                 "path": "/clusters/{cluster_id}/topics/{topic_name}/records:batch"
             }
         ],
-        "query-parameters": []
+        "query-parameters": [
+            "host",
+            "include_authorized_operations",
+            "offset_type",
+            "operation",
+            "pattern_type",
+            "permission",
+            "principal",
+            "resource_name",
+            "resource_type"
+        ]
     },
     "languagetool": {
         "title": "LanguageTool API",
@@ -22262,8 +22295,8 @@
     "paypal-invoices": {
         "title": "Invoices",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
@@ -22378,7 +22411,14 @@
                 "path": "/v2/invoicing/accounting-sync/invoices/{id}/connections"
             }
         ],
-        "query-parameters": []
+        "query-parameters": [
+            "fields",
+            "page",
+            "page_size",
+            "send_to_invoicer",
+            "send_to_recipient",
+            "total_required"
+        ]
     },
     "petclinic": {
         "title": "Spring PetClinic",
@@ -23486,8 +23526,8 @@
     "reqres": {
         "title": "ReqRes API",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "openapi",
             "version": "3.0.3"
         },
@@ -23905,8 +23945,8 @@
     "rest-ncs": {
         "title": "API for Numerical Case Study (NCS)",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "swagger",
             "version": "2.0"
         },
@@ -23954,8 +23994,8 @@
     "rest-news": {
         "title": "API for REST News",
         "oas": {
-            "validated": false,
-            "error": "OpenAPIValidationError",
+            "validated": true,
+            "error": null,
             "family": "swagger",
             "version": "2.0"
         },
@@ -24079,8 +24119,8 @@
     "scout-api": {
         "title": "API for Aktivitetsbanken",
         "oas": {
-            "validated": false,
-            "error": "DuplicateOperationIDError",
+            "validated": true,
+            "error": null,
             "family": "swagger",
             "version": "2.0"
         },

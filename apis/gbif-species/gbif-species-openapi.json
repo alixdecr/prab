@@ -3023,7 +3023,11 @@
           {
             "name": "higherTaxonKey",
             "in": "query",
-            "description": "Filters by any of the higher Linnean rank keys. Note this is within the respective checklist and not searching NUB keys across all checklists."
+            "description": "Filters by any of the higher Linnean rank keys. Note this is within the respective checklist and not searching NUB keys across all checklists.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           },
           {
             "name": "status",
@@ -3387,7 +3391,11 @@
           {
             "name": "higherTaxonKey",
             "in": "query",
-            "description": "Filters by any of the higher Linnean rank keys. Note this is within the respective checklist and not searching NUB keys across all checklists."
+            "description": "Filters by any of the higher Linnean rank keys. Note this is within the respective checklist and not searching NUB keys across all checklists.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           },
           {
             "name": "status",

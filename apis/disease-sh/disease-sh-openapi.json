@@ -9,12 +9,6 @@
       "url": "https://github.com/disease-sh/API/blob/master/LICENSE"
     }
   },
-  "schemes": [
-    "https",
-    "http"
-  ],
-  "host": "disease.sh",
-  "basePath": "/",
   "tags": [
     {
       "name": "COVID-19: Worldometers",
@@ -53,12 +47,6 @@
       "description": "(Influenza data reported by the United States CDC, updated every 24 hours)"
     }
   ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
   "paths": {
     "/v3/covid-19/all": {
       "get": {
@@ -69,38 +57,44 @@
           {
             "name": "yesterday",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported a day ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "twoDaysAgo",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported two days ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "allowNull",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "By default, if a value is missing, it is returned as 0. This allows nulls to be returned",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           }
         ],
         "summary": "Get global COVID-19 totals for today, yesterday and two days ago",
@@ -127,39 +121,45 @@
           {
             "name": "sort",
             "in": "query",
-            "enum": [
-              "cases",
-              "todayCases",
-              "deaths",
-              "todayDeaths",
-              "active"
-            ],
             "description": "Provided a key (e.g. cases, todayCases, deaths, active), result will be sorted from greatest to least",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "cases",
+                "todayCases",
+                "deaths",
+                "todayDeaths",
+                "active"
+              ]
+            }
           },
           {
             "name": "yesterday",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported a day ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "allowNull",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "By default, if a value is missing, it is returned as 0. This allows nulls to be returned",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           }
         ],
         "summary": "Get COVID-19 totals for all US States",
@@ -188,31 +188,37 @@
             "in": "path",
             "required": true,
             "description": "State name or comma separated names spelled correctly",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "yesterday",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported a day ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "allowNull",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "By default, if a value is missing, it is returned as 0. This allows nulls to be returned",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           }
         ],
         "summary": "Get COVID-19 totals for specific US State(s)",
@@ -239,55 +245,63 @@
           {
             "name": "yesterday",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported a day ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "twoDaysAgo",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported two days ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "sort",
             "in": "query",
-            "enum": [
-              "cases",
-              "todayCases",
-              "deaths",
-              "todayDeaths",
-              "recovered",
-              "active",
-              "critical",
-              "casesPerOneMillion",
-              "deathsPerOneMillion"
-            ],
             "description": "Provided a key (e.g. cases, todayCases, deaths, recovered, active), results will be sorted from greatest to least",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "cases",
+                "todayCases",
+                "deaths",
+                "todayDeaths",
+                "recovered",
+                "active",
+                "critical",
+                "casesPerOneMillion",
+                "deathsPerOneMillion"
+              ]
+            }
           },
           {
             "name": "allowNull",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "By default, if a value is missing, it is returned as 0. This allows nulls to be returned",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           }
         ],
         "summary": "Get COVID-19 totals for all continents",
@@ -316,54 +330,64 @@
             "in": "path",
             "required": true,
             "description": "Continent name",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "yesterday",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported a day ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "twoDaysAgo",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported two days ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "strict",
             "in": "query",
-            "enum": [
-              "true",
-              "false"
-            ],
-            "default": "true",
             "description": "Setting to false gives you the ability to fuzzy search continents (i.e. Oman vs. rOMANia)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "default": "true"
+            }
           },
           {
             "name": "allowNull",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "By default, if a value is missing, it is returned as 0. This allows nulls to be returned",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           }
         ],
         "summary": "Get COVID-19 totals for a specific continent",
@@ -390,55 +414,63 @@
           {
             "name": "yesterday",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported a day ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "twoDaysAgo",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported two days ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "sort",
             "in": "query",
-            "enum": [
-              "cases",
-              "todayCases",
-              "deaths",
-              "todayDeaths",
-              "recovered",
-              "active",
-              "critical",
-              "casesPerOneMillion",
-              "deathsPerOneMillion"
-            ],
             "description": "Provided a key (e.g. cases, todayCases, deaths, recovered, active), the result will be sorted from greatest to least",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "cases",
+                "todayCases",
+                "deaths",
+                "todayDeaths",
+                "recovered",
+                "active",
+                "critical",
+                "casesPerOneMillion",
+                "deathsPerOneMillion"
+              ]
+            }
           },
           {
             "name": "allowNull",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "By default, if a value is missing, it is returned as 0. This allows nulls to be returned",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           }
         ],
         "summary": "Get COVID-19 totals for all countries",
@@ -467,54 +499,64 @@
             "in": "path",
             "required": true,
             "description": "A country name, iso2, iso3, or country ID code",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "yesterday",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported a day ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "twoDaysAgo",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported two days ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "strict",
             "in": "query",
-            "enum": [
-              "true",
-              "false"
-            ],
-            "default": "true",
             "description": "Setting to false gives you the ability to fuzzy search countries (i.e. Oman vs. rOMANia)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "default": "true"
+            }
           },
           {
             "name": "allowNull",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "By default, if a value is missing, it is returned as 0. This allows nulls to be returned",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           }
         ],
         "summary": "Get COVID-19 totals for a specific country",
@@ -543,43 +585,51 @@
             "in": "path",
             "required": true,
             "description": "Multiple country names, iso2, iso3, or country IDs separated by commas",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "yesterday",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported a day ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "twoDaysAgo",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "Queries data reported two days ago",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           },
           {
             "name": "allowNull",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "By default, if a value is missing, it is returned as 0. This allows nulls to be returned",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           }
         ],
         "summary": "Get COVID-19 totals for a specific set of countries",
@@ -648,7 +698,9 @@
             "in": "path",
             "required": true,
             "description": "Name of any county in the USA. All counties are listed in the /v3/covid-19/jhucsse/counties/ endpoint",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "summary": "Get COVID-19 totals for a specific county",
@@ -675,9 +727,11 @@
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           }
         ],
         "summary": "Get COVID-19 time series data for all countries and their provinces",
@@ -704,9 +758,11 @@
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           }
         ],
         "summary": "Get global accumulated COVID-19 time series data",
@@ -735,14 +791,18 @@
             "in": "path",
             "required": true,
             "description": "A country name, iso2, iso3, or country ID code",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           }
         ],
         "summary": "Get COVID-19 time series data for a specific country",
@@ -771,14 +831,18 @@
             "in": "path",
             "required": true,
             "description": "Multiple country names, iso2, iso3, or country IDs separated by commas",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           }
         ],
         "summary": "Get COVID-19 time series data for a specific set of countries",
@@ -807,21 +871,27 @@
             "in": "path",
             "required": true,
             "description": "A country name, iso2, iso3, or country ID code",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "province",
             "in": "path",
             "required": true,
             "description": "Province name. All available names can be found in the /v3/covid-19/historical/{query} endpoint",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           }
         ],
         "summary": "Get COVID-19 time series data for a specific province in a country",
@@ -850,21 +920,27 @@
             "in": "path",
             "required": true,
             "description": "A country name, iso2, iso3, or country ID code",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "provinces",
             "in": "path",
             "required": true,
             "description": "Provinces spelled correctly separated by ',' or '|' delimiters, never both in the same query",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           }
         ],
         "summary": "Get COVID-19 time series data for a set of provinces in a country",
@@ -914,14 +990,18 @@
             "in": "path",
             "required": true,
             "description": "US state name, validated in the array returned from the /v3/covid-19/historical/usacounties endpoint",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           }
         ],
         "summary": "Get COVID-19 time series data for all counties in a specified US state",
@@ -948,9 +1028,11 @@
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           }
         ],
         "summary": "Get COVID-19 time series data for all states, with an entry for each day since the pandemic began",
@@ -979,14 +1061,18 @@
             "in": "path",
             "required": true,
             "description": "State name(s), separated by commas (e.g. 'Illinois, California')",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           }
         ],
         "summary": "Get COVID-19 time series data for a state or set of states, with an entry for each day since the pandemic began",
@@ -1013,9 +1099,11 @@
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           }
         ],
         "summary": "Get COVID-19 time series data for all available US counties, with an entry for each day since the pandemic began",
@@ -1044,14 +1132,18 @@
             "in": "path",
             "required": true,
             "description": "County name(s), separated by commas (e.g. 'Alameda, Humboldt')",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           }
         ],
         "summary": "Get COVID-19 time series data for a county or set of counties, with an entry for each day since the pandemic began",
@@ -1121,7 +1213,9 @@
             "in": "path",
             "required": true,
             "description": "A valid country name from the /v3/covid-19/apple/countries endpoint",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "summary": "Get a list of supported subregions for specific country in the Apple mobility data set",
@@ -1151,14 +1245,18 @@
             "in": "path",
             "required": true,
             "description": "A valid country name from the /v3/covid-19/apple/countries endpoint",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "subregions",
             "in": "path",
             "required": true,
             "description": "Valid subregion(s) from the /v3/covid-19/apple/countries/{country} endpoint, separated by with commas",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "summary": "Get COVID-19 Apple mobility data for subregions of a country",
@@ -1209,19 +1307,23 @@
             "in": "path",
             "required": true,
             "description": "A valid country name from the /v3/covid-19/gov endpoint",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "allowNull",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "By default, if a value is missing, it is returned as 0. This allows nulls to be returned",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           }
         ],
         "summary": "Get COVID-19 government reported data for a specific country",
@@ -1261,16 +1363,20 @@
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           },
           {
             "name": "fullData",
             "in": "query",
-            "default": "false",
             "description": "Flag indicating whether to return data type as simpleVaccineTimeline (false) or fullVaccineTimeline (true).",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "false"
+            }
           }
         ],
         "summary": "Get total global COVID-19 vaccine doses administered. Sourced from https://covid.ourworldindata.org/",
@@ -1305,16 +1411,20 @@
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           },
           {
             "name": "fullData",
             "in": "query",
-            "default": "false",
             "description": "Flag indicating whether to return timeline data type as simpleVaccineTimeline (false) or fullVaccineTimeline (true).",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "false"
+            }
           }
         ],
         "summary": "Get COVID-19 vaccine doses administered for all countries that have reported rolling out vaccination. Sourced  from https://covid.ourworldindata.org/",
@@ -1351,21 +1461,27 @@
             "in": "path",
             "required": true,
             "description": "A valid country name, iso2, iso3",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           },
           {
             "name": "fullData",
             "in": "query",
-            "default": "false",
             "description": "Flag indicating whether to return timeline data type as simpleVaccineTimeline (false) or fullVaccineTimeline (true).",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "false"
+            }
           }
         ],
         "summary": "Get COVID-19 vaccine doses administered for a country that has reported vaccination rollout. Sourced from https://covid.ourworldindata.org/",
@@ -1400,16 +1516,20 @@
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           },
           {
             "name": "fullData",
             "in": "query",
-            "default": "false",
             "description": "Flag indicating whether to return timeline data type as simpleVaccineTimeline (false) or fullVaccineTimeline (true).",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "false"
+            }
           }
         ],
         "summary": "Get COVID-19 vaccine doses administered for all states that have reported rolling out vaccination. Sourced  from https://covid.ourworldindata.org/",
@@ -1446,21 +1566,27 @@
             "in": "path",
             "required": true,
             "description": "A valid state name",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "lastdays",
             "in": "query",
-            "default": 30,
             "description": "Number of days to return. Use 'all' for the full data set (e.g. 15, all, 24)",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "30"
+            }
           },
           {
             "name": "fullData",
             "in": "query",
-            "default": "false",
             "description": "Flag indicating whether to return timeline data type as simpleVaccineTimeline (false) or fullVaccineTimeline (true).",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "default": "false"
+            }
           }
         ],
         "summary": "Get COVID-19 vaccine doses administered for a state that has reported vaccination rollout. Sourced from https://covid.ourworldindata.org/",
@@ -1538,19 +1664,23 @@
             "in": "path",
             "required": true,
             "description": "A valid country name from the /v3/covid-19/variants/countries/ endpoint",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "allowNull",
             "in": "query",
-            "enum": [
-              "true",
-              "false",
-              "1",
-              "0"
-            ],
             "description": "By default, if a value is missing, it is returned as 0. This allows nulls to be returned",
-            "type": "string"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            }
           }
         ],
         "summary": "Get COVID-19 ECDC reported data for a specific country",
@@ -2880,5 +3010,13 @@
   "externalDocs": {
     "description": "Find out more about this API",
     "url": "https://github.com/disease-sh/API"
-  }
+  },
+  "servers": [
+    {
+      "url": "https://disease.sh/"
+    },
+    {
+      "url": "http://disease.sh/"
+    }
+  ]
 }

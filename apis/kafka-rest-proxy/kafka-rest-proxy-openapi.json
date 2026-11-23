@@ -3196,13 +3196,16 @@
                                 "type": "string"
                             },
                             "partition_id": {
-                                "type": "integer"
+                                "type": "integer",
+                                "format": "int32"
                             },
                             "earliest_offset": {
-                                "type": "int64"
+                                "type": "integer",
+                                "format": "int64"
                             },
                             "latest_offset": {
-                                "type": "int64"
+                                "type": "integer",
+                                "format": "int64"
                             }
                         }
                     }

@@ -103,17 +103,8 @@
               ]
             },
             "collectionFormat": "multi",
-            "default": "annotation_summary",
-            "enum": [
-              "annotation_summary",
-              "clinvar",
-              "hotspots",
-              "mutation_assessor",
-              "my_variant_info",
-              "nucleotide_context",
-              "oncokb",
-              "ptms",
-              "signal"
+            "default": [
+              "annotation_summary"
             ]
           }
         ],
@@ -191,17 +182,8 @@
               ]
             },
             "collectionFormat": "multi",
-            "default": "annotation_summary",
-            "enum": [
-              "annotation_summary",
-              "clinvar",
-              "hotspots",
-              "mutation_assessor",
-              "my_variant_info",
-              "nucleotide_context",
-              "oncokb",
-              "ptms",
-              "signal"
+            "default": [
+              "annotation_summary"
             ]
           }
         ],
@@ -274,17 +256,8 @@
               ]
             },
             "collectionFormat": "multi",
-            "default": "annotation_summary",
-            "enum": [
-              "annotation_summary",
-              "clinvar",
-              "hotspots",
-              "mutation_assessor",
-              "my_variant_info",
-              "nucleotide_context",
-              "oncokb",
-              "ptms",
-              "signal"
+            "default": [
+              "annotation_summary"
             ]
           }
         ],
@@ -359,17 +332,8 @@
               ]
             },
             "collectionFormat": "multi",
-            "default": "annotation_summary",
-            "enum": [
-              "annotation_summary",
-              "clinvar",
-              "hotspots",
-              "mutation_assessor",
-              "my_variant_info",
-              "nucleotide_context",
-              "oncokb",
-              "ptms",
-              "signal"
+            "default": [
+              "annotation_summary"
             ]
           }
         ],
@@ -442,17 +406,8 @@
               ]
             },
             "collectionFormat": "multi",
-            "default": "annotation_summary",
-            "enum": [
-              "annotation_summary",
-              "clinvar",
-              "hotspots",
-              "mutation_assessor",
-              "my_variant_info",
-              "nucleotide_context",
-              "oncokb",
-              "ptms",
-              "signal"
+            "default": [
+              "annotation_summary"
             ]
           }
         ],
@@ -522,17 +477,8 @@
               ]
             },
             "collectionFormat": "multi",
-            "default": "annotation_summary",
-            "enum": [
-              "annotation_summary",
-              "clinvar",
-              "hotspots",
-              "mutation_assessor",
-              "my_variant_info",
-              "nucleotide_context",
-              "oncokb",
-              "ptms",
-              "signal"
+            "default": [
+              "annotation_summary"
             ]
           }
         ],

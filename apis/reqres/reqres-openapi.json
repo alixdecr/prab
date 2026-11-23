@@ -3735,17 +3735,13 @@
             "type": "integer"
           },
           "next_cursor": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": "string",
+            "nullable": true,
             "description": "Opaque cursor or null if at end."
           },
           "prev_cursor": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": "string",
+            "nullable": true,
             "description": "Always null in v1 (forward-only pagination)."
           },
           "has_more": {
@@ -3816,22 +3812,16 @@
                     "type": "string"
                   },
                   "remaining_today": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
+                    "type": "integer",
+                    "nullable": true
                   },
                   "limit_today": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
+                    "type": "integer",
+                    "nullable": true
                   },
                   "reset_at": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
+                    "type": "string",
+                    "nullable": true,
                     "format": "date-time"
                   }
                 }
@@ -3890,22 +3880,16 @@
             "type": "object",
             "properties": {
               "avatar_url": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": "string",
+                "nullable": true
               },
               "bio": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": "string",
+                "nullable": true
               },
               "company": {
-                "type": [
-                  "object",
-                  "null"
-                ],
+                "type": "object",
+                "nullable": true,
                 "properties": {
                   "name": {
                     "type": "string"
@@ -3922,22 +3906,16 @@
                 "type": "object",
                 "properties": {
                   "twitter": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": "string",
+                    "nullable": true
                   },
                   "github": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": "string",
+                    "nullable": true
                   },
                   "linkedin": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": "string",
+                    "nullable": true
                   }
                 }
               }
