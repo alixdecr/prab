@@ -161,7 +161,7 @@ def save_text(path: Path, data: str) -> None:
 def convert_yaml_to_json(path: Path) -> Path | None:
     """
     Converts a YAML file into a JSON file.
-    The YAML file is kept and a JSON copy of it is created with the same file name (different suffix) and folder.
+    The YAML file is kept and a JSON copy of it is created with the same file name (different suffix) and in the same folder.
 
     Args:
         path: YAML file path.
@@ -184,5 +184,40 @@ def convert_yaml_to_json(path: Path) -> Path | None:
 
     out_path = path.with_suffix(".json")
     save_json(out_path, data)
+
+    return out_path
+
+
+def convert_swagger_to_oas(path: Path) -> Path | None:
+    """
+    Converts a JSON file with the Swagger format into OAS 3.0.
+    The Swagger file is kept and a OAS copy of it is created in the same folder.
+
+    Args:
+        path: Swagger file path.
+
+    Returns:
+        Path of the created Swagger file, or None if the conversion failed.
+    """
+
+    if not path.exists():
+        return None
+
+    if path.suffix.lower() != ".json":
+        return None
+
+    data = load_json(path)
+
+    # convert swagger to oas
+    # WIP
+
+    file_name = path.stem
+    if "swagger" in file_name:
+        file_name = file_name.replace("swagger", "openapi")
+    else:
+        file_name = f"{file_name}-openapi"
+
+    out_path = path.with_name(file_name).with_suffix(".json")
+    #save_json(out_path, data)
 
     return out_path
