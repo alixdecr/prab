@@ -1,7 +1,7 @@
 
 # Structural Characteristics of graphhopper (GraphHopper Directions API)
 
-*Last update: 2026-11-19*
+*Last update: 2026-11-23*
 
 ![alt text](https://img.shields.io/badge/oas_version-openapi_v3.1.0-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)

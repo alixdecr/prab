@@ -1,7 +1,7 @@
 
 # Structural Characteristics of rest-scs (API for String Case Study (SCS))
 
-*Last update: 2026-11-19*
+*Last update: 2026-11-23*
 
 ![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
