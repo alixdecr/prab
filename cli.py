@@ -440,6 +440,9 @@ def filter_apis(criteria: dict) -> None:
         if criteria.get("no_pricing"):
             can_add &= sources[api_id]["pricing"]["type"] == "free"
 
+        if criteria.get("oas_url"):
+            can_add &= sources[api_id]["oas"] is not None
+
         # "is not None" allows 0 as a valid filter value for min or max
         if criteria.get("min_routes") is not None:
             can_add &= len(chars["routes"]) >= criteria["min_routes"]
@@ -519,6 +522,7 @@ def build_parser() -> argparse.ArgumentParser:
     filter_parser.add_argument("--max-routes", type=int, metavar="MAX_AMOUNT",help="Filter APIs with a maximum amount of routes (inclusive).")
     filter_parser.add_argument("--min-params", type=int, metavar="MIN_AMOUNT", help="Filter APIs with a minimum amount of query parameters (inclusive).")
     filter_parser.add_argument("--max-params", type=int, metavar="MAX_AMOUNT",help="Filter APIs with a maximum amount of query parameters (inclusive).")
+    filter_parser.add_argument("--oas-url", action="store_true", help="Filter APIs that have an OAS URL.")
 
     # convert parser
     convert_parser = subparsers.add_parser("convert", help="Convert YAML to JSON.")
