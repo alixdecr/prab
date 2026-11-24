@@ -397,17 +397,16 @@ def filter_apis(criteria: dict) -> None:
         print("No API matches the given filter")
 
 
-def convert_apis(to: str, path: str | None = None, api_ids: list[str] | None = None) -> None:
+def convert_apis(path: str | None = None, api_ids: list[str] | None = None) -> None:
     """
     Converts YAML files into JSON copies.
 
     Args:
-        to: 'json' if converting YAML to JSON, 'oas' if converting Swagger to OAS 3.0.
         path: If set, path of the file to convert.
         api_ids: If set, ids of the APIs whose folder YAML files are converted.
     """
 
-    suffix = "y*ml" if to == "json" else "json"
+    suffix = "y*ml"
     paths = []
 
     if path:
@@ -423,10 +422,7 @@ def convert_apis(to: str, path: str | None = None, api_ids: list[str] | None = N
             paths.extend(api_paths)
 
     for convert_path in paths:
-        if to == "json":
-            out_path = utils.convert_yaml_to_json(convert_path)
-        else:
-            out_path = utils.convert_swagger_to_oas(convert_path)
+        out_path = utils.convert_yaml_to_json(convert_path)
 
         if out_path:
             print(f"Created a JSON copy at {out_path}")
@@ -458,8 +454,7 @@ def build_parser() -> argparse.ArgumentParser:
     filter_parser.add_argument("--max-params", type=int, metavar="MAX_AMOUNT",help="Filter APIs with a maximum amount of query parameters (inclusive).")
 
     # convert parser
-    convert_parser = subparsers.add_parser("convert", help="Convert YAML to JSON or Swagger to OAS 3.0.")
-    convert_parser.add_argument("-t", "--to", choices=("json", "oas"), required=True, help="Choose the conversion type.")
+    convert_parser = subparsers.add_parser("convert", help="Convert YAML to JSON.")
     exclusive = convert_parser.add_mutually_exclusive_group(required=True)
     exclusive.add_argument("-p", "--path", help="Path of the file to convert.")
     exclusive.add_argument("-a", "--apis", nargs="+", metavar="API_ID", help="Convert YAML files for the specified APIs.")
@@ -487,7 +482,7 @@ def main(argv: list[str] | None = None) -> None:
         filter_apis(vars(args))
 
     elif args.command == "convert":
-        convert_apis(args.to, args.path, args.apis)
+        convert_apis(args.path, args.apis)
 
 if __name__ == "__main__":
     main()
