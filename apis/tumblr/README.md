@@ -1,27 +1,49 @@
 
 # Structural Characteristics of tumblr (Tumblr)
 
-*Last update: 2026-11-23*
+*Last update: 2026-11-24*
 
 ![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API, (2) server reachability, and (3) official API URLs. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-## Usage Information
+**Documentation URL:** [https://www.tumblr.com/docs/en/api/v2](https://www.tumblr.com/docs/en/api/v2)
 
-**Servers:**
+**OAS File URL:** Unknown
+
+## Availability
+
+**Official Availability:** online
+
+**Official Servers:** `https://api.tumblr.com/v2`
+
+**Source Code URL:** Unknown
+
+## Servers
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
 | https://api.tumblr.com/v2 | online | True |
 
-**Authentication Methods:** No authentication required
+## Authentication
 
-**Rate Limiting:** False (no 429 status code response or rate limiting headers)
+**Documented:** No authentication required
 
-## Structural Information
+**Official:** True ([source](https://www.tumblr.com/docs/en/api/v2))
+
+## Rate Limiting
+
+**Documented:** False (no 429 status code response or rate limiting headers)
+
+**Official:** True (quota: 1000 per hour) ([source](https://www.tumblr.com/docs/en/api/v2))
+
+## Pricing
+
+**Official:** free ([source](https://www.tumblr.com/docs/en/api/v2))
+
+## Structure
 
 **Total Paths:** 16
 

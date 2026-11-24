@@ -1,27 +1,49 @@
 
 # Structural Characteristics of languagetool (LanguageTool API)
 
-*Last update: 2026-11-23*
+*Last update: 2026-11-24*
 
 ![alt text](https://img.shields.io/badge/oas_version-swagger_v2.0-orange.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API, (2) server reachability, and (3) official API URLs. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-## Usage Information
+**Documentation URL:** [https://dev.languagetool.org/http-server](https://dev.languagetool.org/http-server)
 
-**Servers:**
+**OAS File URL:** [https://languagetool.org/http-api/languagetool-swagger.json](https://languagetool.org/http-api/languagetool-swagger.json)
+
+## Availability
+
+**Official Availability:** both
+
+**Official Servers:** `https://api.languagetool.org/v2`, `http://localhost:8081/v2`
+
+**Source Code URL:** [https://github.com/languagetool-org/languagetool](https://github.com/languagetool-org/languagetool)
+
+## Servers
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
 | https://api.languagetoolplus.com/v2 | online | True |
 
-**Authentication Methods:** No authentication required
+## Authentication
 
-**Rate Limiting:** False (no 429 status code response or rate limiting headers)
+**Documented:** No authentication required
 
-## Structural Information
+**Official:** False ([source](https://dev.languagetool.org/public-http-api))
+
+## Rate Limiting
+
+**Documented:** False (no 429 status code response or rate limiting headers)
+
+**Official:** True (quota: 20 per minute) ([source](https://languagetool.org/http-api/languagetool-swagger.json))
+
+## Pricing
+
+**Official:** optional ([source](https://languagetool.org/proofreading-api))
+
+## Structure
 
 **Total Paths:** 5
 

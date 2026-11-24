@@ -1,27 +1,49 @@
 
 # Structural Characteristics of piggy-metrics (Piggy Metrics)
 
-*Last update: 2026-11-23*
+*Last update: 2026-11-24*
 
 ![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API, (2) server reachability, and (3) official API URLs. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-## Usage Information
+**Documentation URL:** [https://github.com/sqshq/piggymetrics](https://github.com/sqshq/piggymetrics)
 
-**Servers:**
+**OAS File URL:** Unknown
+
+## Availability
+
+**Official Availability:** local
+
+**Official Servers:** `http://localhost:80`
+
+**Source Code URL:** [https://github.com/sqshq/piggymetrics](https://github.com/sqshq/piggymetrics)
+
+## Servers
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
 | http://localhost:80 | local | True |
 
-**Authentication Methods:** No authentication required
+## Authentication
 
-**Rate Limiting:** False (no 429 status code response or rate limiting headers)
+**Documented:** No authentication required
 
-## Structural Information
+**Official:** False ([source](https://github.com/sqshq/piggymetrics))
+
+## Rate Limiting
+
+**Documented:** False (no 429 status code response or rate limiting headers)
+
+**Official:** False ([source](https://github.com/sqshq/piggymetrics))
+
+## Pricing
+
+**Official:** free ([source](https://github.com/sqshq/piggymetrics))
+
+## Structure
 
 **Total Paths:** 10
 

@@ -185,6 +185,7 @@ def update_api_readmes(date: str, only: list[str] | None = None) -> None:
     """
 
     data = utils.load_json(CHAR_PATH)
+    sources = utils.load_json(SOURCES_PATH)
 
     for api_id, chars in data.items():
         if only and api_id not in only:
@@ -235,6 +236,50 @@ def update_api_readmes(date: str, only: list[str] | None = None) -> None:
             utils.generate_badge("available servers", f"{available_servers} of {total_servers}", server_badge_color),
         ])
 
+        # official info from sources.json
+        source = sources.get(api_id, {})
+        availability_source = source.get("availability", {})
+        authentication_source = source.get("authentication", {})
+        rate_limit_source = source.get("rate-limit", {})
+        pricing = source.get("pricing", {})
+
+        # official documentation urls as markdown links
+        doc_url = source.get("doc")
+        documentation_url = f"[{doc_url}]({doc_url})" if doc_url else "Unknown"
+
+        oas_url_source = source.get("oas")
+        oas_url = f"[{oas_url_source}]({oas_url_source})" if oas_url_source else "Unknown"
+
+        code_url_source = availability_source.get("code")
+        code_url = f"[{code_url_source}]({code_url_source})" if code_url_source else "Unknown"
+
+        availability_official = str(availability_source.get("type", "Unknown"))
+        official_servers = ", ".join(f"`{url}`" for url in availability_source.get("servers", [])) or "Unknown"
+
+        # official authentication
+        authentication_official = str(authentication_source.get("required", "Unknown"))
+
+        if authentication_source.get("source"):
+            authentication_official += f" ([source]({authentication_source['source']}))"
+
+        # official rate limit, with the quota if provided
+        required = rate_limit_source.get("required", "Unknown")
+        quota = rate_limit_source.get("quota") or {}
+
+        if quota.get("value") is not None:
+            required = f"{required} (quota: {quota['value']} per {quota.get('per')})"
+
+        rate_limit_official = str(required)
+
+        if rate_limit_source.get("source"):
+            rate_limit_official += f" ([source]({rate_limit_source['source']}))"
+
+        # official pricing
+        pricing_official = str(pricing.get("type", "Unknown"))
+
+        if pricing.get("source"):
+            pricing_official += f" ([source]({pricing['source']}))"
+
         # markdown render
         markdown = f"""
 # Structural Characteristics of {api_id} ({chars["title"]})
@@ -243,21 +288,43 @@ def update_api_readmes(date: str, only: list[str] | None = None) -> None:
 
 {badges}
 
-**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API, (2) server reachability, and (3) official API URLs. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-## Usage Information
+**Documentation URL:** {documentation_url}
 
-**Servers:**
+**OAS File URL:** {oas_url}
+
+## Availability
+
+**Official Availability:** {availability_official}
+
+**Official Servers:** {official_servers}
+
+**Source Code URL:** {code_url}
+
+## Servers
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
 {server_text}
 
-**Authentication Methods:** {authentication}
+## Authentication
 
-**Rate Limiting:** {rate_limit_text}
+**Documented:** {authentication}
 
-## Structural Information
+**Official:** {authentication_official}
+
+## Rate Limiting
+
+**Documented:** {rate_limit_text}
+
+**Official:** {rate_limit_official}
+
+## Pricing
+
+**Official:** {pricing_official}
+
+## Structure
 
 **Total Paths:** {total_paths}
 

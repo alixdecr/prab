@@ -1,27 +1,49 @@
 
 # Structural Characteristics of stripe (Stripe API)
 
-*Last update: 2026-11-23*
+*Last update: 2026-11-24*
 
 ![alt text](https://img.shields.io/badge/oas_version-openapi_v3.0.0-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/openapi--spec--validator-pass-brightgreen.svg)
 ![alt text](https://img.shields.io/badge/available_servers-1_of_1-brightgreen.svg)
 
-**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API and (2) server reachability. While the repository is often updated, the information might not be up-to-date with official API sources.
+**Disclaimer:** All information provided is based on an analysis of (1) the content provided in the OAS file of the API, (2) server reachability, and (3) official API URLs. While the repository is often updated, the information might not be up-to-date with official API sources.
 
-## Usage Information
+**Documentation URL:** [https://docs.stripe.com/api](https://docs.stripe.com/api)
 
-**Servers:**
+**OAS File URL:** [https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json](https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json)
+
+## Availability
+
+**Official Availability:** online
+
+**Official Servers:** `https://api.stripe.com/`
+
+**Source Code URL:** Unknown
+
+## Servers
 
 | URL | Hosted | Available |
 | --- | ------ | --------- |
 | https://api.stripe.com/ | online | True |
 
-**Authentication Methods:** basicAuth, bearerAuth
+## Authentication
 
-**Rate Limiting:** False (no 429 status code response or rate limiting headers)
+**Documented:** basicAuth, bearerAuth
 
-## Structural Information
+**Official:** True ([source](https://docs.stripe.com/keys))
+
+## Rate Limiting
+
+**Documented:** False (no 429 status code response or rate limiting headers)
+
+**Official:** True (quota: 100 per second) ([source](https://docs.stripe.com/rate-limits))
+
+## Pricing
+
+**Official:** free ([source](https://stripe.com/pricing))
+
+## Structure
 
 **Total Paths:** 431
 
