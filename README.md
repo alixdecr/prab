@@ -67,7 +67,11 @@ The CLI uses Python v3.10 or later. To set it up, enter the following commands i
     python cli.py <commands>
     ```
 
-    To list available CLI commands, you may use `python cli.py --help`.
+    To list available CLI commands, you may use: 
+    
+    ```
+    python cli.py --help
+    ```
 
 5. Examples:
 
