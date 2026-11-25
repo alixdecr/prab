@@ -50,10 +50,16 @@ The CLI uses Python v3.10 or later. To set it up, enter the following commands i
 
 2. Activate the virtual environment, depending on your operating system:
 
-    - Linux / macOS (Bash or Zsh): `source .venv/bin/activate`
-    - Windows (Command Prompt): `.venv\Scripts\activate.bat`
-    - Windows (PowerShell): `.venv\Scripts\Activate.ps1`
-    - Windows (Git Bash): `source .venv/Scripts/activate`
+    **Linux / macOS:**
+
+    ```
+    source .venv/bin/activate
+    ```
+    **Windows:**
+    
+    ```
+    .venv\Scripts\activate.bat
+    ```
 
 3. Install the dependencies:
 
